@@ -22,193 +22,218 @@ Partial Class Member
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        LoginBtn = New Button()
+        LabelSign = New Label()
+        LabelID = New Label()
+        LabelPass = New Label()
         IDBox = New TextBox()
         PassBox = New TextBox()
-        ForgotLL = New LinkLabel()
+        CBMe = New CheckBox()
+        LoginBtn = New Button()
         StaffLL = New LinkLabel()
         AdminLL = New LinkLabel()
-        MeCB = New CheckBox()
-        IDLbl = New Label()
-        PassLbl = New Label()
-        JoinBtn = New Button()
-        Label1 = New Label()
+        ForgotLL = New LinkLabel()
         PictureBox1 = New PictureBox()
+        Label1 = New Label()
+        RegisterBtn = New Button()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
-        ' LoginBtn
+        ' LabelSign
         ' 
-        LoginBtn.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(45))
-        LoginBtn.FlatAppearance.BorderColor = Color.FromArgb(CByte(245), CByte(203), CByte(45))
-        LoginBtn.Font = New Font("UD Digi Kyokasho N-B", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
-        LoginBtn.ForeColor = Color.Black
-        LoginBtn.Location = New Point(370, 416)
-        LoginBtn.Name = "LoginBtn"
-        LoginBtn.Size = New Size(130, 50)
-        LoginBtn.TabIndex = 0
-        LoginBtn.Text = "Login"
-        LoginBtn.UseVisualStyleBackColor = False
+        LabelSign.AutoSize = True
+        LabelSign.Font = New Font("Microsoft Sans Serif", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
+        LabelSign.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
+        LabelSign.Location = New Point(122, 105)
+        LabelSign.Name = "LabelSign"
+        LabelSign.Size = New Size(197, 31)
+        LabelSign.TabIndex = 0
+        LabelSign.Text = "Member Login"
+        ' 
+        ' LabelID
+        ' 
+        LabelID.AutoSize = True
+        LabelID.Font = New Font("Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LabelID.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
+        LabelID.Location = New Point(122, 173)
+        LabelID.Name = "LabelID"
+        LabelID.Size = New Size(83, 17)
+        LabelID.TabIndex = 1
+        LabelID.Text = "ID Number*"
+        ' 
+        ' LabelPass
+        ' 
+        LabelPass.AutoSize = True
+        LabelPass.Font = New Font("Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LabelPass.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
+        LabelPass.Location = New Point(122, 241)
+        LabelPass.Name = "LabelPass"
+        LabelPass.Size = New Size(74, 17)
+        LabelPass.TabIndex = 1
+        LabelPass.Text = "Password*"
         ' 
         ' IDBox
         ' 
-        IDBox.BackColor = Color.Silver
+        IDBox.BackColor = Color.DarkGray
         IDBox.BorderStyle = BorderStyle.FixedSingle
-        IDBox.Location = New Point(200, 223)
+        IDBox.Cursor = Cursors.IBeam
+        IDBox.Font = New Font("Segoe UI Variable Small", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        IDBox.ForeColor = Color.White
+        IDBox.Location = New Point(122, 191)
+        IDBox.Margin = New Padding(3, 2, 3, 2)
         IDBox.Name = "IDBox"
-        IDBox.Size = New Size(300, 27)
-        IDBox.TabIndex = 1
+        IDBox.Size = New Size(306, 26)
+        IDBox.TabIndex = 2
         ' 
         ' PassBox
         ' 
-        PassBox.BackColor = Color.Silver
+        PassBox.BackColor = Color.Gray
         PassBox.BorderStyle = BorderStyle.FixedSingle
-        PassBox.Location = New Point(200, 293)
+        PassBox.Font = New Font("Segoe UI Variable Small", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        PassBox.ForeColor = Color.White
+        PassBox.Location = New Point(122, 259)
+        PassBox.Margin = New Padding(3, 2, 3, 2)
         PassBox.Name = "PassBox"
-        PassBox.Size = New Size(300, 27)
+        PassBox.Size = New Size(306, 26)
         PassBox.TabIndex = 2
         ' 
-        ' ForgotLL
+        ' CBMe
         ' 
-        ForgotLL.ActiveLinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(45))
-        ForgotLL.AutoSize = True
-        ForgotLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(45))
-        ForgotLL.Location = New Point(375, 330)
-        ForgotLL.Name = "ForgotLL"
-        ForgotLL.Size = New Size(125, 20)
-        ForgotLL.TabIndex = 3
-        ForgotLL.TabStop = True
-        ForgotLL.Text = "Forgot Password?"
-        ForgotLL.VisitedLinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(45))
+        CBMe.AutoSize = True
+        CBMe.Font = New Font("Tahoma", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        CBMe.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
+        CBMe.Location = New Point(122, 292)
+        CBMe.Margin = New Padding(3, 2, 3, 2)
+        CBMe.Name = "CBMe"
+        CBMe.Size = New Size(94, 17)
+        CBMe.TabIndex = 3
+        CBMe.Text = "Remember me"
+        CBMe.UseVisualStyleBackColor = True
+        ' 
+        ' LoginBtn
+        ' 
+        LoginBtn.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        LoginBtn.Font = New Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
+        LoginBtn.ForeColor = SystemColors.ActiveCaptionText
+        LoginBtn.Location = New Point(173, 326)
+        LoginBtn.Margin = New Padding(3, 2, 3, 2)
+        LoginBtn.Name = "LoginBtn"
+        LoginBtn.Size = New Size(214, 38)
+        LoginBtn.TabIndex = 4
+        LoginBtn.Text = "Login"
+        LoginBtn.UseVisualStyleBackColor = False
         ' 
         ' StaffLL
         ' 
-        StaffLL.ActiveLinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(45))
         StaffLL.AutoSize = True
-        StaffLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(45))
-        StaffLL.Location = New Point(249, 479)
+        StaffLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        StaffLL.Location = New Point(178, 380)
         StaffLL.Name = "StaffLL"
-        StaffLL.Size = New Size(81, 20)
-        StaffLL.TabIndex = 3
+        StaffLL.Size = New Size(64, 15)
+        StaffLL.TabIndex = 5
         StaffLL.TabStop = True
         StaffLL.Text = "Staff Login"
-        StaffLL.VisitedLinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(45))
+        StaffLL.VisitedLinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         ' 
         ' AdminLL
         ' 
-        AdminLL.ActiveLinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(45))
         AdminLL.AutoSize = True
-        AdminLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(45))
-        AdminLL.Location = New Point(370, 479)
+        AdminLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        AdminLL.Location = New Point(310, 380)
         AdminLL.Name = "AdminLL"
-        AdminLL.Size = New Size(94, 20)
-        AdminLL.TabIndex = 3
+        AdminLL.Size = New Size(76, 15)
+        AdminLL.TabIndex = 5
         AdminLL.TabStop = True
         AdminLL.Text = "Admin Login"
-        AdminLL.VisitedLinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(45))
+        AdminLL.VisitedLinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         ' 
-        ' MeCB
+        ' ForgotLL
         ' 
-        MeCB.AutoSize = True
-        MeCB.Font = New Font("UD Digi Kyokasho NK-R", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(128))
-        MeCB.ForeColor = Color.White
-        MeCB.Location = New Point(200, 331)
-        MeCB.Name = "MeCB"
-        MeCB.Size = New Size(119, 19)
-        MeCB.TabIndex = 4
-        MeCB.Text = "Remember Me"
-        MeCB.UseVisualStyleBackColor = True
+        ForgotLL.AutoSize = True
+        ForgotLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        ForgotLL.Location = New Point(318, 292)
+        ForgotLL.Name = "ForgotLL"
+        ForgotLL.Size = New Size(100, 15)
+        ForgotLL.TabIndex = 5
+        ForgotLL.TabStop = True
+        ForgotLL.Text = "Forgot Password?"
+        ForgotLL.VisitedLinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         ' 
-        ' IDLbl
+        ' PictureBox1
         ' 
-        IDLbl.AutoSize = True
-        IDLbl.Font = New Font("UD Digi Kyokasho NK-R", 7.8F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
-        IDLbl.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
-        IDLbl.Location = New Point(200, 205)
-        IDLbl.Name = "IDLbl"
-        IDLbl.Size = New Size(91, 15)
-        IDLbl.TabIndex = 5
-        IDLbl.Text = "ID Number*"
-        ' 
-        ' PassLbl
-        ' 
-        PassLbl.AutoSize = True
-        PassLbl.Font = New Font("UD Digi Kyokasho NK-R", 7.8F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
-        PassLbl.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
-        PassLbl.Location = New Point(200, 275)
-        PassLbl.Name = "PassLbl"
-        PassLbl.Size = New Size(84, 15)
-        PassLbl.TabIndex = 5
-        PassLbl.Text = "Password*"
-        ' 
-        ' JoinBtn
-        ' 
-        JoinBtn.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(45))
-        JoinBtn.Font = New Font("UD Digi Kyokasho N-B", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
-        JoinBtn.ForeColor = Color.Black
-        JoinBtn.Location = New Point(200, 416)
-        JoinBtn.Name = "JoinBtn"
-        JoinBtn.Size = New Size(130, 50)
-        JoinBtn.TabIndex = 0
-        JoinBtn.Text = "Join Now!"
-        JoinBtn.UseVisualStyleBackColor = False
+        PictureBox1.Image = My.Resources.Resources._929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
+        PictureBox1.Location = New Point(569, 105)
+        PictureBox1.Margin = New Padding(3, 2, 3, 2)
+        PictureBox1.Name = "PictureBox1"
+        PictureBox1.Size = New Size(220, 270)
+        PictureBox1.SizeMode = PictureBoxSizeMode.AutoSize
+        PictureBox1.TabIndex = 6
+        PictureBox1.TabStop = False
         ' 
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Font = New Font("UD Digi Kyokasho NK-R", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
+        Label1.Font = New Font("Tahoma", 9F)
         Label1.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
-        Label1.Location = New Point(200, 110)
+        Label1.Location = New Point(187, 434)
         Label1.Name = "Label1"
-        Label1.Size = New Size(150, 39)
-        Label1.TabIndex = 5
-        Label1.Text = "Sign-In"
+        Label1.Size = New Size(91, 14)
+        Label1.TabIndex = 8
+        Label1.Text = "Not a Member?"
         ' 
-        ' PictureBox1
+        ' RegisterBtn
         ' 
-        PictureBox1.BackgroundImage = My.Resources.Resources.Logo
-        PictureBox1.Location = New Point(539, 110)
-        PictureBox1.Name = "PictureBox1"
-        PictureBox1.Size = New Size(436, 508)
-        PictureBox1.TabIndex = 6
-        PictureBox1.TabStop = False
+        RegisterBtn.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        RegisterBtn.Font = New Font("Microsoft Sans Serif", 9F, FontStyle.Bold)
+        RegisterBtn.ForeColor = SystemColors.ActiveCaptionText
+        RegisterBtn.Location = New Point(280, 423)
+        RegisterBtn.Margin = New Padding(3, 2, 3, 2)
+        RegisterBtn.Name = "RegisterBtn"
+        RegisterBtn.Size = New Size(81, 34)
+        RegisterBtn.TabIndex = 9
+        RegisterBtn.Text = "Register"
+        RegisterBtn.UseVisualStyleBackColor = False
         ' 
         ' Member
         ' 
-        AutoScaleDimensions = New SizeF(8F, 20F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(29), CByte(29), CByte(29))
-        ClientSize = New Size(1006, 721)
-        Controls.Add(PictureBox1)
-        Controls.Add(PassLbl)
+        ClientSize = New Size(909, 541)
+        Controls.Add(RegisterBtn)
         Controls.Add(Label1)
-        Controls.Add(IDLbl)
-        Controls.Add(MeCB)
+        Controls.Add(PictureBox1)
+        Controls.Add(ForgotLL)
         Controls.Add(AdminLL)
         Controls.Add(StaffLL)
-        Controls.Add(ForgotLL)
+        Controls.Add(LoginBtn)
+        Controls.Add(CBMe)
         Controls.Add(PassBox)
         Controls.Add(IDBox)
-        Controls.Add(JoinBtn)
-        Controls.Add(LoginBtn)
+        Controls.Add(LabelPass)
+        Controls.Add(LabelID)
+        Controls.Add(LabelSign)
+        Margin = New Padding(3, 2, 3, 2)
+        MaximumSize = New Size(925, 580)
+        MinimumSize = New Size(925, 580)
         Name = "Member"
-        Text = "Form1"
+        Text = "Member Login"
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
     End Sub
 
-    Friend WithEvents LoginBtn As Button
+    Friend WithEvents LabelSign As Label
+    Friend WithEvents LabelID As Label
+    Friend WithEvents LabelPass As Label
     Friend WithEvents IDBox As TextBox
     Friend WithEvents PassBox As TextBox
-    Friend WithEvents ForgotLL As LinkLabel
+    Friend WithEvents CBMe As CheckBox
+    Friend WithEvents LoginBtn As Button
     Friend WithEvents StaffLL As LinkLabel
     Friend WithEvents AdminLL As LinkLabel
-    Friend WithEvents MeCB As CheckBox
-    Friend WithEvents IDLbl As Label
-    Friend WithEvents PassLbl As Label
-    Friend WithEvents JoinBtn As Button
-    Friend WithEvents Label1 As Label
+    Friend WithEvents ForgotLL As LinkLabel
     Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents Label1 As Label
+    Friend WithEvents RegisterBtn As Button
 
 End Class
