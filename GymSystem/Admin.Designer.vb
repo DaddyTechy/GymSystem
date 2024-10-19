@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class Staff
+Partial Class Admin
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -24,8 +24,7 @@ Partial Class Staff
     Private Sub InitializeComponent()
         PictureBox1 = New PictureBox()
         ForgotLL = New LinkLabel()
-        AdminLL = New LinkLabel()
-        MemberLL = New LinkLabel()
+        StaffLL = New LinkLabel()
         LoginBtn = New Button()
         CBMe = New CheckBox()
         PassBox = New TextBox()
@@ -33,8 +32,7 @@ Partial Class Staff
         LabelPass = New Label()
         LabelID = New Label()
         LabelSign = New Label()
-        Splitter1 = New Splitter()
-        Splitter2 = New Splitter()
+        MemberLL = New LinkLabel()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
@@ -46,7 +44,7 @@ Partial Class Staff
         PictureBox1.Name = "PictureBox1"
         PictureBox1.Size = New Size(220, 270)
         PictureBox1.SizeMode = PictureBoxSizeMode.AutoSize
-        PictureBox1.TabIndex = 17
+        PictureBox1.TabIndex = 28
         PictureBox1.TabStop = False
         ' 
         ' ForgotLL
@@ -56,34 +54,22 @@ Partial Class Staff
         ForgotLL.Location = New Point(329, 307)
         ForgotLL.Name = "ForgotLL"
         ForgotLL.Size = New Size(100, 15)
-        ForgotLL.TabIndex = 14
+        ForgotLL.TabIndex = 25
         ForgotLL.TabStop = True
         ForgotLL.Text = "Forgot Password?"
         ForgotLL.VisitedLinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         ' 
-        ' AdminLL
+        ' StaffLL
         ' 
-        AdminLL.AutoSize = True
-        AdminLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
-        AdminLL.Location = New Point(321, 395)
-        AdminLL.Name = "AdminLL"
-        AdminLL.Size = New Size(76, 15)
-        AdminLL.TabIndex = 15
-        AdminLL.TabStop = True
-        AdminLL.Text = "Admin Login"
-        AdminLL.VisitedLinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
-        ' 
-        ' MemberLL
-        ' 
-        MemberLL.AutoSize = True
-        MemberLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
-        MemberLL.Location = New Point(184, 395)
-        MemberLL.Name = "MemberLL"
-        MemberLL.Size = New Size(85, 15)
-        MemberLL.TabIndex = 16
-        MemberLL.TabStop = True
-        MemberLL.Text = "Member Login"
-        MemberLL.VisitedLinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        StaffLL.AutoSize = True
+        StaffLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        StaffLL.Location = New Point(321, 395)
+        StaffLL.Name = "StaffLL"
+        StaffLL.Size = New Size(64, 15)
+        StaffLL.TabIndex = 26
+        StaffLL.TabStop = True
+        StaffLL.Text = "Staff Login"
+        StaffLL.VisitedLinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         ' 
         ' LoginBtn
         ' 
@@ -94,7 +80,7 @@ Partial Class Staff
         LoginBtn.Margin = New Padding(3, 2, 3, 2)
         LoginBtn.Name = "LoginBtn"
         LoginBtn.Size = New Size(214, 38)
-        LoginBtn.TabIndex = 13
+        LoginBtn.TabIndex = 24
         LoginBtn.Text = "Login"
         LoginBtn.UseVisualStyleBackColor = False
         ' 
@@ -107,7 +93,7 @@ Partial Class Staff
         CBMe.Margin = New Padding(3, 2, 3, 2)
         CBMe.Name = "CBMe"
         CBMe.Size = New Size(94, 17)
-        CBMe.TabIndex = 12
+        CBMe.TabIndex = 23
         CBMe.Text = "Remember me"
         CBMe.UseVisualStyleBackColor = True
         ' 
@@ -121,7 +107,7 @@ Partial Class Staff
         PassBox.Margin = New Padding(3, 2, 3, 2)
         PassBox.Name = "PassBox"
         PassBox.Size = New Size(306, 26)
-        PassBox.TabIndex = 10
+        PassBox.TabIndex = 21
         ' 
         ' IDBox
         ' 
@@ -133,7 +119,7 @@ Partial Class Staff
         IDBox.Margin = New Padding(3, 2, 3, 2)
         IDBox.Name = "IDBox"
         IDBox.Size = New Size(306, 26)
-        IDBox.TabIndex = 11
+        IDBox.TabIndex = 22
         ' 
         ' LabelPass
         ' 
@@ -143,7 +129,7 @@ Partial Class Staff
         LabelPass.Location = New Point(133, 256)
         LabelPass.Name = "LabelPass"
         LabelPass.Size = New Size(74, 17)
-        LabelPass.TabIndex = 8
+        LabelPass.TabIndex = 19
         LabelPass.Text = "Password*"
         ' 
         ' LabelID
@@ -154,7 +140,7 @@ Partial Class Staff
         LabelID.Location = New Point(133, 188)
         LabelID.Name = "LabelID"
         LabelID.Size = New Size(83, 17)
-        LabelID.TabIndex = 9
+        LabelID.TabIndex = 20
         LabelID.Text = "ID Number*"
         ' 
         ' LabelSign
@@ -164,37 +150,31 @@ Partial Class Staff
         LabelSign.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
         LabelSign.Location = New Point(133, 120)
         LabelSign.Name = "LabelSign"
-        LabelSign.Size = New Size(155, 31)
-        LabelSign.TabIndex = 7
-        LabelSign.Text = "Staff Login"
+        LabelSign.Size = New Size(174, 31)
+        LabelSign.TabIndex = 18
+        LabelSign.Text = "Admin Login"
         ' 
-        ' Splitter1
+        ' MemberLL
         ' 
-        Splitter1.Location = New Point(0, 0)
-        Splitter1.Name = "Splitter1"
-        Splitter1.Size = New Size(3, 541)
-        Splitter1.TabIndex = 18
-        Splitter1.TabStop = False
+        MemberLL.AutoSize = True
+        MemberLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        MemberLL.Location = New Point(184, 395)
+        MemberLL.Name = "MemberLL"
+        MemberLL.Size = New Size(85, 15)
+        MemberLL.TabIndex = 27
+        MemberLL.TabStop = True
+        MemberLL.Text = "Member Login"
+        MemberLL.VisitedLinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         ' 
-        ' Splitter2
-        ' 
-        Splitter2.Location = New Point(3, 0)
-        Splitter2.Name = "Splitter2"
-        Splitter2.Size = New Size(3, 541)
-        Splitter2.TabIndex = 19
-        Splitter2.TabStop = False
-        ' 
-        ' Staff
+        ' Admin
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(29), CByte(29), CByte(29))
         ClientSize = New Size(909, 541)
-        Controls.Add(Splitter2)
-        Controls.Add(Splitter1)
         Controls.Add(PictureBox1)
         Controls.Add(ForgotLL)
-        Controls.Add(AdminLL)
+        Controls.Add(StaffLL)
         Controls.Add(MemberLL)
         Controls.Add(LoginBtn)
         Controls.Add(CBMe)
@@ -203,11 +183,10 @@ Partial Class Staff
         Controls.Add(LabelPass)
         Controls.Add(LabelID)
         Controls.Add(LabelSign)
-        Margin = New Padding(3, 2, 3, 2)
         MaximumSize = New Size(925, 580)
         MinimumSize = New Size(925, 580)
-        Name = "Staff"
-        Text = "Staff"
+        Name = "Admin"
+        Text = "Admin"
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
@@ -215,8 +194,7 @@ Partial Class Staff
 
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents ForgotLL As LinkLabel
-    Friend WithEvents AdminLL As LinkLabel
-    Friend WithEvents MemberLL As LinkLabel
+    Friend WithEvents StaffLL As LinkLabel
     Friend WithEvents LoginBtn As Button
     Friend WithEvents CBMe As CheckBox
     Friend WithEvents PassBox As TextBox
@@ -224,6 +202,5 @@ Partial Class Staff
     Friend WithEvents LabelPass As Label
     Friend WithEvents LabelID As Label
     Friend WithEvents LabelSign As Label
-    Friend WithEvents Splitter1 As Splitter
-    Friend WithEvents Splitter2 As Splitter
+    Friend WithEvents MemberLL As LinkLabel
 End Class

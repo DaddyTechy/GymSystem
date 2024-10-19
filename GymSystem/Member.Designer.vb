@@ -73,7 +73,7 @@ Partial Class Member
         ' 
         ' IDBox
         ' 
-        IDBox.BackColor = Color.DarkGray
+        IDBox.BackColor = Color.Gray
         IDBox.BorderStyle = BorderStyle.FixedSingle
         IDBox.Cursor = Cursors.IBeam
         IDBox.Font = New Font("Segoe UI Variable Small", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
@@ -183,6 +183,8 @@ Partial Class Member
         ' RegisterBtn
         ' 
         RegisterBtn.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        RegisterBtn.FlatAppearance.BorderColor = Color.Yellow
+        RegisterBtn.FlatAppearance.MouseDownBackColor = Color.Yellow
         RegisterBtn.Font = New Font("Microsoft Sans Serif", 9F, FontStyle.Bold)
         RegisterBtn.ForeColor = SystemColors.ActiveCaptionText
         RegisterBtn.Location = New Point(280, 423)
