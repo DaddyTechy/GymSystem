@@ -1,13 +1,16 @@
-﻿Public Class Staff
+﻿
+
+Public Class Admin
     Private originalColor As Color = Color.FromArgb(245, 203, 92)
     Private originalButtonColor As Color = Color.FromArgb(245, 203, 92)
     Private hoverButtonColor As Color = Color.FromArgb(245, 203, 92)
     Private hoverDarkenAmount As Single = 0.7
-    Private Sub Staff_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    Private Sub Admin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Remove underline from link labels
         ForgotLL.LinkBehavior = LinkBehavior.NeverUnderline
+        StaffLL.LinkBehavior = LinkBehavior.NeverUnderline
         MemberLL.LinkBehavior = LinkBehavior.NeverUnderline
-        AdminLL.LinkBehavior = LinkBehavior.NeverUnderline
 
         ' Use a Panel to simulate TextBox border color change
         Dim textBoxPanel As New Panel()
@@ -114,6 +117,20 @@
         End If
     End Sub
 
+    Private Sub StaffLL_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles StaffLL.LinkClicked
+        ' Navigate to Staff form
+        Dim staffForm As New Staff
+        staffForm.Show()
+        Hide()
+    End Sub
+
+    Private Sub MemberLL_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles MemberLL.LinkClicked
+        ' Navigate to Staff form
+        Dim memberform As New Member()
+        memberform.Show()
+        Me.Hide()
+    End Sub
+
     Private Sub ForgotLL_MouseEnter(sender As Object, e As EventArgs) Handles ForgotLL.MouseEnter
         ForgotLL.LinkColor = ControlPaint.Dark(originalColor, 0.3F)
     End Sub
@@ -122,41 +139,37 @@
         ForgotLL.LinkColor = originalColor
     End Sub
 
-    Private Sub StaffLL_MouseEnter(sender As Object, e As EventArgs) Handles MemberLL.MouseEnter
+    Private Sub MemeberLL_MouseEnter(sender As Object, e As EventArgs) Handles MemberLL.MouseEnter
         MemberLL.LinkColor = ControlPaint.Dark(originalColor, 0.3F)
+    End Sub
+
+    Private Sub StaffLL_MouseEnter(sender As Object, e As EventArgs) Handles StaffLL.MouseEnter
+        StaffLL.LinkColor = ControlPaint.Dark(originalColor, 0.3F)
+    End Sub
+
+    Private Sub StaffLL_MouseLeave(sender As Object, e As EventArgs) Handles StaffLL.MouseLeave
+        StaffLL.LinkColor = originalColor
     End Sub
 
     Private Sub MemberLL_MouseLeave(sender As Object, e As EventArgs) Handles MemberLL.MouseLeave
         MemberLL.LinkColor = originalColor
     End Sub
 
-    Private Sub AdminLL_MouseEnter(sender As Object, e As EventArgs) Handles AdminLL.MouseEnter
-        AdminLL.LinkColor = ControlPaint.Dark(originalColor, 0.3F)
+    Public Sub ShowUserControlInForm(control As UserControl, formTitle As String)
+        ' Create a new form to host the UserControl
+        Dim hostForm As New Form()
+        hostForm.Text = formTitle
+        hostForm.MinimumSize = New Size(925, 580) ' You can adjust the size as needed
+        hostForm.Controls.Add(control)
+        control.Dock = DockStyle.Fill
+        hostForm.Show()
     End Sub
 
-    Private Sub AdminLL_MouseLeave(sender As Object, e As EventArgs) Handles AdminLL.MouseLeave
-        AdminLL.LinkColor = originalColor
-    End Sub
-
-    Private Sub ForgotLL_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles ForgotLL.LinkClicked
-    End Sub
 
     Private Sub LoginBtn_Click(sender As Object, e As EventArgs) Handles LoginBtn.Click
-    End Sub
-    Private Sub MemberLL_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles MemberLL.LinkClicked
-        ' Navigate to Staff form
-        Dim staffForm As New Member()
-        staffForm.Show()
+        Dim adminMain As New AdminMain()
+        ShowUserControlInForm(adminMain, "Admin Main")
         Me.Hide()
     End Sub
 
-    Private Sub AdminLL_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles AdminLL.LinkClicked
-        Dim adminform As New Admin
-        adminform.Show()
-        Hide()
-    End Sub
-
-    Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
-
-    End Sub
 End Class
