@@ -65,7 +65,7 @@
         verticalLine.Width = 2
         verticalLine.Height = 20 ' Set desired height
         verticalLine.BackColor = Color.FromArgb(245, 203, 92) ' Set the desired color
-        verticalLine.Location = New Point(292, 393) ' Custom location
+        verticalLine.Location = New Point(278, 378) ' Custom location
 
         Me.Controls.Add(verticalLine)
 
@@ -151,9 +151,6 @@
     End Sub
 
     Private Sub AdminLL_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles AdminLL.LinkClicked
-        Dim adminform As New Admin
-        adminform.Show()
-        Hide()
     End Sub
 
     Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click

@@ -17,7 +17,7 @@
 
         ' Set TextBox properties
         IDBox.BorderStyle = BorderStyle.FixedSingle
-        IDBox.BackColor = Color.Gray  'Background color
+        IDBox.BackColor = Color.Gray ' Background color
 
         ' Add TextBox to Panel
         textBoxPanel.Controls.Add(IDBox)
@@ -54,21 +54,12 @@
         LoginBtn.FlatAppearance.BorderSize = 0
         LoginBtn.BackColor = Color.FromArgb(245, 203, 92) ' Button background color
 
-
-
         ' Add Button to Panel
         buttonPanel.Controls.Add(LoginBtn)
-
         LoginBtn.Location = New Point(2, 2)
-
 
         ' Add Panel to the Form
         Me.Controls.Add(buttonPanel)
-
-        IDBox.Focus()
-        PassBox.Focus()
-
-
 
         Dim verticalLine As New Label()
         verticalLine.Width = 2
@@ -115,17 +106,6 @@
         LoginBtn.BackColor = originalButtonColor
         LoginBtn.ForeColor = Color.Black
     End Sub
-
-    Private Sub RegisterBtn_MouseEnter(sender As Object, e As EventArgs) Handles RegisterBtn.MouseEnter
-        RegisterBtn.BackColor = hoverButtonColor
-        RegisterBtn.ForeColor = Color.White
-    End Sub
-
-    Private Sub RegisterBtn_MouseLeave(sender As Object, e As EventArgs) Handles RegisterBtn.MouseLeave
-        RegisterBtn.BackColor = originalButtonColor
-        RegisterBtn.ForeColor = Color.Black
-    End Sub
-
     Private Sub CBMe_CheckedChanged(sender As Object, e As EventArgs) Handles CBMe.CheckedChanged
         If CBMe.Checked Then
             CBMe.ForeColor = Color.FromArgb(245, 203, 92)
@@ -172,9 +152,6 @@
     End Sub
 
     Private Sub AdminLL_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles AdminLL.LinkClicked
-        Dim adminform As New Admin
-        adminform.Show()
-        Hide()
     End Sub
 
     Private Sub RegisterBtn_Click(sender As Object, e As EventArgs) Handles RegisterBtn.Click

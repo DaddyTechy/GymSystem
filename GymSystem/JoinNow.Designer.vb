@@ -26,11 +26,10 @@ Partial Class JoinNow
         ' 
         ' JoinNow
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(28), CByte(28), CByte(28))
-        ClientSize = New Size(880, 541)
-        Margin = New Padding(3, 2, 3, 2)
+        ClientSize = New Size(1006, 721)
         Name = "JoinNow"
         Text = "JoinNow"
         ResumeLayout(False)
