@@ -57,11 +57,12 @@ Partial Class AdminMain
         DashboardBtn = New Button()
         Panel3 = New Panel()
         UserPnl = New Panel()
-        LogoutBtn = New Button()
         Panel2 = New Panel()
+        LogoutBtn = New Button()
         Label1 = New Label()
         PictureBox1 = New PictureBox()
         ContentPnl = New Panel()
+        PictureBox2 = New PictureBox()
         CType(LogoPicBox, ComponentModel.ISupportInitialize).BeginInit()
         Panel1.SuspendLayout()
         Menu2Pnl.SuspendLayout()
@@ -73,6 +74,8 @@ Partial Class AdminMain
         UserPnl.SuspendLayout()
         Panel2.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
+        ContentPnl.SuspendLayout()
+        CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' LogoTxtLbl
@@ -627,8 +630,20 @@ Partial Class AdminMain
         UserPnl.Dock = DockStyle.Top
         UserPnl.Location = New Point(250, 0)
         UserPnl.Name = "UserPnl"
-        UserPnl.Size = New Size(675, 84)
+        UserPnl.Size = New Size(675, 60)
         UserPnl.TabIndex = 7
+        ' 
+        ' Panel2
+        ' 
+        Panel2.BackColor = Color.Transparent
+        Panel2.Controls.Add(LogoutBtn)
+        Panel2.Controls.Add(Label1)
+        Panel2.Controls.Add(PictureBox1)
+        Panel2.Dock = DockStyle.Left
+        Panel2.Location = New Point(0, 0)
+        Panel2.Name = "Panel2"
+        Panel2.Size = New Size(284, 60)
+        Panel2.TabIndex = 2
         ' 
         ' LogoutBtn
         ' 
@@ -640,26 +655,14 @@ Partial Class AdminMain
         LogoutBtn.ForeColor = SystemColors.ButtonHighlight
         LogoutBtn.Image = My.Resources.Resources.Vector_21
         LogoutBtn.ImageAlign = ContentAlignment.MiddleLeft
-        LogoutBtn.Location = New Point(230, 22)
+        LogoutBtn.Location = New Point(192, 10)
         LogoutBtn.Name = "LogoutBtn"
         LogoutBtn.Size = New Size(86, 36)
-        LogoutBtn.TabIndex = 4
+        LogoutBtn.TabIndex = 5
         LogoutBtn.Text = " Logout"
         LogoutBtn.TextAlign = ContentAlignment.MiddleLeft
         LogoutBtn.TextImageRelation = TextImageRelation.ImageBeforeText
         LogoutBtn.UseVisualStyleBackColor = False
-        ' 
-        ' Panel2
-        ' 
-        Panel2.BackColor = Color.Transparent
-        Panel2.Controls.Add(LogoutBtn)
-        Panel2.Controls.Add(Label1)
-        Panel2.Controls.Add(PictureBox1)
-        Panel2.Dock = DockStyle.Left
-        Panel2.Location = New Point(0, 0)
-        Panel2.Name = "Panel2"
-        Panel2.Size = New Size(319, 84)
-        Panel2.TabIndex = 2
         ' 
         ' Label1
         ' 
@@ -667,7 +670,7 @@ Partial Class AdminMain
         Label1.AutoSize = True
         Label1.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = SystemColors.ButtonHighlight
-        Label1.Location = New Point(56, 29)
+        Label1.Location = New Point(49, 17)
         Label1.Name = "Label1"
         Label1.Size = New Size(137, 21)
         Label1.TabIndex = 1
@@ -679,7 +682,7 @@ Partial Class AdminMain
         PictureBox1.Image = My.Resources.Resources.Vector_11
         PictureBox1.Location = New Point(0, 0)
         PictureBox1.Name = "PictureBox1"
-        PictureBox1.Size = New Size(66, 84)
+        PictureBox1.Size = New Size(66, 60)
         PictureBox1.SizeMode = PictureBoxSizeMode.CenterImage
         PictureBox1.TabIndex = 1
         PictureBox1.TabStop = False
@@ -687,11 +690,24 @@ Partial Class AdminMain
         ' ContentPnl
         ' 
         ContentPnl.BackColor = Color.FromArgb(CByte(20), CByte(20), CByte(20))
+        ContentPnl.Controls.Add(PictureBox2)
         ContentPnl.Dock = DockStyle.Fill
-        ContentPnl.Location = New Point(250, 84)
+        ContentPnl.Location = New Point(250, 60)
         ContentPnl.Name = "ContentPnl"
-        ContentPnl.Size = New Size(675, 496)
+        ContentPnl.Size = New Size(675, 520)
         ContentPnl.TabIndex = 8
+        ' 
+        ' PictureBox2
+        ' 
+        PictureBox2.Anchor = AnchorStyles.None
+        PictureBox2.Image = My.Resources.Resources._929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
+        PictureBox2.Location = New Point(164, 80)
+        PictureBox2.Margin = New Padding(1)
+        PictureBox2.Name = "PictureBox2"
+        PictureBox2.Size = New Size(360, 318)
+        PictureBox2.SizeMode = PictureBoxSizeMode.Zoom
+        PictureBox2.TabIndex = 1
+        PictureBox2.TabStop = False
         ' 
         ' AdminMain
         ' 
@@ -717,6 +733,8 @@ Partial Class AdminMain
         Panel2.ResumeLayout(False)
         Panel2.PerformLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
+        ContentPnl.ResumeLayout(False)
+        CType(PictureBox2, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
     Friend WithEvents Panel1 As Panel
@@ -757,6 +775,7 @@ Partial Class AdminMain
     Friend WithEvents Panel2 As Panel
     Friend WithEvents Label1 As Label
     Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents PictureBox2 As PictureBox
     Friend WithEvents LogoutBtn As Button
 
 End Class

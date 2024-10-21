@@ -119,18 +119,7 @@
         UserPnl.Invalidate() ' Force the panel to redraw
     End Sub
 
-    Private Sub UserPnl_Paint(sender As Object, e As PaintEventArgs)
-        Dim color1 = Color.FromArgb(26, 26, 26, 1)
-        Dim color2 = Color.LightGray
-        ' Define the rectangle for the gradient
-        Dim rect As New Rectangle(0, 0, UserPnl.Width * 5, UserPnl.Height)
 
-        ' Create the linear gradient brush
-        Using gradientBrush As New Drawing2D.LinearGradientBrush(rect, color1, color2, 10.0F)
-            ' Fill the panel background with the gradient
-            e.Graphics.FillRectangle(gradientBrush, rect)
-        End Using
-    End Sub
 
     Private Sub MenuPnl_Paint(sender As Object, e As PaintEventArgs)
         Dim color1 = Color.FromArgb(26, 26, 26, 1)
@@ -184,6 +173,17 @@
 
     Private Sub DashboardBtn_Click(sender As Object, e As EventArgs)
         ToggleSubMenu(DashboardBtn, Nothing)
+        ' Clear existing controls in ContentPnl
+        ContentPnl.Controls.Clear()
+
+        ' Create an instance of ContentDashboard UserControl
+        Dim dashboard As New ContentDashboard()
+
+        ' Set the UserControl to fill the ContentPnl
+        dashboard.Dock = DockStyle.Fill
+
+        ' Add the UserControl to ContentPnl
+        ContentPnl.Controls.Add(dashboard)
     End Sub
 
     Private Sub MemProgBtn_Click(sender As Object, e As EventArgs)
@@ -207,20 +207,34 @@
     End Sub
 
     'logout
-    Private Sub LogoutBtn_Click(sender As Object, e As EventArgs) Handles LogoutBtn.Click
+    Private Sub LogoutBtn_Click(sender As Object, e As EventArgs)
         ' Display confirmation dialog
-        Dim result As DialogResult = MessageBox.Show("Are you sure you want to log out?", "Confirm Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        Dim result = MessageBox.Show("Are you sure you want to log out?", "Confirm Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
         If result = DialogResult.Yes Then
             ' Close the parent form to ensure AdminMain UserControl is closed
-            Dim parentForm As Form = Me.FindForm()
+            Dim parentForm = FindForm()
+
             If parentForm IsNot Nothing Then
                 parentForm.Close()
             End If
 
             ' Navigate back to Admin login form
-            Dim backtoAdminLogin As New Admin()
+            Dim backtoAdminLogin As New Admin
             backtoAdminLogin.Show()
         End If
+    End Sub
+
+    Private Sub UserPnl_Paint_1(sender As Object, e As PaintEventArgs) Handles UserPnl.Paint
+        Dim color1 = Color.FromArgb(26, 26, 26, 1)
+        Dim color2 = Color.LightGray
+        ' Define the rectangle for the gradient
+        Dim rect As New Rectangle(0, 0, UserPnl.Width * 5, UserPnl.Height)
+
+        ' Create the linear gradient brush
+        Using gradientBrush As New Drawing2D.LinearGradientBrush(rect, color1, color2, 10.0F)
+            ' Fill the panel background with the gradient
+            e.Graphics.FillRectangle(gradientBrush, rect)
+        End Using
     End Sub
 End Class
