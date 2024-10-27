@@ -36,16 +36,46 @@ Partial Class ContentDashboard
         Label1 = New Label()
         servicesreportChart = New DataVisualization.Charting.Chart()
         TableLayoutPanel2 = New TableLayoutPanel()
-        Button6 = New Button()
-        Button5 = New Button()
-        Button4 = New Button()
-        Button3 = New Button()
-        Button2 = New Button()
-        Button1 = New Button()
+        Panel6 = New Panel()
+        PictureBox6 = New PictureBox()
+        Label7 = New Label()
+        dashbrdPMdata = New Label()
+        Panel5 = New Panel()
+        PictureBox5 = New PictureBox()
+        Label5 = New Label()
+        dashbrdACTdata = New Label()
+        Panel4 = New Panel()
+        PictureBox4 = New PictureBox()
+        Label4 = New Label()
+        dashbrdTEdata = New Label()
+        Panel3 = New Panel()
+        PictureBox3 = New PictureBox()
+        Label3 = New Label()
+        dashbrdAEdata = New Label()
+        Panel2 = New Panel()
+        PictureBox2 = New PictureBox()
+        Label2 = New Label()
+        dashbrdSUdata = New Label()
+        dashbrdData1 = New Panel()
+        PictureBox1 = New PictureBox()
+        dashbrdTM = New Label()
+        dashbrdTMData = New Label()
         TableLayoutPanel1.SuspendLayout()
         servicesPanel.SuspendLayout()
         CType(servicesreportChart, ComponentModel.ISupportInitialize).BeginInit()
         TableLayoutPanel2.SuspendLayout()
+        Panel6.SuspendLayout()
+        CType(PictureBox6, ComponentModel.ISupportInitialize).BeginInit()
+        Panel5.SuspendLayout()
+        CType(PictureBox5, ComponentModel.ISupportInitialize).BeginInit()
+        Panel4.SuspendLayout()
+        CType(PictureBox4, ComponentModel.ISupportInitialize).BeginInit()
+        Panel3.SuspendLayout()
+        CType(PictureBox3, ComponentModel.ISupportInitialize).BeginInit()
+        Panel2.SuspendLayout()
+        CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
+        dashbrdData1.SuspendLayout()
+        CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' TableLayoutPanel1
@@ -166,8 +196,8 @@ Partial Class ContentDashboard
         ' servicesPanel
         ' 
         servicesPanel.ColumnCount = 2
-        servicesPanel.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 65F))
-        servicesPanel.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 35F))
+        servicesPanel.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 54.103344F))
+        servicesPanel.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 45.896656F))
         servicesPanel.Controls.Add(Label1, 0, 0)
         servicesPanel.Controls.Add(servicesreportChart, 0, 1)
         servicesPanel.Controls.Add(TableLayoutPanel2, 1, 1)
@@ -193,13 +223,34 @@ Partial Class ContentDashboard
         Label1.Margin = New Padding(0)
         Label1.Name = "Label1"
         Label1.Padding = New Padding(13, 10, 0, 10)
-        Label1.Size = New Size(427, 33)
+        Label1.Size = New Size(356, 33)
         Label1.TabIndex = 8
         Label1.Text = "           | Services Report"
         Label1.TextAlign = ContentAlignment.MiddleLeft
         ' 
         ' servicesreportChart
         ' 
+        servicesreportChart.BackColor = Color.Transparent
+        ChartArea1.AxisX.LabelStyle.ForeColor = Color.White
+        ChartArea1.AxisX.LineColor = Color.White
+        ChartArea1.AxisX.MajorGrid.LineColor = Color.Transparent
+        ChartArea1.AxisX.MajorTickMark.Enabled = False
+        ChartArea1.AxisX.MajorTickMark.LineColor = Color.Transparent
+        ChartArea1.AxisX.MinorGrid.LineColor = Color.White
+        ChartArea1.AxisX.TitleForeColor = Color.White
+        ChartArea1.AxisX2.LabelStyle.ForeColor = Color.White
+        ChartArea1.AxisX2.LineColor = Color.White
+        ChartArea1.AxisX2.MinorTickMark.Enabled = True
+        ChartArea1.AxisX2.MinorTickMark.LineColor = Color.White
+        ChartArea1.AxisY.LabelStyle.ForeColor = Color.White
+        ChartArea1.AxisY.LineColor = Color.Transparent
+        ChartArea1.AxisY.MajorGrid.LineColor = Color.White
+        ChartArea1.AxisY.MajorTickMark.LineColor = Color.White
+        ChartArea1.AxisY2.LabelStyle.ForeColor = Color.White
+        ChartArea1.AxisY2.LineColor = Color.White
+        ChartArea1.AxisY2.MajorGrid.LineColor = Color.White
+        ChartArea1.AxisY2.TitleForeColor = Color.White
+        ChartArea1.BackColor = Color.Transparent
         ChartArea1.Name = "ChartArea1"
         servicesreportChart.ChartAreas.Add(ChartArea1)
         servicesreportChart.Dock = DockStyle.Fill
@@ -209,13 +260,17 @@ Partial Class ContentDashboard
         servicesreportChart.Location = New Point(3, 51)
         servicesreportChart.Name = "servicesreportChart"
         Series1.ChartArea = "ChartArea1"
+        Series1.Color = Color.Gold
+        Series1.LabelForeColor = Color.White
         Series1.Legend = "Legend1"
         Series1.Name = "Series1"
+        Series1.Palette = DataVisualization.Charting.ChartColorPalette.Fire
         servicesreportChart.Series.Add(Series1)
-        servicesreportChart.Size = New Size(421, 355)
+        servicesreportChart.Size = New Size(350, 355)
         servicesreportChart.TabIndex = 12
         servicesreportChart.Text = "Chart1"
         Title1.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Title1.ForeColor = Color.White
         Title1.Name = "Title1"
         Title1.Text = "Total"
         servicesreportChart.Titles.Add(Title1)
@@ -225,147 +280,336 @@ Partial Class ContentDashboard
         TableLayoutPanel2.ColumnCount = 2
         TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
         TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
-        TableLayoutPanel2.Controls.Add(Button6, 1, 2)
-        TableLayoutPanel2.Controls.Add(Button5, 0, 2)
-        TableLayoutPanel2.Controls.Add(Button4, 1, 1)
-        TableLayoutPanel2.Controls.Add(Button3, 0, 1)
-        TableLayoutPanel2.Controls.Add(Button2, 1, 0)
-        TableLayoutPanel2.Controls.Add(Button1, 0, 0)
+        TableLayoutPanel2.Controls.Add(Panel6, 1, 2)
+        TableLayoutPanel2.Controls.Add(Panel5, 0, 2)
+        TableLayoutPanel2.Controls.Add(Panel4, 1, 1)
+        TableLayoutPanel2.Controls.Add(Panel3, 0, 1)
+        TableLayoutPanel2.Controls.Add(Panel2, 1, 0)
+        TableLayoutPanel2.Controls.Add(dashbrdData1, 0, 0)
         TableLayoutPanel2.Dock = DockStyle.Fill
-        TableLayoutPanel2.Location = New Point(430, 51)
+        TableLayoutPanel2.Location = New Point(359, 51)
         TableLayoutPanel2.Name = "TableLayoutPanel2"
+        TableLayoutPanel2.Padding = New Padding(10, 0, 20, 0)
         TableLayoutPanel2.RowCount = 3
         TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 33.3333321F))
         TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 33.3333321F))
         TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 33.3333321F))
-        TableLayoutPanel2.Size = New Size(225, 355)
+        TableLayoutPanel2.Size = New Size(296, 355)
         TableLayoutPanel2.TabIndex = 13
         ' 
-        ' Button6
+        ' Panel6
         ' 
-        Button6.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        Button6.Dock = DockStyle.Fill
-        Button6.FlatAppearance.BorderSize = 0
-        Button6.FlatStyle = FlatStyle.Flat
-        Button6.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
-        Button6.ForeColor = SystemColors.ButtonHighlight
-        Button6.Image = My.Resources.Resources.Peso_Symbol
-        Button6.ImageAlign = ContentAlignment.BottomCenter
-        Button6.Location = New Point(120, 244)
-        Button6.Margin = New Padding(8)
-        Button6.Name = "Button6"
-        Button6.Padding = New Padding(0, 0, 0, 1)
-        Button6.Size = New Size(97, 103)
-        Button6.TabIndex = 8
-        Button6.Text = "Total Earnings"
-        Button6.TextAlign = ContentAlignment.BottomCenter
-        Button6.TextImageRelation = TextImageRelation.ImageAboveText
-        Button6.UseVisualStyleBackColor = False
+        Panel6.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        Panel6.Controls.Add(PictureBox6)
+        Panel6.Controls.Add(Label7)
+        Panel6.Controls.Add(dashbrdPMdata)
+        Panel6.Dock = DockStyle.Fill
+        Panel6.Location = New Point(148, 241)
+        Panel6.Margin = New Padding(5, 5, 3, 3)
+        Panel6.Name = "Panel6"
+        Panel6.Size = New Size(125, 111)
+        Panel6.TabIndex = 5
         ' 
-        ' Button5
+        ' PictureBox6
         ' 
-        Button5.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        Button5.Dock = DockStyle.Fill
-        Button5.FlatAppearance.BorderSize = 0
-        Button5.FlatStyle = FlatStyle.Flat
-        Button5.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
-        Button5.ForeColor = SystemColors.ButtonHighlight
-        Button5.Image = My.Resources.Resources.Peso_Symbol
-        Button5.ImageAlign = ContentAlignment.BottomCenter
-        Button5.Location = New Point(8, 244)
-        Button5.Margin = New Padding(8)
-        Button5.Name = "Button5"
-        Button5.Padding = New Padding(0, 0, 0, 1)
-        Button5.Size = New Size(96, 103)
-        Button5.TabIndex = 7
-        Button5.Text = "Total Earnings"
-        Button5.TextAlign = ContentAlignment.BottomCenter
-        Button5.TextImageRelation = TextImageRelation.ImageAboveText
-        Button5.UseVisualStyleBackColor = False
+        PictureBox6.Dock = DockStyle.Top
+        PictureBox6.Image = My.Resources.Resources.Checked_User_Male2
+        PictureBox6.Location = New Point(0, 0)
+        PictureBox6.Margin = New Padding(0)
+        PictureBox6.Name = "PictureBox6"
+        PictureBox6.Size = New Size(125, 49)
+        PictureBox6.SizeMode = PictureBoxSizeMode.CenterImage
+        PictureBox6.TabIndex = 0
+        PictureBox6.TabStop = False
         ' 
-        ' Button4
+        ' Label7
         ' 
-        Button4.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        Button4.Dock = DockStyle.Fill
-        Button4.FlatAppearance.BorderSize = 0
-        Button4.FlatStyle = FlatStyle.Flat
-        Button4.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
-        Button4.ForeColor = SystemColors.ButtonHighlight
-        Button4.Image = My.Resources.Resources.Peso_Symbol
-        Button4.ImageAlign = ContentAlignment.BottomCenter
-        Button4.Location = New Point(120, 126)
-        Button4.Margin = New Padding(8)
-        Button4.Name = "Button4"
-        Button4.Padding = New Padding(0, 0, 0, 1)
-        Button4.Size = New Size(97, 102)
-        Button4.TabIndex = 6
-        Button4.Text = "Total Earnings"
-        Button4.TextAlign = ContentAlignment.BottomCenter
-        Button4.TextImageRelation = TextImageRelation.ImageAboveText
-        Button4.UseVisualStyleBackColor = False
+        Label7.Anchor = AnchorStyles.None
+        Label7.AutoSize = True
+        Label7.Font = New Font("Segoe UI Semibold", 9.5F, FontStyle.Bold)
+        Label7.ForeColor = SystemColors.ButtonHighlight
+        Label7.Location = New Point(0, 81)
+        Label7.Name = "Label7"
+        Label7.Padding = New Padding(5, 0, 0, 0)
+        Label7.Size = New Size(120, 17)
+        Label7.TabIndex = 2
+        Label7.Text = "Present Members"
+        Label7.TextAlign = ContentAlignment.MiddleCenter
         ' 
-        ' Button3
+        ' dashbrdPMdata
         ' 
-        Button3.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        Button3.Dock = DockStyle.Fill
-        Button3.FlatAppearance.BorderSize = 0
-        Button3.FlatStyle = FlatStyle.Flat
-        Button3.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
-        Button3.ForeColor = SystemColors.ButtonHighlight
-        Button3.Image = My.Resources.Resources.Peso_Symbol
-        Button3.ImageAlign = ContentAlignment.BottomCenter
-        Button3.Location = New Point(8, 126)
-        Button3.Margin = New Padding(8)
-        Button3.Name = "Button3"
-        Button3.Padding = New Padding(0, 0, 0, 1)
-        Button3.Size = New Size(96, 102)
-        Button3.TabIndex = 5
-        Button3.Text = "Total Earnings"
-        Button3.TextAlign = ContentAlignment.BottomCenter
-        Button3.TextImageRelation = TextImageRelation.ImageAboveText
-        Button3.UseVisualStyleBackColor = False
+        dashbrdPMdata.Anchor = AnchorStyles.None
+        dashbrdPMdata.Font = New Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        dashbrdPMdata.ForeColor = SystemColors.ControlLightLight
+        dashbrdPMdata.ImageAlign = ContentAlignment.MiddleRight
+        dashbrdPMdata.Location = New Point(2, 37)
+        dashbrdPMdata.Name = "dashbrdPMdata"
+        dashbrdPMdata.Size = New Size(120, 44)
+        dashbrdPMdata.TabIndex = 1
+        dashbrdPMdata.Text = "0"
+        dashbrdPMdata.TextAlign = ContentAlignment.MiddleCenter
         ' 
-        ' Button2
+        ' Panel5
         ' 
-        Button2.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        Button2.Dock = DockStyle.Fill
-        Button2.FlatAppearance.BorderSize = 0
-        Button2.FlatStyle = FlatStyle.Flat
-        Button2.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
-        Button2.ForeColor = SystemColors.ButtonHighlight
-        Button2.Image = My.Resources.Resources.Peso_Symbol
-        Button2.ImageAlign = ContentAlignment.BottomCenter
-        Button2.Location = New Point(120, 8)
-        Button2.Margin = New Padding(8)
-        Button2.Name = "Button2"
-        Button2.Padding = New Padding(0, 0, 0, 1)
-        Button2.Size = New Size(97, 102)
-        Button2.TabIndex = 4
-        Button2.Text = "Total Earnings"
-        Button2.TextAlign = ContentAlignment.BottomCenter
-        Button2.TextImageRelation = TextImageRelation.ImageAboveText
-        Button2.UseVisualStyleBackColor = False
+        Panel5.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        Panel5.Controls.Add(PictureBox5)
+        Panel5.Controls.Add(Label5)
+        Panel5.Controls.Add(dashbrdACTdata)
+        Panel5.Dock = DockStyle.Fill
+        Panel5.Location = New Point(13, 241)
+        Panel5.Margin = New Padding(3, 5, 5, 3)
+        Panel5.Name = "Panel5"
+        Panel5.Padding = New Padding(0, 3, 0, 0)
+        Panel5.Size = New Size(125, 111)
+        Panel5.TabIndex = 4
         ' 
-        ' Button1
+        ' PictureBox5
         ' 
-        Button1.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        Button1.Dock = DockStyle.Fill
-        Button1.FlatAppearance.BorderSize = 0
-        Button1.FlatStyle = FlatStyle.Flat
-        Button1.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
-        Button1.ForeColor = SystemColors.ButtonHighlight
-        Button1.Image = My.Resources.Resources.Peso_Symbol
-        Button1.ImageAlign = ContentAlignment.BottomCenter
-        Button1.Location = New Point(8, 8)
-        Button1.Margin = New Padding(8)
-        Button1.Name = "Button1"
-        Button1.Padding = New Padding(0, 0, 0, 1)
-        Button1.Size = New Size(96, 102)
-        Button1.TabIndex = 3
-        Button1.Text = "Total Earnings"
-        Button1.TextAlign = ContentAlignment.BottomCenter
-        Button1.TextImageRelation = TextImageRelation.ImageAboveText
-        Button1.UseVisualStyleBackColor = False
+        PictureBox5.Dock = DockStyle.Top
+        PictureBox5.Image = My.Resources.Resources.Personal_Trainer
+        PictureBox5.Location = New Point(0, 3)
+        PictureBox5.Margin = New Padding(0)
+        PictureBox5.Name = "PictureBox5"
+        PictureBox5.Size = New Size(125, 44)
+        PictureBox5.SizeMode = PictureBoxSizeMode.CenterImage
+        PictureBox5.TabIndex = 0
+        PictureBox5.TabStop = False
+        ' 
+        ' Label5
+        ' 
+        Label5.Anchor = AnchorStyles.None
+        Label5.AutoSize = True
+        Label5.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
+        Label5.ForeColor = SystemColors.ButtonHighlight
+        Label5.Location = New Point(25, 76)
+        Label5.Name = "Label5"
+        Label5.Padding = New Padding(5, 0, 0, 0)
+        Label5.Size = New Size(73, 30)
+        Label5.TabIndex = 2
+        Label5.Text = "Active Gym" & vbCrLf & "Trainers"
+        Label5.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' dashbrdACTdata
+        ' 
+        dashbrdACTdata.Anchor = AnchorStyles.None
+        dashbrdACTdata.Font = New Font("Segoe UI", 24F, FontStyle.Bold)
+        dashbrdACTdata.ForeColor = SystemColors.ControlLightLight
+        dashbrdACTdata.Location = New Point(2, 37)
+        dashbrdACTdata.Name = "dashbrdACTdata"
+        dashbrdACTdata.Padding = New Padding(3, 0, 0, 0)
+        dashbrdACTdata.Size = New Size(120, 44)
+        dashbrdACTdata.TabIndex = 1
+        dashbrdACTdata.Text = "0"
+        dashbrdACTdata.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' Panel4
+        ' 
+        Panel4.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        Panel4.Controls.Add(PictureBox4)
+        Panel4.Controls.Add(Label4)
+        Panel4.Controls.Add(dashbrdTEdata)
+        Panel4.Dock = DockStyle.Fill
+        Panel4.Location = New Point(148, 123)
+        Panel4.Margin = New Padding(5, 5, 3, 5)
+        Panel4.Name = "Panel4"
+        Panel4.Size = New Size(125, 108)
+        Panel4.TabIndex = 3
+        ' 
+        ' PictureBox4
+        ' 
+        PictureBox4.Dock = DockStyle.Top
+        PictureBox4.Image = My.Resources.Resources.Peso_Symbol1
+        PictureBox4.Location = New Point(0, 0)
+        PictureBox4.Margin = New Padding(0)
+        PictureBox4.Name = "PictureBox4"
+        PictureBox4.Size = New Size(125, 47)
+        PictureBox4.SizeMode = PictureBoxSizeMode.CenterImage
+        PictureBox4.TabIndex = 0
+        PictureBox4.TabStop = False
+        ' 
+        ' Label4
+        ' 
+        Label4.Anchor = AnchorStyles.None
+        Label4.AutoSize = True
+        Label4.Font = New Font("Segoe UI Semibold", 9.5F, FontStyle.Bold)
+        Label4.ForeColor = SystemColors.ButtonHighlight
+        Label4.Location = New Point(11, 81)
+        Label4.Name = "Label4"
+        Label4.Padding = New Padding(5, 0, 0, 0)
+        Label4.Size = New Size(102, 17)
+        Label4.TabIndex = 2
+        Label4.Text = "Total Expenses"
+        Label4.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' dashbrdTEdata
+        ' 
+        dashbrdTEdata.Anchor = AnchorStyles.None
+        dashbrdTEdata.Font = New Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        dashbrdTEdata.ForeColor = SystemColors.ControlLightLight
+        dashbrdTEdata.ImageAlign = ContentAlignment.MiddleRight
+        dashbrdTEdata.Location = New Point(2, 35)
+        dashbrdTEdata.Name = "dashbrdTEdata"
+        dashbrdTEdata.Size = New Size(120, 44)
+        dashbrdTEdata.TabIndex = 1
+        dashbrdTEdata.Text = "0"
+        dashbrdTEdata.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' Panel3
+        ' 
+        Panel3.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        Panel3.Controls.Add(PictureBox3)
+        Panel3.Controls.Add(Label3)
+        Panel3.Controls.Add(dashbrdAEdata)
+        Panel3.Dock = DockStyle.Fill
+        Panel3.Location = New Point(13, 123)
+        Panel3.Margin = New Padding(3, 5, 5, 5)
+        Panel3.Name = "Panel3"
+        Panel3.Padding = New Padding(0, 3, 0, 0)
+        Panel3.Size = New Size(125, 108)
+        Panel3.TabIndex = 2
+        ' 
+        ' PictureBox3
+        ' 
+        PictureBox3.Dock = DockStyle.Top
+        PictureBox3.Image = My.Resources.Resources.Dumbbell
+        PictureBox3.Location = New Point(0, 3)
+        PictureBox3.Margin = New Padding(0)
+        PictureBox3.Name = "PictureBox3"
+        PictureBox3.Size = New Size(125, 44)
+        PictureBox3.SizeMode = PictureBoxSizeMode.CenterImage
+        PictureBox3.TabIndex = 0
+        PictureBox3.TabStop = False
+        ' 
+        ' Label3
+        ' 
+        Label3.Anchor = AnchorStyles.None
+        Label3.AutoSize = True
+        Label3.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
+        Label3.ForeColor = SystemColors.ButtonHighlight
+        Label3.Location = New Point(25, 75)
+        Label3.Name = "Label3"
+        Label3.Padding = New Padding(5, 0, 0, 0)
+        Label3.Size = New Size(75, 30)
+        Label3.TabIndex = 2
+        Label3.Text = "Available " & vbCrLf & "Equipments"
+        Label3.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' dashbrdAEdata
+        ' 
+        dashbrdAEdata.Anchor = AnchorStyles.None
+        dashbrdAEdata.Font = New Font("Segoe UI", 24F, FontStyle.Bold)
+        dashbrdAEdata.ForeColor = SystemColors.ControlLightLight
+        dashbrdAEdata.Location = New Point(2, 35)
+        dashbrdAEdata.Name = "dashbrdAEdata"
+        dashbrdAEdata.Padding = New Padding(3, 0, 0, 0)
+        dashbrdAEdata.Size = New Size(120, 44)
+        dashbrdAEdata.TabIndex = 1
+        dashbrdAEdata.Text = "0"
+        dashbrdAEdata.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' Panel2
+        ' 
+        Panel2.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        Panel2.Controls.Add(PictureBox2)
+        Panel2.Controls.Add(Label2)
+        Panel2.Controls.Add(dashbrdSUdata)
+        Panel2.Dock = DockStyle.Fill
+        Panel2.Location = New Point(148, 3)
+        Panel2.Margin = New Padding(5, 3, 3, 3)
+        Panel2.Name = "Panel2"
+        Panel2.Size = New Size(125, 112)
+        Panel2.TabIndex = 1
+        ' 
+        ' PictureBox2
+        ' 
+        PictureBox2.Dock = DockStyle.Top
+        PictureBox2.Image = My.Resources.Resources.Badge
+        PictureBox2.Location = New Point(0, 0)
+        PictureBox2.Margin = New Padding(0)
+        PictureBox2.Name = "PictureBox2"
+        PictureBox2.Size = New Size(125, 51)
+        PictureBox2.SizeMode = PictureBoxSizeMode.CenterImage
+        PictureBox2.TabIndex = 0
+        PictureBox2.TabStop = False
+        ' 
+        ' Label2
+        ' 
+        Label2.Anchor = AnchorStyles.None
+        Label2.AutoSize = True
+        Label2.Font = New Font("Segoe UI Semibold", 9.5F, FontStyle.Bold)
+        Label2.ForeColor = SystemColors.ButtonHighlight
+        Label2.Location = New Point(22, 88)
+        Label2.Name = "Label2"
+        Label2.Padding = New Padding(5, 0, 0, 0)
+        Label2.Size = New Size(77, 17)
+        Label2.TabIndex = 2
+        Label2.Text = "Staff Users"
+        Label2.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' dashbrdSUdata
+        ' 
+        dashbrdSUdata.Anchor = AnchorStyles.None
+        dashbrdSUdata.Font = New Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        dashbrdSUdata.ForeColor = SystemColors.ControlLightLight
+        dashbrdSUdata.ImageAlign = ContentAlignment.MiddleRight
+        dashbrdSUdata.Location = New Point(2, 40)
+        dashbrdSUdata.Name = "dashbrdSUdata"
+        dashbrdSUdata.Size = New Size(120, 45)
+        dashbrdSUdata.TabIndex = 1
+        dashbrdSUdata.Text = "0"
+        dashbrdSUdata.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' dashbrdData1
+        ' 
+        dashbrdData1.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        dashbrdData1.Controls.Add(PictureBox1)
+        dashbrdData1.Controls.Add(dashbrdTM)
+        dashbrdData1.Controls.Add(dashbrdTMData)
+        dashbrdData1.Dock = DockStyle.Fill
+        dashbrdData1.Location = New Point(13, 3)
+        dashbrdData1.Margin = New Padding(3, 3, 5, 5)
+        dashbrdData1.Name = "dashbrdData1"
+        dashbrdData1.Size = New Size(125, 110)
+        dashbrdData1.TabIndex = 0
+        ' 
+        ' PictureBox1
+        ' 
+        PictureBox1.Dock = DockStyle.Top
+        PictureBox1.Image = My.Resources.Resources.People4
+        PictureBox1.Location = New Point(0, 0)
+        PictureBox1.Margin = New Padding(0)
+        PictureBox1.Name = "PictureBox1"
+        PictureBox1.Size = New Size(125, 51)
+        PictureBox1.SizeMode = PictureBoxSizeMode.CenterImage
+        PictureBox1.TabIndex = 0
+        PictureBox1.TabStop = False
+        ' 
+        ' dashbrdTM
+        ' 
+        dashbrdTM.Anchor = AnchorStyles.None
+        dashbrdTM.AutoSize = True
+        dashbrdTM.Font = New Font("Segoe UI Semibold", 9.5F, FontStyle.Bold)
+        dashbrdTM.ForeColor = SystemColors.ButtonHighlight
+        dashbrdTM.Location = New Point(10, 87)
+        dashbrdTM.Name = "dashbrdTM"
+        dashbrdTM.Padding = New Padding(5, 0, 0, 0)
+        dashbrdTM.Size = New Size(103, 17)
+        dashbrdTM.TabIndex = 2
+        dashbrdTM.Text = "Total Members"
+        dashbrdTM.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' dashbrdTMData
+        ' 
+        dashbrdTMData.Anchor = AnchorStyles.None
+        dashbrdTMData.Font = New Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        dashbrdTMData.ForeColor = SystemColors.ControlLightLight
+        dashbrdTMData.ImageAlign = ContentAlignment.MiddleRight
+        dashbrdTMData.Location = New Point(2, 39)
+        dashbrdTMData.Name = "dashbrdTMData"
+        dashbrdTMData.Size = New Size(120, 45)
+        dashbrdTMData.TabIndex = 1
+        dashbrdTMData.Text = "0"
+        dashbrdTMData.TextAlign = ContentAlignment.MiddleCenter
         ' 
         ' ContentDashboard
         ' 
@@ -385,6 +629,24 @@ Partial Class ContentDashboard
         servicesPanel.PerformLayout()
         CType(servicesreportChart, ComponentModel.ISupportInitialize).EndInit()
         TableLayoutPanel2.ResumeLayout(False)
+        Panel6.ResumeLayout(False)
+        Panel6.PerformLayout()
+        CType(PictureBox6, ComponentModel.ISupportInitialize).EndInit()
+        Panel5.ResumeLayout(False)
+        Panel5.PerformLayout()
+        CType(PictureBox5, ComponentModel.ISupportInitialize).EndInit()
+        Panel4.ResumeLayout(False)
+        Panel4.PerformLayout()
+        CType(PictureBox4, ComponentModel.ISupportInitialize).EndInit()
+        Panel3.ResumeLayout(False)
+        Panel3.PerformLayout()
+        CType(PictureBox3, ComponentModel.ISupportInitialize).EndInit()
+        Panel2.ResumeLayout(False)
+        Panel2.PerformLayout()
+        CType(PictureBox2, ComponentModel.ISupportInitialize).EndInit()
+        dashbrdData1.ResumeLayout(False)
+        dashbrdData1.PerformLayout()
+        CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -399,11 +661,29 @@ Partial Class ContentDashboard
     Friend WithEvents servicesreportChart As DataVisualization.Charting.Chart
     Friend WithEvents Label1 As Label
     Friend WithEvents TableLayoutPanel2 As TableLayoutPanel
-    Friend WithEvents Button6 As Button
-    Friend WithEvents Button5 As Button
-    Friend WithEvents Button4 As Button
-    Friend WithEvents Button3 As Button
-    Friend WithEvents Button2 As Button
-    Friend WithEvents Button1 As Button
+    Friend WithEvents dashbrdData1 As Panel
+    Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents dashbrdTM As Label
+    Friend WithEvents dashbrdTMData As Label
+    Friend WithEvents Panel2 As Panel
+    Friend WithEvents PictureBox2 As PictureBox
+    Friend WithEvents Label2 As Label
+    Friend WithEvents dashbrdSUdata As Label
+    Friend WithEvents Panel3 As Panel
+    Friend WithEvents PictureBox3 As PictureBox
+    Friend WithEvents Label3 As Label
+    Friend WithEvents dashbrdAEdata As Label
+    Friend WithEvents Panel4 As Panel
+    Friend WithEvents PictureBox4 As PictureBox
+    Friend WithEvents Label4 As Label
+    Friend WithEvents dashbrdTEdata As Label
+    Friend WithEvents Panel5 As Panel
+    Friend WithEvents PictureBox5 As PictureBox
+    Friend WithEvents Label5 As Label
+    Friend WithEvents dashbrdACTdata As Label
+    Friend WithEvents Panel6 As Panel
+    Friend WithEvents PictureBox6 As PictureBox
+    Friend WithEvents Label7 As Label
+    Friend WithEvents dashbrdPMdata As Label
 
 End Class
