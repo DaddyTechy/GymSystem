@@ -141,7 +141,20 @@
     Private Sub ForgotLL_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles ForgotLL.LinkClicked
     End Sub
 
+    Public Sub ShowUserControlInForm(control As UserControl, formTitle As String)
+        ' Create a new form to host the UserControl
+        Dim hostForm As New Form()
+        hostForm.Text = formTitle
+        hostForm.MinimumSize = New Size(925, 580) ' You can adjust the size as needed
+        hostForm.Controls.Add(control)
+        control.Dock = DockStyle.Fill
+        hostForm.Show()
+    End Sub
+
     Private Sub LoginBtn_Click(sender As Object, e As EventArgs) Handles LoginBtn.Click
+        Dim staffMain As New StaffMain()
+        ShowUserControlInForm(staffMain, "Staff Main")
+        Me.Hide()
     End Sub
     Private Sub MemberLL_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles MemberLL.LinkClicked
         ' Navigate to Staff form

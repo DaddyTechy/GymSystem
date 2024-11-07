@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class AdminMain
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+Partial Class StaffMain
     Inherits System.Windows.Forms.UserControl
 
     'UserControl overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,9 +20,9 @@ Partial Class AdminMain
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AdminMain))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(StaffMain))
         LogoTxtLbl = New Label()
         LogoPicBox = New PictureBox()
         Panel1 = New Panel()
@@ -539,7 +539,6 @@ Partial Class AdminMain
         RemoveMemBtn.Size = New Size(218, 23)
         RemoveMemBtn.TabIndex = 6
         RemoveMemBtn.Text = "  Remove Member"
-        RemoveMemBtn.TextAlign = ContentAlignment.MiddleLeft
         RemoveMemBtn.TextImageRelation = TextImageRelation.ImageBeforeText
         RemoveMemBtn.UseVisualStyleBackColor = True
         ' 
@@ -669,13 +668,13 @@ Partial Class AdminMain
         ' 
         Label1.Anchor = AnchorStyles.None
         Label1.AutoSize = True
-        Label1.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label1.Font = New Font("Segoe UI", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = SystemColors.ButtonHighlight
         Label1.Location = New Point(49, 17)
         Label1.Name = "Label1"
-        Label1.Size = New Size(137, 21)
+        Label1.Size = New Size(122, 21)
         Label1.TabIndex = 1
-        Label1.Text = "Welcome Admin"
+        Label1.Text = "Welcome Staff"
         ' 
         ' PictureBox1
         ' 
@@ -710,15 +709,15 @@ Partial Class AdminMain
         PictureBox2.TabIndex = 1
         PictureBox2.TabStop = False
         ' 
-        ' AdminMain
+        ' StaffMain
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
         Controls.Add(ContentPnl)
         Controls.Add(UserPnl)
         Controls.Add(Menu2Pnl)
         MinimumSize = New Size(925, 580)
-        Name = "AdminMain"
+        Name = "StaffMain"
         Size = New Size(925, 580)
         CType(LogoPicBox, ComponentModel.ISupportInitialize).EndInit()
         Panel1.ResumeLayout(False)

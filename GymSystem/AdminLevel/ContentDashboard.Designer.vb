@@ -26,12 +26,23 @@ Partial Class ContentDashboard
         Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New DataVisualization.Charting.Legend()
         Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New DataVisualization.Charting.Series()
         Dim Title1 As System.Windows.Forms.DataVisualization.Charting.Title = New DataVisualization.Charting.Title()
+        Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New DataVisualization.Charting.ChartArea()
+        Dim Legend2 As System.Windows.Forms.DataVisualization.Charting.Legend = New DataVisualization.Charting.Legend()
+        Dim Series2 As System.Windows.Forms.DataVisualization.Charting.Series = New DataVisualization.Charting.Series()
+        Dim Title2 As System.Windows.Forms.DataVisualization.Charting.Title = New DataVisualization.Charting.Title()
+        Dim ChartArea3 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New DataVisualization.Charting.ChartArea()
+        Dim Legend3 As System.Windows.Forms.DataVisualization.Charting.Legend = New DataVisualization.Charting.Legend()
+        Dim Series3 As System.Windows.Forms.DataVisualization.Charting.Series = New DataVisualization.Charting.Series()
+        Dim Title3 As System.Windows.Forms.DataVisualization.Charting.Title = New DataVisualization.Charting.Title()
+        Dim ChartArea4 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New DataVisualization.Charting.ChartArea()
+        Dim Legend4 As System.Windows.Forms.DataVisualization.Charting.Legend = New DataVisualization.Charting.Legend()
+        Dim Series4 As System.Windows.Forms.DataVisualization.Charting.Series = New DataVisualization.Charting.Series()
+        Dim Title4 As System.Windows.Forms.DataVisualization.Charting.Title = New DataVisualization.Charting.Title()
         TableLayoutPanel1 = New TableLayoutPanel()
         AnnouncesBtn = New Button()
         TotEarnBtn = New Button()
         RegisteredMemBtn = New Button()
         ActiveMemBtn = New Button()
-        Panel1 = New Panel()
         servicesPanel = New TableLayoutPanel()
         Label1 = New Label()
         servicesreportChart = New DataVisualization.Charting.Chart()
@@ -60,6 +71,22 @@ Partial Class ContentDashboard
         PictureBox1 = New PictureBox()
         dashbrdTM = New Label()
         dashbrdTMData = New Label()
+        Panel7 = New Panel()
+        TableLayoutPanel3 = New TableLayoutPanel()
+        Panel11 = New Panel()
+        chartStaffs = New DataVisualization.Charting.Chart()
+        Label9 = New Label()
+        pnlregistered = New Panel()
+        pieGender = New DataVisualization.Charting.Chart()
+        Label6 = New Label()
+        Panel1 = New Panel()
+        Panel10 = New Panel()
+        chartEarnings = New DataVisualization.Charting.Chart()
+        lblearningsreport = New Label()
+        Panel8 = New Panel()
+        Panel9 = New Panel()
+        richTextBoxAnnouncements = New RichTextBox()
+        Label8 = New Label()
         TableLayoutPanel1.SuspendLayout()
         servicesPanel.SuspendLayout()
         CType(servicesreportChart, ComponentModel.ISupportInitialize).BeginInit()
@@ -76,6 +103,17 @@ Partial Class ContentDashboard
         CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
         dashbrdData1.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
+        Panel7.SuspendLayout()
+        TableLayoutPanel3.SuspendLayout()
+        Panel11.SuspendLayout()
+        CType(chartStaffs, ComponentModel.ISupportInitialize).BeginInit()
+        pnlregistered.SuspendLayout()
+        CType(pieGender, ComponentModel.ISupportInitialize).BeginInit()
+        Panel1.SuspendLayout()
+        Panel10.SuspendLayout()
+        CType(chartEarnings, ComponentModel.ISupportInitialize).BeginInit()
+        Panel8.SuspendLayout()
+        Panel9.SuspendLayout()
         SuspendLayout()
         ' 
         ' TableLayoutPanel1
@@ -184,14 +222,6 @@ Partial Class ContentDashboard
         ActiveMemBtn.TextAlign = ContentAlignment.BottomCenter
         ActiveMemBtn.TextImageRelation = TextImageRelation.ImageAboveText
         ActiveMemBtn.UseVisualStyleBackColor = False
-        ' 
-        ' Panel1
-        ' 
-        Panel1.Dock = DockStyle.Bottom
-        Panel1.Location = New Point(0, 549)
-        Panel1.Name = "Panel1"
-        Panel1.Size = New Size(658, 123)
-        Panel1.TabIndex = 2
         ' 
         ' servicesPanel
         ' 
@@ -611,18 +641,344 @@ Partial Class ContentDashboard
         dashbrdTMData.Text = "0"
         dashbrdTMData.TextAlign = ContentAlignment.MiddleCenter
         ' 
+        ' Panel7
+        ' 
+        Panel7.Controls.Add(TableLayoutPanel3)
+        Panel7.Controls.Add(Panel1)
+        Panel7.Controls.Add(Panel8)
+        Panel7.Dock = DockStyle.Bottom
+        Panel7.Location = New Point(0, 549)
+        Panel7.Name = "Panel7"
+        Panel7.Size = New Size(658, 564)
+        Panel7.TabIndex = 4
+        ' 
+        ' TableLayoutPanel3
+        ' 
+        TableLayoutPanel3.ColumnCount = 2
+        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
+        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
+        TableLayoutPanel3.Controls.Add(Panel11, 1, 0)
+        TableLayoutPanel3.Controls.Add(pnlregistered, 0, 0)
+        TableLayoutPanel3.Dock = DockStyle.Top
+        TableLayoutPanel3.Location = New Point(0, 183)
+        TableLayoutPanel3.Name = "TableLayoutPanel3"
+        TableLayoutPanel3.Padding = New Padding(20, 10, 20, 10)
+        TableLayoutPanel3.RowCount = 1
+        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
+        TableLayoutPanel3.Size = New Size(658, 244)
+        TableLayoutPanel3.TabIndex = 4
+        ' 
+        ' Panel11
+        ' 
+        Panel11.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        Panel11.Controls.Add(chartStaffs)
+        Panel11.Controls.Add(Label9)
+        Panel11.Dock = DockStyle.Fill
+        Panel11.Location = New Point(339, 13)
+        Panel11.Margin = New Padding(10, 3, 3, 3)
+        Panel11.Name = "Panel11"
+        Panel11.Padding = New Padding(0, 4, 0, 0)
+        Panel11.Size = New Size(296, 218)
+        Panel11.TabIndex = 2
+        ' 
+        ' chartStaffs
+        ' 
+        chartStaffs.BackColor = Color.Transparent
+        ChartArea2.AxisX.LabelStyle.ForeColor = Color.White
+        ChartArea2.AxisX.LineColor = Color.White
+        ChartArea2.AxisX.MajorGrid.LineColor = Color.Transparent
+        ChartArea2.AxisX.MajorTickMark.Enabled = False
+        ChartArea2.AxisX.MajorTickMark.LineColor = Color.Transparent
+        ChartArea2.AxisX.MinorGrid.LineColor = Color.White
+        ChartArea2.AxisX.TitleForeColor = Color.White
+        ChartArea2.AxisX2.LabelStyle.ForeColor = Color.White
+        ChartArea2.AxisX2.LineColor = Color.White
+        ChartArea2.AxisX2.MinorTickMark.Enabled = True
+        ChartArea2.AxisX2.MinorTickMark.LineColor = Color.White
+        ChartArea2.AxisY.LabelStyle.ForeColor = Color.White
+        ChartArea2.AxisY.LineColor = Color.Transparent
+        ChartArea2.AxisY.MajorGrid.LineColor = Color.White
+        ChartArea2.AxisY.MajorTickMark.LineColor = Color.White
+        ChartArea2.AxisY2.LabelStyle.ForeColor = Color.White
+        ChartArea2.AxisY2.LineColor = Color.White
+        ChartArea2.AxisY2.MajorGrid.LineColor = Color.White
+        ChartArea2.AxisY2.TitleForeColor = Color.White
+        ChartArea2.BackColor = Color.Transparent
+        ChartArea2.Name = "ChartArea1"
+        chartStaffs.ChartAreas.Add(ChartArea2)
+        chartStaffs.Dock = DockStyle.Fill
+        Legend2.Enabled = False
+        Legend2.Name = "Legend1"
+        chartStaffs.Legends.Add(Legend2)
+        chartStaffs.Location = New Point(0, 33)
+        chartStaffs.Name = "chartStaffs"
+        Series2.ChartArea = "ChartArea1"
+        Series2.ChartType = DataVisualization.Charting.SeriesChartType.Doughnut
+        Series2.Color = Color.Gold
+        Series2.LabelForeColor = Color.White
+        Series2.Legend = "Legend1"
+        Series2.Name = "Series1"
+        Series2.Palette = DataVisualization.Charting.ChartColorPalette.Fire
+        chartStaffs.Series.Add(Series2)
+        chartStaffs.Size = New Size(296, 185)
+        chartStaffs.TabIndex = 13
+        chartStaffs.Text = "chartStaffs"
+        Title2.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Title2.ForeColor = Color.White
+        Title2.Name = "Title1"
+        Title2.Text = "Total"
+        chartStaffs.Titles.Add(Title2)
+        ' 
+        ' Label9
+        ' 
+        Label9.AutoSize = True
+        Label9.Dock = DockStyle.Top
+        Label9.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label9.ForeColor = SystemColors.ControlLight
+        Label9.Image = My.Resources.Resources.Conference_Foreground_Selected
+        Label9.ImageAlign = ContentAlignment.MiddleLeft
+        Label9.Location = New Point(0, 4)
+        Label9.Name = "Label9"
+        Label9.Padding = New Padding(15, 7, 5, 5)
+        Label9.Size = New Size(246, 29)
+        Label9.TabIndex = 1
+        Label9.Text = "           Staff Designation: Overview"
+        Label9.TextAlign = ContentAlignment.MiddleRight
+        ' 
+        ' pnlregistered
+        ' 
+        pnlregistered.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        pnlregistered.Controls.Add(pieGender)
+        pnlregistered.Controls.Add(Label6)
+        pnlregistered.Dock = DockStyle.Fill
+        pnlregistered.Location = New Point(23, 13)
+        pnlregistered.Margin = New Padding(3, 3, 10, 3)
+        pnlregistered.Name = "pnlregistered"
+        pnlregistered.Padding = New Padding(0, 4, 0, 0)
+        pnlregistered.Size = New Size(296, 218)
+        pnlregistered.TabIndex = 1
+        ' 
+        ' pieGender
+        ' 
+        pieGender.BackColor = Color.Transparent
+        ChartArea3.AxisX.LabelStyle.ForeColor = Color.White
+        ChartArea3.AxisX.LineColor = Color.White
+        ChartArea3.AxisX.MajorGrid.LineColor = Color.Transparent
+        ChartArea3.AxisX.MajorTickMark.Enabled = False
+        ChartArea3.AxisX.MajorTickMark.LineColor = Color.Transparent
+        ChartArea3.AxisX.MinorGrid.LineColor = Color.White
+        ChartArea3.AxisX.TitleForeColor = Color.White
+        ChartArea3.AxisX2.LabelStyle.ForeColor = Color.White
+        ChartArea3.AxisX2.LineColor = Color.White
+        ChartArea3.AxisX2.MinorTickMark.Enabled = True
+        ChartArea3.AxisX2.MinorTickMark.LineColor = Color.White
+        ChartArea3.AxisY.LabelStyle.ForeColor = Color.White
+        ChartArea3.AxisY.LineColor = Color.Transparent
+        ChartArea3.AxisY.MajorGrid.LineColor = Color.White
+        ChartArea3.AxisY.MajorTickMark.LineColor = Color.White
+        ChartArea3.AxisY2.LabelStyle.ForeColor = Color.White
+        ChartArea3.AxisY2.LineColor = Color.White
+        ChartArea3.AxisY2.MajorGrid.LineColor = Color.White
+        ChartArea3.AxisY2.TitleForeColor = Color.White
+        ChartArea3.BackColor = Color.Transparent
+        ChartArea3.Name = "ChartArea1"
+        pieGender.ChartAreas.Add(ChartArea3)
+        pieGender.Dock = DockStyle.Fill
+        Legend3.Enabled = False
+        Legend3.Name = "Legend1"
+        pieGender.Legends.Add(Legend3)
+        pieGender.Location = New Point(0, 33)
+        pieGender.Name = "pieGender"
+        Series3.ChartArea = "ChartArea1"
+        Series3.ChartType = DataVisualization.Charting.SeriesChartType.Doughnut
+        Series3.Color = Color.Gold
+        Series3.LabelForeColor = Color.White
+        Series3.Legend = "Legend1"
+        Series3.Name = "Series1"
+        Series3.Palette = DataVisualization.Charting.ChartColorPalette.Fire
+        pieGender.Series.Add(Series3)
+        pieGender.Size = New Size(296, 185)
+        pieGender.TabIndex = 13
+        pieGender.Text = "Chart1"
+        Title3.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Title3.ForeColor = Color.White
+        Title3.Name = "Title1"
+        Title3.Text = "Total"
+        pieGender.Titles.Add(Title3)
+        ' 
+        ' Label6
+        ' 
+        Label6.AutoSize = True
+        Label6.Dock = DockStyle.Top
+        Label6.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label6.ForeColor = SystemColors.ControlLight
+        Label6.Image = My.Resources.Resources.People5
+        Label6.ImageAlign = ContentAlignment.MiddleLeft
+        Label6.Location = New Point(0, 4)
+        Label6.Name = "Label6"
+        Label6.Padding = New Padding(15, 7, 5, 5)
+        Label6.Size = New Size(289, 29)
+        Label6.TabIndex = 1
+        Label6.Text = "           Registered Gym Mmbers: Overview"
+        Label6.TextAlign = ContentAlignment.MiddleRight
+        ' 
+        ' Panel1
+        ' 
+        Panel1.BackColor = Color.Transparent
+        Panel1.Controls.Add(Panel10)
+        Panel1.Dock = DockStyle.Top
+        Panel1.Location = New Point(0, 0)
+        Panel1.Name = "Panel1"
+        Panel1.Padding = New Padding(25, 20, 25, 10)
+        Panel1.Size = New Size(658, 183)
+        Panel1.TabIndex = 3
+        ' 
+        ' Panel10
+        ' 
+        Panel10.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        Panel10.Controls.Add(chartEarnings)
+        Panel10.Controls.Add(lblearningsreport)
+        Panel10.Dock = DockStyle.Fill
+        Panel10.Location = New Point(25, 20)
+        Panel10.Name = "Panel10"
+        Panel10.Padding = New Padding(0, 4, 0, 0)
+        Panel10.Size = New Size(608, 153)
+        Panel10.TabIndex = 0
+        ' 
+        ' chartEarnings
+        ' 
+        chartEarnings.BackColor = Color.Transparent
+        ChartArea4.AlignmentOrientation = DataVisualization.Charting.AreaAlignmentOrientations.Horizontal
+        ChartArea4.AxisX.LabelStyle.ForeColor = Color.White
+        ChartArea4.AxisX.LineColor = Color.White
+        ChartArea4.AxisX.MajorGrid.LineColor = Color.Transparent
+        ChartArea4.AxisX.MajorTickMark.Enabled = False
+        ChartArea4.AxisX.MajorTickMark.LineColor = Color.Transparent
+        ChartArea4.AxisX.MinorGrid.LineColor = Color.White
+        ChartArea4.AxisX.TitleForeColor = Color.White
+        ChartArea4.AxisX2.LabelStyle.ForeColor = Color.White
+        ChartArea4.AxisX2.LineColor = Color.White
+        ChartArea4.AxisX2.MinorTickMark.Enabled = True
+        ChartArea4.AxisX2.MinorTickMark.LineColor = Color.White
+        ChartArea4.AxisY.LabelStyle.ForeColor = Color.White
+        ChartArea4.AxisY.LineColor = Color.Transparent
+        ChartArea4.AxisY.MajorGrid.LineColor = Color.White
+        ChartArea4.AxisY.MajorTickMark.LineColor = Color.White
+        ChartArea4.AxisY2.LabelStyle.ForeColor = Color.White
+        ChartArea4.AxisY2.LineColor = Color.White
+        ChartArea4.AxisY2.MajorGrid.LineColor = Color.White
+        ChartArea4.AxisY2.TitleForeColor = Color.White
+        ChartArea4.BackColor = Color.Transparent
+        ChartArea4.Name = "ChartArea1"
+        chartEarnings.ChartAreas.Add(ChartArea4)
+        chartEarnings.Dock = DockStyle.Fill
+        Legend4.Enabled = False
+        Legend4.Name = "Legend1"
+        chartEarnings.Legends.Add(Legend4)
+        chartEarnings.Location = New Point(0, 31)
+        chartEarnings.Name = "chartEarnings"
+        Series4.ChartArea = "ChartArea1"
+        Series4.ChartType = DataVisualization.Charting.SeriesChartType.Bar
+        Series4.Color = Color.Gold
+        Series4.CustomProperties = "PointWidth=1"
+        Series4.LabelForeColor = Color.White
+        Series4.Legend = "Legend1"
+        Series4.Name = "Series1"
+        Series4.Palette = DataVisualization.Charting.ChartColorPalette.Fire
+        chartEarnings.Series.Add(Series4)
+        chartEarnings.Size = New Size(608, 122)
+        chartEarnings.TabIndex = 16
+        chartEarnings.Text = "Chart1"
+        Title4.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Title4.ForeColor = Color.White
+        Title4.Name = "Title1"
+        Title4.Text = "Total"
+        chartEarnings.Titles.Add(Title4)
+        ' 
+        ' lblearningsreport
+        ' 
+        lblearningsreport.AutoSize = True
+        lblearningsreport.Dock = DockStyle.Top
+        lblearningsreport.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblearningsreport.ForeColor = SystemColors.ControlLight
+        lblearningsreport.Image = My.Resources.Resources.File
+        lblearningsreport.ImageAlign = ContentAlignment.MiddleLeft
+        lblearningsreport.Location = New Point(0, 4)
+        lblearningsreport.Margin = New Padding(3, 5, 3, 0)
+        lblearningsreport.Name = "lblearningsreport"
+        lblearningsreport.Padding = New Padding(5)
+        lblearningsreport.Size = New Size(253, 27)
+        lblearningsreport.TabIndex = 15
+        lblearningsreport.Text = "           Earnings and Expenses Reports"
+        lblearningsreport.TextAlign = ContentAlignment.MiddleRight
+        ' 
+        ' Panel8
+        ' 
+        Panel8.AutoScroll = True
+        Panel8.Controls.Add(Panel9)
+        Panel8.Dock = DockStyle.Bottom
+        Panel8.Location = New Point(0, 423)
+        Panel8.Name = "Panel8"
+        Panel8.Padding = New Padding(25, 10, 25, 10)
+        Panel8.Size = New Size(658, 141)
+        Panel8.TabIndex = 2
+        ' 
+        ' Panel9
+        ' 
+        Panel9.AutoScroll = True
+        Panel9.AutoSize = True
+        Panel9.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        Panel9.Controls.Add(richTextBoxAnnouncements)
+        Panel9.Controls.Add(Label8)
+        Panel9.Dock = DockStyle.Fill
+        Panel9.Location = New Point(25, 10)
+        Panel9.Name = "Panel9"
+        Panel9.Padding = New Padding(20, 4, 20, 3)
+        Panel9.Size = New Size(608, 121)
+        Panel9.TabIndex = 0
+        ' 
+        ' richTextBoxAnnouncements
+        ' 
+        richTextBoxAnnouncements.BackColor = Color.FromArgb(CByte(50), CByte(50), CByte(50))
+        richTextBoxAnnouncements.BorderStyle = BorderStyle.None
+        richTextBoxAnnouncements.Dock = DockStyle.Fill
+        richTextBoxAnnouncements.ForeColor = SystemColors.Window
+        richTextBoxAnnouncements.Location = New Point(20, 33)
+        richTextBoxAnnouncements.Name = "richTextBoxAnnouncements"
+        richTextBoxAnnouncements.ReadOnly = True
+        richTextBoxAnnouncements.ScrollBars = RichTextBoxScrollBars.Vertical
+        richTextBoxAnnouncements.Size = New Size(568, 85)
+        richTextBoxAnnouncements.TabIndex = 3
+        richTextBoxAnnouncements.Text = ""
+        ' 
+        ' Label8
+        ' 
+        Label8.AutoSize = True
+        Label8.Dock = DockStyle.Top
+        Label8.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label8.ForeColor = SystemColors.ControlLight
+        Label8.Image = My.Resources.Resources.Vector5
+        Label8.ImageAlign = ContentAlignment.MiddleLeft
+        Label8.Location = New Point(20, 4)
+        Label8.Name = "Label8"
+        Label8.Padding = New Padding(0, 7, 5, 5)
+        Label8.Size = New Size(189, 29)
+        Label8.TabIndex = 2
+        Label8.Text = "           Gym Announcements"
+        Label8.TextAlign = ContentAlignment.MiddleRight
+        ' 
         ' ContentDashboard
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         AutoScroll = True
         BackColor = Color.Transparent
+        Controls.Add(Panel7)
         Controls.Add(servicesPanel)
-        Controls.Add(Panel1)
         Controls.Add(TableLayoutPanel1)
         MinimumSize = New Size(675, 496)
         Name = "ContentDashboard"
-        Size = New Size(658, 496)
+        Size = New Size(658, 1054)
         TableLayoutPanel1.ResumeLayout(False)
         TableLayoutPanel1.PerformLayout()
         servicesPanel.ResumeLayout(False)
@@ -647,6 +1003,22 @@ Partial Class ContentDashboard
         dashbrdData1.ResumeLayout(False)
         dashbrdData1.PerformLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
+        Panel7.ResumeLayout(False)
+        TableLayoutPanel3.ResumeLayout(False)
+        Panel11.ResumeLayout(False)
+        Panel11.PerformLayout()
+        CType(chartStaffs, ComponentModel.ISupportInitialize).EndInit()
+        pnlregistered.ResumeLayout(False)
+        pnlregistered.PerformLayout()
+        CType(pieGender, ComponentModel.ISupportInitialize).EndInit()
+        Panel1.ResumeLayout(False)
+        Panel10.ResumeLayout(False)
+        Panel10.PerformLayout()
+        CType(chartEarnings, ComponentModel.ISupportInitialize).EndInit()
+        Panel8.ResumeLayout(False)
+        Panel8.PerformLayout()
+        Panel9.ResumeLayout(False)
+        Panel9.PerformLayout()
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -656,7 +1028,6 @@ Partial Class ContentDashboard
     Friend WithEvents AnnouncesBtn As Button
     Friend WithEvents TotEarnBtn As Button
     Friend WithEvents RegisteredMemBtn As Button
-    Friend WithEvents Panel1 As Panel
     Friend WithEvents servicesPanel As TableLayoutPanel
     Friend WithEvents servicesreportChart As DataVisualization.Charting.Chart
     Friend WithEvents Label1 As Label
@@ -685,5 +1056,21 @@ Partial Class ContentDashboard
     Friend WithEvents PictureBox6 As PictureBox
     Friend WithEvents Label7 As Label
     Friend WithEvents dashbrdPMdata As Label
+    Friend WithEvents Panel7 As Panel
+    Friend WithEvents Panel8 As Panel
+    Friend WithEvents TableLayoutPanel3 As TableLayoutPanel
+    Friend WithEvents pnlregistered As Panel
+    Friend WithEvents Label6 As Label
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents Panel10 As Panel
+    Friend WithEvents chartEarnings As DataVisualization.Charting.Chart
+    Friend WithEvents lblearningsreport As Label
+    Friend WithEvents pieGender As DataVisualization.Charting.Chart
+    Friend WithEvents Panel9 As Panel
+    Friend WithEvents Label8 As Label
+    Friend WithEvents Panel11 As Panel
+    Friend WithEvents chartStaffs As DataVisualization.Charting.Chart
+    Friend WithEvents Label9 As Label
+    Friend WithEvents richTextBoxAnnouncements As RichTextBox
 
 End Class

@@ -1,9 +1,9 @@
-﻿Public Class AdminMain
+﻿Public Class StaffMain
     Inherits UserControl
 
     Private activeButton As Button = Nothing
 
-    Private Sub AdminMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub StaffMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Initialize buttons using the reusable function
         InitializeButton(DashboardBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.dashboard, My.Resources.dashbo, activeButton)
         InitializeButton(MemManBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.tdesign_member_1, My.Resources.tdesign_member, activeButton)
@@ -15,12 +15,6 @@
         InitializeButton(StaffMngmtBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkstaffman, My.Resources.Group_26, activeButton)
         InitializeButton(GymEquipmentBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkgymeqp, My.Resources.Vector2, activeButton)
         InitializeButton(ReportsBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkreps, My.Resources.Vector3, activeButton)
-
-        ' Initialize submenu buttons
-        InitializeSubMenuButton(ListAllMembersBtn, Color.Yellow, Color.White, activeSubMenuButton)
-        InitializeSubMenuButton(MemEntryFormBtn, Color.Yellow, Color.White, activeSubMenuButton)
-        InitializeSubMenuButton(RemoveMemBtn, Color.Yellow, Color.White, activeSubMenuButton)
-        InitializeSubMenuButton(UpdateMemDetBtn, Color.Yellow, Color.White, activeSubMenuButton)
 
         'autoscroll
         AddHandler Me.Resize, AddressOf Form1_Resize
@@ -43,14 +37,7 @@
         AddHandler PaymentsBtn.Click, AddressOf PaymentsBtn_Click
         AddHandler AnnouncementBtn.Click, AddressOf AnnouncementBtn_Click
         AddHandler StaffMngmtBtn.Click, AddressOf StaffMngmtBtn_Click
-
-        ' Attach click event handlers for submenu buttons
-        AddHandler ListAllMembersBtn.Click, AddressOf SubMenu_Click
-        AddHandler MemEntryFormBtn.Click, AddressOf SubMenu_Click
-        AddHandler RemoveMemBtn.Click, AddressOf SubMenu_Click
-        AddHandler UpdateMemDetBtn.Click, AddressOf SubMenu_Click
     End Sub
-
 
 
     Private Sub InitializeButton(button As Button, activeBackColor As Color, hoverBackColor As Color, initialForeColor As Color, hoverForeColor As Color, activeImage As Image, normalImage As Image, ByRef activeButton As Button)
@@ -74,15 +61,6 @@
         AddHandler button.MouseLeave, AddressOf Button_MouseLeave
         AddHandler button.Click, AddressOf Button_Click
     End Sub
-
-    Private Sub InitializeSubMenuButton(button As Button, activeForeColor As Color, initialForeColor As Color, ByRef activeSubMenuButton As Button)
-        button.FlatStyle = FlatStyle.Flat
-        button.FlatAppearance.BorderSize = 0
-        button.ForeColor = If(button.Equals(activeSubMenuButton), activeForeColor, initialForeColor)
-        button.TextAlign = ContentAlignment.MiddleLeft
-        button.Padding = New Padding(10, 0, 0, 0)
-    End Sub
-
 
     Private Sub Button_MouseEnter(sender As Object, e As EventArgs)
         Dim btn As Button = CType(sender, Button)
@@ -123,40 +101,6 @@
             btn.ForeColor = Color.Black
             btn.Image = images.ActiveImage
         End If
-    End Sub
-
-    Private Sub SubMenu_Click(sender As Object, e As EventArgs)
-        Dim btn As Button = CType(sender, Button)
-        SetActiveSubMenuButton(btn)
-        ' Show the corresponding user control based on the button clicked
-        Select Case btn.Name
-            Case "ListAllMembersBtn"
-                ShowUserControl(New ContentMemberManagement1()) ' Replace with the user control you want to show
-            Case "MemEntryFormBtn"
-                ShowUserControl(New ContentMemEntryForm()) ' Replace with the user control you want to show
-            Case "RemoveMemBtn"
-                ShowUserControl(New ContentRemoveMem()) ' Replace with the user control you want to show
-            Case "UpdateMemDetBtn"
-                ShowUserControl(New ContentUpdateMemDet()) ' Replace with the user control you want to show
-        End Select
-    End Sub
-
-
-    Private activeSubMenuButton As Button = Nothing
-
-    Private Sub SetActiveSubMenuButton(button As Button)
-        If activeSubMenuButton IsNot Nothing Then
-            activeSubMenuButton.ForeColor = Color.White ' Reset previous active button color
-        End If
-        activeSubMenuButton = button
-        button.ForeColor = Color.Yellow ' Set new active button color
-    End Sub
-
-    Private Sub ShowUserControl(control As UserControl)
-        control.Dock = DockStyle.Fill
-        ContentPnl.Controls.Clear()
-        ContentPnl.Controls.Add(control)
-        control.BringToFront()
     End Sub
 
     ' Helper class to store images
@@ -213,11 +157,7 @@
 
     Private Sub MemManBtn_Click(sender As Object, e As EventArgs)
         ToggleSubMenu(MemManBtn, MemManSubMenu)
-        SetActiveSubMenuButton(ListAllMembersBtn)
-        ShowUserControl(New ContentMemberManagement1()) ' Replace with the user control you want to show
     End Sub
-
-
 
     Private Sub AttendanceBtn_Click(sender As Object, e As EventArgs)
         ToggleSubMenu(AttendanceBtn, AttendanceSubMenu)
@@ -297,13 +237,5 @@
             Dim backtoAdminLogin As New Admin
             backtoAdminLogin.Show()
         End If
-    End Sub
-
-    Private Sub MemEntryFormBtn_Click(sender As Object, e As EventArgs) Handles MemEntryFormBtn.Click
-        ShowUserControl(New ContentMemberManagement1())
-    End Sub
-
-    Private Sub RemoveMemBtn_Click(sender As Object, e As EventArgs) Handles RemoveMemBtn.Click
-        ShowUserControl(New ContentRemoveMem())
     End Sub
 End Class
