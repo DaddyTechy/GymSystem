@@ -33,6 +33,9 @@ Partial Class Admin
         LabelID = New Label()
         LabelSign = New Label()
         MemberLL = New LinkLabel()
+        lblRole = New Label()
+        AdminRole = New ComboBox()
+        templogin = New Button()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
@@ -74,6 +77,7 @@ Partial Class Admin
         ' LoginBtn
         ' 
         LoginBtn.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        LoginBtn.FlatStyle = FlatStyle.Popup
         LoginBtn.Font = New Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
         LoginBtn.ForeColor = SystemColors.ActiveCaptionText
         LoginBtn.Location = New Point(184, 341)
@@ -99,7 +103,7 @@ Partial Class Admin
         ' 
         ' PassBox
         ' 
-        PassBox.BackColor = Color.Gray
+        PassBox.BackColor = Color.LightGray
         PassBox.BorderStyle = BorderStyle.FixedSingle
         PassBox.Font = New Font("Segoe UI Variable Small", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         PassBox.ForeColor = Color.White
@@ -111,13 +115,14 @@ Partial Class Admin
         ' 
         ' IDBox
         ' 
-        IDBox.BackColor = Color.Gray
+        IDBox.BackColor = Color.LightGray
         IDBox.BorderStyle = BorderStyle.FixedSingle
         IDBox.Font = New Font("Segoe UI Variable Small", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         IDBox.ForeColor = Color.White
         IDBox.Location = New Point(133, 207)
         IDBox.Margin = New Padding(3, 2, 3, 2)
         IDBox.Name = "IDBox"
+        IDBox.PlaceholderText = "ex. 1"
         IDBox.Size = New Size(306, 26)
         IDBox.TabIndex = 22
         ' 
@@ -148,7 +153,7 @@ Partial Class Admin
         LabelSign.AutoSize = True
         LabelSign.Font = New Font("Microsoft Sans Serif", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
         LabelSign.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
-        LabelSign.Location = New Point(133, 120)
+        LabelSign.Location = New Point(133, 72)
         LabelSign.Name = "LabelSign"
         LabelSign.Size = New Size(174, 31)
         LabelSign.TabIndex = 18
@@ -166,12 +171,54 @@ Partial Class Admin
         MemberLL.Text = "Member Login"
         MemberLL.VisitedLinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         ' 
+        ' lblRole
+        ' 
+        lblRole.AutoSize = True
+        lblRole.Font = New Font("Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblRole.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
+        lblRole.Location = New Point(133, 125)
+        lblRole.Name = "lblRole"
+        lblRole.Size = New Size(89, 17)
+        lblRole.TabIndex = 41
+        lblRole.Text = "Admin Type*"
+        ' 
+        ' AdminRole
+        ' 
+        AdminRole.BackColor = Color.DimGray
+        AdminRole.DropDownStyle = ComboBoxStyle.DropDownList
+        AdminRole.FlatStyle = FlatStyle.Flat
+        AdminRole.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        AdminRole.ForeColor = Color.White
+        AdminRole.FormattingEnabled = True
+        AdminRole.Items.AddRange(New Object() {"Normal Admin", "Super Admin"})
+        AdminRole.Location = New Point(133, 145)
+        AdminRole.Name = "AdminRole"
+        AdminRole.Size = New Size(88, 23)
+        AdminRole.TabIndex = 43
+        ' 
+        ' templogin
+        ' 
+        templogin.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        templogin.FlatStyle = FlatStyle.Popup
+        templogin.Font = New Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
+        templogin.ForeColor = SystemColors.ActiveCaptionText
+        templogin.Location = New Point(372, 444)
+        templogin.Margin = New Padding(3, 2, 3, 2)
+        templogin.Name = "templogin"
+        templogin.Size = New Size(214, 38)
+        templogin.TabIndex = 44
+        templogin.Text = "ito muna"
+        templogin.UseVisualStyleBackColor = False
+        ' 
         ' Admin
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(29), CByte(29), CByte(29))
         ClientSize = New Size(909, 541)
+        Controls.Add(templogin)
+        Controls.Add(AdminRole)
+        Controls.Add(lblRole)
         Controls.Add(PictureBox1)
         Controls.Add(ForgotLL)
         Controls.Add(StaffLL)
@@ -203,4 +250,7 @@ Partial Class Admin
     Friend WithEvents LabelID As Label
     Friend WithEvents LabelSign As Label
     Friend WithEvents MemberLL As LinkLabel
+    Friend WithEvents lblRole As Label
+    Friend WithEvents AdminRole As ComboBox
+    Friend WithEvents templogin As Button
 End Class

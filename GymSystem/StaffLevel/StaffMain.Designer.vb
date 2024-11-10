@@ -401,7 +401,7 @@ Partial Class StaffMain
         MemStatBtn.FlatStyle = FlatStyle.Flat
         MemStatBtn.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
         MemStatBtn.ForeColor = SystemColors.ButtonHighlight
-        MemStatBtn.Image = My.Resources.Resources.Vector_4
+        MemStatBtn.Image = My.Resources.Resources.Vector4
         MemStatBtn.ImageAlign = ContentAlignment.MiddleLeft
         MemStatBtn.Location = New Point(15, 325)
         MemStatBtn.Name = "MemStatBtn"
@@ -668,7 +668,7 @@ Partial Class StaffMain
         ' 
         Label1.Anchor = AnchorStyles.None
         Label1.AutoSize = True
-        Label1.Font = New Font("Segoe UI", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label1.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = SystemColors.ButtonHighlight
         Label1.Location = New Point(49, 17)
         Label1.Name = "Label1"
@@ -711,7 +711,7 @@ Partial Class StaffMain
         ' 
         ' StaffMain
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         Controls.Add(ContentPnl)
         Controls.Add(UserPnl)

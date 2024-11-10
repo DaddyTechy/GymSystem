@@ -28,6 +28,7 @@ Partial Class AdminMain
         Panel1 = New Panel()
         Menu2Pnl = New Panel()
         MenuPnl = New Panel()
+        othersBtn = New Button()
         ReportsSubMenu = New Panel()
         MemProgRepBtn = New Button()
         MemRepBtn = New Button()
@@ -130,6 +131,7 @@ Partial Class AdminMain
         MenuPnl.AutoScrollMinSize = New Size(0, 100)
         MenuPnl.AutoSize = True
         MenuPnl.BackColor = Color.Black
+        MenuPnl.Controls.Add(othersBtn)
         MenuPnl.Controls.Add(ReportsSubMenu)
         MenuPnl.Controls.Add(ReportsBtn)
         MenuPnl.Controls.Add(GymEqpSubMenu)
@@ -151,6 +153,25 @@ Partial Class AdminMain
         MenuPnl.Name = "MenuPnl"
         MenuPnl.Size = New Size(250, 428)
         MenuPnl.TabIndex = 4
+        ' 
+        ' othersBtn
+        ' 
+        othersBtn.BackColor = Color.Black
+        othersBtn.Dock = DockStyle.Top
+        othersBtn.FlatAppearance.BorderSize = 0
+        othersBtn.FlatStyle = FlatStyle.Flat
+        othersBtn.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
+        othersBtn.ForeColor = SystemColors.ButtonHighlight
+        othersBtn.Image = My.Resources.Resources.Cog1
+        othersBtn.ImageAlign = ContentAlignment.MiddleLeft
+        othersBtn.Location = New Point(15, 764)
+        othersBtn.Name = "othersBtn"
+        othersBtn.Size = New Size(218, 45)
+        othersBtn.TabIndex = 20
+        othersBtn.Text = "   Miscellaneous"
+        othersBtn.TextAlign = ContentAlignment.MiddleLeft
+        othersBtn.TextImageRelation = TextImageRelation.ImageBeforeText
+        othersBtn.UseVisualStyleBackColor = False
         ' 
         ' ReportsSubMenu
         ' 
@@ -401,7 +422,7 @@ Partial Class AdminMain
         MemStatBtn.FlatStyle = FlatStyle.Flat
         MemStatBtn.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
         MemStatBtn.ForeColor = SystemColors.ButtonHighlight
-        MemStatBtn.Image = My.Resources.Resources.Vector_4
+        MemStatBtn.Image = My.Resources.Resources.Vector4
         MemStatBtn.ImageAlign = ContentAlignment.MiddleLeft
         MemStatBtn.Location = New Point(15, 325)
         MemStatBtn.Name = "MemStatBtn"
@@ -621,7 +642,7 @@ Partial Class AdminMain
         Panel3.Dock = DockStyle.Left
         Panel3.Location = New Point(0, 0)
         Panel3.Name = "Panel3"
-        Panel3.Size = New Size(15, 809)
+        Panel3.Size = New Size(15, 854)
         Panel3.TabIndex = 6
         ' 
         ' UserPnl
@@ -778,5 +799,6 @@ Partial Class AdminMain
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents PictureBox2 As PictureBox
     Friend WithEvents LogoutBtn As Button
+    Friend WithEvents othersBtn As Button
 
 End Class
