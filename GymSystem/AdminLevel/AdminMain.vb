@@ -303,7 +303,7 @@
     End Sub
 
     'logout
-    Private Sub LogoutBtn_Click(sender As Object, e As EventArgs) Handles LogoutBtn.Click
+    Private Sub LogoutBtn_Click(sender As Object, e As EventArgs)
         ' Display confirmation dialog
         Dim result = MessageBox.Show("Are you sure you want to log out?", "Confirm Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
@@ -327,9 +327,4 @@
     Private Sub RemoveMemBtn_Click(sender As Object, e As EventArgs) Handles RemoveMemBtn.Click
         ShowUserControl(New ContentRemoveMem())
     End Sub
-
-    Private Sub ListAllMembersBtn_Click(sender As Object, e As EventArgs) Handles ListAllMembersBtn.Click
-
-    End Sub
-
 End Class
