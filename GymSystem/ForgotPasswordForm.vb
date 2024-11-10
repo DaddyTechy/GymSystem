@@ -57,5 +57,11 @@ Public Class ForgotPasswordForm
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
         Me.Close()
     End Sub
+
+    Private Sub btnSubmit_KeyDown(sender As Object, e As KeyEventArgs) Handles btnSubmit.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            btnSubmit.PerformClick()
+        End If
+    End Sub
 End Class
 

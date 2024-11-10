@@ -15,6 +15,7 @@
         InitializeButton(StaffMngmtBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkstaffman, My.Resources.Group_26, activeButton)
         InitializeButton(GymEquipmentBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkgymeqp, My.Resources.Vector2, activeButton)
         InitializeButton(ReportsBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkreps, My.Resources.Vector3, activeButton)
+        InitializeButton(othersBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.Cog, My.Resources.Cog1, activeButton)
 
         ' Initialize submenu buttons
         InitializeSubMenuButton(ListAllMembersBtn, Color.Yellow, Color.White, activeSubMenuButton)
@@ -43,6 +44,7 @@
         AddHandler PaymentsBtn.Click, AddressOf PaymentsBtn_Click
         AddHandler AnnouncementBtn.Click, AddressOf AnnouncementBtn_Click
         AddHandler StaffMngmtBtn.Click, AddressOf StaffMngmtBtn_Click
+        AddHandler othersBtn.Click, AddressOf othersBtn_Click
 
         ' Attach click event handlers for submenu buttons
         AddHandler ListAllMembersBtn.Click, AddressOf SubMenu_Click
@@ -51,7 +53,22 @@
         AddHandler UpdateMemDetBtn.Click, AddressOf SubMenu_Click
     End Sub
 
-
+    Public Sub ConfigureMenu(role As String)
+        If role = "Normal Admin" Then
+            ' Hide the last menu button for normal admins
+            othersBtn.Visible = False
+        ElseIf role = "Super Admin" Then
+            MemManBtn.Visible = True
+            AttendanceBtn.Visible = True
+            GymEquipmentBtn.Visible = True
+            ReportsBtn.Visible = True
+            DashboardBtn.Visible = True
+            MemProgBtn.Visible = True
+            MemStatBtn.Visible = True
+            AnnouncementBtn.Visible = True
+            StaffMngmtBtn.Visible = True
+        End If
+    End Sub
 
     Private Sub InitializeButton(button As Button, activeBackColor As Color, hoverBackColor As Color, initialForeColor As Color, hoverForeColor As Color, activeImage As Image, normalImage As Image, ByRef activeButton As Button)
         button.FlatStyle = FlatStyle.Flat
@@ -266,6 +283,11 @@
         ToggleSubMenu(DashboardBtn, Nothing)
     End Sub
 
+    Private Sub othersBtn_Click(sender As Object, e As EventArgs) Handles othersBtn.Click
+        ToggleSubMenu(DashboardBtn, Nothing)
+        ShowUserControl(New Contentothers())
+    End Sub
+
 
     Private Sub UserPnl_Paint_1(sender As Object, e As PaintEventArgs) Handles UserPnl.Paint
         Dim color1 = Color.FromArgb(26, 26, 26, 1)
@@ -300,10 +322,14 @@
     End Sub
 
     Private Sub MemEntryFormBtn_Click(sender As Object, e As EventArgs) Handles MemEntryFormBtn.Click
-        ShowUserControl(New ContentMemberManagement1())
     End Sub
 
     Private Sub RemoveMemBtn_Click(sender As Object, e As EventArgs) Handles RemoveMemBtn.Click
         ShowUserControl(New ContentRemoveMem())
     End Sub
+
+    Private Sub ListAllMembersBtn_Click(sender As Object, e As EventArgs) Handles ListAllMembersBtn.Click
+
+    End Sub
+
 End Class
