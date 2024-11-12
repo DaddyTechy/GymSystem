@@ -48,6 +48,12 @@ Partial Class ContentStaffManage
         txtbxSEFFname = New TextBox()
         Label3 = New Label()
         Label2 = New Label()
+        Label12 = New Label()
+        txtbxSEFadname = New TextBox()
+        txtbxSEFpass = New TextBox()
+        txtbxSEFconfpass = New TextBox()
+        Label13 = New Label()
+        Label14 = New Label()
         Panel1.SuspendLayout()
         Panel2.SuspendLayout()
         SuspendLayout()
@@ -65,6 +71,12 @@ Partial Class ContentStaffManage
         ' Panel2
         ' 
         Panel2.Anchor = AnchorStyles.None
+        Panel2.Controls.Add(Label14)
+        Panel2.Controls.Add(Label13)
+        Panel2.Controls.Add(txtbxSEFconfpass)
+        Panel2.Controls.Add(txtbxSEFpass)
+        Panel2.Controls.Add(txtbxSEFadname)
+        Panel2.Controls.Add(Label12)
         Panel2.Controls.Add(btnSubmitSEF)
         Panel2.Controls.Add(CBSEFspecialize)
         Panel2.Controls.Add(CBSEFcertif)
@@ -349,6 +361,60 @@ Partial Class ContentStaffManage
         Label2.TabIndex = 1
         Label2.Text = "GYM STAFF ENTRY FORM"
         ' 
+        ' Label12
+        ' 
+        Label12.AutoSize = True
+        Label12.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label12.ForeColor = SystemColors.ControlLight
+        Label12.Location = New Point(381, 195)
+        Label12.Name = "Label12"
+        Label12.Size = New Size(95, 17)
+        Label12.TabIndex = 26
+        Label12.Text = "Admin Name*"
+        ' 
+        ' txtbxSEFadname
+        ' 
+        txtbxSEFadname.Location = New Point(381, 215)
+        txtbxSEFadname.Name = "txtbxSEFadname"
+        txtbxSEFadname.Size = New Size(250, 23)
+        txtbxSEFadname.TabIndex = 27
+        ' 
+        ' txtbxSEFpass
+        ' 
+        txtbxSEFpass.Location = New Point(381, 275)
+        txtbxSEFpass.Name = "txtbxSEFpass"
+        txtbxSEFpass.Size = New Size(250, 23)
+        txtbxSEFpass.TabIndex = 28
+        ' 
+        ' txtbxSEFconfpass
+        ' 
+        txtbxSEFconfpass.Location = New Point(381, 334)
+        txtbxSEFconfpass.Name = "txtbxSEFconfpass"
+        txtbxSEFconfpass.Size = New Size(250, 23)
+        txtbxSEFconfpass.TabIndex = 29
+        ' 
+        ' Label13
+        ' 
+        Label13.AutoSize = True
+        Label13.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label13.ForeColor = SystemColors.ControlLight
+        Label13.Location = New Point(381, 254)
+        Label13.Name = "Label13"
+        Label13.Size = New Size(72, 17)
+        Label13.TabIndex = 30
+        Label13.Text = "Password*"
+        ' 
+        ' Label14
+        ' 
+        Label14.AutoSize = True
+        Label14.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label14.ForeColor = SystemColors.ControlLight
+        Label14.Location = New Point(381, 316)
+        Label14.Name = "Label14"
+        Label14.Size = New Size(126, 17)
+        Label14.TabIndex = 31
+        Label14.Text = "Confirm Password*"
+        ' 
         ' ContentStaffManage
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -391,5 +457,11 @@ Partial Class ContentStaffManage
     Friend WithEvents Label11 As Label
     Friend WithEvents CBSEFshiftsch As ComboBox
     Friend WithEvents Label10 As Label
+    Friend WithEvents Label14 As Label
+    Friend WithEvents Label13 As Label
+    Friend WithEvents txtbxSEFconfpass As TextBox
+    Friend WithEvents txtbxSEFpass As TextBox
+    Friend WithEvents txtbxSEFadname As TextBox
+    Friend WithEvents Label12 As Label
 
 End Class
