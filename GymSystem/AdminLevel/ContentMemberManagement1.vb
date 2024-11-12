@@ -57,6 +57,21 @@ Public Class ContentMemberManagement1
             ' Bind DataTable to DataGridView
             MembersTable.DataSource = dtMember
 
+            ' Add Edit and Delete buttons
+            Dim editButtonColumn As New DataGridViewButtonColumn()
+            editButtonColumn.HeaderText = "Edit"
+            editButtonColumn.Name = "Edit"
+            editButtonColumn.Text = "Edit"
+            editButtonColumn.UseColumnTextForButtonValue = True
+            MembersTable.Columns.Add(editButtonColumn)
+
+            Dim deleteButtonColumn As New DataGridViewButtonColumn()
+            deleteButtonColumn.HeaderText = "Delete"
+            deleteButtonColumn.Name = "Delete"
+            deleteButtonColumn.Text = "Delete"
+            deleteButtonColumn.UseColumnTextForButtonValue = True
+            MembersTable.Columns.Add(deleteButtonColumn)
+
             ' Customize DataGridView appearance
             MembersTable.BackgroundColor = Color.LightBlue
             MembersTable.Columns("MemberID").HeaderText = "#"
@@ -96,13 +111,91 @@ Public Class ContentMemberManagement1
         End Try
     End Sub
 
+    Private Sub MembersTable_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles MembersTable.CellClick
+        If e.RowIndex >= 0 Then
+            Dim selectedRow As DataGridViewRow = MembersTable.Rows(e.RowIndex)
+            If e.ColumnIndex = MembersTable.Columns("Edit").Index Then
+                ' Handle Edit button click
+                Dim memberID As Integer = selectedRow.Cells("MemberID").Value
+                EnableRowEditing(selectedRow)
+                MessageBox.Show("Edit button clicked for MemberID: " & memberID)
+            ElseIf e.ColumnIndex = MembersTable.Columns("Delete").Index Then
+                ' Handle Delete button click
+                Dim memberID As Integer = selectedRow.Cells("MemberID").Value
+                ' Add your delete logic here
+                MessageBox.Show("Delete button clicked for MemberID: " & memberID)
+            End If
+        End If
+    End Sub
+
+    Private Sub EnableRowEditing(row As DataGridViewRow)
+        ' Make the row editable
+        For Each cell As DataGridViewCell In row.Cells
+            cell.ReadOnly = False
+        Next
+    End Sub
+
+    Private Sub SaveEditedRow(row As DataGridViewRow)
+        Dim memberID As Integer = row.Cells("MemberID").Value
+        Dim fullName As String = row.Cells("FullName").Value.ToString()
+        Dim nameParts As String() = fullName.Split(" "c)
+        Dim firstName As String = nameParts(0)
+        Dim middleName As String = If(nameParts.Length > 2, nameParts(1), "")
+        Dim lastName As String = If(nameParts.Length > 2, nameParts(2), nameParts(1))
+
+        ' Update the database with the edited values
+        Using conn As New MySqlConnection("server=127.0.0.1;userid=root;password='';database=gym_infosys")
+            conn.Open()
+            Dim query As String = "UPDATE members SET FirstName = @FirstName, MiddleName = @MiddleName, LastName = @LastName WHERE MemberID = @MemberID"
+            Using cmd As New MySqlCommand(query, conn)
+                cmd.Parameters.AddWithValue("@FirstName", firstName)
+                cmd.Parameters.AddWithValue("@MiddleName", middleName)
+                cmd.Parameters.AddWithValue("@LastName", lastName)
+                cmd.Parameters.AddWithValue("@MemberID", memberID)
+                cmd.ExecuteNonQuery()
+            End Using
+        End Using
+    End Sub
+
+
+    Private Sub MembersTable_CellPainting(sender As Object, e As DataGridViewCellPaintingEventArgs) Handles MembersTable.CellPainting
+        If e.ColumnIndex >= 0 AndAlso e.RowIndex >= 0 Then
+            If MembersTable.Columns(e.ColumnIndex).Name = "Edit" OrElse MembersTable.Columns(e.ColumnIndex).Name = "Delete" Then
+                ' Paint the cell background
+                e.PaintBackground(e.CellBounds, True)
+
+                ' Set the button colors
+                Dim buttonColor As Color = Color.FromArgb(40, 40, 40) ' Background color
+                Dim textColor As Color = Color.White ' Foreground color
+
+                ' Draw the button background
+                Using brush As New SolidBrush(buttonColor)
+                    e.Graphics.FillRectangle(brush, e.CellBounds)
+                End Using
+
+                ' Draw the icon
+                Dim icon As Bitmap
+                If MembersTable.Columns(e.ColumnIndex).Name = "Edit" Then
+                    icon = My.Resources.edit ' Access the edit icon from resources
+                Else
+                    icon = My.Resources.delete ' Access the delete icon from resources
+                End If
+                e.Graphics.DrawImage(icon, e.CellBounds.Left + 5, e.CellBounds.Top + (e.CellBounds.Height - icon.Height) \ 2)
+
+                ' Draw the button text
+                Dim buttonText As String = If(MembersTable.Columns(e.ColumnIndex).Name = "Edit", "Edit", "Delete")
+                TextRenderer.DrawText(e.Graphics, buttonText, e.CellStyle.Font, New Rectangle(e.CellBounds.Left + icon.Width + 10, e.CellBounds.Top, e.CellBounds.Width - icon.Width - 10, e.CellBounds.Height), textColor, TextFormatFlags.VerticalCenter Or TextFormatFlags.Left)
+
+                e.Handled = True
+            End If
+        End If
+    End Sub
+
+
     Private Sub MembersTable_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles MembersTable.DataBindingComplete
         ' Clear the initial selection
         Me.MembersTable.ClearSelection()
         ' Remove the event handler to allow future selections
         RemoveHandler MembersTable.DataBindingComplete, AddressOf MembersTable_DataBindingComplete
     End Sub
-
-
-
 End Class
