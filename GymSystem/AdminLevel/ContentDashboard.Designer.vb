@@ -122,8 +122,8 @@ Partial Class ContentDashboard
         TableLayoutPanel1.ColumnCount = 4
         TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25F))
         TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25F))
-        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25F))
-        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25F))
+        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 24.110033F))
+        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 26.05178F))
         TableLayoutPanel1.Controls.Add(AnnouncesBtn, 3, 0)
         TableLayoutPanel1.Controls.Add(TotEarnBtn, 2, 0)
         TableLayoutPanel1.Controls.Add(RegisteredMemBtn, 1, 0)
@@ -148,11 +148,11 @@ Partial Class ContentDashboard
         AnnouncesBtn.ForeColor = SystemColors.ButtonHighlight
         AnnouncesBtn.Image = My.Resources.Resources.Commercial1
         AnnouncesBtn.ImageAlign = ContentAlignment.BottomCenter
-        AnnouncesBtn.Location = New Point(490, 28)
+        AnnouncesBtn.Location = New Point(484, 28)
         AnnouncesBtn.Margin = New Padding(8)
         AnnouncesBtn.Name = "AnnouncesBtn"
         AnnouncesBtn.Padding = New Padding(0, 0, 0, 1)
-        AnnouncesBtn.Size = New Size(140, 104)
+        AnnouncesBtn.Size = New Size(146, 104)
         AnnouncesBtn.TabIndex = 3
         AnnouncesBtn.Text = "Announcements"
         AnnouncesBtn.TextAlign = ContentAlignment.BottomCenter
@@ -173,7 +173,7 @@ Partial Class ContentDashboard
         TotEarnBtn.Margin = New Padding(8)
         TotEarnBtn.Name = "TotEarnBtn"
         TotEarnBtn.Padding = New Padding(0, 0, 0, 1)
-        TotEarnBtn.Size = New Size(138, 104)
+        TotEarnBtn.Size = New Size(132, 104)
         TotEarnBtn.TabIndex = 2
         TotEarnBtn.Text = "Total Earnings"
         TotEarnBtn.TextAlign = ContentAlignment.BottomCenter
