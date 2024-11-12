@@ -51,6 +51,11 @@
         AddHandler MemEntryFormBtn.Click, AddressOf SubMenu_Click
         AddHandler RemoveMemBtn.Click, AddressOf SubMenu_Click
         AddHandler UpdateMemDetBtn.Click, AddressOf SubMenu_Click
+
+        ' Reports
+        AddHandler ChartsBtn.Click, AddressOf SubMenu_Click
+        AddHandler MemRepBtn.Click, AddressOf SubMenu_Click
+        AddHandler MemProgRepBtn.Click, AddressOf SubMenu_Click
     End Sub
 
     Public Sub ConfigureMenu(role As String)
@@ -155,6 +160,8 @@
                 ShowUserControl(New ContentRemoveMem()) ' Replace with the user control you want to show
             Case "UpdateMemDetBtn"
                 ShowUserControl(New ContentUpdateMemDet()) ' Replace with the user control you want to show
+            Case "ChartsBtn"
+                ShowUserControl(New ContentReports()) ' Replace with the user control you want to show
         End Select
     End Sub
 
@@ -246,6 +253,8 @@
 
     Private Sub ReportsBtn_Click(sender As Object, e As EventArgs)
         ToggleSubMenu(ReportsBtn, ReportsSubMenu)
+        SetActiveSubMenuButton(ChartsBtn)
+        ShowUserControl(New ContentReports())
     End Sub
 
     Private Sub DashboardBtn_Click(sender As Object, e As EventArgs)
@@ -326,5 +335,17 @@
 
     Private Sub RemoveMemBtn_Click(sender As Object, e As EventArgs) Handles RemoveMemBtn.Click
         ShowUserControl(New ContentRemoveMem())
+    End Sub
+
+    Private Sub ReportsBtn_Click_1(sender As Object, e As EventArgs) Handles ReportsBtn.Click
+        ShowUserControl(New ContentReports())
+    End Sub
+
+    Private Sub MemRepBtn_Click(sender As Object, e As EventArgs) Handles MemRepBtn.Click
+        ShowUserControl(New ContentRepMemRep())
+    End Sub
+
+    Private Sub StaffMngmtBtn_Click_1(sender As Object, e As EventArgs) Handles StaffMngmtBtn.Click
+        ShowUserControl(New ContentStaffManage())
     End Sub
 End Class
