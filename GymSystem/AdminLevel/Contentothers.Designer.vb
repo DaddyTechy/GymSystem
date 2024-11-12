@@ -31,15 +31,15 @@ Partial Class Contentothers
         ' 
         TableLayoutPanel1.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single
         TableLayoutPanel1.ColumnCount = 1
-        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100.0F))
+        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
         TableLayoutPanel1.Controls.Add(addnewAdminBtn, 0, 0)
         TableLayoutPanel1.Dock = DockStyle.Left
         TableLayoutPanel1.Location = New Point(20, 20)
         TableLayoutPanel1.Name = "TableLayoutPanel1"
         TableLayoutPanel1.RowCount = 2
-        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 10.32967F))
-        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 89.67033F))
-        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 20.0F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 14.5054941F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 85.49451F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 20F))
         TableLayoutPanel1.Size = New Size(632, 456)
         TableLayoutPanel1.TabIndex = 0
         ' 
@@ -49,21 +49,21 @@ Partial Class Contentothers
         addnewAdminBtn.Cursor = Cursors.Hand
         addnewAdminBtn.Dock = DockStyle.Left
         addnewAdminBtn.FlatStyle = FlatStyle.Flat
-        addnewAdminBtn.Font = New Font("Segoe UI", 9.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        addnewAdminBtn.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         addnewAdminBtn.ForeColor = SystemColors.ButtonHighlight
         addnewAdminBtn.Image = My.Resources.Resources.User_plus
         addnewAdminBtn.ImageAlign = ContentAlignment.MiddleLeft
         addnewAdminBtn.Location = New Point(4, 1)
         addnewAdminBtn.Name = "addnewAdminBtn"
         addnewAdminBtn.Padding = New Padding(12)
-        addnewAdminBtn.Size = New Size(184, 46)
+        addnewAdminBtn.Size = New Size(184, 65)
         addnewAdminBtn.TabIndex = 1
         addnewAdminBtn.Text = "                     Add New Admin"
         addnewAdminBtn.TextAlign = ContentAlignment.MiddleLeft
         ' 
         ' Contentothers
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.Transparent
         Controls.Add(TableLayoutPanel1)
