@@ -85,6 +85,7 @@ Partial Class ContentMemberManagement1
         DataGridViewCellStyle2.WrapMode = DataGridViewTriState.True
         MembersTable.DefaultCellStyle = DataGridViewCellStyle2
         MembersTable.Dock = DockStyle.Fill
+        MembersTable.EditMode = DataGridViewEditMode.EditOnEnter
         MembersTable.EnableHeadersVisualStyles = False
         MembersTable.GridColor = Color.White
         MembersTable.Location = New Point(20, 26)
@@ -110,7 +111,7 @@ Partial Class ContentMemberManagement1
         MembersTable.RowTemplate.DefaultCellStyle.Font = New Font("Microsoft Sans Serif", 9F)
         MembersTable.RowTemplate.DefaultCellStyle.ForeColor = Color.White
         MembersTable.RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
-        MembersTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        MembersTable.SelectionMode = DataGridViewSelectionMode.CellSelect
         MembersTable.ShowCellErrors = False
         MembersTable.ShowRowErrors = False
         MembersTable.Size = New Size(605, 425)
