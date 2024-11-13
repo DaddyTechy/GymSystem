@@ -239,16 +239,23 @@
         End If
     End Sub
 
-    Private Sub UserPnl_Paint_1(sender As Object, e As PaintEventArgs) Handles UserPnl.Paint
-        Dim color1 = Color.FromArgb(26, 26, 26, 1)
-        Dim color2 = Color.LightGray
-        ' Define the rectangle for the gradient
-        Dim rect As New Rectangle(0, 0, UserPnl.Width * 5, UserPnl.Height)
+    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
 
-        ' Create the linear gradient brush
-        Using gradientBrush As New Drawing2D.LinearGradientBrush(rect, color1, color2, 10.0F)
-            ' Fill the panel background with the gradient
-            e.Graphics.FillRectangle(gradientBrush, rect)
-        End Using
+    End Sub
+
+    Private Sub DashboardBtn_Click_1(sender As Object, e As EventArgs) Handles DashboardBtn.Click
+
+    End Sub
+
+    Private Sub LogoTxtLbl_Click(sender As Object, e As EventArgs) Handles LogoTxtLbl.Click
+
+    End Sub
+
+    Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
+
+    End Sub
+
+    Private Sub AddEqpBtn_Click(sender As Object, e As EventArgs) Handles AddEqpBtn.Click
+
     End Sub
 End Class
