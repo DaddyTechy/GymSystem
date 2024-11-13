@@ -1,4 +1,6 @@
-﻿Public Class AdminMain
+﻿Imports Mysqlx.Session
+
+Public Class AdminMain
     Inherits UserControl
 
     Private activeButton As Button = Nothing
@@ -298,6 +300,14 @@
     End Sub
 
 
+    Private Sub AddEqpBtn_Click(sender As Object, e As EventArgs) Handles AddEqpBtn.Click
+        ShowUserControl(New Gym_Equipment())
+    End Sub
+
+
+    'logout
+
+
     Private Sub UserPnl_Paint_1(sender As Object, e As PaintEventArgs) Handles UserPnl.Paint
         Dim color1 = Color.FromArgb(26, 26, 26, 1)
         Dim color2 = Color.LightGray
@@ -311,8 +321,7 @@
         End Using
     End Sub
 
-    'logout
-    Private Sub LogoutBtn_Click(sender As Object, e As EventArgs)
+    Private Sub LogoutBtn_Click_1(sender As Object, e As EventArgs) Handles LogoutBtn.Click
         ' Display confirmation dialog
         Dim result = MessageBox.Show("Are you sure you want to log out?", "Confirm Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
@@ -328,18 +337,5 @@
             Dim backtoAdminLogin As New Admin
             backtoAdminLogin.Show()
         End If
-    End Sub
-
-    Private Sub UserPnl_Paint_1(sender As Object, e As PaintEventArgs) Handles UserPnl.Paint
-        Dim color1 = Color.FromArgb(26, 26, 26, 1)
-        Dim color2 = Color.LightGray
-        ' Define the rectangle for the gradient
-        Dim rect As New Rectangle(0, 0, UserPnl.Width * 5, UserPnl.Height)
-
-        ' Create the linear gradient brush
-        Using gradientBrush As New Drawing2D.LinearGradientBrush(rect, color1, color2, 10.0F)
-            ' Fill the panel background with the gradient
-            e.Graphics.FillRectangle(gradientBrush, rect)
-        End Using
     End Sub
 End Class

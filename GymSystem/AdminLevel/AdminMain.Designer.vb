@@ -167,9 +167,9 @@ Partial Class AdminMain
         othersBtn.ForeColor = SystemColors.ButtonHighlight
         othersBtn.Image = My.Resources.Resources.Cog1
         othersBtn.ImageAlign = ContentAlignment.MiddleLeft
-        othersBtn.Location = New Point(15, 764)
+        othersBtn.Location = New Point(15, 1020)
         othersBtn.Name = "othersBtn"
-        othersBtn.Size = New Size(218, 45)
+        othersBtn.Size = New Size(250, 45)
         othersBtn.TabIndex = 20
         othersBtn.Text = "   Miscellaneous"
         othersBtn.TextAlign = ContentAlignment.MiddleLeft
@@ -182,10 +182,10 @@ Partial Class AdminMain
         ReportsSubMenu.Controls.Add(MemRepBtn)
         ReportsSubMenu.Controls.Add(ChartsBtn)
         ReportsSubMenu.Dock = DockStyle.Top
-        ReportsSubMenu.Location = New Point(17, 921)
+        ReportsSubMenu.Location = New Point(15, 921)
         ReportsSubMenu.Margin = New Padding(3, 4, 3, 4)
         ReportsSubMenu.Name = "ReportsSubMenu"
-        ReportsSubMenu.Size = New Size(248, 99)
+        ReportsSubMenu.Size = New Size(250, 99)
         ReportsSubMenu.TabIndex = 19
         ' 
         ' MemProgRepBtn
@@ -200,7 +200,7 @@ Partial Class AdminMain
         MemProgRepBtn.Margin = New Padding(3, 4, 3, 4)
         MemProgRepBtn.Name = "MemProgRepBtn"
         MemProgRepBtn.Padding = New Padding(51, 0, 0, 0)
-        MemProgRepBtn.Size = New Size(248, 31)
+        MemProgRepBtn.Size = New Size(250, 31)
         MemProgRepBtn.TabIndex = 6
         MemProgRepBtn.Text = "  Members' Progress"
         MemProgRepBtn.TextAlign = ContentAlignment.TopLeft
@@ -219,7 +219,7 @@ Partial Class AdminMain
         MemRepBtn.Margin = New Padding(3, 4, 3, 4)
         MemRepBtn.Name = "MemRepBtn"
         MemRepBtn.Padding = New Padding(51, 0, 0, 0)
-        MemRepBtn.Size = New Size(248, 31)
+        MemRepBtn.Size = New Size(250, 31)
         MemRepBtn.TabIndex = 5
         MemRepBtn.Text = "  Members' Report"
         MemRepBtn.TextImageRelation = TextImageRelation.ImageBeforeText
@@ -238,7 +238,7 @@ Partial Class AdminMain
         ChartsBtn.Margin = New Padding(3, 4, 3, 4)
         ChartsBtn.Name = "ChartsBtn"
         ChartsBtn.Padding = New Padding(51, 0, 0, 0)
-        ChartsBtn.Size = New Size(248, 31)
+        ChartsBtn.Size = New Size(250, 31)
         ChartsBtn.TabIndex = 4
         ChartsBtn.Text = "  Charts"
         ChartsBtn.TextImageRelation = TextImageRelation.ImageBeforeText
@@ -254,10 +254,10 @@ Partial Class AdminMain
         ReportsBtn.ForeColor = SystemColors.ButtonHighlight
         ReportsBtn.Image = My.Resources.Resources.Vector3
         ReportsBtn.ImageAlign = ContentAlignment.MiddleLeft
-        ReportsBtn.Location = New Point(17, 861)
+        ReportsBtn.Location = New Point(15, 861)
         ReportsBtn.Margin = New Padding(3, 4, 3, 4)
         ReportsBtn.Name = "ReportsBtn"
-        ReportsBtn.Size = New Size(248, 60)
+        ReportsBtn.Size = New Size(250, 60)
         ReportsBtn.TabIndex = 18
         ReportsBtn.Text = "   Reports"
         ReportsBtn.TextAlign = ContentAlignment.MiddleLeft
@@ -271,10 +271,10 @@ Partial Class AdminMain
         GymEqpSubMenu.Controls.Add(AddEqpBtn)
         GymEqpSubMenu.Controls.Add(EqpListBtn)
         GymEqpSubMenu.Dock = DockStyle.Top
-        GymEqpSubMenu.Location = New Point(17, 734)
+        GymEqpSubMenu.Location = New Point(15, 734)
         GymEqpSubMenu.Margin = New Padding(3, 4, 3, 4)
         GymEqpSubMenu.Name = "GymEqpSubMenu"
-        GymEqpSubMenu.Size = New Size(248, 127)
+        GymEqpSubMenu.Size = New Size(250, 127)
         GymEqpSubMenu.TabIndex = 17
         ' 
         ' UpdEqpDetBtn
@@ -289,7 +289,7 @@ Partial Class AdminMain
         UpdEqpDetBtn.Margin = New Padding(3, 4, 3, 4)
         UpdEqpDetBtn.Name = "UpdEqpDetBtn"
         UpdEqpDetBtn.Padding = New Padding(51, 0, 0, 0)
-        UpdEqpDetBtn.Size = New Size(248, 31)
+        UpdEqpDetBtn.Size = New Size(250, 31)
         UpdEqpDetBtn.TabIndex = 7
         UpdEqpDetBtn.Text = "  Update Equipment Details"
         UpdEqpDetBtn.TextAlign = ContentAlignment.MiddleLeft
@@ -308,7 +308,7 @@ Partial Class AdminMain
         RemoveEqpBtn.Margin = New Padding(3, 4, 3, 4)
         RemoveEqpBtn.Name = "RemoveEqpBtn"
         RemoveEqpBtn.Padding = New Padding(51, 0, 0, 0)
-        RemoveEqpBtn.Size = New Size(248, 31)
+        RemoveEqpBtn.Size = New Size(250, 31)
         RemoveEqpBtn.TabIndex = 6
         RemoveEqpBtn.Text = "  Remove Equipment"
         RemoveEqpBtn.TextImageRelation = TextImageRelation.ImageBeforeText
@@ -326,7 +326,7 @@ Partial Class AdminMain
         AddEqpBtn.Margin = New Padding(3, 4, 3, 4)
         AddEqpBtn.Name = "AddEqpBtn"
         AddEqpBtn.Padding = New Padding(51, 0, 0, 0)
-        AddEqpBtn.Size = New Size(248, 31)
+        AddEqpBtn.Size = New Size(250, 31)
         AddEqpBtn.TabIndex = 5
         AddEqpBtn.Text = "  Add Equipment"
         AddEqpBtn.TextImageRelation = TextImageRelation.ImageBeforeText
@@ -345,7 +345,7 @@ Partial Class AdminMain
         EqpListBtn.Margin = New Padding(3, 4, 3, 4)
         EqpListBtn.Name = "EqpListBtn"
         EqpListBtn.Padding = New Padding(51, 0, 0, 0)
-        EqpListBtn.Size = New Size(248, 31)
+        EqpListBtn.Size = New Size(250, 31)
         EqpListBtn.TabIndex = 4
         EqpListBtn.Text = "  Equipment List"
         EqpListBtn.TextImageRelation = TextImageRelation.ImageBeforeText
@@ -361,10 +361,10 @@ Partial Class AdminMain
         GymEquipmentBtn.ForeColor = SystemColors.ButtonHighlight
         GymEquipmentBtn.Image = My.Resources.Resources.Vector2
         GymEquipmentBtn.ImageAlign = ContentAlignment.MiddleLeft
-        GymEquipmentBtn.Location = New Point(17, 674)
+        GymEquipmentBtn.Location = New Point(15, 674)
         GymEquipmentBtn.Margin = New Padding(3, 4, 3, 4)
         GymEquipmentBtn.Name = "GymEquipmentBtn"
-        GymEquipmentBtn.Size = New Size(248, 60)
+        GymEquipmentBtn.Size = New Size(250, 60)
         GymEquipmentBtn.TabIndex = 15
         GymEquipmentBtn.Text = "   Gym Equipments"
         GymEquipmentBtn.TextAlign = ContentAlignment.MiddleLeft
@@ -381,10 +381,10 @@ Partial Class AdminMain
         StaffMngmtBtn.ForeColor = SystemColors.ButtonHighlight
         StaffMngmtBtn.Image = My.Resources.Resources.Group_26
         StaffMngmtBtn.ImageAlign = ContentAlignment.MiddleLeft
-        StaffMngmtBtn.Location = New Point(17, 614)
+        StaffMngmtBtn.Location = New Point(15, 614)
         StaffMngmtBtn.Margin = New Padding(3, 4, 3, 4)
         StaffMngmtBtn.Name = "StaffMngmtBtn"
-        StaffMngmtBtn.Size = New Size(248, 60)
+        StaffMngmtBtn.Size = New Size(250, 60)
         StaffMngmtBtn.TabIndex = 14
         StaffMngmtBtn.Text = "   Staff Management"
         StaffMngmtBtn.TextAlign = ContentAlignment.MiddleLeft
@@ -401,10 +401,10 @@ Partial Class AdminMain
         AnnouncementBtn.ForeColor = SystemColors.ButtonHighlight
         AnnouncementBtn.Image = CType(resources.GetObject("AnnouncementBtn.Image"), Image)
         AnnouncementBtn.ImageAlign = ContentAlignment.MiddleLeft
-        AnnouncementBtn.Location = New Point(17, 554)
+        AnnouncementBtn.Location = New Point(15, 554)
         AnnouncementBtn.Margin = New Padding(3, 4, 3, 4)
         AnnouncementBtn.Name = "AnnouncementBtn"
-        AnnouncementBtn.Size = New Size(248, 60)
+        AnnouncementBtn.Size = New Size(250, 60)
         AnnouncementBtn.TabIndex = 13
         AnnouncementBtn.Text = "   Announcemnet"
         AnnouncementBtn.TextAlign = ContentAlignment.MiddleLeft
@@ -421,10 +421,10 @@ Partial Class AdminMain
         PaymentsBtn.ForeColor = SystemColors.ButtonHighlight
         PaymentsBtn.Image = CType(resources.GetObject("PaymentsBtn.Image"), Image)
         PaymentsBtn.ImageAlign = ContentAlignment.MiddleLeft
-        PaymentsBtn.Location = New Point(17, 494)
+        PaymentsBtn.Location = New Point(15, 494)
         PaymentsBtn.Margin = New Padding(3, 4, 3, 4)
         PaymentsBtn.Name = "PaymentsBtn"
-        PaymentsBtn.Size = New Size(248, 60)
+        PaymentsBtn.Size = New Size(250, 60)
         PaymentsBtn.TabIndex = 12
         PaymentsBtn.Text = "   Payments"
         PaymentsBtn.TextAlign = ContentAlignment.MiddleLeft
@@ -441,10 +441,10 @@ Partial Class AdminMain
         MemStatBtn.ForeColor = SystemColors.ButtonHighlight
         MemStatBtn.Image = My.Resources.Resources.Vector4
         MemStatBtn.ImageAlign = ContentAlignment.MiddleLeft
-        MemStatBtn.Location = New Point(17, 434)
+        MemStatBtn.Location = New Point(15, 434)
         MemStatBtn.Margin = New Padding(3, 4, 3, 4)
         MemStatBtn.Name = "MemStatBtn"
-        MemStatBtn.Size = New Size(248, 60)
+        MemStatBtn.Size = New Size(250, 60)
         MemStatBtn.TabIndex = 11
         MemStatBtn.Text = "   Members' Status"
         MemStatBtn.TextAlign = ContentAlignment.MiddleLeft
@@ -461,10 +461,10 @@ Partial Class AdminMain
         MemProgBtn.ForeColor = SystemColors.ButtonHighlight
         MemProgBtn.Image = My.Resources.Resources.Group_241
         MemProgBtn.ImageAlign = ContentAlignment.MiddleLeft
-        MemProgBtn.Location = New Point(17, 374)
+        MemProgBtn.Location = New Point(15, 374)
         MemProgBtn.Margin = New Padding(3, 4, 3, 4)
         MemProgBtn.Name = "MemProgBtn"
-        MemProgBtn.Size = New Size(248, 60)
+        MemProgBtn.Size = New Size(250, 60)
         MemProgBtn.TabIndex = 10
         MemProgBtn.Text = "  Members' Progress"
         MemProgBtn.TextAlign = ContentAlignment.MiddleLeft
@@ -476,10 +476,10 @@ Partial Class AdminMain
         AttendanceSubMenu.Controls.Add(AttnViewBtn)
         AttendanceSubMenu.Controls.Add(AttenChckNBtn)
         AttendanceSubMenu.Dock = DockStyle.Top
-        AttendanceSubMenu.Location = New Point(17, 307)
+        AttendanceSubMenu.Location = New Point(15, 307)
         AttendanceSubMenu.Margin = New Padding(3, 4, 3, 4)
         AttendanceSubMenu.Name = "AttendanceSubMenu"
-        AttendanceSubMenu.Size = New Size(248, 67)
+        AttendanceSubMenu.Size = New Size(250, 67)
         AttendanceSubMenu.TabIndex = 9
         ' 
         ' AttnViewBtn
@@ -494,7 +494,7 @@ Partial Class AdminMain
         AttnViewBtn.Margin = New Padding(3, 4, 3, 4)
         AttnViewBtn.Name = "AttnViewBtn"
         AttnViewBtn.Padding = New Padding(51, 0, 0, 0)
-        AttnViewBtn.Size = New Size(248, 31)
+        AttnViewBtn.Size = New Size(250, 31)
         AttnViewBtn.TabIndex = 5
         AttnViewBtn.Text = "  View"
         AttnViewBtn.TextImageRelation = TextImageRelation.ImageBeforeText
@@ -513,7 +513,7 @@ Partial Class AdminMain
         AttenChckNBtn.Margin = New Padding(3, 4, 3, 4)
         AttenChckNBtn.Name = "AttenChckNBtn"
         AttenChckNBtn.Padding = New Padding(51, 0, 0, 0)
-        AttenChckNBtn.Size = New Size(248, 31)
+        AttenChckNBtn.Size = New Size(250, 31)
         AttenChckNBtn.TabIndex = 4
         AttenChckNBtn.Text = "  Check In/Out"
         AttenChckNBtn.TextImageRelation = TextImageRelation.ImageBeforeText
@@ -529,10 +529,10 @@ Partial Class AdminMain
         AttendanceBtn.ForeColor = SystemColors.ButtonHighlight
         AttendanceBtn.Image = My.Resources.Resources.Vector1
         AttendanceBtn.ImageAlign = ContentAlignment.MiddleLeft
-        AttendanceBtn.Location = New Point(17, 247)
+        AttendanceBtn.Location = New Point(15, 247)
         AttendanceBtn.Margin = New Padding(3, 4, 3, 4)
         AttendanceBtn.Name = "AttendanceBtn"
-        AttendanceBtn.Size = New Size(248, 60)
+        AttendanceBtn.Size = New Size(250, 60)
         AttendanceBtn.TabIndex = 8
         AttendanceBtn.Text = "   Attendance"
         AttendanceBtn.TextAlign = ContentAlignment.MiddleLeft
@@ -546,10 +546,10 @@ Partial Class AdminMain
         MemManSubMenu.Controls.Add(MemEntryFormBtn)
         MemManSubMenu.Controls.Add(ListAllMembersBtn)
         MemManSubMenu.Dock = DockStyle.Top
-        MemManSubMenu.Location = New Point(17, 120)
+        MemManSubMenu.Location = New Point(15, 120)
         MemManSubMenu.Margin = New Padding(3, 4, 3, 4)
         MemManSubMenu.Name = "MemManSubMenu"
-        MemManSubMenu.Size = New Size(248, 127)
+        MemManSubMenu.Size = New Size(250, 127)
         MemManSubMenu.TabIndex = 7
         ' 
         ' UpdateMemDetBtn
@@ -564,7 +564,7 @@ Partial Class AdminMain
         UpdateMemDetBtn.Margin = New Padding(3, 4, 3, 4)
         UpdateMemDetBtn.Name = "UpdateMemDetBtn"
         UpdateMemDetBtn.Padding = New Padding(51, 0, 0, 0)
-        UpdateMemDetBtn.Size = New Size(248, 31)
+        UpdateMemDetBtn.Size = New Size(250, 31)
         UpdateMemDetBtn.TabIndex = 7
         UpdateMemDetBtn.Text = "  Update Member Details"
         UpdateMemDetBtn.TextAlign = ContentAlignment.MiddleLeft
@@ -583,7 +583,7 @@ Partial Class AdminMain
         RemoveMemBtn.Margin = New Padding(3, 4, 3, 4)
         RemoveMemBtn.Name = "RemoveMemBtn"
         RemoveMemBtn.Padding = New Padding(51, 0, 0, 0)
-        RemoveMemBtn.Size = New Size(248, 31)
+        RemoveMemBtn.Size = New Size(250, 31)
         RemoveMemBtn.TabIndex = 6
         RemoveMemBtn.Text = "  Remove Member"
         RemoveMemBtn.TextAlign = ContentAlignment.MiddleLeft
@@ -602,7 +602,7 @@ Partial Class AdminMain
         MemEntryFormBtn.Margin = New Padding(3, 4, 3, 4)
         MemEntryFormBtn.Name = "MemEntryFormBtn"
         MemEntryFormBtn.Padding = New Padding(51, 0, 0, 0)
-        MemEntryFormBtn.Size = New Size(248, 31)
+        MemEntryFormBtn.Size = New Size(250, 31)
         MemEntryFormBtn.TabIndex = 5
         MemEntryFormBtn.Text = "  Member Entry Form"
         MemEntryFormBtn.TextImageRelation = TextImageRelation.ImageBeforeText
@@ -621,7 +621,7 @@ Partial Class AdminMain
         ListAllMembersBtn.Margin = New Padding(3, 4, 3, 4)
         ListAllMembersBtn.Name = "ListAllMembersBtn"
         ListAllMembersBtn.Padding = New Padding(51, 0, 0, 0)
-        ListAllMembersBtn.Size = New Size(248, 31)
+        ListAllMembersBtn.Size = New Size(250, 31)
         ListAllMembersBtn.TabIndex = 4
         ListAllMembersBtn.Text = "  List All Members"
         ListAllMembersBtn.TextImageRelation = TextImageRelation.ImageBeforeText
@@ -637,10 +637,10 @@ Partial Class AdminMain
         MemManBtn.ForeColor = SystemColors.ButtonHighlight
         MemManBtn.Image = My.Resources.Resources.tdesign_member
         MemManBtn.ImageAlign = ContentAlignment.MiddleLeft
-        MemManBtn.Location = New Point(17, 60)
+        MemManBtn.Location = New Point(15, 60)
         MemManBtn.Margin = New Padding(3, 4, 3, 4)
         MemManBtn.Name = "MemManBtn"
-        MemManBtn.Size = New Size(248, 60)
+        MemManBtn.Size = New Size(250, 60)
         MemManBtn.TabIndex = 4
         MemManBtn.Text = "   Member Management"
         MemManBtn.TextAlign = ContentAlignment.MiddleLeft
@@ -657,10 +657,10 @@ Partial Class AdminMain
         DashboardBtn.ForeColor = SystemColors.ButtonHighlight
         DashboardBtn.Image = My.Resources.Resources.Vector
         DashboardBtn.ImageAlign = ContentAlignment.MiddleLeft
-        DashboardBtn.Location = New Point(17, 0)
+        DashboardBtn.Location = New Point(15, 0)
         DashboardBtn.Margin = New Padding(3, 4, 3, 4)
         DashboardBtn.Name = "DashboardBtn"
-        DashboardBtn.Size = New Size(248, 60)
+        DashboardBtn.Size = New Size(250, 60)
         DashboardBtn.TabIndex = 3
         DashboardBtn.Text = "   Dashboard"
         DashboardBtn.TextAlign = ContentAlignment.MiddleLeft
@@ -673,7 +673,7 @@ Partial Class AdminMain
         Panel3.Location = New Point(0, 0)
         Panel3.Margin = New Padding(3, 4, 3, 4)
         Panel3.Name = "Panel3"
-        Panel3.Size = New Size(15, 809)
+        Panel3.Size = New Size(15, 1110)
         Panel3.TabIndex = 6
         ' 
         ' UserPnl
