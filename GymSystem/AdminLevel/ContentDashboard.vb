@@ -40,8 +40,8 @@ Public Class ContentDashboard
 
 
     Private Sub InitializeConnection()
-        conn = New MySqlConnection("server=ec2-54-152-32-19.compute-1.amazonaws.com;userid=remote_user;password=Aqua44.5;database=gym_infosys;port=3306;") '
-        'conn = New MySqlConnection("server=127.0.0.1;userid=root;password='';database=gym_infosys;")
+        'conn = New MySqlConnection("server=ec2-54-152-32-19.compute-1.amazonaws.com;userid=remote_user;password=Aqua44.5;database=gym_infosys;port=3306;") '
+        conn = New MySqlConnection("server=127.0.0.1;userid=root;password='';database=gym_infosys;")
     End Sub
 
     Private Function FetchMembershipData() As DataTable
@@ -365,6 +365,5 @@ Public Class ContentDashboard
 
         Return totalMembers
     End Function
-
 
 End Class

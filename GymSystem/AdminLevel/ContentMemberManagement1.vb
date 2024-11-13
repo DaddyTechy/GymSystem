@@ -373,7 +373,6 @@ Public Class ContentMemberManagement1
     End Sub
 
 
-
     Private Sub MembersTable_CellPainting(sender As Object, e As DataGridViewCellPaintingEventArgs) Handles MembersTable.CellPainting
         If e.ColumnIndex >= 0 AndAlso e.RowIndex >= 0 Then
             If MembersTable.Columns(e.ColumnIndex).Name = "Edit" OrElse MembersTable.Columns(e.ColumnIndex).Name = "Delete" Then
