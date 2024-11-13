@@ -159,6 +159,8 @@
     End Sub
 
     Private Sub ForgotLL_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles ForgotLL.LinkClicked
+        Dim forgotPasswordForm As New ForgotPasswordForm()
+        forgotPasswordForm.ShowDialog()
     End Sub
 
     Private Sub LoginBtn_Click(sender As Object, e As EventArgs) Handles LoginBtn.Click

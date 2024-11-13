@@ -1,5 +1,7 @@
 ﻿
 
+Imports MySql.Data.MySqlClient
+
 Public Class Admin
     Private originalColor As Color = Color.FromArgb(245, 203, 92)
     Private originalButtonColor As Color = Color.FromArgb(245, 203, 92)
@@ -20,7 +22,7 @@ Public Class Admin
 
         ' Set TextBox properties
         IDBox.BorderStyle = BorderStyle.FixedSingle
-        IDBox.BackColor = Color.Gray ' Background color
+        IDBox.BackColor = Color.DimGray ' Background color
 
         ' Add TextBox to Panel
         textBoxPanel.Controls.Add(IDBox)
@@ -37,7 +39,7 @@ Public Class Admin
 
         ' Set TextBox properties
         PassBox.BorderStyle = BorderStyle.FixedSingle
-        PassBox.BackColor = Color.Gray ' Background color
+        PassBox.BackColor = Color.DimGray ' Background color
 
         ' Add TextBox to Panel
         passBoxPanel.Controls.Add(PassBox)
@@ -167,9 +169,79 @@ Public Class Admin
 
 
     Private Sub LoginBtn_Click(sender As Object, e As EventArgs) Handles LoginBtn.Click
-        Dim adminMain As New AdminMain()
-        ShowUserControlInForm(adminMain, "Admin Main")
-        Me.Hide()
+        Dim adminID As Integer
+        If Integer.TryParse(IDBox.Text, adminID) Then
+            Dim password As String = PassBox.Text
+
+            ' Check if a role is selected
+            If AdminRole.SelectedItem IsNot Nothing Then
+                Dim role As String = AdminRole.SelectedItem.ToString()
+
+                ' Authenticate user
+                Dim user = AuthenticateUser(adminID, password, role)
+                If user IsNot Nothing Then
+                    ' Show the main admin form
+                    Dim adminMain As New AdminMain()
+                    adminMain.ConfigureMenu(user.Role)
+                    ShowUserControlInForm(adminMain, "Admin Main")
+                    Me.Hide()
+                Else
+                    MessageBox.Show("Invalid AdminID, password, or role.")
+                End If
+            Else
+                MessageBox.Show("Please select a role.")
+            End If
+        Else
+            MessageBox.Show("Please enter a valid AdminID.")
+        End If
     End Sub
 
+    Private Function AuthenticateUser(adminID As Integer, password As String, role As String) As AdminUser
+        Try
+            Using conn As New MySqlConnection("server=127.0.0.1;userid=root;password='';database=gym_infosys;")
+                conn.Open()
+                Dim query As String = "SELECT * FROM adminlogin WHERE AdminID = @AdminID AND Password = @Password AND Role = @Role"
+                Dim cmd As New MySqlCommand(query, conn)
+                cmd.Parameters.AddWithValue("@AdminID", adminID)
+                cmd.Parameters.AddWithValue("@Password", password)
+                cmd.Parameters.AddWithValue("@Role", role)
+                Dim reader As MySqlDataReader = cmd.ExecuteReader()
+
+                If reader.Read() Then
+                    ' Create an AdminUser object to hold the user details
+                    Dim user As New AdminUser()
+                    user.AdminID = reader("AdminID")
+                    user.Username = reader("Username")
+                    user.Role = reader("Role")
+                    ' Return the user object
+                    Return user
+                Else
+                    ' Return Nothing if no user is found
+                    Return Nothing
+                End If
+            End Using
+        Catch ex As Exception
+            ErrorHandler.HandleError(ex)
+            Return Nothing
+        End Try
+    End Function
+
+
+    Public Class AdminUser
+        Public Property AdminID As Integer
+        Public Property Username As String
+        Public Property Role As String
+    End Class
+
+
+    Private Sub ForgotLL_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles ForgotLL.LinkClicked
+        Dim forgotPasswordForm As New ForgotPasswordForm()
+        forgotPasswordForm.ShowDialog()
+    End Sub
+
+    Private Sub templogin_Click(sender As Object, e As EventArgs) Handles templogin.Click
+        Dim adminMain As New AdminMain()
+        ShowUserControlInForm(AdminMain, "Admin Main")
+        Me.Hide()
+    End Sub
 End Class
