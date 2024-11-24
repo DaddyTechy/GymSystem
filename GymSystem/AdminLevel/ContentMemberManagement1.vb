@@ -532,7 +532,6 @@ Public Class ContentMemberManagement1
         End If
     End Sub
 
-
     Private Sub ShowUserControl(control As UserControl)
         control.Dock = DockStyle.Fill
         contentPanel.Controls.Clear()
