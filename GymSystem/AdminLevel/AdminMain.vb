@@ -22,8 +22,6 @@ Public Class AdminMain
         ' Initialize submenu buttons
         InitializeSubMenuButton(ListAllMembersBtn, Color.Yellow, Color.White, activeSubMenuButton)
         InitializeSubMenuButton(MemEntryFormBtn, Color.Yellow, Color.White, activeSubMenuButton)
-        InitializeSubMenuButton(RemoveMemBtn, Color.Yellow, Color.White, activeSubMenuButton)
-        InitializeSubMenuButton(UpdateMemDetBtn, Color.Yellow, Color.White, activeSubMenuButton)
 
         'autoscroll
         AddHandler Me.Resize, AddressOf Form1_Resize
@@ -51,8 +49,6 @@ Public Class AdminMain
         ' Attach click event handlers for submenu buttons
         AddHandler ListAllMembersBtn.Click, AddressOf SubMenu_Click
         AddHandler MemEntryFormBtn.Click, AddressOf SubMenu_Click
-        AddHandler RemoveMemBtn.Click, AddressOf SubMenu_Click
-        AddHandler UpdateMemDetBtn.Click, AddressOf SubMenu_Click
 
         ' Reports
         AddHandler ChartsBtn.Click, AddressOf SubMenu_Click
@@ -155,13 +151,9 @@ Public Class AdminMain
         ' Show the corresponding user control based on the button clicked
         Select Case btn.Name
             Case "ListAllMembersBtn"
-                ShowUserControl(New ContentMemberManagement1()) ' Replace with the user control you want to show
+                ShowUserControl(New ContentMemberManagement1(ContentPnl)) ' Replace with the user control you want to show
             Case "MemEntryFormBtn"
                 ShowUserControl(New ContentMemEntryForm()) ' Replace with the user control you want to show
-            Case "RemoveMemBtn"
-                ShowUserControl(New ContentRemoveMem()) ' Replace with the user control you want to show
-            Case "UpdateMemDetBtn"
-                ShowUserControl(New ContentUpdateMemDet()) ' Replace with the user control you want to show
             Case "ChartsBtn"
                 ShowUserControl(New ContentReports()) ' Replace with the user control you want to show
         End Select
@@ -236,14 +228,20 @@ Public Class AdminMain
         End If
     End Sub
 
+    Private Sub ShowMemberProfile(memberData As MemberData)
+        Dim memberProfileControl As New memberProfileControl()
+        memberProfileControl.LoadMemberData(memberData)
+        ShowUserControl(memberProfileControl)
+    End Sub
+
 
     Private Sub MemManBtn_Click(sender As Object, e As EventArgs)
         ToggleSubMenu(MemManBtn, MemManSubMenu)
         SetActiveSubMenuButton(ListAllMembersBtn)
-        ShowUserControl(New ContentMemberManagement1()) ' Replace with the user control you want to show
+        Dim membersTableControl As New ContentMemberManagement1(ContentPnl)
+        AddHandler membersTableControl.ViewMemberProfile, AddressOf ShowMemberProfile
+        ShowUserControl(membersTableControl)
     End Sub
-
-
 
     Private Sub AttendanceBtn_Click(sender As Object, e As EventArgs)
         ToggleSubMenu(AttendanceBtn, AttendanceSubMenu)
@@ -321,7 +319,8 @@ Public Class AdminMain
         End Using
     End Sub
 
-    Private Sub LogoutBtn_Click_1(sender As Object, e As EventArgs) Handles LogoutBtn.Click
+    'logout
+    Private Sub LogoutBtn_Click(sender As Object, e As EventArgs) Handles LogoutBtn.Click
         ' Display confirmation dialog
         Dim result = MessageBox.Show("Are you sure you want to log out?", "Confirm Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
@@ -338,4 +337,21 @@ Public Class AdminMain
             backtoAdminLogin.Show()
         End If
     End Sub
+                
+    Private Sub MemEntryFormBtn_Click(sender As Object, e As EventArgs) Handles MemEntryFormBtn.Click
+    End Sub
+
+
+    Private Sub ReportsBtn_Click_1(sender As Object, e As EventArgs) Handles ReportsBtn.Click
+        ShowUserControl(New ContentReports())
+    End Sub
+
+    Private Sub MemRepBtn_Click(sender As Object, e As EventArgs) Handles MemRepBtn.Click
+        ShowUserControl(New ContentRepMemRep())
+    End Sub
+
+    Private Sub StaffMngmtBtn_Click_1(sender As Object, e As EventArgs) Handles StaffMngmtBtn.Click
+        ShowUserControl(New ContentStaffManage())
+    End Sub
+
 End Class

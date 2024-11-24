@@ -35,6 +35,7 @@ Partial Class ForgotPasswordForm
         ' 
         ' PictureBox1
         ' 
+        PictureBox1.Anchor = AnchorStyles.None
         PictureBox1.Image = My.Resources.Resources._929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
         PictureBox1.Location = New Point(568, 125)
         PictureBox1.Margin = New Padding(3, 2, 3, 2)
@@ -46,6 +47,7 @@ Partial Class ForgotPasswordForm
         ' 
         ' btnSubmit
         ' 
+        btnSubmit.Anchor = AnchorStyles.None
         btnSubmit.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         btnSubmit.FlatStyle = FlatStyle.Flat
         btnSubmit.Font = New Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
@@ -60,6 +62,7 @@ Partial Class ForgotPasswordForm
         ' 
         ' txtEmailOrPhone
         ' 
+        txtEmailOrPhone.Anchor = AnchorStyles.None
         txtEmailOrPhone.BackColor = Color.LightGray
         txtEmailOrPhone.BorderStyle = BorderStyle.FixedSingle
         txtEmailOrPhone.Font = New Font("Segoe UI Variable Small", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
@@ -72,6 +75,7 @@ Partial Class ForgotPasswordForm
         ' 
         ' lblEmailOrPhone
         ' 
+        lblEmailOrPhone.Anchor = AnchorStyles.None
         lblEmailOrPhone.AutoSize = True
         lblEmailOrPhone.Font = New Font("Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         lblEmailOrPhone.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
@@ -83,6 +87,7 @@ Partial Class ForgotPasswordForm
         ' 
         ' lblRole
         ' 
+        lblRole.Anchor = AnchorStyles.None
         lblRole.AutoSize = True
         lblRole.Font = New Font("Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         lblRole.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
@@ -94,6 +99,7 @@ Partial Class ForgotPasswordForm
         ' 
         ' LabelSign
         ' 
+        LabelSign.Anchor = AnchorStyles.None
         LabelSign.AutoSize = True
         LabelSign.Font = New Font("Microsoft Sans Serif", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
         LabelSign.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
@@ -105,6 +111,7 @@ Partial Class ForgotPasswordForm
         ' 
         ' cmbRole
         ' 
+        cmbRole.Anchor = AnchorStyles.None
         cmbRole.BackColor = Color.LightGray
         cmbRole.DropDownStyle = ComboBoxStyle.DropDownList
         cmbRole.FlatStyle = FlatStyle.Flat
@@ -119,6 +126,7 @@ Partial Class ForgotPasswordForm
         ' 
         ' btnBack
         ' 
+        btnBack.Anchor = AnchorStyles.None
         btnBack.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         btnBack.FlatStyle = FlatStyle.Popup
         btnBack.Font = New Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
@@ -145,9 +153,9 @@ Partial Class ForgotPasswordForm
         Controls.Add(lblEmailOrPhone)
         Controls.Add(lblRole)
         Controls.Add(LabelSign)
-        MaximumSize = New Size(925, 580)
         MinimumSize = New Size(925, 580)
         Name = "ForgotPasswordForm"
+        StartPosition = FormStartPosition.CenterParent
         Text = "Recover Password"
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)

@@ -9,6 +9,13 @@ Public Class Admin
     Private hoverDarkenAmount As Single = 0.7
 
     Private Sub Admin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ' Create a main panel to hold all controls
+        Dim mainPanel As New Panel()
+        mainPanel.Size = New Size(925, 580)
+        mainPanel.Location = New Point(0, 0)
+        mainPanel.Anchor = AnchorStyles.None
+        mainPanel.Dock = DockStyle.None
+
         ' Remove underline from link labels
         ForgotLL.LinkBehavior = LinkBehavior.NeverUnderline
         StaffLL.LinkBehavior = LinkBehavior.NeverUnderline
@@ -28,8 +35,8 @@ Public Class Admin
         textBoxPanel.Controls.Add(IDBox)
         IDBox.Location = New Point(1, 1)
 
-        ' Add Panel to the Form
-        Me.Controls.Add(textBoxPanel)
+        ' Add Panel to the main panel
+        mainPanel.Controls.Add(textBoxPanel)
 
         ' Repeat for PassBox
         Dim passBoxPanel As New Panel()
@@ -45,8 +52,8 @@ Public Class Admin
         passBoxPanel.Controls.Add(PassBox)
         PassBox.Location = New Point(1, 1)
 
-        ' Add Panel to the Form
-        Me.Controls.Add(passBoxPanel)
+        ' Add Panel to the main panel
+        mainPanel.Controls.Add(passBoxPanel)
 
         ' Use a Panel to simulate Button border color change
         Dim buttonPanel As New Panel()
@@ -63,8 +70,8 @@ Public Class Admin
         buttonPanel.Controls.Add(LoginBtn)
         LoginBtn.Location = New Point(2, 2)
 
-        ' Add Panel to the Form
-        Me.Controls.Add(buttonPanel)
+        ' Add Panel to the main panel
+        mainPanel.Controls.Add(buttonPanel)
 
         Dim verticalLine As New Label()
         verticalLine.Width = 2
@@ -72,13 +79,16 @@ Public Class Admin
         verticalLine.BackColor = Color.FromArgb(245, 203, 92) ' Set the desired color
         verticalLine.Location = New Point(292, 393) ' Custom location
 
-        Me.Controls.Add(verticalLine)
+        mainPanel.Controls.Add(verticalLine)
+
+        ' Add the main panel to the form
+        Me.Controls.Add(mainPanel)
 
         ' Initialize button colors
         originalButtonColor = LoginBtn.BackColor
         hoverButtonColor = ControlPaint.Dark(originalButtonColor, hoverDarkenAmount)
-
     End Sub
+
 
     Private Sub IDBox_TextChanged(sender As Object, e As EventArgs) Handles IDBox.TextChanged
         ' Ensure IDBox text length does not exceed 11 characters
@@ -161,7 +171,8 @@ Public Class Admin
         ' Create a new form to host the UserControl
         Dim hostForm As New Form()
         hostForm.Text = formTitle
-        hostForm.MinimumSize = New Size(925, 580) ' You can adjust the size as needed
+        hostForm.MinimumSize = New Size(925, 580)
+        hostForm.WindowState = FormWindowState.Maximized ' You can adjust the size as needed
         hostForm.Controls.Add(control)
         control.Dock = DockStyle.Fill
         hostForm.Show()
@@ -197,8 +208,9 @@ Public Class Admin
     End Sub
 
     Private Function AuthenticateUser(adminID As Integer, password As String, role As String) As AdminUser
+        UpdateConnectionString()
         Try
-            Using conn As New MySqlConnection("server=127.0.0.1;userid=root;password='';database=gym_infosys;")
+            Using conn As New MySqlConnection(strConnection)
                 conn.Open()
                 Dim query As String = "SELECT * FROM adminlogin WHERE AdminID = @AdminID AND Password = @Password AND Role = @Role"
                 Dim cmd As New MySqlCommand(query, conn)
@@ -213,6 +225,18 @@ Public Class Admin
                     user.AdminID = reader("AdminID")
                     user.Username = reader("Username")
                     user.Role = reader("Role")
+
+                    ' Set the current logged user after successful login
+                    CurrentLoggedUser.id = user.AdminID
+                    CurrentLoggedUser.name = user.Username
+                    CurrentLoggedUser.position = user.Role
+                    ' ... set other fields as needed
+
+                    ' Access the current logged user's details
+                    MsgBox("Welcome, " & CurrentLoggedUser.name & "!")
+
+                    Logs("User logged in", "Login")
+
                     ' Return the user object
                     Return user
                 Else

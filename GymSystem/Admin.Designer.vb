@@ -41,6 +41,7 @@ Partial Class Admin
         ' 
         ' PictureBox1
         ' 
+        PictureBox1.Anchor = AnchorStyles.None
         PictureBox1.Image = My.Resources.Resources._929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
         PictureBox1.Location = New Point(580, 120)
         PictureBox1.Margin = New Padding(3, 2, 3, 2)
@@ -52,6 +53,7 @@ Partial Class Admin
         ' 
         ' ForgotLL
         ' 
+        ForgotLL.Anchor = AnchorStyles.None
         ForgotLL.AutoSize = True
         ForgotLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         ForgotLL.Location = New Point(329, 307)
@@ -64,6 +66,7 @@ Partial Class Admin
         ' 
         ' StaffLL
         ' 
+        StaffLL.Anchor = AnchorStyles.None
         StaffLL.AutoSize = True
         StaffLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         StaffLL.Location = New Point(321, 395)
@@ -76,6 +79,7 @@ Partial Class Admin
         ' 
         ' LoginBtn
         ' 
+        LoginBtn.Anchor = AnchorStyles.None
         LoginBtn.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         LoginBtn.FlatStyle = FlatStyle.Popup
         LoginBtn.Font = New Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
@@ -90,6 +94,7 @@ Partial Class Admin
         ' 
         ' CBMe
         ' 
+        CBMe.Anchor = AnchorStyles.None
         CBMe.AutoSize = True
         CBMe.Font = New Font("Tahoma", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         CBMe.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
@@ -103,6 +108,7 @@ Partial Class Admin
         ' 
         ' PassBox
         ' 
+        PassBox.Anchor = AnchorStyles.None
         PassBox.BackColor = Color.LightGray
         PassBox.BorderStyle = BorderStyle.FixedSingle
         PassBox.Font = New Font("Segoe UI Variable Small", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
@@ -115,6 +121,7 @@ Partial Class Admin
         ' 
         ' IDBox
         ' 
+        IDBox.Anchor = AnchorStyles.None
         IDBox.BackColor = Color.LightGray
         IDBox.BorderStyle = BorderStyle.FixedSingle
         IDBox.Font = New Font("Segoe UI Variable Small", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
@@ -128,6 +135,7 @@ Partial Class Admin
         ' 
         ' LabelPass
         ' 
+        LabelPass.Anchor = AnchorStyles.None
         LabelPass.AutoSize = True
         LabelPass.Font = New Font("Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         LabelPass.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
@@ -139,6 +147,7 @@ Partial Class Admin
         ' 
         ' LabelID
         ' 
+        LabelID.Anchor = AnchorStyles.None
         LabelID.AutoSize = True
         LabelID.Font = New Font("Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         LabelID.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
@@ -150,6 +159,7 @@ Partial Class Admin
         ' 
         ' LabelSign
         ' 
+        LabelSign.Anchor = AnchorStyles.None
         LabelSign.AutoSize = True
         LabelSign.Font = New Font("Microsoft Sans Serif", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
         LabelSign.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
@@ -161,6 +171,7 @@ Partial Class Admin
         ' 
         ' MemberLL
         ' 
+        MemberLL.Anchor = AnchorStyles.None
         MemberLL.AutoSize = True
         MemberLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         MemberLL.Location = New Point(184, 395)
@@ -173,6 +184,7 @@ Partial Class Admin
         ' 
         ' lblRole
         ' 
+        lblRole.Anchor = AnchorStyles.None
         lblRole.AutoSize = True
         lblRole.Font = New Font("Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         lblRole.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
@@ -184,6 +196,7 @@ Partial Class Admin
         ' 
         ' AdminRole
         ' 
+        AdminRole.Anchor = AnchorStyles.None
         AdminRole.BackColor = Color.DimGray
         AdminRole.DropDownStyle = ComboBoxStyle.DropDownList
         AdminRole.FlatStyle = FlatStyle.Flat
@@ -198,6 +211,7 @@ Partial Class Admin
         ' 
         ' templogin
         ' 
+        templogin.Anchor = AnchorStyles.None
         templogin.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         templogin.FlatStyle = FlatStyle.Popup
         templogin.Font = New Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
@@ -230,7 +244,6 @@ Partial Class Admin
         Controls.Add(LabelPass)
         Controls.Add(LabelID)
         Controls.Add(LabelSign)
-        MaximumSize = New Size(925, 580)
         MinimumSize = New Size(925, 580)
         Name = "Admin"
         Text = "Admin"

@@ -5,12 +5,14 @@ Public Class ContentMemberManagement1
     Dim dtMember As New DataTable()
     Private originalValues As New Dictionary(Of Integer, Dictionary(Of String, String))
     Private selectedCell As DataGridViewCell
+    Private selectedMemberID As Integer = -1
+    Private contentPanel As Panel
 
     Private Sub ContentMemberManagement1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        conn = New MySqlConnection("server=127.0.0.1;userid=root;password='';database=gym_infosys")
+        UpdateConnectionString()
+        conn = New MySqlConnection(strConnection)
         Try
             conn.Open()
-
             ' Retrieve data from members table
             Dim queryMembers As String = "SELECT MemberID, FirstName, MiddleName, LastName, Sex, PhoneNumber, DTCreated, Province, City, Street, ZipCode, Status FROM members"
             Dim adapterMembers As New MySqlDataAdapter(queryMembers, conn)
@@ -38,11 +40,11 @@ Public Class ContentMemberManagement1
             dtMember.Columns.Add("Sex", GetType(String))
             dtMember.Columns.Add("PhoneNumber", GetType(String))
             dtMember.Columns.Add("DTCreated", GetType(DateTime))
-            dtMember.Columns.Add("Status", GetType(String))
             dtMember.Columns.Add("Address", GetType(String))
             dtMember.Columns.Add("Cost", GetType(Decimal))
             dtMember.Columns.Add("MembershipType", GetType(String))
             dtMember.Columns.Add("Duration", GetType(String))
+            dtMember.Columns.Add("Status", GetType(String))
 
             For Each memberRow As DataRow In dtMembers.Rows
                 Dim memberID As Integer = memberRow("MemberID")
@@ -56,9 +58,9 @@ Public Class ContentMemberManagement1
 
                 ' Check if membershipRow is not null
                 If membershipRow IsNot Nothing Then
-                    dtMember.Rows.Add(memberID, firstName, middleName, lastName, username, memberRow("Sex"), memberRow("PhoneNumber"), memberRow("DTCreated"), status, address, membershipRow("Cost"), membershipRow("MembershipType"), membershipRow("Duration"))
+                    dtMember.Rows.Add(memberID, firstName, middleName, lastName, username, memberRow("Sex"), memberRow("PhoneNumber"), memberRow("DTCreated"), address, membershipRow("Cost"), membershipRow("MembershipType"), membershipRow("Duration"), status)
                 Else
-                    dtMember.Rows.Add(memberID, firstName, middleName, lastName, username, memberRow("Sex"), memberRow("PhoneNumber"), memberRow("DTCreated"), status, address, DBNull.Value, DBNull.Value, DBNull.Value)
+                    dtMember.Rows.Add(memberID, firstName, middleName, lastName, username, memberRow("Sex"), memberRow("PhoneNumber"), memberRow("DTCreated"), address, status, DBNull.Value, DBNull.Value, DBNull.Value)
                 End If
             Next
 
@@ -82,6 +84,14 @@ Public Class ContentMemberManagement1
             deleteButtonColumn.UseColumnTextForButtonValue = True
             MembersTable.Columns.Add(deleteButtonColumn)
 
+            Dim viewButtonColumn As New DataGridViewButtonColumn()
+            viewButtonColumn.HeaderText = "View"
+            viewButtonColumn.Name = "View"
+            viewButtonColumn.Text = "View"
+            viewButtonColumn.UseColumnTextForButtonValue = True
+            MembersTable.Columns.Add(viewButtonColumn)
+
+
             ' Customize DataGridView appearance
             MembersTable.BackgroundColor = Color.LightBlue
             MembersTable.Columns("MemberID").HeaderText = "#"
@@ -92,11 +102,11 @@ Public Class ContentMemberManagement1
             MembersTable.Columns("Sex").HeaderText = "Gender"
             MembersTable.Columns("PhoneNumber").HeaderText = "Phone Number"
             MembersTable.Columns("DTCreated").HeaderText = "Date of Registration"
-            MembersTable.Columns("Status").HeaderText = "Status"
             MembersTable.Columns("Address").HeaderText = "Address"
             MembersTable.Columns("Cost").HeaderText = "Amount"
             MembersTable.Columns("MembershipType").HeaderText = "Chosen Service/s"
             MembersTable.Columns("Duration").HeaderText = "Duration"
+            MembersTable.Columns("Status").HeaderText = "Status"
             MembersTable.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal
 
             ' Assuming the parent control's background color is set to a specific color
@@ -122,46 +132,69 @@ Public Class ContentMemberManagement1
         Finally
             conn.Close()
         End Try
+        MembersTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect
 
-        MembersTable.ReadOnly = True
-        MembersTable.SelectionMode = DataGridViewSelectionMode.CellSelect
+
     End Sub
+
+    Public Event ViewMemberProfile(memberData As MemberData)
 
     Private Sub MembersTable_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles MembersTable.CellClick
         If e.RowIndex >= 0 Then
             Dim selectedRow As DataGridViewRow = MembersTable.Rows(e.RowIndex)
             selectedCell = MembersTable.Rows(e.RowIndex).Cells(e.ColumnIndex)
+            Dim memberId As Integer = selectedRow.Cells("MemberID").Value
+
             If e.ColumnIndex = MembersTable.Columns("Edit").Index Then
                 ' Handle Edit button click
-                Dim memberID As Integer = selectedRow.Cells("MemberID").Value
+                selectedMemberID = memberId
                 StoreOriginalValues(selectedRow)
-                EnableCellEditing(selectedCell)
-                MessageBox.Show("Edit button clicked for MemberID: " & memberID)
+                EnableRowEditing(selectedRow)
+                MessageBox.Show("Cells in Selected Row are now EDITABLE for MemberID: " & memberId)
+
+                ' Debug: Log the state of the DataGridView
+                Debug.WriteLine("Row is now editable for MemberID: " & memberId)
+                For Each cell As DataGridViewCell In selectedRow.Cells
+                    Debug.WriteLine("Cell [" & cell.ColumnIndex & "]: ReadOnly = " & cell.ReadOnly)
+                Next
             ElseIf e.ColumnIndex = MembersTable.Columns("Delete").Index Then
                 ' Handle Delete button click
-                Dim memberID As Integer = selectedRow.Cells("MemberID").Value
                 Dim resultDelete As DialogResult = MessageBox.Show("Do you want to delete the entire row?", "Delete Row", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                 If resultDelete = DialogResult.Yes Then
                     ' Delete entire row
-                    DeleteRow(memberID)
+                    DeleteRow(memberId)
                     MembersTable.Rows.Remove(selectedRow)
-                    MessageBox.Show("Record deleted successfully for MemberID: " & memberID)
+                    MessageBox.Show("Record deleted successfully for MemberID: " & memberId)
                 Else
                     ' Ask if set to inactive
                     Dim resultInactive As DialogResult = MessageBox.Show("Do you want to set the member to inactive?", "Set to Inactive", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                     If resultInactive = DialogResult.Yes Then
-                        SetMemberInactive(memberID)
+                        SetMemberInactive(memberId)
                         selectedRow.Cells("Status").Value = "Inactive"
-                        MessageBox.Show("Member set to inactive for MemberID: " & memberID)
+                        MessageBox.Show("Member set to inactive for MemberID: " & memberId)
                     End If
                     ' If resultInactive is No, do nothing and close the dialog
+                End If
+            ElseIf e.ColumnIndex = MembersTable.Columns("View").Index Then
+                selectedMemberID = memberId
+                LoadUserControlWithMemberData(memberId)
+            Else
+                If memberId = selectedMemberID Then
+                    MembersTable.ReadOnly = False
+                    For Each cell As DataGridViewCell In selectedRow.Cells
+                        cell.ReadOnly = False
+                    Next
+                Else
+                    LockDataGridView()
                 End If
             End If
         End If
     End Sub
 
     Private Sub DeleteRow(memberID As Integer)
-        Using conn As New MySqlConnection("server=127.0.0.1;userid=root;password='';database=gym_infosys")
+        UpdateConnectionString()
+        conn = New MySqlConnection(strConnection)
+        Using conn
             conn.Open()
 
             ' Delete from the members table
@@ -189,8 +222,11 @@ Public Class ContentMemberManagement1
             End Using
         End Using
     End Sub
+
     Private Sub SetMemberInactive(memberID As Integer)
-        Using conn As New MySqlConnection("server=127.0.0.1;userid=root;password='';database=gym_infosys")
+        UpdateConnectionString()
+        conn = New MySqlConnection(strConnection)
+        Using conn
             conn.Open()
             Dim query As String = "UPDATE members SET Status = 0 WHERE MemberID = @MemberID"
             Using cmd As New MySqlCommand(query, conn)
@@ -206,38 +242,47 @@ Public Class ContentMemberManagement1
     End Sub
 
 
-
     Private Sub StoreOriginalValues(row As DataGridViewRow)
         Dim memberID As Integer = row.Cells("MemberID").Value
-        Dim values As New Dictionary(Of String, String)
-        For Each cell As DataGridViewCell In row.Cells
-            values.Add(MembersTable.Columns(cell.ColumnIndex).Name, cell.Value.ToString())
-        Next
         If Not originalValues.ContainsKey(memberID) Then
-            originalValues.Add(memberID, values)
-        Else
-            originalValues(memberID) = values
+            originalValues(memberID) = New Dictionary(Of String, String)()
+            For Each cell As DataGridViewCell In row.Cells
+                originalValues(memberID)(cell.OwningColumn.Name) = cell.Value.ToString()
+            Next
         End If
-        Debug.WriteLine($"Stored original values for MemberID: {memberID}")
+    End Sub
+
+    Private Sub EnableRowEditing(row As DataGridViewRow)
+        ' Make the entire row editable
+        For Each cell As DataGridViewCell In row.Cells
+            cell.ReadOnly = False
+            Debug.WriteLine("Cell [" & cell.ColumnIndex & "]: ReadOnly = " & cell.ReadOnly)
+        Next
+        MembersTable.ReadOnly = False
+        MembersTable.CurrentCell = row.Cells(0)
+        MembersTable.BeginEdit(True)
+        Debug.WriteLine("MembersTable.ReadOnly = " & MembersTable.ReadOnly)
     End Sub
 
 
-    Private Sub EnableCellEditing(cell As DataGridViewCell)
-        selectedCell = cell
-        ' Make only the selected cell editable
-        cell.ReadOnly = False
-        MembersTable.ReadOnly = False
-        MembersTable.CurrentCell = cell
-        MembersTable.BeginEdit(True)
+    Private Sub LockDataGridView()
+        ' Make the entire DataGridView read-only
+        For Each row As DataGridViewRow In MembersTable.Rows
+            For Each cell As DataGridViewCell In row.Cells
+                cell.ReadOnly = True
+            Next
+        Next
+        MembersTable.ReadOnly = True
     End Sub
 
     Private Sub MembersTable_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs) Handles MembersTable.CellBeginEdit
-        ' Cancel edit if the cell being edited is not the initially selected cell
-        If Not MembersTable.Rows(e.RowIndex).Cells(e.ColumnIndex).Equals(selectedCell) Then
+        ' Allow editing if the cell being edited is within the same row as the initially selected cell
+        If selectedCell IsNot Nothing AndAlso MembersTable.Rows(e.RowIndex).Cells("MemberID").Value = selectedMemberID Then
+            e.Cancel = False
+        Else
             e.Cancel = True
         End If
     End Sub
-
 
     Private Sub MembersTable_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles MembersTable.CellEndEdit
         Dim editedRow As DataGridViewRow = MembersTable.Rows(e.RowIndex)
@@ -256,6 +301,7 @@ Public Class ContentMemberManagement1
                 Dim result As DialogResult = MessageBox.Show($"The following changes were made:{Environment.NewLine}{String.Join(Environment.NewLine, changes)}{Environment.NewLine}Do you want to save these changes?", "Confirm Save", MessageBoxButtons.YesNo)
                 If result = DialogResult.Yes Then
                     SaveEditedRow(editedRow)
+                    MessageBox.Show("Changes Saved")
                 Else
                     ' Revert changes
                     For Each cell As DataGridViewCell In editedRow.Cells
@@ -285,7 +331,7 @@ Public Class ContentMemberManagement1
         Dim statusInput As String = row.Cells("Status").Value.ToString().Trim().ToLower()
 
         ' Check for blank or space-only values
-        If String.IsNullOrWhiteSpace(firstName) OrElse String.IsNullOrWhiteSpace(middleName) OrElse String.IsNullOrWhiteSpace(lastName) OrElse String.IsNullOrWhiteSpace(sex) OrElse String.IsNullOrWhiteSpace(phoneNumber) OrElse String.IsNullOrWhiteSpace(address) Then
+        If String.IsNullOrWhiteSpace(firstName) OrElse String.IsNullOrWhiteSpace(lastName) OrElse String.IsNullOrWhiteSpace(sex) OrElse String.IsNullOrWhiteSpace(phoneNumber) OrElse String.IsNullOrWhiteSpace(address) Then
             MessageBox.Show("Fields cannot be blank or contain only spaces.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
@@ -324,7 +370,9 @@ Public Class ContentMemberManagement1
         Dim zipCode As String = addressParts(3).Trim()
 
         ' Retrieve cost, membership type, and duration from membership table
-        Using conn As New MySqlConnection("server=127.0.0.1;userid=root;password='';database=gym_infosys")
+        UpdateConnectionString()
+        conn = New MySqlConnection(strConnection)
+        Using conn
             conn.Open()
             Dim queryMembership As String = "SELECT Cost, MembershipType, Duration FROM membership WHERE MemberID = @MemberID"
             Using cmdMembership As New MySqlCommand(queryMembership, conn)
@@ -375,7 +423,7 @@ Public Class ContentMemberManagement1
 
     Private Sub MembersTable_CellPainting(sender As Object, e As DataGridViewCellPaintingEventArgs) Handles MembersTable.CellPainting
         If e.ColumnIndex >= 0 AndAlso e.RowIndex >= 0 Then
-            If MembersTable.Columns(e.ColumnIndex).Name = "Edit" OrElse MembersTable.Columns(e.ColumnIndex).Name = "Delete" Then
+            If MembersTable.Columns(e.ColumnIndex).Name = "Edit" OrElse MembersTable.Columns(e.ColumnIndex).Name = "Delete" OrElse MembersTable.Columns(e.ColumnIndex).Name = "View" Then
                 ' Paint the cell background
                 e.PaintBackground(e.CellBounds, True)
 
@@ -392,13 +440,15 @@ Public Class ContentMemberManagement1
                 Dim icon As Bitmap
                 If MembersTable.Columns(e.ColumnIndex).Name = "Edit" Then
                     icon = My.Resources.edit ' Access the edit icon from resources
-                Else
+                ElseIf MembersTable.Columns(e.ColumnIndex).Name = "Delete" Then
                     icon = My.Resources.delete ' Access the delete icon from resources
+                Else
+                    icon = My.Resources.Vector3 ' Access the view icon from resources
                 End If
                 e.Graphics.DrawImage(icon, e.CellBounds.Left + 5, e.CellBounds.Top + (e.CellBounds.Height - icon.Height) \ 2)
 
                 ' Draw the button text
-                Dim buttonText As String = If(MembersTable.Columns(e.ColumnIndex).Name = "Edit", "Edit", "Delete")
+                Dim buttonText As String = If(MembersTable.Columns(e.ColumnIndex).Name = "Edit", "Edit", If(MembersTable.Columns(e.ColumnIndex).Name = "Delete", "Delete", "View"))
                 TextRenderer.DrawText(e.Graphics, buttonText, e.CellStyle.Font, New Rectangle(e.CellBounds.Left + icon.Width + 10, e.CellBounds.Top, e.CellBounds.Width - icon.Width - 10, e.CellBounds.Height), textColor, TextFormatFlags.VerticalCenter Or TextFormatFlags.Left)
 
                 e.Handled = True
@@ -407,12 +457,85 @@ Public Class ContentMemberManagement1
     End Sub
 
 
-    Private Sub MembersTable_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles MembersTable.DataBindingComplete
-        ' Clear the initial selection
-        Me.MembersTable.ClearSelection()
-        ' Remove the event handler to allow future selections
-        RemoveHandler MembersTable.DataBindingComplete, AddressOf MembersTable_DataBindingComplete
+    Public Sub New(contentPnl As Panel)
+
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        Me.contentPanel = contentPnl
+
     End Sub
 
+    Private Function GetAdditionalMemberData(memberId As Integer) As MemberData
+        ' Add your database connection string here
+        UpdateConnectionString()
+        Dim conn As New MySqlConnection(strConnection)
+        Dim additionalData As New MemberData()
+        Try
+            conn.Open()
+            Dim query As String = "SELECT Weight, Height, Email, DOB FROM members WHERE MemberID = @MemberID"
+            Dim cmd As New MySqlCommand(query, conn)
+            cmd.Parameters.AddWithValue("@MemberID", memberId)
+            Dim reader As MySqlDataReader = cmd.ExecuteReader()
+            If reader.Read() Then
+                additionalData.Weight = Decimal.Parse(reader("Weight").ToString())
+                additionalData.Height = Decimal.Parse(reader("Height").ToString())
+                additionalData.Email = reader("Email").ToString()
+                additionalData.DOB = DateTime.Parse(reader("DOB").ToString())
+            End If
+            reader.Close()
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical)
+        Finally
+            conn.Close()
+        End Try
 
+        Return additionalData
+    End Function
+
+
+    Private Sub LoadUserControlWithMemberData(memberId As Integer)
+        ' Retrieve the selected member's data from the DataGridView
+        Dim selectedRow As DataGridViewRow = MembersTable.Rows.Cast(Of DataGridViewRow)().Where(Function(row) CInt(row.Cells("MemberID").Value) = memberId).FirstOrDefault()
+        If selectedRow IsNot Nothing Then
+            Dim memberData As New MemberData() With {
+            .MemberID = CInt(selectedRow.Cells("MemberID").Value),
+            .FirstName = selectedRow.Cells("FirstName").Value.ToString(),
+            .MiddleName = selectedRow.Cells("MiddleName").Value.ToString(),
+            .LastName = selectedRow.Cells("LastName").Value.ToString(),
+            .Username = selectedRow.Cells("Username").Value.ToString(),
+            .Sex = selectedRow.Cells("Sex").Value.ToString(),
+            .PhoneNumber = selectedRow.Cells("PhoneNumber").Value.ToString(),
+            .DTCreated = DateTime.Parse(selectedRow.Cells("DTCreated").Value.ToString()),
+            .Address = selectedRow.Cells("Address").Value.ToString(),
+            .Cost = Decimal.Parse(selectedRow.Cells("Cost").Value.ToString()),
+            .MembershipType = selectedRow.Cells("MembershipType").Value.ToString(),
+            .Duration = selectedRow.Cells("Duration").Value.ToString(),
+            .Status = selectedRow.Cells("Status").Value.ToString()
+        }
+
+            ' Fetch additional data from the database
+            Dim additionalData As MemberData = GetAdditionalMemberData(memberId)
+            memberData.Weight = additionalData.Weight
+            memberData.Height = additionalData.Height
+            memberData.Email = additionalData.Email
+            memberData.DOB = additionalData.DOB
+
+            ' Create an instance of the user control
+            Dim memberProfileControl As New memberProfileControl()
+
+            ' Load the data for the selected member into the user control
+            memberProfileControl.LoadMemberData(memberData)
+
+            ' Show the user control using the provided function
+            ShowUserControl(memberProfileControl)
+        End If
+    End Sub
+
+    Private Sub ShowUserControl(control As UserControl)
+        control.Dock = DockStyle.Fill
+        contentPanel.Controls.Clear()
+        contentPanel.Controls.Add(control)
+        control.BringToFront()
+    End Sub
 End Class

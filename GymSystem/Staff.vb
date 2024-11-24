@@ -4,6 +4,16 @@
     Private hoverButtonColor As Color = Color.FromArgb(245, 203, 92)
     Private hoverDarkenAmount As Single = 0.7
     Private Sub Staff_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ' Set the form to load in a maximized state
+        Me.WindowState = FormWindowState.Normal
+
+        ' Create a main panel to hold all controls
+        Dim mainPanel As New Panel()
+        mainPanel.Size = New Size(Me.ClientSize.Width, Me.ClientSize.Height)
+        mainPanel.Location = New Point(0, 0)
+        mainPanel.Anchor = AnchorStyles.None
+        mainPanel.Dock = DockStyle.None
+
         ' Remove underline from link labels
         ForgotLL.LinkBehavior = LinkBehavior.NeverUnderline
         MemberLL.LinkBehavior = LinkBehavior.NeverUnderline
@@ -23,8 +33,8 @@
         textBoxPanel.Controls.Add(IDBox)
         IDBox.Location = New Point(1, 1)
 
-        ' Add Panel to the Form
-        Me.Controls.Add(textBoxPanel)
+        ' Add Panel to the main panel
+        mainPanel.Controls.Add(textBoxPanel)
 
         ' Repeat for PassBox
         Dim passBoxPanel As New Panel()
@@ -40,8 +50,8 @@
         passBoxPanel.Controls.Add(PassBox)
         PassBox.Location = New Point(1, 1)
 
-        ' Add Panel to the Form
-        Me.Controls.Add(passBoxPanel)
+        ' Add Panel to the main panel
+        mainPanel.Controls.Add(passBoxPanel)
 
         ' Use a Panel to simulate Button border color change
         Dim buttonPanel As New Panel()
@@ -58,21 +68,23 @@
         buttonPanel.Controls.Add(LoginBtn)
         LoginBtn.Location = New Point(2, 2)
 
-        ' Add Panel to the Form
-        Me.Controls.Add(buttonPanel)
+        ' Add Panel to the main panel
+        mainPanel.Controls.Add(buttonPanel)
 
         Dim verticalLine As New Label()
         verticalLine.Width = 2
         verticalLine.Height = 20 ' Set desired height
         verticalLine.BackColor = Color.FromArgb(245, 203, 92) ' Set the desired color
-        verticalLine.Location = New Point(292, 393) ' Custom location
+        verticalLine.Location = New Point(292, 393)
 
-        Me.Controls.Add(verticalLine)
+        mainPanel.Controls.Add(verticalLine)
+
+        ' Add the main panel to the form
+        Me.Controls.Add(mainPanel)
 
         ' Initialize button colors
         originalButtonColor = LoginBtn.BackColor
         hoverButtonColor = ControlPaint.Dark(originalButtonColor, hoverDarkenAmount)
-
     End Sub
 
     Private Sub IDBox_TextChanged(sender As Object, e As EventArgs) Handles IDBox.TextChanged

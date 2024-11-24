@@ -4,6 +4,13 @@
     Private hoverButtonColor As Color = Color.FromArgb(245, 203, 92)
     Private hoverDarkenAmount As Single = 0.7
     Private Sub Member_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        Dim mainPanel As New Panel()
+        mainPanel.Size = New Size(925, 580)
+        mainPanel.Location = New Point(0, 0)
+        mainPanel.Anchor = AnchorStyles.None
+        mainPanel.Dock = DockStyle.None
+
         ' Remove underline from link labels
         ForgotLL.LinkBehavior = LinkBehavior.NeverUnderline
         StaffLL.LinkBehavior = LinkBehavior.NeverUnderline
@@ -24,7 +31,7 @@
         IDBox.Location = New Point(1, 1)
 
         ' Add Panel to the Form
-        Me.Controls.Add(textBoxPanel)
+        mainPanel.Controls.Add(textBoxPanel)
 
         ' Repeat for PassBox
         Dim passBoxPanel As New Panel()
@@ -41,7 +48,7 @@
         PassBox.Location = New Point(1, 1)
 
         ' Add Panel to the Form
-        Me.Controls.Add(passBoxPanel)
+        mainPanel.Controls.Add(passBoxPanel)
 
         ' Use a Panel to simulate Button border color change
         Dim buttonPanel As New Panel()
@@ -63,7 +70,7 @@
 
 
         ' Add Panel to the Form
-        Me.Controls.Add(buttonPanel)
+        mainPanel.Controls.Add(buttonPanel)
 
         IDBox.Focus()
         PassBox.Focus()
@@ -76,7 +83,9 @@
         verticalLine.BackColor = Color.FromArgb(245, 203, 92) ' Set the desired color
         verticalLine.Location = New Point(277, 378) ' Custom location
 
-        Me.Controls.Add(verticalLine)
+        mainPanel.Controls.Add(verticalLine)
+
+        Me.Controls.Add(mainPanel)
 
         ' Initialize button colors
         originalButtonColor = LoginBtn.BackColor

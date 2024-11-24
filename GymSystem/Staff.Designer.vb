@@ -40,6 +40,7 @@ Partial Class Staff
         ' 
         ' PictureBox1
         ' 
+        PictureBox1.Anchor = AnchorStyles.None
         PictureBox1.Image = My.Resources.Resources._929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
         PictureBox1.Location = New Point(580, 120)
         PictureBox1.Margin = New Padding(3, 2, 3, 2)
@@ -51,6 +52,7 @@ Partial Class Staff
         ' 
         ' ForgotLL
         ' 
+        ForgotLL.Anchor = AnchorStyles.None
         ForgotLL.AutoSize = True
         ForgotLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         ForgotLL.Location = New Point(329, 307)
@@ -63,6 +65,7 @@ Partial Class Staff
         ' 
         ' AdminLL
         ' 
+        AdminLL.Anchor = AnchorStyles.None
         AdminLL.AutoSize = True
         AdminLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         AdminLL.Location = New Point(321, 395)
@@ -75,6 +78,7 @@ Partial Class Staff
         ' 
         ' MemberLL
         ' 
+        MemberLL.Anchor = AnchorStyles.None
         MemberLL.AutoSize = True
         MemberLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         MemberLL.Location = New Point(184, 395)
@@ -87,7 +91,9 @@ Partial Class Staff
         ' 
         ' LoginBtn
         ' 
+        LoginBtn.Anchor = AnchorStyles.None
         LoginBtn.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        LoginBtn.FlatStyle = FlatStyle.Flat
         LoginBtn.Font = New Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
         LoginBtn.ForeColor = SystemColors.ActiveCaptionText
         LoginBtn.Location = New Point(184, 341)
@@ -100,6 +106,7 @@ Partial Class Staff
         ' 
         ' CBMe
         ' 
+        CBMe.Anchor = AnchorStyles.None
         CBMe.AutoSize = True
         CBMe.Font = New Font("Tahoma", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         CBMe.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
@@ -113,6 +120,7 @@ Partial Class Staff
         ' 
         ' PassBox
         ' 
+        PassBox.Anchor = AnchorStyles.None
         PassBox.BackColor = Color.Gray
         PassBox.BorderStyle = BorderStyle.FixedSingle
         PassBox.Font = New Font("Segoe UI Variable Small", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
@@ -125,6 +133,7 @@ Partial Class Staff
         ' 
         ' IDBox
         ' 
+        IDBox.Anchor = AnchorStyles.None
         IDBox.BackColor = Color.Gray
         IDBox.BorderStyle = BorderStyle.FixedSingle
         IDBox.Font = New Font("Segoe UI Variable Small", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
@@ -137,6 +146,7 @@ Partial Class Staff
         ' 
         ' LabelPass
         ' 
+        LabelPass.Anchor = AnchorStyles.None
         LabelPass.AutoSize = True
         LabelPass.Font = New Font("Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         LabelPass.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
@@ -148,6 +158,7 @@ Partial Class Staff
         ' 
         ' LabelID
         ' 
+        LabelID.Anchor = AnchorStyles.None
         LabelID.AutoSize = True
         LabelID.Font = New Font("Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         LabelID.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
@@ -159,6 +170,7 @@ Partial Class Staff
         ' 
         ' LabelSign
         ' 
+        LabelSign.Anchor = AnchorStyles.None
         LabelSign.AutoSize = True
         LabelSign.Font = New Font("Microsoft Sans Serif", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
         LabelSign.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
@@ -204,9 +216,9 @@ Partial Class Staff
         Controls.Add(LabelID)
         Controls.Add(LabelSign)
         Margin = New Padding(3, 2, 3, 2)
-        MaximumSize = New Size(925, 580)
         MinimumSize = New Size(925, 580)
         Name = "Staff"
+        StartPosition = FormStartPosition.CenterParent
         Text = "Staff"
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
