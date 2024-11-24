@@ -337,7 +337,7 @@ Public Class AdminMain
             backtoAdminLogin.Show()
         End If
     End Sub
-                
+
     Private Sub MemEntryFormBtn_Click(sender As Object, e As EventArgs) Handles MemEntryFormBtn.Click
     End Sub
 
