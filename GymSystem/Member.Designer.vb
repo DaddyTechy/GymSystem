@@ -40,6 +40,7 @@ Partial Class Member
         ' 
         ' LabelSign
         ' 
+        LabelSign.Anchor = AnchorStyles.None
         LabelSign.AutoSize = True
         LabelSign.Font = New Font("Microsoft Sans Serif", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
         LabelSign.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
@@ -51,6 +52,7 @@ Partial Class Member
         ' 
         ' LabelID
         ' 
+        LabelID.Anchor = AnchorStyles.None
         LabelID.AutoSize = True
         LabelID.Font = New Font("Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         LabelID.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
@@ -62,6 +64,7 @@ Partial Class Member
         ' 
         ' LabelPass
         ' 
+        LabelPass.Anchor = AnchorStyles.None
         LabelPass.AutoSize = True
         LabelPass.Font = New Font("Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         LabelPass.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
@@ -73,6 +76,7 @@ Partial Class Member
         ' 
         ' IDBox
         ' 
+        IDBox.Anchor = AnchorStyles.None
         IDBox.BackColor = Color.Gray
         IDBox.BorderStyle = BorderStyle.FixedSingle
         IDBox.Cursor = Cursors.IBeam
@@ -86,6 +90,7 @@ Partial Class Member
         ' 
         ' PassBox
         ' 
+        PassBox.Anchor = AnchorStyles.None
         PassBox.BackColor = Color.Gray
         PassBox.BorderStyle = BorderStyle.FixedSingle
         PassBox.Font = New Font("Segoe UI Variable Small", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
@@ -98,6 +103,7 @@ Partial Class Member
         ' 
         ' CBMe
         ' 
+        CBMe.Anchor = AnchorStyles.None
         CBMe.AutoSize = True
         CBMe.Font = New Font("Tahoma", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         CBMe.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
@@ -111,6 +117,7 @@ Partial Class Member
         ' 
         ' LoginBtn
         ' 
+        LoginBtn.Anchor = AnchorStyles.None
         LoginBtn.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         LoginBtn.Font = New Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
         LoginBtn.ForeColor = SystemColors.ActiveCaptionText
@@ -124,6 +131,7 @@ Partial Class Member
         ' 
         ' StaffLL
         ' 
+        StaffLL.Anchor = AnchorStyles.None
         StaffLL.AutoSize = True
         StaffLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         StaffLL.Location = New Point(178, 380)
@@ -136,6 +144,7 @@ Partial Class Member
         ' 
         ' AdminLL
         ' 
+        AdminLL.Anchor = AnchorStyles.None
         AdminLL.AutoSize = True
         AdminLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         AdminLL.Location = New Point(310, 380)
@@ -148,6 +157,7 @@ Partial Class Member
         ' 
         ' ForgotLL
         ' 
+        ForgotLL.Anchor = AnchorStyles.None
         ForgotLL.AutoSize = True
         ForgotLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         ForgotLL.Location = New Point(318, 292)
@@ -160,6 +170,7 @@ Partial Class Member
         ' 
         ' PictureBox1
         ' 
+        PictureBox1.Anchor = AnchorStyles.None
         PictureBox1.Image = My.Resources.Resources._929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
         PictureBox1.Location = New Point(569, 105)
         PictureBox1.Margin = New Padding(3, 2, 3, 2)
@@ -171,6 +182,7 @@ Partial Class Member
         ' 
         ' Label1
         ' 
+        Label1.Anchor = AnchorStyles.None
         Label1.AutoSize = True
         Label1.Font = New Font("Tahoma", 9F)
         Label1.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
@@ -182,6 +194,7 @@ Partial Class Member
         ' 
         ' RegisterBtn
         ' 
+        RegisterBtn.Anchor = AnchorStyles.None
         RegisterBtn.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         RegisterBtn.FlatAppearance.BorderColor = Color.Yellow
         RegisterBtn.FlatAppearance.MouseDownBackColor = Color.Yellow
@@ -215,7 +228,6 @@ Partial Class Member
         Controls.Add(LabelID)
         Controls.Add(LabelSign)
         Margin = New Padding(3, 2, 3, 2)
-        MaximumSize = New Size(925, 580)
         MinimumSize = New Size(925, 580)
         Name = "Member"
         Text = "Member Login"
