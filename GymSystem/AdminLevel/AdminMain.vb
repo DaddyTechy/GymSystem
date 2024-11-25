@@ -99,8 +99,8 @@ Public Class AdminMain
         button.FlatStyle = FlatStyle.Flat
         button.FlatAppearance.BorderSize = 0
         button.ForeColor = If(button.Equals(activeSubMenuButton), activeForeColor, initialForeColor)
-        button.TextAlign = ContentAlignment.MiddleLeft
-        button.Padding = New Padding(10, 0, 0, 0)
+        button.TextAlign = ContentAlignment.MiddleCenter
+        button.Padding = New Padding(60, 0, 0, 0)
     End Sub
 
 

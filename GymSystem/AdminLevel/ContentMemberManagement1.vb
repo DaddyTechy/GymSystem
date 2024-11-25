@@ -172,6 +172,7 @@ Public Class ContentMemberManagement1
                         SetMemberInactive(memberId)
                         selectedRow.Cells("Status").Value = "Inactive"
                         MessageBox.Show("Member set to inactive for MemberID: " & memberId)
+                        Logs("Status Updated to incative for MemberID: " & memberId, "Status Update")
                     End If
                     ' If resultInactive is No, do nothing and close the dialog
                 End If
@@ -204,6 +205,7 @@ Public Class ContentMemberManagement1
                 Dim rowsAffected As Integer = cmd.ExecuteNonQuery()
                 If rowsAffected > 0 Then
                     MessageBox.Show($"Successfully deleted from members table: MemberID {memberID}", "Delete Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Logs("Deleted from members table: MemberID " & memberID, "Delete From members Table")
                 Else
                     MessageBox.Show($"No record found in members table for MemberID {memberID}", "Delete Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
@@ -216,6 +218,7 @@ Public Class ContentMemberManagement1
                 Dim rowsAffectedLogin As Integer = cmdLogin.ExecuteNonQuery()
                 If rowsAffectedLogin > 0 Then
                     MessageBox.Show($"Successfully deleted from memberlogin table: MemberID {memberID}", "Delete Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Logs("Deleted from memberlogin table: MemberID " & memberID, "Delete From memberlogin Table")
                 Else
                     MessageBox.Show($"No record found in memberlogin table for MemberID {memberID}", "Delete Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
@@ -302,6 +305,7 @@ Public Class ContentMemberManagement1
                 If result = DialogResult.Yes Then
                     SaveEditedRow(editedRow)
                     MessageBox.Show("Changes Saved")
+                    Logs($"Edited: {String.Join(Environment.NewLine, changes)}", "Edited Details of the Member with ID: " & memberID)
                 Else
                     ' Revert changes
                     For Each cell As DataGridViewCell In editedRow.Cells
@@ -467,13 +471,15 @@ Public Class ContentMemberManagement1
     End Sub
 
     Private Function GetAdditionalMemberData(memberId As Integer) As MemberData
-        ' Add your database connection string here
         UpdateConnectionString()
         Dim conn As New MySqlConnection(strConnection)
         Dim additionalData As New MemberData()
         Try
             conn.Open()
-            Dim query As String = "SELECT Weight, Height, Email, DOB FROM members WHERE MemberID = @MemberID"
+            Dim query As String = "SELECT m.Weight, m.Height, m.Email, m.DOB, ms.StartDate, ms.EndDate, ms.RenewalPolicy, ms.Benefits, ms.MemberShipName " &
+                              "FROM members m " &
+                              "JOIN membership ms ON m.MemberID = ms.MemberID " &
+                              "WHERE m.MemberID = @MemberID"
             Dim cmd As New MySqlCommand(query, conn)
             cmd.Parameters.AddWithValue("@MemberID", memberId)
             Dim reader As MySqlDataReader = cmd.ExecuteReader()
@@ -482,6 +488,11 @@ Public Class ContentMemberManagement1
                 additionalData.Height = Decimal.Parse(reader("Height").ToString())
                 additionalData.Email = reader("Email").ToString()
                 additionalData.DOB = DateTime.Parse(reader("DOB").ToString())
+                additionalData.StartDate = DateTime.Parse(reader("StartDate").ToString())
+                additionalData.EndDate = DateTime.Parse(reader("EndDate").ToString())
+                additionalData.RenewalPolicy = reader("RenewalPolicy").ToString()
+                additionalData.Benefits = reader("Benefits").ToString()
+                additionalData.MemberShipName = reader("MemberShipName").ToString()
             End If
             reader.Close()
         Catch ex As Exception
@@ -492,6 +503,7 @@ Public Class ContentMemberManagement1
 
         Return additionalData
     End Function
+
 
 
     Private Sub LoadUserControlWithMemberData(memberId As Integer)
@@ -520,6 +532,11 @@ Public Class ContentMemberManagement1
             memberData.Height = additionalData.Height
             memberData.Email = additionalData.Email
             memberData.DOB = additionalData.DOB
+            memberData.Benefits = additionalData.Benefits
+            memberData.StartDate = additionalData.StartDate
+            memberData.EndDate = additionalData.EndDate
+            memberData.MemberShipName = additionalData.MemberShipName
+            memberData.RenewalPolicy = additionalData.RenewalPolicy
 
             ' Create an instance of the user control
             Dim memberProfileControl As New memberProfileControl()

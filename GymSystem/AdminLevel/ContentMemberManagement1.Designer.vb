@@ -26,25 +26,13 @@ Partial Class ContentMemberManagement1
         Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As DataGridViewCellStyle = New DataGridViewCellStyle()
-        Label1 = New Label()
         Panel1 = New Panel()
         MembersTable = New DataGridView()
         Label2 = New Label()
+        Label1 = New Label()
         Panel1.SuspendLayout()
         CType(MembersTable, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
-        ' 
-        ' Label1
-        ' 
-        Label1.AutoSize = True
-        Label1.Dock = DockStyle.Top
-        Label1.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label1.ForeColor = Color.White
-        Label1.Location = New Point(17, 20)
-        Label1.Name = "Label1"
-        Label1.Size = New Size(154, 20)
-        Label1.TabIndex = 0
-        Label1.Text = "Registered Members"
         ' 
         ' Panel1
         ' 
@@ -52,11 +40,10 @@ Partial Class ContentMemberManagement1
         Panel1.Controls.Add(MembersTable)
         Panel1.Controls.Add(Label2)
         Panel1.Dock = DockStyle.Fill
-        Panel1.Location = New Point(17, 40)
-        Panel1.Margin = New Padding(3, 4, 3, 4)
+        Panel1.Location = New Point(15, 32)
         Panel1.Name = "Panel1"
-        Panel1.Padding = New Padding(23, 0, 23, 0)
-        Panel1.Size = New Size(737, 601)
+        Panel1.Padding = New Padding(20, 0, 20, 0)
+        Panel1.Size = New Size(645, 449)
         Panel1.TabIndex = 1
         ' 
         ' MembersTable
@@ -89,8 +76,7 @@ Partial Class ContentMemberManagement1
         MembersTable.EditMode = DataGridViewEditMode.EditOnEnter
         MembersTable.EnableHeadersVisualStyles = False
         MembersTable.GridColor = Color.White
-        MembersTable.Location = New Point(23, 35)
-        MembersTable.Margin = New Padding(3, 4, 3, 4)
+        MembersTable.Location = New Point(20, 36)
         MembersTable.MultiSelect = False
         MembersTable.Name = "MembersTable"
         MembersTable.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
@@ -116,7 +102,7 @@ Partial Class ContentMemberManagement1
         MembersTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect
         MembersTable.ShowCellErrors = False
         MembersTable.ShowRowErrors = False
-        MembersTable.Size = New Size(691, 566)
+        MembersTable.Size = New Size(605, 413)
         MembersTable.TabIndex = 0
         ' 
         ' Label2
@@ -125,38 +111,50 @@ Partial Class ContentMemberManagement1
         Label2.Dock = DockStyle.Top
         Label2.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.White
-        Label2.Location = New Point(23, 0)
+        Label2.Location = New Point(20, 0)
+        Label2.Margin = New Padding(3, 0, 3, 10)
         Label2.Name = "Label2"
-        Label2.Padding = New Padding(0, 7, 0, 0)
-        Label2.Size = New Size(147, 35)
+        Label2.Padding = New Padding(0, 5, 0, 10)
+        Label2.Size = New Size(119, 36)
         Label2.TabIndex = 0
         Label2.Text = "Member Table"
         Label2.TextAlign = ContentAlignment.MiddleCenter
         ' 
+        ' Label1
+        ' 
+        Label1.AutoSize = True
+        Label1.Dock = DockStyle.Top
+        Label1.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label1.ForeColor = Color.Gold
+        Label1.Location = New Point(15, 15)
+        Label1.Name = "Label1"
+        Label1.Padding = New Padding(2, 0, 0, 0)
+        Label1.Size = New Size(136, 17)
+        Label1.TabIndex = 0
+        Label1.Text = "Registered Members"
+        ' 
         ' ContentMemberManagement1
         ' 
-        AutoScaleDimensions = New SizeF(8F, 20F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         AutoScroll = True
         AutoScrollMinSize = New Size(600, 0)
         BackColor = Color.Transparent
         Controls.Add(Panel1)
         Controls.Add(Label1)
-        Margin = New Padding(3, 4, 3, 4)
-        MinimumSize = New Size(771, 661)
+        MinimumSize = New Size(675, 496)
         Name = "ContentMemberManagement1"
-        Padding = New Padding(17, 20, 17, 20)
-        Size = New Size(771, 661)
+        Padding = New Padding(15)
+        Size = New Size(675, 496)
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
         CType(MembersTable, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
     End Sub
-
-    Friend WithEvents Label1 As Label
     Friend WithEvents Panel1 As Panel
     Friend WithEvents Label2 As Label
     Friend WithEvents MembersTable As DataGridView
+    Friend WithEvents Label1 As Label
 
 End Class
