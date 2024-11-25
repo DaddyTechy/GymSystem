@@ -138,6 +138,8 @@ Public Class ContentMemberManagement1
     End Sub
 
     Public Event ViewMemberProfile(memberData As MemberData)
+    Private editedRows As New Dictionary(Of Integer, Boolean)
+    Private isEditMode As Boolean = False
 
     Private Sub MembersTable_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles MembersTable.CellClick
         If e.RowIndex >= 0 Then
@@ -145,18 +147,28 @@ Public Class ContentMemberManagement1
             selectedCell = MembersTable.Rows(e.RowIndex).Cells(e.ColumnIndex)
             Dim memberId As Integer = selectedRow.Cells("MemberID").Value
 
+            ' Debug: Log the ReadOnly status of each cell in the selected row
+            Debug.WriteLine($"Clicked row: {e.RowIndex}, MemberID: {memberId}")
+            For Each cell As DataGridViewCell In selectedRow.Cells
+                Debug.WriteLine($"Cell [{cell.ColumnIndex}] ReadOnly: {cell.ReadOnly}")
+            Next
+
             If e.ColumnIndex = MembersTable.Columns("Edit").Index Then
                 ' Handle Edit button click
-                selectedMemberID = memberId
-                StoreOriginalValues(selectedRow)
-                EnableRowEditing(selectedRow)
-                MessageBox.Show("Cells in Selected Row are now EDITABLE for MemberID: " & memberId)
-
-                ' Debug: Log the state of the DataGridView
-                Debug.WriteLine("Row is now editable for MemberID: " & memberId)
-                For Each cell As DataGridViewCell In selectedRow.Cells
-                    Debug.WriteLine("Cell [" & cell.ColumnIndex & "]: ReadOnly = " & cell.ReadOnly)
-                Next
+                If Not editedRows.ContainsKey(memberId) OrElse Not editedRows(memberId) Then
+                    selectedMemberID = memberId
+                    StoreOriginalValues(selectedRow)
+                    EnableRowEditing(selectedRow)
+                    isEditMode = True ' Start edit mode
+                    MessageBox.Show("Cells in Selected Row are now EDITABLE for MemberID: " & memberId)
+                    ' Debug: Log the state of the DataGridView
+                    Debug.WriteLine("Row is now editable for MemberID: " & memberId)
+                    For Each cell As DataGridViewCell In selectedRow.Cells
+                        Debug.WriteLine("Cell [" & cell.ColumnIndex & "]: ReadOnly = " & cell.ReadOnly)
+                    Next
+                Else
+                    MessageBox.Show("This row is locked and cannot be edited.")
+                End If
             ElseIf e.ColumnIndex = MembersTable.Columns("Delete").Index Then
                 ' Handle Delete button click
                 Dim resultDelete As DialogResult = MessageBox.Show("Do you want to delete the entire row?", "Delete Row", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
@@ -172,25 +184,32 @@ Public Class ContentMemberManagement1
                         SetMemberInactive(memberId)
                         selectedRow.Cells("Status").Value = "Inactive"
                         MessageBox.Show("Member set to inactive for MemberID: " & memberId)
-                        Logs("Status Updated to incative for MemberID: " & memberId, "Status Update")
+                        Logs("Status Updated to inactive for MemberID: " & memberId, "Status Update")
                     End If
-                    ' If resultInactive is No, do nothing and close the dialog
                 End If
             ElseIf e.ColumnIndex = MembersTable.Columns("View").Index Then
                 selectedMemberID = memberId
                 LoadUserControlWithMemberData(memberId)
             Else
-                If memberId = selectedMemberID Then
-                    MembersTable.ReadOnly = False
-                    For Each cell As DataGridViewCell In selectedRow.Cells
-                        cell.ReadOnly = False
-                    Next
-                Else
-                    LockDataGridView()
+                ' Ensure the row remains read-only if it has been locked
+                If isEditMode Then
+                    If memberId = selectedMemberID Then
+                        If Not editedRows.ContainsKey(memberId) OrElse Not editedRows(memberId) Then
+                            For Each cell As DataGridViewCell In selectedRow.Cells
+                                cell.ReadOnly = False
+                            Next
+                            MembersTable.ReadOnly = False
+                        Else
+                            MessageBox.Show("This row is locked and cannot be edited.")
+                        End If
+                    Else
+                        LockDataGridView()
+                    End If
                 End If
             End If
         End If
     End Sub
+
 
     Private Sub DeleteRow(memberID As Integer)
         UpdateConnectionString()
@@ -256,17 +275,21 @@ Public Class ContentMemberManagement1
     End Sub
 
     Private Sub EnableRowEditing(row As DataGridViewRow)
-        ' Make the entire row editable
-        For Each cell As DataGridViewCell In row.Cells
-            cell.ReadOnly = False
-            Debug.WriteLine("Cell [" & cell.ColumnIndex & "]: ReadOnly = " & cell.ReadOnly)
-        Next
-        MembersTable.ReadOnly = False
-        MembersTable.CurrentCell = row.Cells(0)
-        MembersTable.BeginEdit(True)
-        Debug.WriteLine("MembersTable.ReadOnly = " & MembersTable.ReadOnly)
+        ' Make the entire row editable if it is not locked
+        Dim memberId As Integer = row.Cells("MemberID").Value
+        If Not editedRows.ContainsKey(memberId) OrElse Not editedRows(memberId) Then
+            For Each cell As DataGridViewCell In row.Cells
+                cell.ReadOnly = False
+                Debug.WriteLine("Cell [" & cell.ColumnIndex & "]: ReadOnly = " & cell.ReadOnly)
+            Next
+            MembersTable.ReadOnly = False
+            MembersTable.CurrentCell = row.Cells(0)
+            MembersTable.BeginEdit(True)
+            Debug.WriteLine("MembersTable.ReadOnly = " & MembersTable.ReadOnly)
+        Else
+            MessageBox.Show("This row is locked and cannot be edited.")
+        End If
     End Sub
-
 
     Private Sub LockDataGridView()
         ' Make the entire DataGridView read-only
@@ -276,6 +299,7 @@ Public Class ContentMemberManagement1
             Next
         Next
         MembersTable.ReadOnly = True
+        Debug.WriteLine("All cells in MembersTable are now ReadOnly.")
     End Sub
 
     Private Sub MembersTable_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs) Handles MembersTable.CellBeginEdit
@@ -306,6 +330,12 @@ Public Class ContentMemberManagement1
                     SaveEditedRow(editedRow)
                     MessageBox.Show("Changes Saved")
                     Logs($"Edited: {String.Join(Environment.NewLine, changes)}", "Edited Details of the Member with ID: " & memberID)
+                    ' Lock the edited row to prevent further editing
+                    For Each cell As DataGridViewCell In editedRow.Cells
+                        cell.ReadOnly = True
+                        Debug.WriteLine($"Cell [{cell.ColumnIndex}] for MemberID: {memberID} is now ReadOnly.")
+                    Next
+                    editedRows(memberID) = True
                 Else
                     ' Revert changes
                     For Each cell As DataGridViewCell In editedRow.Cells
@@ -317,8 +347,25 @@ Public Class ContentMemberManagement1
         Else
             Debug.WriteLine($"Original values not found for MemberID: {memberID}")
         End If
-        MembersTable.ReadOnly = True
+
+        ' Prompt to end edit mode
+        Dim endEditModeResult As DialogResult = MessageBox.Show("Do you want to end the edit mode?", "End Edit Mode", MessageBoxButtons.YesNo)
+        If endEditModeResult = DialogResult.Yes Then
+            LockDataGridView()
+            isEditMode = False ' End edit mode
+            Debug.WriteLine("MembersTable is now ReadOnly.")
+
+            ' Debug: Log the ReadOnly status of each cell in the edited row
+            Debug.WriteLine($"Checking ReadOnly status of each cell in row for MemberID: {memberID} after ending edit mode:")
+            For Each cell As DataGridViewCell In editedRow.Cells
+                Debug.WriteLine($"Cell [{cell.ColumnIndex}] ReadOnly: {cell.ReadOnly}")
+            Next
+        Else
+            MembersTable.ReadOnly = False
+            Debug.WriteLine("MembersTable remains editable.")
+        End If
     End Sub
+
 
     Private Sub SaveEditedRow(row As DataGridViewRow)
         Dim memberID As Integer = row.Cells("MemberID").Value
