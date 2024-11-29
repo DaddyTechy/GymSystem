@@ -1,4 +1,5 @@
 ﻿Imports System.Data.SqlClient
+Imports System.Text
 Imports MySql.Data.MySqlClient
 
 Public Class ContentAttendance
@@ -257,15 +258,15 @@ Public Class ContentAttendance
             End If
         End If
     End Sub
-
-
+    ' Method to handle the CellEndEdit event for the DataGridView
     Private Sub attendanceDGV_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles attendanceDGV.CellEndEdit
         Try
             Dim row As DataGridViewRow = attendanceDGV.Rows(e.RowIndex)
-            Dim checkInTime As String = row.Cells("CheckInTime").Value?.ToString()
-            Dim checkOutTime As String = row.Cells("CheckOutTime").Value?.ToString()
+            Dim editCheckInTime As String = row.Cells("CheckInTime").Value?.ToString()
+            Dim editCheckOutTime As String = row.Cells("CheckOutTime").Value?.ToString()
 
-            If Not String.IsNullOrEmpty(checkInTime) AndAlso Not String.IsNullOrEmpty(checkOutTime) Then
+            ' Update the status based on CheckInTime and CheckOutTime
+            If Not String.IsNullOrEmpty(editCheckInTime) AndAlso Not String.IsNullOrEmpty(editCheckOutTime) Then
                 row.Cells("Status").Value = "Present"
             Else
                 row.Cells("Status").Value = "Absent"
@@ -282,7 +283,18 @@ Public Class ContentAttendance
                     If saveResult = DialogResult.Yes Then
                         Try
                             ' Save the edited or new row
-                            SaveAttendance(row)
+                            Dim attendanceID As Integer = Convert.ToInt32(row.Cells("AttendanceID").Value)
+                            Dim memberID As Integer = Convert.ToInt32(row.Cells("MemberID").Value)
+                            Dim staffID As Integer = Convert.ToInt32(row.Cells("StaffID").Value)
+                            Dim editCheckInTimeSpan As TimeSpan = TimeSpan.Parse(row.Cells("CheckInTime").Value.ToString())
+                            Dim editCheckOutTimeSpan As TimeSpan = TimeSpan.Parse(row.Cells("CheckOutTime").Value.ToString())
+                            Dim sessionType As String = row.Cells("SessionType").Value.ToString()
+                            Dim dateValue As DateTime = DateTime.Parse(row.Cells("Date").Value.ToString())
+                            Dim status As String = row.Cells("Status").Value.ToString()
+
+                            ' Update the attendance record
+                            UpdateAttendance(attendanceID, memberID, staffID, editCheckInTimeSpan, editCheckOutTimeSpan, sessionType, dateValue, status)
+
                             MessageBox.Show("Changes saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             ' End edit mode and lock the DataGridView
                             attendanceDGV.ReadOnly = True
@@ -298,8 +310,24 @@ Public Class ContentAttendance
             End If
         Catch ex As ArgumentOutOfRangeException
             MessageBox.Show($"An error occurred: {ex.Message}. Please ensure the index is within the valid range.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Catch ex As Exception
+            MessageBox.Show($"An unexpected error occurred: {ex.Message}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+
+    Private Function GetSummary(row As DataGridViewRow) As String
+        Dim summary As New StringBuilder()
+        summary.AppendLine("Summary of changes:")
+        summary.AppendLine($"Member ID: {row.Cells("MemberID").Value}")
+        summary.AppendLine($"Staff ID: {row.Cells("StaffID").Value}")
+        summary.AppendLine($"Check-In Time: {row.Cells("CheckInTime").Value}")
+        summary.AppendLine($"Check-Out Time: {row.Cells("CheckOutTime").Value}")
+        summary.AppendLine($"Session Type: {row.Cells("SessionType").Value}")
+        summary.AppendLine($"Date: {row.Cells("Date").Value}")
+        summary.AppendLine($"Status: {row.Cells("Status").Value}")
+        Return summary.ToString()
+    End Function
 
     Private Function ValidateForeignKeyConstraints(memberID As Integer, staffID As Integer) As Boolean
         Try
@@ -329,17 +357,6 @@ Public Class ContentAttendance
             Return False
         End Try
     End Function
-
-
-
-    Private Function GetSummary(row As DataGridViewRow) As String
-        Dim summary As String = "Summary of Changes:" & Environment.NewLine
-        For Each cell As DataGridViewCell In row.Cells
-            summary &= $"{attendanceDGV.Columns(cell.ColumnIndex).HeaderText}: {cell.Value}" & Environment.NewLine
-        Next
-        Return summary
-    End Function
-
 
     Private Function ValidateRow(row As DataGridViewRow) As Boolean
         Try
@@ -412,80 +429,6 @@ Public Class ContentAttendance
         e.ThrowException = False ' Prevent the exception from being thrown again
     End Sub
 
-    ' SaveAttendance Method
-    Private Sub SaveAttendance(row As DataGridViewRow)
-        UpdateConnectionString()
-        If Not isConnectedToLocalServer() Then
-            HandleError("Failed to connect to the server. Please check your connection settings.")
-            Return
-        End If
-
-        Try
-            ' Validate inputs
-            Dim checkInTime As TimeSpan
-            Dim checkOutTime As TimeSpan
-            If Not TimeSpan.TryParse(row.Cells("CheckInTime").Value.ToString(), checkInTime) Then
-                HandleError("Invalid CheckInTime format. Please enter the time in HH:mm:ss format.")
-                Return
-            End If
-            If Not TimeSpan.TryParse(row.Cells("CheckOutTime").Value.ToString(), checkOutTime) Then
-                HandleError("Invalid CheckOutTime format. Please enter the time in HH:mm:ss format.")
-                Return
-            End If
-
-            Dim attendanceID As Integer = If(row.Cells("AttendanceID").Value IsNot Nothing, Convert.ToInt32(row.Cells("AttendanceID").Value), 0)
-            Dim memberID As Integer
-            If Not Integer.TryParse(row.Cells("MemberID").Value.ToString(), memberID) Then
-                HandleError("Invalid MemberID format. Please enter a valid integer.")
-                Return
-            End If
-            Dim staffID As Integer
-            If Not Integer.TryParse(row.Cells("StaffID").Value.ToString(), staffID) Then
-                HandleError("Invalid StaffID format. Please enter a valid integer.")
-                Return
-            End If
-            Dim sessionType As String = row.Cells("SessionType").Value?.ToString()
-            If String.IsNullOrEmpty(sessionType) Then
-                HandleError("SessionType cannot be empty. Please enter a valid session type.")
-                Return
-            End If
-            Dim currDate As DateTime
-            If Not DateTime.TryParse(row.Cells("Date").Value.ToString(), currDate) Then
-                HandleError("Invalid Date format. Please enter the date in yyyy-MM-dd format.")
-                Return
-            End If
-            Dim status As String = row.Cells("Status").Value?.ToString()
-            If String.IsNullOrEmpty(status) Then
-                HandleError("Status cannot be empty. Please enter a valid status.")
-                Return
-            End If
-
-            ' Validate foreign key constraints
-            If Not ValidateForeignKeyConstraints(memberID, staffID) Then
-                HandleError("Invalid MemberID or StaffID. Please ensure the values exist in the referenced tables.")
-                Return
-            End If
-
-            ' Determine if it's an insert or update operation
-            Dim query As String
-            If attendanceID = 0 Then
-                ' Insert new record
-                query = $"INSERT INTO attendance (MemberID, StaffID, CheckInTime, CheckOutTime, SessionType, Date, Status) " &
-                    $"VALUES ({memberID}, {staffID}, '{checkInTime}', '{checkOutTime}', '{sessionType}', '{currDate:yyyy-MM-dd}', '{status}')"
-            Else
-                ' Update existing record
-                query = $"UPDATE attendance SET MemberID = {memberID}, StaffID = {staffID}, CheckInTime = '{checkInTime}', CheckOutTime = '{checkOutTime}', " &
-                    $"SessionType = '{sessionType}', Date = '{currDate:yyyy-MM-dd}', Status = '{status}' WHERE AttendanceID = {attendanceID}"
-            End If
-
-            ' Execute the query
-            readQuery(query)
-            MessageBox.Show("Attendance record saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        Catch ex As Exception
-            HandleError($"An error occurred while saving the attendance record: {ex.Message}")
-        End Try
-    End Sub
-
 
     Private Sub ContentAttendance_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         attendanceDGV.ReadOnly = True
@@ -536,89 +479,87 @@ Public Class ContentAttendance
         End If
     End Sub
 
+    Private addAttendanceControl As AddAttendanceControl
 
     Public Sub New()
             ' This call is required by the designer.
             InitializeComponent()
+
+            ' Initialize the AddAttendanceControl
+            addAttendanceControl = New AddAttendanceControl()
+            addAttendanceControl.AttendanceDataGridView = attendanceDGV ' Set the reference to the DataGridView
+
+            ' Add the AddAttendanceControl to the form
+            Me.Controls.Add(addAttendanceControl)
+            addAttendanceControl.Visible = False
+
+            ' Add any initialization after the InitializeComponent() call.
+            AddHandler addAttendanceControl.SaveAttendance, AddressOf OnSaveAttendance
         End Sub
 
-        ' Method to add attendance
-        Private Sub btnAddAttendance_Click(sender As Object, e As EventArgs) Handles btnAddAttendance.Click
-            ' Get the underlying DataTable from the DataGridView's DataSource
-            Dim dtAttendance As DataTable = CType(attendanceDGV.DataSource, DataTable)
 
-            ' Assume you have the member's ID and the current logged-in user's ID
-            Dim memberID As Integer = GetCurrentMemberID() ' Replace with the actual method to get the member's ID
-            Dim staffID As Integer = CurrentLoggedUser.id ' Replace with the actual method to get the current logged-in user's ID
+    ' Button click event to show the AddAttendanceControl
+    Private Sub btnAddAttendance_Click(sender As Object, e As EventArgs) Handles btnAddAttendance.Click
+        addAttendanceControl.Location = New Point(100, 200)
 
-            ' Get the current time as a string
-            Dim currentTimeString As String = DateTime.Now.TimeOfDay.ToString()
+        ' Set the size of the AddAttendanceControl
+        addAttendanceControl.Size = New Size(405, 486) ' Set the desired size
 
-            ' Convert the string back to a TimeSpan
-            Dim currentTime As TimeSpan = TimeSpan.Parse(currentTimeString)
-
-            ' Add a new blank row to the DataTable with default values
-            Dim newRow As DataRow = dtAttendance.NewRow()
-            newRow("MemberID") = memberID ' Use the member's ID for MemberID
-            newRow("StaffID") = staffID ' Use the current logged-in user's ID for StaffID
-            newRow("CheckInTime") = currentTime ' Default value for CheckInTime is the current time
-            newRow("CheckOutTime") = TimeSpan.Zero ' Default value for CheckOutTime
-            newRow("SessionType") = "none"
-            newRow("Date") = DateTime.Now ' Default value for current date
-            newRow("Status") = "Absent" ' Default value for Status
-            dtAttendance.Rows.Add(newRow)
-
-            ' Refresh the DataGridView
-            attendanceDGV.DataSource = dtAttendance
-
-            ' Enable editing for the new row
-            Dim newRowIndex As Integer = attendanceDGV.Rows.Count - 1
-            For Each cell As DataGridViewCell In attendanceDGV.Rows(newRowIndex).Cells
-                cell.ReadOnly = False
-            Next
-
-            ' Set focus to the first cell of the new row
-            attendanceDGV.CurrentCell = attendanceDGV.Rows(newRowIndex).Cells(0)
-            attendanceDGV.BeginEdit(True)
-        End Sub
-
-        ' Method to get the current member ID
-        Private Function GetCurrentMemberID() As Integer
-            ' Replace this with the actual logic to get the current member's ID
-            ' For example, you might retrieve it from a database or a session variable
-            Return 123 ' Example ID, replace with actual logic
-        End Function
-
-
-        Private Sub ShowSaveDialog()
-        Dim rowIndex As Integer = attendanceDGV.CurrentCell.RowIndex
-        Dim columnIndex As Integer = attendanceDGV.CurrentCell.ColumnIndex
-        Dim row As DataGridViewRow = attendanceDGV.Rows(rowIndex)
-        Dim checkInTime As String = row.Cells("CheckInTime").Value?.ToString()
-        Dim checkOutTime As String = row.Cells("CheckOutTime").Value?.ToString()
-
-        If Not String.IsNullOrEmpty(checkInTime) AndAlso Not String.IsNullOrEmpty(checkOutTime) Then
-            row.Cells("Status").Value = "Present"
+        ' Add the AddAttendanceControl to the form
+        If Not Controls.Contains(addAttendanceControl) Then
+            Controls.Add(addAttendanceControl)
+            Debug.WriteLine("AddAttendanceControl added to the form.")
         Else
-            row.Cells("Status").Value = "Absent"
+            Debug.WriteLine("AddAttendanceControl already exists on the form.")
         End If
 
-        ' Prompt the user to save the changes
-        Dim result As DialogResult = MessageBox.Show("Do you want to save the changes?", "Save Changes", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
-        If result = DialogResult.Yes Then
-            Try
-                ' Save the edited or new row
-                SaveAttendance(row)
-                MessageBox.Show("Changes saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Catch ex As Exception
-                MessageBox.Show($"An error occurred: {ex.Message}. Please correct the error and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
-        ElseIf result = DialogResult.No Then
-            ' Go back to editing
-            attendanceDGV.CurrentCell = attendanceDGV.Rows(rowIndex).Cells(columnIndex)
-            attendanceDGV.BeginEdit(True)
-        End If
+        addAttendanceControl.BringToFront()
+        addAttendanceControl.Visible = True
+        Debug.WriteLine("AddAttendanceControl is now visible.")
     End Sub
 
 
-End Class
+    Private Sub OnSaveAttendance(memberID As Integer, staffID As Integer, checkInTime As TimeSpan, checkOutTime As TimeSpan, sessionType As String, dateValue As DateTime, status As String)
+        Try
+            ' Insert the new attendance record into the attendance table
+            Dim query As String = $"INSERT INTO attendance (MemberID, StaffID, CheckInTime, CheckOutTime, SessionType, Date, Status) " &
+                                  $"VALUES ({memberID}, {staffID}, '{checkInTime}', '{checkOutTime}', '{sessionType}', '{dateValue:yyyy-MM-dd}', '{status}')"
+            readQuery(query)
+
+            ' Refresh the DataGridView
+            LoadToDGV("SELECT * FROM attendance", attendanceDGV)
+            MessageBox.Show("Attendance record saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            MessageBox.Show("An error occurred while adding the attendance record: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    ' Method to update an existing attendance record
+    Private Sub UpdateAttendance(attendanceID As Integer, memberID As Integer, staffID As Integer, checkInTime As TimeSpan, checkOutTime As TimeSpan, sessionType As String, dateValue As DateTime, status As String)
+        Try
+            ' Update the existing attendance record in the attendance table
+            Dim query As String = $"UPDATE attendance SET MemberID = {memberID}, StaffID = {staffID}, CheckInTime = '{checkInTime}', CheckOutTime = '{checkOutTime}', " &
+                                  $"SessionType = '{sessionType}', Date = '{dateValue:yyyy-MM-dd}', Status = '{status}' WHERE AttendanceID = {attendanceID}"
+            readQuery(query)
+
+            ' Refresh the DataGridView
+            LoadToDGV("SELECT * FROM attendance", attendanceDGV)
+            MessageBox.Show("Attendance record updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            MessageBox.Show("An error occurred while updating the attendance record: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+
+
+    ' Method to show the attendance DataGridView
+    Private Sub ShowAttendanceList()
+            ' Implement the logic to display the attendance DataGridView
+            ' For example, you can make the attendance DataGridView visible
+            attendanceDGV.Visible = True
+            ' Optionally, you can bring the DataGridView to the front
+            attendanceDGV.BringToFront()
+        End Sub
+
+
+    End Class

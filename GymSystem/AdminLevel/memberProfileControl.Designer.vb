@@ -59,7 +59,7 @@ Partial Class memberProfileControl
         TableLayoutPanel6 = New TableLayoutPanel()
         btnAddNotes = New Label()
         Label2 = New Label()
-        servicesreportChart = New DataVisualization.Charting.Chart()
+        chartAttendance = New DataVisualization.Charting.Chart()
         Panel3 = New Panel()
         TableLayoutPanel8 = New TableLayoutPanel()
         lblEndDate = New Label()
@@ -93,7 +93,7 @@ Partial Class memberProfileControl
         Panel2.SuspendLayout()
         CType(notesDGV, ComponentModel.ISupportInitialize).BeginInit()
         TableLayoutPanel6.SuspendLayout()
-        CType(servicesreportChart, ComponentModel.ISupportInitialize).BeginInit()
+        CType(chartAttendance, ComponentModel.ISupportInitialize).BeginInit()
         Panel3.SuspendLayout()
         TableLayoutPanel8.SuspendLayout()
         Panel4.SuspendLayout()
@@ -124,7 +124,7 @@ Partial Class memberProfileControl
         ' 
         lblMemberName.AutoSize = True
         lblMemberName.Dock = DockStyle.Left
-        lblMemberName.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblMemberName.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0)
         lblMemberName.ForeColor = Color.Yellow
         lblMemberName.Location = New Point(158, 0)
         lblMemberName.Name = "lblMemberName"
@@ -136,7 +136,7 @@ Partial Class memberProfileControl
         ' 
         Label1.AutoSize = True
         Label1.Dock = DockStyle.Left
-        Label1.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label1.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0)
         Label1.ForeColor = Color.White
         Label1.Location = New Point(3, 0)
         Label1.Margin = New Padding(3, 0, 0, 0)
@@ -156,7 +156,7 @@ Partial Class memberProfileControl
         ' 
         ' TableLayoutPanel3
         ' 
-        TableLayoutPanel3.BackColor = Color.FromArgb(CByte(15), CByte(15), CByte(15))
+        TableLayoutPanel3.BackColor = Color.FromArgb(15, 15, 15)
         TableLayoutPanel3.ColumnCount = 1
         TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
         TableLayoutPanel3.Controls.Add(Label7, 0, 6)
@@ -188,7 +188,7 @@ Partial Class memberProfileControl
         ' 
         Label7.AutoSize = True
         Label7.Dock = DockStyle.Fill
-        Label7.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label7.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0)
         Label7.ForeColor = Color.White
         Label7.Location = New Point(13, 426)
         Label7.Margin = New Padding(3, 0, 0, 0)
@@ -202,7 +202,7 @@ Partial Class memberProfileControl
         ' 
         lbldtcreated.AutoSize = True
         lbldtcreated.Dock = DockStyle.Fill
-        lbldtcreated.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lbldtcreated.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0)
         lbldtcreated.ForeColor = Color.White
         lbldtcreated.Location = New Point(13, 232)
         lbldtcreated.Margin = New Padding(3, 0, 0, 0)
@@ -216,7 +216,7 @@ Partial Class memberProfileControl
         ' 
         lblStatus.AutoSize = True
         lblStatus.Dock = DockStyle.Fill
-        lblStatus.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblStatus.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0)
         lblStatus.ForeColor = Color.Gold
         lblStatus.Location = New Point(13, 144)
         lblStatus.Margin = New Padding(3, 0, 0, 0)
@@ -259,7 +259,7 @@ Partial Class memberProfileControl
         ' 
         Label6.AutoSize = True
         Label6.Dock = DockStyle.Fill
-        Label6.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label6.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0)
         Label6.ForeColor = Color.White
         Label6.Image = My.Resources.Resources.Cog_1
         Label6.ImageAlign = ContentAlignment.TopCenter
@@ -275,7 +275,7 @@ Partial Class memberProfileControl
         ' 
         Label5.AutoSize = True
         Label5.Dock = DockStyle.Fill
-        Label5.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label5.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0)
         Label5.ForeColor = Color.White
         Label5.Image = My.Resources.Resources.Cog_1
         Label5.ImageAlign = ContentAlignment.TopCenter
@@ -291,7 +291,7 @@ Partial Class memberProfileControl
         ' 
         Label4.AutoSize = True
         Label4.Dock = DockStyle.Fill
-        Label4.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label4.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0)
         Label4.ForeColor = Color.White
         Label4.Image = My.Resources.Resources.Cog_1
         Label4.ImageAlign = ContentAlignment.TopCenter
@@ -512,7 +512,7 @@ Partial Class memberProfileControl
         ' notesDGV
         ' 
         notesDGV.AllowUserToAddRows = False
-        notesDGV.BackgroundColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        notesDGV.BackgroundColor = Color.FromArgb(40, 40, 40)
         notesDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle1.BackColor = Color.Transparent
@@ -553,7 +553,7 @@ Partial Class memberProfileControl
         btnAddNotes.AutoSize = True
         btnAddNotes.BackColor = Color.Black
         btnAddNotes.Dock = DockStyle.Fill
-        btnAddNotes.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnAddNotes.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0)
         btnAddNotes.ForeColor = Color.Gold
         btnAddNotes.ImageAlign = ContentAlignment.MiddleLeft
         btnAddNotes.Location = New Point(276, 0)
@@ -570,7 +570,7 @@ Partial Class memberProfileControl
         Label2.AutoSize = True
         Label2.BackColor = Color.Transparent
         Label2.Dock = DockStyle.Fill
-        Label2.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label2.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0)
         Label2.ForeColor = Color.Black
         Label2.ImageAlign = ContentAlignment.MiddleLeft
         Label2.Location = New Point(3, 0)
@@ -581,9 +581,9 @@ Partial Class memberProfileControl
         Label2.Text = "Notes"
         Label2.TextAlign = ContentAlignment.MiddleLeft
         ' 
-        ' servicesreportChart
+        ' chartAttendance
         ' 
-        servicesreportChart.BackColor = Color.Transparent
+        chartAttendance.BackColor = Color.Transparent
         ChartArea1.AxisX.LabelStyle.ForeColor = Color.White
         ChartArea1.AxisX.LineColor = Color.White
         ChartArea1.AxisX.MajorGrid.LineColor = Color.Transparent
@@ -605,28 +605,28 @@ Partial Class memberProfileControl
         ChartArea1.AxisY2.TitleForeColor = Color.White
         ChartArea1.BackColor = Color.Transparent
         ChartArea1.Name = "ChartArea1"
-        servicesreportChart.ChartAreas.Add(ChartArea1)
-        servicesreportChart.Dock = DockStyle.Fill
+        chartAttendance.ChartAreas.Add(ChartArea1)
+        chartAttendance.Dock = DockStyle.Fill
         Legend1.Enabled = False
         Legend1.Name = "Legend1"
-        servicesreportChart.Legends.Add(Legend1)
-        servicesreportChart.Location = New Point(13, 13)
-        servicesreportChart.Name = "servicesreportChart"
+        chartAttendance.Legends.Add(Legend1)
+        chartAttendance.Location = New Point(13, 13)
+        chartAttendance.Name = "chartAttendance"
         Series1.ChartArea = "ChartArea1"
         Series1.Color = Color.Gold
         Series1.LabelForeColor = Color.White
         Series1.Legend = "Legend1"
         Series1.Name = "Series1"
         Series1.Palette = DataVisualization.Charting.ChartColorPalette.Fire
-        servicesreportChart.Series.Add(Series1)
-        servicesreportChart.Size = New Size(402, 257)
-        servicesreportChart.TabIndex = 13
-        servicesreportChart.Text = "Chart1"
-        Title1.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        chartAttendance.Series.Add(Series1)
+        chartAttendance.Size = New Size(402, 257)
+        chartAttendance.TabIndex = 13
+        chartAttendance.Text = "Chart1"
+        Title1.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0)
         Title1.ForeColor = Color.White
         Title1.Name = "Title1"
         Title1.Text = "Total"
-        servicesreportChart.Titles.Add(Title1)
+        chartAttendance.Titles.Add(Title1)
         ' 
         ' Panel3
         ' 
@@ -818,7 +818,7 @@ Partial Class memberProfileControl
         Panel4.BackColor = Color.Black
         Panel4.Controls.Add(lblPlanType)
         Panel4.Dock = DockStyle.Top
-        Panel4.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Panel4.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0)
         Panel4.Location = New Point(20, 42)
         Panel4.Name = "Panel4"
         Panel4.Padding = New Padding(10)
@@ -860,7 +860,7 @@ Partial Class memberProfileControl
         Label9.AutoSize = True
         Label9.BackColor = Color.Black
         Label9.Dock = DockStyle.Fill
-        Label9.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label9.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0)
         Label9.ForeColor = Color.Gold
         Label9.ImageAlign = ContentAlignment.MiddleLeft
         Label9.Location = New Point(207, 0)
@@ -877,7 +877,7 @@ Partial Class memberProfileControl
         Label11.AutoSize = True
         Label11.BackColor = Color.Transparent
         Label11.Dock = DockStyle.Fill
-        Label11.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label11.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0)
         Label11.ForeColor = Color.Black
         Label11.ImageAlign = ContentAlignment.MiddleLeft
         Label11.Location = New Point(3, 0)
@@ -903,7 +903,7 @@ Partial Class memberProfileControl
         ' reservationsDGV
         ' 
         reservationsDGV.AllowUserToAddRows = False
-        reservationsDGV.BackgroundColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        reservationsDGV.BackgroundColor = Color.FromArgb(40, 40, 40)
         reservationsDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle2.BackColor = Color.Transparent
@@ -944,7 +944,7 @@ Partial Class memberProfileControl
         btnAddReservation.AutoSize = True
         btnAddReservation.BackColor = Color.Black
         btnAddReservation.Dock = DockStyle.Fill
-        btnAddReservation.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnAddReservation.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0)
         btnAddReservation.ForeColor = Color.Gold
         btnAddReservation.ImageAlign = ContentAlignment.MiddleLeft
         btnAddReservation.Location = New Point(276, 0)
@@ -961,7 +961,7 @@ Partial Class memberProfileControl
         Label13.AutoSize = True
         Label13.BackColor = Color.Transparent
         Label13.Dock = DockStyle.Fill
-        Label13.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label13.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0)
         Label13.ForeColor = Color.Black
         Label13.ImageAlign = ContentAlignment.MiddleLeft
         Label13.Location = New Point(3, 0)
@@ -976,12 +976,12 @@ Partial Class memberProfileControl
         ' 
         TableLayoutPanel2.AutoScroll = True
         TableLayoutPanel2.AutoSize = True
-        TableLayoutPanel2.BackColor = Color.FromArgb(CByte(20), CByte(20), CByte(20))
+        TableLayoutPanel2.BackColor = Color.FromArgb(20, 20, 20)
         TableLayoutPanel2.ColumnCount = 1
         TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
         TableLayoutPanel2.Controls.Add(Panel5, 0, 3)
         TableLayoutPanel2.Controls.Add(Panel3, 0, 2)
-        TableLayoutPanel2.Controls.Add(servicesreportChart, 0, 0)
+        TableLayoutPanel2.Controls.Add(chartAttendance, 0, 0)
         TableLayoutPanel2.Controls.Add(Panel2, 0, 1)
         TableLayoutPanel2.Dock = DockStyle.Top
         TableLayoutPanel2.Location = New Point(336, 34)
@@ -1027,7 +1027,7 @@ Partial Class memberProfileControl
         CType(notesDGV, ComponentModel.ISupportInitialize).EndInit()
         TableLayoutPanel6.ResumeLayout(False)
         TableLayoutPanel6.PerformLayout()
-        CType(servicesreportChart, ComponentModel.ISupportInitialize).EndInit()
+        CType(chartAttendance, ComponentModel.ISupportInitialize).EndInit()
         Panel3.ResumeLayout(False)
         TableLayoutPanel8.ResumeLayout(False)
         TableLayoutPanel8.PerformLayout()
@@ -1075,7 +1075,7 @@ Partial Class memberProfileControl
     Friend WithEvents TableLayoutPanel6 As TableLayoutPanel
     Friend WithEvents btnAddNotes As Label
     Friend WithEvents Label2 As Label
-    Friend WithEvents servicesreportChart As DataVisualization.Charting.Chart
+    Friend WithEvents chartAttendance As DataVisualization.Charting.Chart
     Friend WithEvents Panel3 As Panel
     Friend WithEvents TableLayoutPanel8 As TableLayoutPanel
     Friend WithEvents lblEndDate As Label

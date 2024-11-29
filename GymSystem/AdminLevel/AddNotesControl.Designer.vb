@@ -117,7 +117,7 @@ Partial Class AddNotesControl
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        BackColor = Color.FromArgb(CByte(20), CByte(20), CByte(20))
+        BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         Controls.Add(Button1)
         Controls.Add(btnSaveNote)
         Controls.Add(Label3)
