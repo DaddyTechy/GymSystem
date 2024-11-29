@@ -1,4 +1,5 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel
+﻿Imports System.Windows.Forms.DataVisualization.Charting
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel
 Imports MySql.Data.MySqlClient
 
 Public Class memberProfileControl
@@ -22,9 +23,75 @@ Public Class memberProfileControl
 
             ' Load reservations for the selected member
             LoadReservationsForMember(selectedMember.MemberID)
+
+            Dim dtAttendance As DataTable = FetchAttendanceData(selectedMember.MemberID)
+
+            LoadAttendanceChartData(selectedMember.MemberID, dtAttendance)
         Else
             MessageBox.Show("Member data is not available.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
+    End Sub
+
+    Private Sub InitializeConnection()
+        UpdateConnectionString()
+        conn = New MySqlConnection(strConnection)
+    End Sub
+
+    Private Function FetchAttendanceData(memberID As Integer) As DataTable
+        Dim query As String = $"SELECT MemberID, Date, CheckInTime, CheckOutTime FROM attendance WHERE MemberID = {memberID}"
+        Dim dt As New DataTable()
+        Using command As New MySqlCommand(query, conn)
+            Using adapter As New MySqlDataAdapter(command)
+                adapter.Fill(dt)
+            End Using
+        End Using
+        Return dt
+    End Function
+    Private Sub LoadAttendanceChartData(memberID As Integer, dt As DataTable)
+        ' Clear existing series
+        chartAttendance.Series.Clear()
+
+        ' Create and configure the Series
+        Dim series As New Series("AttendanceData")
+        series.ChartType = SeriesChartType.Column
+        series.IsValueShownAsLabel = True ' Show values as labels on the Y-axis
+
+        ' Define custom colors for the data points
+        Dim colors As New List(Of Color) From {Color.Gold}
+        Dim labelColor As Color = Color.White ' Set the desired label font color
+
+        ' Add data points to the Series with labels and values
+        Dim xValues As New List(Of Integer)
+        Dim yValues As New List(Of Double)
+        Dim xLabels As New List(Of String)
+
+        For Each row As DataRow In dt.Rows
+            If Convert.ToInt32(row("MemberID")) = memberID Then
+                Dim checkInTime As TimeSpan = TimeSpan.Parse(row("CheckInTime").ToString())
+                Dim checkOutTime As TimeSpan = TimeSpan.Parse(row("CheckOutTime").ToString())
+                Dim hours As Double = (checkOutTime - checkInTime).TotalHours
+
+                xValues.Add(xValues.Count) ' Use index as X value
+                yValues.Add(hours)
+                xLabels.Add(Convert.ToDateTime(row("Date")).ToString("MMM d"))
+            End If
+        Next
+
+        For i = 0 To xValues.Count - 1
+            Dim dp As New DataPoint()
+            dp.SetValueXY(xValues(i), yValues(i))
+            dp.AxisLabel = xLabels(i)
+            dp.Color = colors(i Mod colors.Count)
+            dp.Label = $"{yValues(i):F2} Hour/s" ' Add label to show hours on Y-axis
+            dp.LabelForeColor = labelColor ' Set the font color of the label
+            series.Points.Add(dp)
+        Next
+
+        ' Add Series to Chart
+        chartAttendance.Series.Add(series)
+
+        ' Refresh the chart to ensure it's updated
+        chartAttendance.Invalidate()
     End Sub
 
 
@@ -736,6 +803,6 @@ Public Class MemberData
     Public Property StartDate As DateTime
     Public Property EndDate As DateTime
     Public Property RenewalPolicy As String
-        Public Property Benefits As String
+    Public Property Benefits As String
         Public Property MemberShipName As String
     End Class

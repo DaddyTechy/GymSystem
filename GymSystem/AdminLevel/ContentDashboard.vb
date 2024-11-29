@@ -366,5 +366,4 @@ Public Class ContentDashboard
 
         Return totalMembers
     End Function
-
 End Class

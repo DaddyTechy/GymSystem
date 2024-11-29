@@ -137,6 +137,7 @@ Public Class addReservationControl
 
         ' Raise the ReservationAdded event
         RaiseEvent ReservationAdded(memberID, equipmentID, staffID, reservationDate, startTime, endTime, totalFee, reservationNotes, purpose)
+        Me.Hide()
     End Sub
 
     Private Function IsDiamondMember(memberID As Integer) As Boolean

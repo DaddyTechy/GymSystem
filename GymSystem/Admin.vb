@@ -196,6 +196,7 @@ Public Class Admin
                     adminMain.ConfigureMenu(user.Role)
                     ShowUserControlInForm(adminMain, "Admin Main")
                     Me.Hide()
+                    Logs($"admin with ID: {CurrentLoggedUser} logged in", "adminlogin")
                 Else
                     MessageBox.Show("Invalid AdminID, password, or role.")
                 End If
@@ -249,7 +250,6 @@ Public Class Admin
             Return Nothing
         End Try
     End Function
-
 
     Public Class AdminUser
         Public Property AdminID As Integer
