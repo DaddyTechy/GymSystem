@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class ContentMemberManagement1
+Partial Class ContentAttendance
     Inherits System.Windows.Forms.UserControl
 
     'UserControl overrides dispose to clean up the component list.
@@ -27,20 +27,26 @@ Partial Class ContentMemberManagement1
         Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Panel1 = New Panel()
+        btnAddAttendance = New Button()
+        btnSearch2 = New Button()
+        txtUserInput = New TextBox()
         btnSearch = New Button()
-        MembersTable = New DataGridView()
+        attendanceDGV = New DataGridView()
         txtBoxSearchInput = New TextBox()
         Label2 = New Label()
         Label1 = New Label()
         Panel1.SuspendLayout()
-        CType(MembersTable, ComponentModel.ISupportInitialize).BeginInit()
+        CType(attendanceDGV, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' Panel1
         ' 
         Panel1.BackColor = Color.Transparent
+        Panel1.Controls.Add(btnAddAttendance)
+        Panel1.Controls.Add(btnSearch2)
+        Panel1.Controls.Add(txtUserInput)
         Panel1.Controls.Add(btnSearch)
-        Panel1.Controls.Add(MembersTable)
+        Panel1.Controls.Add(attendanceDGV)
         Panel1.Controls.Add(txtBoxSearchInput)
         Panel1.Controls.Add(Label2)
         Panel1.Dock = DockStyle.Fill
@@ -48,7 +54,49 @@ Partial Class ContentMemberManagement1
         Panel1.Name = "Panel1"
         Panel1.Padding = New Padding(20, 0, 20, 0)
         Panel1.Size = New Size(645, 449)
-        Panel1.TabIndex = 1
+        Panel1.TabIndex = 3
+        ' 
+        ' btnAddAttendance
+        ' 
+        btnAddAttendance.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnAddAttendance.FlatStyle = FlatStyle.Popup
+        btnAddAttendance.ForeColor = Color.White
+        btnAddAttendance.Image = My.Resources.Resources.edit
+        btnAddAttendance.ImageAlign = ContentAlignment.MiddleRight
+        btnAddAttendance.Location = New Point(298, 2)
+        btnAddAttendance.Name = "btnAddAttendance"
+        btnAddAttendance.Size = New Size(75, 29)
+        btnAddAttendance.TabIndex = 13
+        btnAddAttendance.Text = "Add"
+        btnAddAttendance.TextImageRelation = TextImageRelation.ImageBeforeText
+        btnAddAttendance.UseVisualStyleBackColor = True
+        ' 
+        ' btnSearch2
+        ' 
+        btnSearch2.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnSearch2.FlatStyle = FlatStyle.Popup
+        btnSearch2.ForeColor = Color.White
+        btnSearch2.Image = My.Resources.Resources.Cog_1
+        btnSearch2.ImageAlign = ContentAlignment.MiddleLeft
+        btnSearch2.Location = New Point(541, 5)
+        btnSearch2.Name = "btnSearch2"
+        btnSearch2.Size = New Size(83, 24)
+        btnSearch2.TabIndex = 6
+        btnSearch2.Text = "Search"
+        btnSearch2.TextAlign = ContentAlignment.BottomCenter
+        btnSearch2.TextImageRelation = TextImageRelation.ImageBeforeText
+        btnSearch2.UseVisualStyleBackColor = True
+        ' 
+        ' txtUserInput
+        ' 
+        txtUserInput.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        txtUserInput.BackColor = Color.Silver
+        txtUserInput.BorderStyle = BorderStyle.FixedSingle
+        txtUserInput.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        txtUserInput.Location = New Point(379, 5)
+        txtUserInput.Name = "txtUserInput"
+        txtUserInput.Size = New Size(161, 25)
+        txtUserInput.TabIndex = 5
         ' 
         ' btnSearch
         ' 
@@ -57,7 +105,7 @@ Partial Class ContentMemberManagement1
         btnSearch.ForeColor = Color.White
         btnSearch.Image = My.Resources.Resources.Cog_1
         btnSearch.ImageAlign = ContentAlignment.MiddleLeft
-        btnSearch.Location = New Point(542, 6)
+        btnSearch.Location = New Point(967, 6)
         btnSearch.Name = "btnSearch"
         btnSearch.Size = New Size(83, 24)
         btnSearch.TabIndex = 4
@@ -66,15 +114,15 @@ Partial Class ContentMemberManagement1
         btnSearch.TextImageRelation = TextImageRelation.ImageBeforeText
         btnSearch.UseVisualStyleBackColor = True
         ' 
-        ' MembersTable
+        ' attendanceDGV
         ' 
-        MembersTable.AllowUserToAddRows = False
-        MembersTable.AllowUserToDeleteRows = False
-        MembersTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-        MembersTable.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
-        MembersTable.BackgroundColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        MembersTable.BorderStyle = BorderStyle.None
-        MembersTable.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
+        attendanceDGV.AllowUserToAddRows = False
+        attendanceDGV.AllowUserToDeleteRows = False
+        attendanceDGV.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+        attendanceDGV.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
+        attendanceDGV.BackgroundColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        attendanceDGV.BorderStyle = BorderStyle.None
+        attendanceDGV.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
         DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         DataGridViewCellStyle1.Font = New Font("Segoe UI", 10F)
@@ -82,8 +130,8 @@ Partial Class ContentMemberManagement1
         DataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
         DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
-        MembersTable.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
-        MembersTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        attendanceDGV.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        attendanceDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle2.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
@@ -91,15 +139,15 @@ Partial Class ContentMemberManagement1
         DataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight
         DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
         DataGridViewCellStyle2.WrapMode = DataGridViewTriState.True
-        MembersTable.DefaultCellStyle = DataGridViewCellStyle2
-        MembersTable.Dock = DockStyle.Fill
-        MembersTable.EditMode = DataGridViewEditMode.EditOnEnter
-        MembersTable.EnableHeadersVisualStyles = False
-        MembersTable.GridColor = Color.White
-        MembersTable.Location = New Point(20, 36)
-        MembersTable.MultiSelect = False
-        MembersTable.Name = "MembersTable"
-        MembersTable.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
+        attendanceDGV.DefaultCellStyle = DataGridViewCellStyle2
+        attendanceDGV.Dock = DockStyle.Fill
+        attendanceDGV.EditMode = DataGridViewEditMode.EditOnEnter
+        attendanceDGV.EnableHeadersVisualStyles = False
+        attendanceDGV.GridColor = Color.White
+        attendanceDGV.Location = New Point(20, 36)
+        attendanceDGV.MultiSelect = False
+        attendanceDGV.Name = "attendanceDGV"
+        attendanceDGV.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
         DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle3.BackColor = SystemColors.WindowFrame
         DataGridViewCellStyle3.Font = New Font("Segoe UI", 9.75F)
@@ -107,23 +155,23 @@ Partial Class ContentMemberManagement1
         DataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight
         DataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText
         DataGridViewCellStyle3.WrapMode = DataGridViewTriState.True
-        MembersTable.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
-        MembersTable.RowHeadersVisible = False
-        MembersTable.RowHeadersWidth = 51
+        attendanceDGV.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
+        attendanceDGV.RowHeadersVisible = False
+        attendanceDGV.RowHeadersWidth = 51
         DataGridViewCellStyle4.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         DataGridViewCellStyle4.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         DataGridViewCellStyle4.ForeColor = Color.White
-        MembersTable.RowsDefaultCellStyle = DataGridViewCellStyle4
-        MembersTable.RowTemplate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
-        MembersTable.RowTemplate.DefaultCellStyle.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        MembersTable.RowTemplate.DefaultCellStyle.Font = New Font("Microsoft Sans Serif", 9F)
-        MembersTable.RowTemplate.DefaultCellStyle.ForeColor = Color.White
-        MembersTable.RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
-        MembersTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        MembersTable.ShowCellErrors = False
-        MembersTable.ShowRowErrors = False
-        MembersTable.Size = New Size(605, 413)
-        MembersTable.TabIndex = 0
+        attendanceDGV.RowsDefaultCellStyle = DataGridViewCellStyle4
+        attendanceDGV.RowTemplate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+        attendanceDGV.RowTemplate.DefaultCellStyle.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        attendanceDGV.RowTemplate.DefaultCellStyle.Font = New Font("Microsoft Sans Serif", 9F)
+        attendanceDGV.RowTemplate.DefaultCellStyle.ForeColor = Color.White
+        attendanceDGV.RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
+        attendanceDGV.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        attendanceDGV.ShowCellErrors = False
+        attendanceDGV.ShowRowErrors = False
+        attendanceDGV.Size = New Size(605, 413)
+        attendanceDGV.TabIndex = 0
         ' 
         ' txtBoxSearchInput
         ' 
@@ -131,7 +179,7 @@ Partial Class ContentMemberManagement1
         txtBoxSearchInput.BackColor = Color.Silver
         txtBoxSearchInput.BorderStyle = BorderStyle.FixedSingle
         txtBoxSearchInput.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        txtBoxSearchInput.Location = New Point(380, 6)
+        txtBoxSearchInput.Location = New Point(805, 6)
         txtBoxSearchInput.Name = "txtBoxSearchInput"
         txtBoxSearchInput.Size = New Size(161, 25)
         txtBoxSearchInput.TabIndex = 3
@@ -146,9 +194,9 @@ Partial Class ContentMemberManagement1
         Label2.Margin = New Padding(3, 0, 3, 10)
         Label2.Name = "Label2"
         Label2.Padding = New Padding(0, 5, 0, 10)
-        Label2.Size = New Size(119, 36)
+        Label2.Size = New Size(143, 36)
         Label2.TabIndex = 0
-        Label2.Text = "Member Table"
+        Label2.Text = "Attendance Table"
         Label2.TextAlign = ContentAlignment.MiddleCenter
         ' 
         ' Label1
@@ -160,34 +208,36 @@ Partial Class ContentMemberManagement1
         Label1.Location = New Point(15, 15)
         Label1.Name = "Label1"
         Label1.Padding = New Padding(2, 0, 0, 0)
-        Label1.Size = New Size(136, 17)
-        Label1.TabIndex = 0
-        Label1.Text = "Registered Members"
+        Label1.Size = New Size(159, 17)
+        Label1.TabIndex = 2
+        Label1.Text = "Members Attendace List"
         ' 
-        ' ContentMemberManagement1
+        ' ContentAttendance
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        AutoScroll = True
-        AutoScrollMinSize = New Size(600, 0)
         BackColor = Color.Transparent
         Controls.Add(Panel1)
         Controls.Add(Label1)
         MinimumSize = New Size(675, 496)
-        Name = "ContentMemberManagement1"
+        Name = "ContentAttendance"
         Padding = New Padding(15)
         Size = New Size(675, 496)
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
-        CType(MembersTable, ComponentModel.ISupportInitialize).EndInit()
+        CType(attendanceDGV, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
     End Sub
+
     Friend WithEvents Panel1 As Panel
-    Friend WithEvents Label2 As Label
-    Friend WithEvents MembersTable As DataGridView
-    Friend WithEvents Label1 As Label
     Friend WithEvents btnSearch As Button
+    Friend WithEvents attendanceDGV As DataGridView
     Friend WithEvents txtBoxSearchInput As TextBox
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Label1 As Label
+    Friend WithEvents btnSearch2 As Button
+    Friend WithEvents txtUserInput As TextBox
+    Friend WithEvents btnAddAttendance As Button
 
 End Class

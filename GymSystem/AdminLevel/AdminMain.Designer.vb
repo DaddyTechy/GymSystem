@@ -698,10 +698,10 @@ Partial Class AdminMain
         ' 
         PictureBox2.Anchor = AnchorStyles.None
         PictureBox2.Image = My.Resources.Resources._929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
-        PictureBox2.Location = New Point(179, 118)
+        PictureBox2.Location = New Point(124, 75)
         PictureBox2.Margin = New Padding(1)
         PictureBox2.Name = "PictureBox2"
-        PictureBox2.Size = New Size(360, 318)
+        PictureBox2.Size = New Size(422, 372)
         PictureBox2.SizeMode = PictureBoxSizeMode.Zoom
         PictureBox2.TabIndex = 1
         PictureBox2.TabStop = False

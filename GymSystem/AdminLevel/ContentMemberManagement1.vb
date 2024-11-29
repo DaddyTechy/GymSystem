@@ -138,6 +138,8 @@ Public Class ContentMemberManagement1
     End Sub
 
     Public Event ViewMemberProfile(memberData As MemberData)
+    Private editedRows As New Dictionary(Of Integer, Boolean)
+    Private isEditMode As Boolean = False
 
     Private Sub MembersTable_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles MembersTable.CellClick
         If e.RowIndex >= 0 Then
@@ -145,18 +147,28 @@ Public Class ContentMemberManagement1
             selectedCell = MembersTable.Rows(e.RowIndex).Cells(e.ColumnIndex)
             Dim memberId As Integer = selectedRow.Cells("MemberID").Value
 
+            ' Debug: Log the ReadOnly status of each cell in the selected row
+            Debug.WriteLine($"Clicked row: {e.RowIndex}, MemberID: {memberId}")
+            For Each cell As DataGridViewCell In selectedRow.Cells
+                Debug.WriteLine($"Cell [{cell.ColumnIndex}] ReadOnly: {cell.ReadOnly}")
+            Next
+
             If e.ColumnIndex = MembersTable.Columns("Edit").Index Then
                 ' Handle Edit button click
-                selectedMemberID = memberId
-                StoreOriginalValues(selectedRow)
-                EnableRowEditing(selectedRow)
-                MessageBox.Show("Cells in Selected Row are now EDITABLE for MemberID: " & memberId)
-
-                ' Debug: Log the state of the DataGridView
-                Debug.WriteLine("Row is now editable for MemberID: " & memberId)
-                For Each cell As DataGridViewCell In selectedRow.Cells
-                    Debug.WriteLine("Cell [" & cell.ColumnIndex & "]: ReadOnly = " & cell.ReadOnly)
-                Next
+                If Not editedRows.ContainsKey(memberId) OrElse Not editedRows(memberId) Then
+                    selectedMemberID = memberId
+                    StoreOriginalValues(selectedRow)
+                    EnableRowEditing(selectedRow)
+                    isEditMode = True ' Start edit mode
+                    MessageBox.Show("Cells in Selected Row are now EDITABLE for MemberID: " & memberId)
+                    ' Debug: Log the state of the DataGridView
+                    Debug.WriteLine("Row is now editable for MemberID: " & memberId)
+                    For Each cell As DataGridViewCell In selectedRow.Cells
+                        Debug.WriteLine("Cell [" & cell.ColumnIndex & "]: ReadOnly = " & cell.ReadOnly)
+                    Next
+                Else
+                    MessageBox.Show("This row is locked and cannot be edited.")
+                End If
             ElseIf e.ColumnIndex = MembersTable.Columns("Delete").Index Then
                 ' Handle Delete button click
                 Dim resultDelete As DialogResult = MessageBox.Show("Do you want to delete the entire row?", "Delete Row", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
@@ -172,24 +184,32 @@ Public Class ContentMemberManagement1
                         SetMemberInactive(memberId)
                         selectedRow.Cells("Status").Value = "Inactive"
                         MessageBox.Show("Member set to inactive for MemberID: " & memberId)
+                        Logs("Status Updated to inactive for MemberID: " & memberId, "Status Update")
                     End If
-                    ' If resultInactive is No, do nothing and close the dialog
                 End If
             ElseIf e.ColumnIndex = MembersTable.Columns("View").Index Then
                 selectedMemberID = memberId
                 LoadUserControlWithMemberData(memberId)
             Else
-                If memberId = selectedMemberID Then
-                    MembersTable.ReadOnly = False
-                    For Each cell As DataGridViewCell In selectedRow.Cells
-                        cell.ReadOnly = False
-                    Next
-                Else
-                    LockDataGridView()
+                ' Ensure the row remains read-only if it has been locked
+                If isEditMode Then
+                    If memberId = selectedMemberID Then
+                        If Not editedRows.ContainsKey(memberId) OrElse Not editedRows(memberId) Then
+                            For Each cell As DataGridViewCell In selectedRow.Cells
+                                cell.ReadOnly = False
+                            Next
+                            MembersTable.ReadOnly = False
+                        Else
+                            MessageBox.Show("This row is locked and cannot be edited.")
+                        End If
+                    Else
+                        LockDataGridView()
+                    End If
                 End If
             End If
         End If
     End Sub
+
 
     Private Sub DeleteRow(memberID As Integer)
         UpdateConnectionString()
@@ -204,6 +224,7 @@ Public Class ContentMemberManagement1
                 Dim rowsAffected As Integer = cmd.ExecuteNonQuery()
                 If rowsAffected > 0 Then
                     MessageBox.Show($"Successfully deleted from members table: MemberID {memberID}", "Delete Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Logs("Deleted from members table: MemberID " & memberID, "Delete From members Table")
                 Else
                     MessageBox.Show($"No record found in members table for MemberID {memberID}", "Delete Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
@@ -216,6 +237,7 @@ Public Class ContentMemberManagement1
                 Dim rowsAffectedLogin As Integer = cmdLogin.ExecuteNonQuery()
                 If rowsAffectedLogin > 0 Then
                     MessageBox.Show($"Successfully deleted from memberlogin table: MemberID {memberID}", "Delete Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Logs("Deleted from memberlogin table: MemberID " & memberID, "Delete From memberlogin Table")
                 Else
                     MessageBox.Show($"No record found in memberlogin table for MemberID {memberID}", "Delete Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
@@ -253,17 +275,21 @@ Public Class ContentMemberManagement1
     End Sub
 
     Private Sub EnableRowEditing(row As DataGridViewRow)
-        ' Make the entire row editable
-        For Each cell As DataGridViewCell In row.Cells
-            cell.ReadOnly = False
-            Debug.WriteLine("Cell [" & cell.ColumnIndex & "]: ReadOnly = " & cell.ReadOnly)
-        Next
-        MembersTable.ReadOnly = False
-        MembersTable.CurrentCell = row.Cells(0)
-        MembersTable.BeginEdit(True)
-        Debug.WriteLine("MembersTable.ReadOnly = " & MembersTable.ReadOnly)
+        ' Make the entire row editable if it is not locked
+        Dim memberId As Integer = row.Cells("MemberID").Value
+        If Not editedRows.ContainsKey(memberId) OrElse Not editedRows(memberId) Then
+            For Each cell As DataGridViewCell In row.Cells
+                cell.ReadOnly = False
+                Debug.WriteLine("Cell [" & cell.ColumnIndex & "]: ReadOnly = " & cell.ReadOnly)
+            Next
+            MembersTable.ReadOnly = False
+            MembersTable.CurrentCell = row.Cells(0)
+            MembersTable.BeginEdit(True)
+            Debug.WriteLine("MembersTable.ReadOnly = " & MembersTable.ReadOnly)
+        Else
+            MessageBox.Show("This row is locked and cannot be edited.")
+        End If
     End Sub
-
 
     Private Sub LockDataGridView()
         ' Make the entire DataGridView read-only
@@ -273,6 +299,7 @@ Public Class ContentMemberManagement1
             Next
         Next
         MembersTable.ReadOnly = True
+        Debug.WriteLine("All cells in MembersTable are now ReadOnly.")
     End Sub
 
     Private Sub MembersTable_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs) Handles MembersTable.CellBeginEdit
@@ -302,6 +329,13 @@ Public Class ContentMemberManagement1
                 If result = DialogResult.Yes Then
                     SaveEditedRow(editedRow)
                     MessageBox.Show("Changes Saved")
+                    Logs($"Edited: {String.Join(Environment.NewLine, changes)}", "Edited Details of the Member with ID: " & memberID)
+                    ' Lock the edited row to prevent further editing
+                    For Each cell As DataGridViewCell In editedRow.Cells
+                        cell.ReadOnly = True
+                        Debug.WriteLine($"Cell [{cell.ColumnIndex}] for MemberID: {memberID} is now ReadOnly.")
+                    Next
+                    editedRows(memberID) = True
                 Else
                     ' Revert changes
                     For Each cell As DataGridViewCell In editedRow.Cells
@@ -313,8 +347,25 @@ Public Class ContentMemberManagement1
         Else
             Debug.WriteLine($"Original values not found for MemberID: {memberID}")
         End If
-        MembersTable.ReadOnly = True
+
+        ' Prompt to end edit mode
+        Dim endEditModeResult As DialogResult = MessageBox.Show("Do you want to end the edit mode?", "End Edit Mode", MessageBoxButtons.YesNo)
+        If endEditModeResult = DialogResult.Yes Then
+            LockDataGridView()
+            isEditMode = False ' End edit mode
+            Debug.WriteLine("MembersTable is now ReadOnly.")
+
+            ' Debug: Log the ReadOnly status of each cell in the edited row
+            Debug.WriteLine($"Checking ReadOnly status of each cell in row for MemberID: {memberID} after ending edit mode:")
+            For Each cell As DataGridViewCell In editedRow.Cells
+                Debug.WriteLine($"Cell [{cell.ColumnIndex}] ReadOnly: {cell.ReadOnly}")
+            Next
+        Else
+            MembersTable.ReadOnly = False
+            Debug.WriteLine("MembersTable remains editable.")
+        End If
     End Sub
+
 
     Private Sub SaveEditedRow(row As DataGridViewRow)
         Dim memberID As Integer = row.Cells("MemberID").Value
@@ -461,19 +512,23 @@ Public Class ContentMemberManagement1
 
         ' This call is required by the designer.
         InitializeComponent()
+        Me.AutoScroll = True
+        Me.AutoScrollMinSize = New Size(600, 500)
 
         Me.contentPanel = contentPnl
 
     End Sub
 
     Private Function GetAdditionalMemberData(memberId As Integer) As MemberData
-        ' Add your database connection string here
         UpdateConnectionString()
         Dim conn As New MySqlConnection(strConnection)
         Dim additionalData As New MemberData()
         Try
             conn.Open()
-            Dim query As String = "SELECT Weight, Height, Email, DOB FROM members WHERE MemberID = @MemberID"
+            Dim query As String = "SELECT m.Weight, m.Height, m.Email, m.DOB, ms.StartDate, ms.EndDate, ms.RenewalPolicy, ms.Benefits, ms.MemberShipName " &
+                              "FROM members m " &
+                              "JOIN membership ms ON m.MemberID = ms.MemberID " &
+                              "WHERE m.MemberID = @MemberID"
             Dim cmd As New MySqlCommand(query, conn)
             cmd.Parameters.AddWithValue("@MemberID", memberId)
             Dim reader As MySqlDataReader = cmd.ExecuteReader()
@@ -482,6 +537,11 @@ Public Class ContentMemberManagement1
                 additionalData.Height = Decimal.Parse(reader("Height").ToString())
                 additionalData.Email = reader("Email").ToString()
                 additionalData.DOB = DateTime.Parse(reader("DOB").ToString())
+                additionalData.StartDate = DateTime.Parse(reader("StartDate").ToString())
+                additionalData.EndDate = DateTime.Parse(reader("EndDate").ToString())
+                additionalData.RenewalPolicy = reader("RenewalPolicy").ToString()
+                additionalData.Benefits = reader("Benefits").ToString()
+                additionalData.MemberShipName = reader("MemberShipName").ToString()
             End If
             reader.Close()
         Catch ex As Exception
@@ -492,6 +552,7 @@ Public Class ContentMemberManagement1
 
         Return additionalData
     End Function
+
 
 
     Private Sub LoadUserControlWithMemberData(memberId As Integer)
@@ -520,6 +581,11 @@ Public Class ContentMemberManagement1
             memberData.Height = additionalData.Height
             memberData.Email = additionalData.Email
             memberData.DOB = additionalData.DOB
+            memberData.Benefits = additionalData.Benefits
+            memberData.StartDate = additionalData.StartDate
+            memberData.EndDate = additionalData.EndDate
+            memberData.MemberShipName = additionalData.MemberShipName
+            memberData.RenewalPolicy = additionalData.RenewalPolicy
 
             ' Create an instance of the user control
             Dim memberProfileControl As New memberProfileControl()
@@ -536,6 +602,109 @@ Public Class ContentMemberManagement1
         control.Dock = DockStyle.Fill
         contentPanel.Controls.Clear()
         contentPanel.Controls.Add(control)
+        contentPanel.AutoScroll = True
+        contentPanel.AutoScrollMinSize = New Size(600, 500)
         control.BringToFront()
     End Sub
+
+    'Search
+    Private Sub FilterMembersTable(searchText As String)
+        ' Retrieve data from members table
+        Dim queryMembers As String = $"SELECT MemberID, FirstName, MiddleName, LastName, Sex, PhoneNumber, DTCreated, Province, City, Street, ZipCode, Status FROM members WHERE FirstName LIKE '%{searchText}%' OR LastName LIKE '%{searchText}%' OR MemberID LIKE '%{searchText}%'"
+        Dim adapterMembers As New MySqlDataAdapter(queryMembers, conn)
+        Dim dtMembers As New DataTable()
+        adapterMembers.Fill(dtMembers)
+
+        ' Retrieve data from memberlogin table
+        Dim queryLogin As String = "SELECT MemberID, Username FROM memberlogin"
+        Dim adapterLogin As New MySqlDataAdapter(queryLogin, conn)
+        Dim dtLogin As New DataTable()
+        adapterLogin.Fill(dtLogin)
+
+        ' Retrieve data from membership table
+        Dim queryMembership As String = "SELECT MemberID, Cost, MembershipType, Duration FROM membership"
+        Dim adapterMembership As New MySqlDataAdapter(queryMembership, conn)
+        Dim dtMembership As New DataTable()
+        adapterMembership.Fill(dtMembership)
+
+        ' Combine data into a single DataTable
+        Dim dtMember As New DataTable()
+        dtMember.Columns.Add("MemberID", GetType(Integer))
+        dtMember.Columns.Add("FirstName", GetType(String))
+        dtMember.Columns.Add("MiddleName", GetType(String))
+        dtMember.Columns.Add("LastName", GetType(String))
+        dtMember.Columns.Add("Username", GetType(String))
+        dtMember.Columns.Add("Sex", GetType(String))
+        dtMember.Columns.Add("PhoneNumber", GetType(String))
+        dtMember.Columns.Add("DTCreated", GetType(DateTime))
+        dtMember.Columns.Add("Address", GetType(String))
+        dtMember.Columns.Add("Cost", GetType(Decimal))
+        dtMember.Columns.Add("MembershipType", GetType(String))
+        dtMember.Columns.Add("Duration", GetType(String))
+        dtMember.Columns.Add("Status", GetType(String))
+
+        For Each memberRow As DataRow In dtMembers.Rows
+            Dim memberID As Integer = memberRow("MemberID")
+            Dim firstName As String = memberRow("FirstName").ToString()
+            Dim middleName As String = memberRow("MiddleName").ToString()
+            Dim lastName As String = memberRow("LastName").ToString()
+            Dim username As String = dtLogin.AsEnumerable().FirstOrDefault(Function(r) r.Field(Of Integer)("MemberID") = memberID)?.Field(Of String)("Username")
+            Dim address As String = memberRow("Province") & ", " & memberRow("City") & ", " & memberRow("Street") & ", " & memberRow("ZipCode")
+            Dim status As String = If(memberRow("Status").ToString() = "True", "Active", "Inactive")
+            Dim membershipRow As DataRow = dtMembership.AsEnumerable().FirstOrDefault(Function(r) r.Field(Of Integer)("MemberID") = memberID)
+
+            ' Check if membershipRow is not null
+            If membershipRow IsNot Nothing Then
+                dtMember.Rows.Add(memberID, firstName, middleName, lastName, username, memberRow("Sex"), memberRow("PhoneNumber"), memberRow("DTCreated"), address, membershipRow("Cost"), membershipRow("MembershipType"), membershipRow("Duration"), status)
+            Else
+                dtMember.Rows.Add(memberID, firstName, middleName, lastName, username, memberRow("Sex"), memberRow("PhoneNumber"), memberRow("DTCreated"), address, DBNull.Value, DBNull.Value, DBNull.Value, status)
+            End If
+        Next
+
+        ' Bind DataTable to DataGridView
+        MembersTable.DataSource = dtMember
+
+        ' Add Edit, Delete, and View buttons
+        If MembersTable.Columns("Edit") Is Nothing Then
+            Dim editButtonColumn As New DataGridViewButtonColumn()
+            editButtonColumn.HeaderText = "Edit"
+            editButtonColumn.Name = "Edit"
+            editButtonColumn.Text = "Edit"
+            editButtonColumn.UseColumnTextForButtonValue = True
+            MembersTable.Columns.Add(editButtonColumn)
+        End If
+
+        If MembersTable.Columns("Delete") Is Nothing Then
+            Dim deleteButtonColumn As New DataGridViewButtonColumn()
+            deleteButtonColumn.HeaderText = "Delete"
+            deleteButtonColumn.Name = "Delete"
+            deleteButtonColumn.Text = "Delete"
+            deleteButtonColumn.UseColumnTextForButtonValue = True
+            MembersTable.Columns.Add(deleteButtonColumn)
+        End If
+
+        If MembersTable.Columns("View") Is Nothing Then
+            Dim viewButtonColumn As New DataGridViewButtonColumn()
+            viewButtonColumn.HeaderText = "View"
+            viewButtonColumn.Name = "View"
+            viewButtonColumn.Text = "View"
+            viewButtonColumn.UseColumnTextForButtonValue = True
+            MembersTable.Columns.Add(viewButtonColumn)
+        End If
+    End Sub
+
+
+    Private Sub btnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
+        Dim searchText As String = txtBoxSearchInput.Text
+        FilterMembersTable(searchText)
+    End Sub
+
+    Private Sub txtBoxSearchInput_KeyDown(sender As Object, e As KeyEventArgs) Handles txtBoxSearchInput.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            btnSearch_Click(sender, e)
+            e.SuppressKeyPress = True ' Prevent the beep sound on Enter key press
+        End If
+    End Sub
+
+
 End Class
