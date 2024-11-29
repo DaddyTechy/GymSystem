@@ -233,9 +233,9 @@ Public Class Admin
                     ' ... set other fields as needed
 
                     ' Access the current logged user's details
-                    MsgBox("Welcome, " & CurrentLoggedUser.name & "!")
+                    MsgBox("Welcome, " & CurrentLoggedUser.position & " " & CurrentLoggedUser.name & "!")
 
-                    Logs("User logged in", "Login")
+                    Logs($" {CurrentLoggedUser.position} user {CurrentLoggedUser.name} logged in", "Login")
 
                     ' Return the user object
                     Return user

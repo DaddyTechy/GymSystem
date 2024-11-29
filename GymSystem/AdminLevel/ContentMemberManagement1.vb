@@ -512,6 +512,8 @@ Public Class ContentMemberManagement1
 
         ' This call is required by the designer.
         InitializeComponent()
+        Me.AutoScroll = True
+        Me.AutoScrollMinSize = New Size(600, 500)
 
         Me.contentPanel = contentPnl
 
@@ -600,6 +602,109 @@ Public Class ContentMemberManagement1
         control.Dock = DockStyle.Fill
         contentPanel.Controls.Clear()
         contentPanel.Controls.Add(control)
+        contentPanel.AutoScroll = True
+        contentPanel.AutoScrollMinSize = New Size(600, 500)
         control.BringToFront()
     End Sub
+
+    'Search
+    Private Sub FilterMembersTable(searchText As String)
+        ' Retrieve data from members table
+        Dim queryMembers As String = $"SELECT MemberID, FirstName, MiddleName, LastName, Sex, PhoneNumber, DTCreated, Province, City, Street, ZipCode, Status FROM members WHERE FirstName LIKE '%{searchText}%' OR LastName LIKE '%{searchText}%' OR MemberID LIKE '%{searchText}%'"
+        Dim adapterMembers As New MySqlDataAdapter(queryMembers, conn)
+        Dim dtMembers As New DataTable()
+        adapterMembers.Fill(dtMembers)
+
+        ' Retrieve data from memberlogin table
+        Dim queryLogin As String = "SELECT MemberID, Username FROM memberlogin"
+        Dim adapterLogin As New MySqlDataAdapter(queryLogin, conn)
+        Dim dtLogin As New DataTable()
+        adapterLogin.Fill(dtLogin)
+
+        ' Retrieve data from membership table
+        Dim queryMembership As String = "SELECT MemberID, Cost, MembershipType, Duration FROM membership"
+        Dim adapterMembership As New MySqlDataAdapter(queryMembership, conn)
+        Dim dtMembership As New DataTable()
+        adapterMembership.Fill(dtMembership)
+
+        ' Combine data into a single DataTable
+        Dim dtMember As New DataTable()
+        dtMember.Columns.Add("MemberID", GetType(Integer))
+        dtMember.Columns.Add("FirstName", GetType(String))
+        dtMember.Columns.Add("MiddleName", GetType(String))
+        dtMember.Columns.Add("LastName", GetType(String))
+        dtMember.Columns.Add("Username", GetType(String))
+        dtMember.Columns.Add("Sex", GetType(String))
+        dtMember.Columns.Add("PhoneNumber", GetType(String))
+        dtMember.Columns.Add("DTCreated", GetType(DateTime))
+        dtMember.Columns.Add("Address", GetType(String))
+        dtMember.Columns.Add("Cost", GetType(Decimal))
+        dtMember.Columns.Add("MembershipType", GetType(String))
+        dtMember.Columns.Add("Duration", GetType(String))
+        dtMember.Columns.Add("Status", GetType(String))
+
+        For Each memberRow As DataRow In dtMembers.Rows
+            Dim memberID As Integer = memberRow("MemberID")
+            Dim firstName As String = memberRow("FirstName").ToString()
+            Dim middleName As String = memberRow("MiddleName").ToString()
+            Dim lastName As String = memberRow("LastName").ToString()
+            Dim username As String = dtLogin.AsEnumerable().FirstOrDefault(Function(r) r.Field(Of Integer)("MemberID") = memberID)?.Field(Of String)("Username")
+            Dim address As String = memberRow("Province") & ", " & memberRow("City") & ", " & memberRow("Street") & ", " & memberRow("ZipCode")
+            Dim status As String = If(memberRow("Status").ToString() = "True", "Active", "Inactive")
+            Dim membershipRow As DataRow = dtMembership.AsEnumerable().FirstOrDefault(Function(r) r.Field(Of Integer)("MemberID") = memberID)
+
+            ' Check if membershipRow is not null
+            If membershipRow IsNot Nothing Then
+                dtMember.Rows.Add(memberID, firstName, middleName, lastName, username, memberRow("Sex"), memberRow("PhoneNumber"), memberRow("DTCreated"), address, membershipRow("Cost"), membershipRow("MembershipType"), membershipRow("Duration"), status)
+            Else
+                dtMember.Rows.Add(memberID, firstName, middleName, lastName, username, memberRow("Sex"), memberRow("PhoneNumber"), memberRow("DTCreated"), address, DBNull.Value, DBNull.Value, DBNull.Value, status)
+            End If
+        Next
+
+        ' Bind DataTable to DataGridView
+        MembersTable.DataSource = dtMember
+
+        ' Add Edit, Delete, and View buttons
+        If MembersTable.Columns("Edit") Is Nothing Then
+            Dim editButtonColumn As New DataGridViewButtonColumn()
+            editButtonColumn.HeaderText = "Edit"
+            editButtonColumn.Name = "Edit"
+            editButtonColumn.Text = "Edit"
+            editButtonColumn.UseColumnTextForButtonValue = True
+            MembersTable.Columns.Add(editButtonColumn)
+        End If
+
+        If MembersTable.Columns("Delete") Is Nothing Then
+            Dim deleteButtonColumn As New DataGridViewButtonColumn()
+            deleteButtonColumn.HeaderText = "Delete"
+            deleteButtonColumn.Name = "Delete"
+            deleteButtonColumn.Text = "Delete"
+            deleteButtonColumn.UseColumnTextForButtonValue = True
+            MembersTable.Columns.Add(deleteButtonColumn)
+        End If
+
+        If MembersTable.Columns("View") Is Nothing Then
+            Dim viewButtonColumn As New DataGridViewButtonColumn()
+            viewButtonColumn.HeaderText = "View"
+            viewButtonColumn.Name = "View"
+            viewButtonColumn.Text = "View"
+            viewButtonColumn.UseColumnTextForButtonValue = True
+            MembersTable.Columns.Add(viewButtonColumn)
+        End If
+    End Sub
+
+
+    Private Sub btnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
+        Dim searchText As String = txtBoxSearchInput.Text
+        FilterMembersTable(searchText)
+    End Sub
+
+    Private Sub txtBoxSearchInput_KeyDown(sender As Object, e As KeyEventArgs) Handles txtBoxSearchInput.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            btnSearch_Click(sender, e)
+            e.SuppressKeyPress = True ' Prevent the beep sound on Enter key press
+        End If
+    End Sub
+
+
 End Class

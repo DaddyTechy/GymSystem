@@ -22,6 +22,7 @@ Public Class AdminMain
         ' Initialize submenu buttons
         InitializeSubMenuButton(ListAllMembersBtn, Color.Yellow, Color.White, activeSubMenuButton)
         InitializeSubMenuButton(MemEntryFormBtn, Color.Yellow, Color.White, activeSubMenuButton)
+        InitializeSubMenuButton(AttenChckNBtn, Color.Yellow, Color.White, activeSubMenuButton)
 
         'autoscroll
         AddHandler Me.Resize, AddressOf Form1_Resize
@@ -49,6 +50,7 @@ Public Class AdminMain
         ' Attach click event handlers for submenu buttons
         AddHandler ListAllMembersBtn.Click, AddressOf SubMenu_Click
         AddHandler MemEntryFormBtn.Click, AddressOf SubMenu_Click
+        AddHandler AttenChckNBtn.Click, AddressOf SubMenu_Click
 
         ' Reports
         AddHandler ChartsBtn.Click, AddressOf SubMenu_Click
@@ -156,6 +158,8 @@ Public Class AdminMain
                 ShowUserControl(New ContentMemEntryForm()) ' Replace with the user control you want to show
             Case "ChartsBtn"
                 ShowUserControl(New ContentReports()) ' Replace with the user control you want to show
+            Case "AttenChckNBtn"
+                ShowUserControl(New ContentAttendance())
         End Select
     End Sub
 
@@ -170,7 +174,7 @@ Public Class AdminMain
         button.ForeColor = Color.Yellow ' Set new active button color
     End Sub
 
-    Private Sub ShowUserControl(control As UserControl)
+    Public Sub ShowUserControl(control As UserControl)
         control.Dock = DockStyle.Fill
         ContentPnl.Controls.Clear()
         ContentPnl.Controls.Add(control)
@@ -183,7 +187,7 @@ Public Class AdminMain
         Public Property NormalImage As Image
     End Class
 
-    Public Sub New()
+    Public Sub News()
         InitializeComponent()
         ' Add the Resize event handler
         AddHandler Me.Resize, AddressOf Me.Member_Resize
@@ -353,5 +357,16 @@ Public Class AdminMain
     Private Sub StaffMngmtBtn_Click_1(sender As Object, e As EventArgs) Handles StaffMngmtBtn.Click
         ShowUserControl(New ContentStaffManage())
     End Sub
+
+    Public Sub AttenChckNBtn_Click(sender As Object, e As EventArgs) Handles AttenChckNBtn.Click
+        SetActiveSubMenuButton(AttenChckNBtn)
+        ShowUserControl(New ContentAttendance())
+    End Sub
+
+    Private Sub AttendanceBtn_Click_1(sender As Object, e As EventArgs) Handles AttendanceBtn.Click
+        SetActiveSubMenuButton(AttenChckNBtn)
+        ShowUserControl(New ContentAttendance())
+    End Sub
+
 
 End Class
