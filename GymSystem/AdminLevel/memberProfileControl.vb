@@ -21,6 +21,8 @@ Public Class memberProfileControl
             ' Load notes for the selected member
             LoadNotesForMember(selectedMember.MemberID)
 
+            LoadNotesForMember(selectedMember.MemberID)
+
             ' Load reservations for the selected member
             LoadReservationsForMember(selectedMember.MemberID)
 
@@ -779,6 +781,7 @@ Public Class memberProfileControl
             e.Graphics.FillRectangle(gradientBrush, rect)
         End Using
     End Sub
+
 
 End Class
 

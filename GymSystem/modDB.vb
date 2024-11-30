@@ -26,7 +26,7 @@ Module modDB
     Public Sub UpdateConnectionString()
         Try
             ' Specify the configuration file directly
-            Dim configFile As String = "config.txt" ' Change this to "config.txt" or "config2.txt" as needed
+            Dim configFile As String = "config2.txt" ' Change this to "config.txt" or "config2.txt" as needed
             Dim configPath As String = System.IO.Directory.GetCurrentDirectory & "\" & configFile
             Dim text As String = Nothing
 
@@ -47,7 +47,7 @@ Module modDB
                     Exit Sub
                 End If
             Else
-                MsgBox("Configuration file does not exist")
+                MsgBox($"Configuration file {configFile} from {configPath} does not exist")
             End If
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical)
