@@ -372,4 +372,7 @@ Public Class AdminMain
         ShowUserControl(New ContentPayment)
     End Sub
 
+    Private Sub MemProgRepBtn_Click(sender As Object, e As EventArgs) Handles MemProgRepBtn.Click
+        ShowUserControl(New ContentRepMemRep())
+    End Sub
 End Class
