@@ -38,7 +38,13 @@ Public Class ContentRepMemRep
 
         ' Show the report preview
         Dim reportViewer As New ReportViewer()
-        reportViewer.LocalReport.ReportPath = "C:\Users\Kenji\Source\Repos\GymSystem\GymSystem\AdminLevel\Reports\Report1.rdlc" ' Update with the actual path to your RDLC report
+        Dim baseDirectory As String = AppDomain.CurrentDomain.BaseDirectory
+        Dim reportPath As String = Path.Combine(baseDirectory, "..\..\..\AdminLevel\Reports\Report1.rdlc")
+
+        ' Debug: Check the constructed report path
+        Debug.WriteLine("Constructed report path: " & reportPath)
+
+        reportViewer.LocalReport.ReportPath = reportPath
         reportViewer.LocalReport.DataSources.Clear()
         reportViewer.LocalReport.DataSources.Add(New ReportDataSource("DataSet1", CType(DataGridView1.DataSource, DataTable)))
         reportViewer.RefreshReport()
@@ -59,7 +65,13 @@ Public Class ContentRepMemRep
         Next
 
         Dim report As New LocalReport()
-        report.ReportPath = "C:\Users\Kenji\Source\Repos\GymSystem\GymSystem\AdminLevel\Reports\Report1.rdlc" ' Update with the actual path to your RDLC report
+        Dim baseDirectory As String = AppDomain.CurrentDomain.BaseDirectory
+        Dim reportPath As String = Path.Combine(baseDirectory, "..\..\..\AdminLevel\Reports\Report1.rdlc")
+
+        ' Debug: Check the constructed report path
+        Debug.WriteLine("Constructed report path: " & reportPath)
+
+        report.ReportPath = reportPath
 
         ' Define the data source
         Dim dataSource As New ReportDataSource("DataSet1", dt)
