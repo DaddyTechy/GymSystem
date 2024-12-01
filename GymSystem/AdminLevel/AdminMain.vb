@@ -296,14 +296,14 @@ Public Class AdminMain
         ToggleSubMenu(DashboardBtn, Nothing)
     End Sub
 
-    Private Sub othersBtn_Click(sender As Object, e As EventArgs) Handles othersBtn.Click
+    Private Sub othersBtn_Click(sender As Object, e As EventArgs)
         ToggleSubMenu(DashboardBtn, Nothing)
-        ShowUserControl(New Contentothers())
+        ShowUserControl(New Contentothers)
     End Sub
 
 
-    Private Sub AddEqpBtn_Click(sender As Object, e As EventArgs) Handles AddEqpBtn.Click
-        ShowUserControl(New Gym_Equipment())
+    Private Sub AddEqpBtn_Click(sender As Object, e As EventArgs)
+        ShowUserControl(New Gym_Equipment)
     End Sub
 
 
@@ -346,16 +346,16 @@ Public Class AdminMain
     End Sub
 
 
-    Private Sub ReportsBtn_Click_1(sender As Object, e As EventArgs) Handles ReportsBtn.Click
-        ShowUserControl(New ContentReports())
+    Private Sub ReportsBtn_Click_1(sender As Object, e As EventArgs)
+        ShowUserControl(New ContentReports)
     End Sub
 
-    Private Sub MemRepBtn_Click(sender As Object, e As EventArgs) Handles MemRepBtn.Click
-        ShowUserControl(New ContentRepMemRep())
+    Private Sub MemRepBtn_Click(sender As Object, e As EventArgs)
+        ShowUserControl(New ContentRepMemRep)
     End Sub
 
-    Private Sub StaffMngmtBtn_Click_1(sender As Object, e As EventArgs) Handles StaffMngmtBtn.Click
-        ShowUserControl(New ContentStaffManage())
+    Private Sub StaffMngmtBtn_Click_1(sender As Object, e As EventArgs)
+        ShowUserControl(New ContentStaffManage)
     End Sub
 
     Public Sub AttenChckNBtn_Click(sender As Object, e As EventArgs) Handles AttenChckNBtn.Click
@@ -368,5 +368,8 @@ Public Class AdminMain
         ShowUserControl(New ContentAttendance())
     End Sub
 
+    Private Sub PaymentsBtn_Click_1(sender As Object, e As EventArgs) Handles PaymentsBtn.Click
+        ShowUserControl(New ContentPayment)
+    End Sub
 
 End Class

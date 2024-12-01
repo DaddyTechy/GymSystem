@@ -18,13 +18,11 @@ Public Class memberProfileControl
 
         ' Check if selectedMember is not null
         If selectedMember IsNot Nothing Then
-            ' Load notes for the selected member
-            LoadNotesForMember(selectedMember.MemberID)
-
-            LoadNotesForMember(selectedMember.MemberID)
 
             ' Load reservations for the selected member
             LoadReservationsForMember(selectedMember.MemberID)
+
+            LoadNotesForMember(selectedMember.MemberID)
 
             Dim dtAttendance As DataTable = FetchAttendanceData(selectedMember.MemberID)
 
@@ -96,10 +94,8 @@ Public Class memberProfileControl
         chartAttendance.Invalidate()
     End Sub
 
-
     Private Sub LoadNotesForMember(memberID As Integer)
-        Dim query As String = $"SELECT * FROM notes WHERE MemberID = {memberID}"
-        LoadToDGV(query, notesDGV)
+        LoadToDGV($"SELECT NoteID, NoteDetails, Author, DateAdded FROM notes WHERE MemberID = {memberID}", notesDGV)
 
         ' Set the properties for notesDGV
         Dim parentBackgroundColor As Color = Color.FromArgb(40, 40, 40) ' Replace with the actual parent control if different
@@ -274,11 +270,11 @@ Public Class memberProfileControl
     Private Sub OnNoteAdded(noteDetails As String, author As String, dateAdded As DateTime)
         Try
             ' Insert the new note into the notes table
-            Dim query As String = $"INSERT INTO notes (NoteDetails, Author, DateAdded) VALUES ('{noteDetails}', '{author}', '{dateAdded.ToString("yyyy-MM-dd")}')"
+            Dim query As String = $"INSERT INTO notes (NoteDetails, Author, DateAdded, MemberID) VALUES ('{noteDetails}', '{author}', '{dateAdded.ToString("yyyy-MM-dd")}', '{selectedMember.MemberID}')"
             readQuery(query)
 
             ' Refresh the DataGridView
-            LoadToDGV("SELECT * FROM notes", notesDGV)
+            LoadNotesForMember(selectedMember.MemberID)
         Catch ex As Exception
             MessageBox.Show("An error occurred while adding the note: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -356,7 +352,7 @@ Public Class memberProfileControl
         ' Additional properties copied from MembersTable
         reservationsDGV.AllowUserToAddRows = False
         reservationsDGV.AllowUserToDeleteRows = False
-        reservationsDGV.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+        reservationsDGV.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells
         reservationsDGV.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
         reservationsDGV.BorderStyle = BorderStyle.None
         reservationsDGV.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
@@ -428,7 +424,8 @@ Public Class memberProfileControl
             editButtonColumn.UseColumnTextForButtonValue = True
             editButtonColumn.FlatStyle = FlatStyle.Flat
             editButtonColumn.DefaultCellStyle.BackColor = Color.Transparent
-            reservationsDGV.Columns.Add(editButtonColumn)
+            editButtonColumn.MinimumWidth = 50
+            reservationsDGV.Columns.Insert(0, editButtonColumn)
         End If
 
         If reservationsDGV.Columns("Delete") Is Nothing Then
@@ -440,7 +437,8 @@ Public Class memberProfileControl
             deleteButtonColumn.UseColumnTextForButtonValue = True
             deleteButtonColumn.FlatStyle = FlatStyle.Flat
             deleteButtonColumn.DefaultCellStyle.BackColor = Color.Transparent
-            reservationsDGV.Columns.Add(deleteButtonColumn)
+            deleteButtonColumn.MinimumWidth = 52
+            reservationsDGV.Columns.Insert(1, deleteButtonColumn)
         End If
 
         ' Add columns to the DataGridView
