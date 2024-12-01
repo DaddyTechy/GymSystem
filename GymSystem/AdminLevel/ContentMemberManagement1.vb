@@ -66,30 +66,36 @@ Public Class ContentMemberManagement1
 
 
 
-            ' Bind DataTable to DataGridView
-            MembersTable.DataSource = dtMember
-
-            ' Add Edit and Delete buttons
+            ' Add Edit button
             Dim editButtonColumn As New DataGridViewButtonColumn()
             editButtonColumn.HeaderText = "Edit"
             editButtonColumn.Name = "Edit"
-            editButtonColumn.Text = "Edit"
+            editButtonColumn.Text = ""
             editButtonColumn.UseColumnTextForButtonValue = True
+            editButtonColumn.MinimumWidth = 60 ' Set a minimum width
             MembersTable.Columns.Add(editButtonColumn)
 
+            ' Add Delete button
             Dim deleteButtonColumn As New DataGridViewButtonColumn()
             deleteButtonColumn.HeaderText = "Delete"
             deleteButtonColumn.Name = "Delete"
-            deleteButtonColumn.Text = "Delete"
+            deleteButtonColumn.Text = ""
             deleteButtonColumn.UseColumnTextForButtonValue = True
+            deleteButtonColumn.MinimumWidth = 72 ' Set a minimum width
             MembersTable.Columns.Add(deleteButtonColumn)
 
+            ' Add View button
             Dim viewButtonColumn As New DataGridViewButtonColumn()
             viewButtonColumn.HeaderText = "View"
             viewButtonColumn.Name = "View"
             viewButtonColumn.Text = "View"
             viewButtonColumn.UseColumnTextForButtonValue = True
+            viewButtonColumn.MinimumWidth = 60 ' Set a minimum width
             MembersTable.Columns.Add(viewButtonColumn)
+
+
+
+            MembersTable.DataSource = dtMember
 
 
             ' Customize DataGridView appearance
@@ -126,6 +132,8 @@ Public Class ContentMemberManagement1
 
             ' Set the background color of the row headers to match the parent control's background color
             MembersTable.RowHeadersDefaultCellStyle.BackColor = parentBackgroundColor
+
+            MembersTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells
 
         Catch ex As Exception
             MsgBox(ex.Message)
@@ -662,7 +670,7 @@ Public Class ContentMemberManagement1
         Next
 
         ' Bind DataTable to DataGridView
-        MembersTable.DataSource = dtMember
+
 
         ' Add Edit, Delete, and View buttons
         If MembersTable.Columns("Edit") Is Nothing Then
@@ -671,6 +679,7 @@ Public Class ContentMemberManagement1
             editButtonColumn.Name = "Edit"
             editButtonColumn.Text = "Edit"
             editButtonColumn.UseColumnTextForButtonValue = True
+            editButtonColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
             MembersTable.Columns.Add(editButtonColumn)
         End If
 
@@ -680,6 +689,7 @@ Public Class ContentMemberManagement1
             deleteButtonColumn.Name = "Delete"
             deleteButtonColumn.Text = "Delete"
             deleteButtonColumn.UseColumnTextForButtonValue = True
+            deleteButtonColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
             MembersTable.Columns.Add(deleteButtonColumn)
         End If
 
@@ -689,8 +699,11 @@ Public Class ContentMemberManagement1
             viewButtonColumn.Name = "View"
             viewButtonColumn.Text = "View"
             viewButtonColumn.UseColumnTextForButtonValue = True
+            viewButtonColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
             MembersTable.Columns.Add(viewButtonColumn)
         End If
+
+        MembersTable.DataSource = dtMember
     End Sub
 
 
@@ -705,6 +718,4 @@ Public Class ContentMemberManagement1
             e.SuppressKeyPress = True ' Prevent the beep sound on Enter key press
         End If
     End Sub
-
-
 End Class

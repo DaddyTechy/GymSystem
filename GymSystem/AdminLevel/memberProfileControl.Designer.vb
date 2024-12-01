@@ -885,7 +885,7 @@ Partial Class memberProfileControl
         Label11.Name = "Label11"
         Label11.Size = New Size(201, 27)
         Label11.TabIndex = 4
-        Label11.Text = "Memberships"
+        Label11.Text = "Membership"
         Label11.TextAlign = ContentAlignment.MiddleLeft
         ' 
         ' Panel5
