@@ -1,5 +1,4 @@
-﻿Imports System.Data.SqlClient
-Imports System.Text
+﻿Imports System.Text
 Imports MySql.Data.MySqlClient
 
 Public Class ContentAttendance
@@ -327,35 +326,6 @@ Public Class ContentAttendance
         summary.AppendLine($"Date: {row.Cells("Date").Value}")
         summary.AppendLine($"Status: {row.Cells("Status").Value}")
         Return summary.ToString()
-    End Function
-
-    Private Function ValidateForeignKeyConstraints(memberID As Integer, staffID As Integer) As Boolean
-        Try
-            ' Check if MemberID exists in the Member table
-            Dim memberExists As Boolean = False
-            Dim staffExists As Boolean = False
-
-            Using connection As New SqlConnection("YourConnectionStringHere")
-                connection.Open()
-
-                ' Check MemberID
-                Using command As New SqlCommand("SELECT COUNT(*) FROM Member WHERE MemberID = @MemberID", connection)
-                    command.Parameters.AddWithValue("@MemberID", memberID)
-                    memberExists = Convert.ToInt32(command.ExecuteScalar()) > 0
-                End Using
-
-                ' Check StaffID
-                Using command As New SqlCommand("SELECT COUNT(*) FROM Staff WHERE StaffID = @StaffID", connection)
-                    command.Parameters.AddWithValue("@StaffID", staffID)
-                    staffExists = Convert.ToInt32(command.ExecuteScalar()) > 0
-                End Using
-            End Using
-
-            Return memberExists And staffExists
-        Catch ex As Exception
-            HandleError($"An error occurred while validating foreign key constraints: {ex.Message}")
-            Return False
-        End Try
     End Function
 
     Private Function ValidateRow(row As DataGridViewRow) As Boolean

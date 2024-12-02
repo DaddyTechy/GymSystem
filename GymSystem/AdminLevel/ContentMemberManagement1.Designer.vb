@@ -55,7 +55,7 @@ Partial Class ContentMemberManagement1
         btnSearch.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnSearch.FlatStyle = FlatStyle.Popup
         btnSearch.ForeColor = Color.White
-        btnSearch.Image = My.Resources.Resources.Cog_1
+        btnSearch.Image = Cog_1
         btnSearch.ImageAlign = ContentAlignment.MiddleLeft
         btnSearch.Location = New Point(542, 6)
         btnSearch.Name = "btnSearch"

@@ -718,5 +718,4 @@ Public Class ContentMemberManagement1
             e.SuppressKeyPress = True ' Prevent the beep sound on Enter key press
         End If
     End Sub
-
 End Class

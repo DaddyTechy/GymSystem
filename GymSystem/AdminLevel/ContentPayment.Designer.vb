@@ -66,7 +66,7 @@ Partial Class ContentPayment
         Label4.ForeColor = Color.White
         Label4.Location = New Point(352, 6)
         Label4.Name = "Label4"
-        Label4.Size = New Size(34, 15)
+        Label4.Size = New Size(35, 15)
         Label4.TabIndex = 8
         Label4.Text = "Type:"
         ' 
@@ -87,7 +87,7 @@ Partial Class ContentPayment
         cmbPaymentType.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         cmbPaymentType.DropDownStyle = ComboBoxStyle.DropDownList
         cmbPaymentType.FormattingEnabled = True
-        cmbPaymentType.Items.AddRange(New Object() {"Membership", "Reservation"})
+        cmbPaymentType.Items.AddRange(New Object() {"All", "Membership", "Reservation"})
         cmbPaymentType.Location = New Point(397, 3)
         cmbPaymentType.Name = "cmbPaymentType"
         cmbPaymentType.Size = New Size(121, 23)
@@ -108,7 +108,7 @@ Partial Class ContentPayment
         btnSearch.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnSearch.FlatStyle = FlatStyle.Popup
         btnSearch.ForeColor = Color.White
-        btnSearch.Image = My.Resources.Resources.Cog_1
+        btnSearch.Image = Cog_1
         btnSearch.ImageAlign = ContentAlignment.MiddleLeft
         btnSearch.Location = New Point(1042, 6)
         btnSearch.Name = "btnSearch"

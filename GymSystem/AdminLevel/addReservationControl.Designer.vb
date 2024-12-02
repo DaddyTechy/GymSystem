@@ -110,8 +110,9 @@ Partial Class addReservationControl
         ' 
         ' dtpStartTime
         ' 
-        dtpStartTime.CustomFormat = "HH:mm"
-        dtpStartTime.Format = DateTimePickerFormat.Custom
+        dtpStartTime.Checked = False
+        dtpStartTime.CustomFormat = ""
+        dtpStartTime.Format = DateTimePickerFormat.Time
         dtpStartTime.Location = New Point(297, 107)
         dtpStartTime.MinDate = New Date(2024, 11, 28, 0, 0, 0, 0)
         dtpStartTime.Name = "dtpStartTime"
@@ -131,8 +132,9 @@ Partial Class addReservationControl
         ' 
         ' dtpEndTime
         ' 
-        dtpEndTime.CustomFormat = "HH:mm"
-        dtpEndTime.Format = DateTimePickerFormat.Custom
+        dtpEndTime.Checked = False
+        dtpEndTime.CustomFormat = ""
+        dtpEndTime.Format = DateTimePickerFormat.Time
         dtpEndTime.Location = New Point(424, 107)
         dtpEndTime.MinDate = New Date(2024, 11, 28, 0, 0, 0, 0)
         dtpEndTime.Name = "dtpEndTime"
@@ -225,9 +227,8 @@ Partial Class addReservationControl
         lblTotalFee.ForeColor = Color.Black
         lblTotalFee.Location = New Point(61, 371)
         lblTotalFee.Name = "lblTotalFee"
-        lblTotalFee.Size = New Size(90, 25)
+        lblTotalFee.Size = New Size(0, 25)
         lblTotalFee.TabIndex = 30
-        lblTotalFee.Text = "Total Fee"
         ' 
         ' cmbTrainer
         ' 
