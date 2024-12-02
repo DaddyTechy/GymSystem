@@ -1,6 +1,7 @@
 ﻿Imports System.Windows.Forms.DataVisualization.Charting
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel
 Imports MySql.Data.MySqlClient
+Imports Org.BouncyCastle.Crypto
 
 Public Class memberProfileControl
     Public selectedMember As MemberData
@@ -8,7 +9,6 @@ Public Class memberProfileControl
     Private Sub memberProfileControl_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Enable AutoScroll for the control
         Me.AutoScroll = True
-        Me.AutoScrollMinSize = New Size(600, 500)
 
         If lblStatus.Text = "Inactive" Then
             lblStatus.ForeColor = Color.Red
@@ -298,6 +298,9 @@ Public Class memberProfileControl
         Dim addReservationControl As New addReservationControl()
         AddHandler addReservationControl.ReservationAdded, AddressOf OnReservationAdded
 
+        ' Pass the selectedMember.MemberID to the addReservationControl
+        addReservationControl.MemberID = selectedMember.MemberID
+
         ' Calculate the center point
         Dim centerX As Integer = (ClientSize.Width - addReservationControl.Width) / 2
         Dim centerY As Integer = (ClientSize.Height - addReservationControl.Height) / 2
@@ -309,20 +312,96 @@ Public Class memberProfileControl
         Controls.Add(addReservationControl)
         addReservationControl.BringToFront()
     End Sub
-
     Private Sub OnReservationAdded(memberID As Integer, equipmentID As Integer, staffID As Integer, reservationDate As DateTime, startTime As DateTime, endTime As DateTime, reservationFee As Decimal, reservationNotes As String, purpose As String)
         Try
             ' Insert the new reservation into the reservations table
             Dim query As String = $"INSERT INTO reservation (MemberID, EquipmentID, StaffID, ReservationDate, StartTime, EndTime, ReservationFee, ReservationNotes, ReservationStatus, Cancellation, Reschedule, PaymentStatus, Feedback, Purpose) " &
                               $"VALUES ({memberID}, {equipmentID}, {staffID}, '{reservationDate:yyyy-MM-dd}', '{startTime:HH:mm:ss}', '{endTime:HH:mm:ss}', {reservationFee}, '{reservationNotes}', 'Pending', False, False, 'Unpaid', '', '{purpose}')"
-            readQuery(query)
+            ExecuteQuery(query)
+            MessageBox.Show($"Debug: inserted MemberID = {memberID}")
 
             ' Refresh the DataGridView
             LoadReservationsForMember(memberID)
+
+            ' Ask if the user wants to make the payment now or later
+            Dim result As DialogResult = MessageBox.Show("Do you want to make the payment now?", "Payment", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If result = DialogResult.Yes Then
+                ' Open the BillingPaymentForm
+                Dim paymentControl As New BillingPaymentForm()
+
+                ' Set the necessary values
+                paymentControl.txtAmount.Text = reservationFee.ToString("F2")
+                paymentControl.txtSubTotal.Text = reservationFee.ToString("F2")
+                paymentControl.isMembership = False
+                paymentControl.memberID = memberID
+
+                ' Calculate the center point
+                Dim centerX As Integer = (ClientSize.Width - paymentControl.Width) / 2
+                Dim centerY As Integer = (ClientSize.Height - paymentControl.Height) / 2
+
+                ' Set the location of the BillingPaymentForm to the center
+                paymentControl.Location = New Point(centerX, centerY)
+
+                ' Add the BillingPaymentForm to the form
+                Controls.Add(paymentControl)
+                paymentControl.BringToFront()
+
+                AddHandler paymentControl.btnSave.Click, Sub(sender As Object, e As EventArgs)
+                                                             ' Insert payment data into the payment table
+                                                             Dim paymentMethod As String = paymentControl.cmbPaymentMethod.SelectedItem.ToString()
+                                                             Dim paymentDate As DateTime = paymentControl.dtpPaymentDate.Value
+                                                             Dim subTotal As Decimal = Convert.ToDecimal(paymentControl.txtSubTotal.Text)
+                                                             Dim invoiceNumber As String = paymentControl.txtInvoiceNumber.Text
+                                                             Dim receiptNumber As String = paymentControl.txtReceiptNumber.Text
+                                                             Dim discountApplied As Decimal = If(String.IsNullOrEmpty(paymentControl.txtDiscountAmount.Text), 0, Convert.ToDecimal(paymentControl.txtDiscountAmount.Text))
+                                                             Dim taxAmount As Decimal = Convert.ToDecimal(paymentControl.txtTaxAmount.Text)
+                                                             Dim totalAmount As Decimal = Convert.ToDecimal(paymentControl.txtTotalAmount.Text)
+                                                             Dim paymentNotes As String = paymentControl.txtPaymentNotes.Text
+
+
+                                                             Dim queryPayment As String = $"INSERT INTO payment (MemberID, PaymentMethod, PaymentDate, Amount, InvoiceNumber, ReceiptNumber, DiscountApplied, TaxAmount, TotalAmount, PaymentNotes, PaymentStatus,  MembershipID) " &
+                                                                                          $"VALUES ({memberID}, '{paymentMethod}', '{paymentDate:yyyy-MM-dd}', {subTotal}, '{invoiceNumber}', '{receiptNumber}', {discountApplied}, {taxAmount}, {totalAmount}, '{paymentNotes}', 'Paid', '{selectedMember.MemberID}')"
+                                                             readQuery(queryPayment)
+
+                                                             ' Update status in the relevant table
+                                                             Dim queryReservation As String = $"UPDATE reservation SET PaymentStatus = 'Paid' WHERE MemberID = {memberID}"
+                                                             readQuery(queryReservation)
+
+                                                             ' Notify user of successful save
+                                                             MessageBox.Show("Payment saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                                             paymentControl.Hide()
+                                                         End Sub
+
+                MessageBox.Show("Debug: Payment data inserted successfully.")
+
+
+            Else
+                ' Set payment status to Unpaid and set default values for other fields
+                Dim defaultPaymentDate As DateTime = DateTime.MinValue
+                Dim queryPayment As String = $"INSERT INTO payment (MemberID, ReservationFee, PaymentStatus, PaymentDate, Amount, PaymentMethod, InvoiceNumber, DiscountApplied, TaxAmount, TotalAmount, ReceiptNumber, PaymentNotes, MembershipID) " &
+                                         $"VALUES ({memberID}, {reservationFee}, 'Unpaid', '{defaultPaymentDate:yyyy-MM-dd}', 0, 'N/A', 'N/A', 0, 0, 0, 'N/A', 'N/A', '{selectedMember.MemberID}')"
+                ExecuteQuery(queryPayment)
+
+            End If
         Catch ex As Exception
             MessageBox.Show("An error occurred while adding the reservation: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+    Private Sub ExecuteQuery(query As String)
+        Try
+            openConn(db_name)
+            With cmd
+                .Connection = conn
+                .CommandText = query
+                .ExecuteNonQuery()
+            End With
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical)
+        End Try
+    End Sub
+
+
     Private Sub LoadReservationsForMember(memberID As Integer)
         Dim query As String = $"SELECT r.ReservationID, r.MemberID, e.Name AS Name, s.FirstName AS FirstName, r.ReservationDate, r.StartTime, r.EndTime, r.ReservationStatus, r.Purpose, r.ReservationNotes, r.Cancellation, r.Reschedule, r.PaymentStatus, r.Feedback, r.ReservationFee " &
                           $"FROM reservation r " &
@@ -422,8 +501,8 @@ Public Class memberProfileControl
             editButtonColumn.HeaderText = "Edit"
             editButtonColumn.Text = "Edit"
             editButtonColumn.UseColumnTextForButtonValue = True
-            editButtonColumn.FlatStyle = FlatStyle.Flat
-            editButtonColumn.DefaultCellStyle.BackColor = Color.Transparent
+            editButtonColumn.FlatStyle = FlatStyle.Standard
+            editButtonColumn.DefaultCellStyle.BackColor = Color.Gold
             editButtonColumn.MinimumWidth = 50
             reservationsDGV.Columns.Insert(0, editButtonColumn)
         End If
@@ -435,8 +514,8 @@ Public Class memberProfileControl
             deleteButtonColumn.HeaderText = "Delete"
             deleteButtonColumn.Text = "Delete"
             deleteButtonColumn.UseColumnTextForButtonValue = True
-            deleteButtonColumn.FlatStyle = FlatStyle.Flat
-            deleteButtonColumn.DefaultCellStyle.BackColor = Color.Transparent
+            deleteButtonColumn.FlatStyle = FlatStyle.Standard
+            deleteButtonColumn.DefaultCellStyle.BackColor = Color.Gold
             deleteButtonColumn.MinimumWidth = 52
             reservationsDGV.Columns.Insert(1, deleteButtonColumn)
         End If
