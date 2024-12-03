@@ -97,22 +97,6 @@ Partial Class ContentAttendance
         txtUserInput.Size = New Size(184, 29)
         txtUserInput.TabIndex = 5
         ' 
-        ' btnSearch
-        ' 
-        btnSearch.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        btnSearch.FlatStyle = FlatStyle.Popup
-        btnSearch.ForeColor = Color.White
-        btnSearch.Image = My.Resources.Resources.Cog_1
-        btnSearch.ImageAlign = ContentAlignment.MiddleLeft
-        btnSearch.Location = New Point(967, 6)
-        btnSearch.Name = "btnSearch"
-        btnSearch.Size = New Size(83, 24)
-        btnSearch.TabIndex = 4
-        btnSearch.Text = "Search"
-        btnSearch.TextAlign = ContentAlignment.BottomCenter
-        btnSearch.TextImageRelation = TextImageRelation.ImageBeforeText
-        btnSearch.UseVisualStyleBackColor = True
-        ' 
         ' attendanceDGV
         ' 
         attendanceDGV.AllowUserToAddRows = False
@@ -172,17 +156,7 @@ Partial Class ContentAttendance
         attendanceDGV.ShowRowErrors = False
         attendanceDGV.Size = New Size(691, 550)
         attendanceDGV.TabIndex = 0
-        ' 
-        ' txtBoxSearchInput
-        ' 
-        txtBoxSearchInput.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        txtBoxSearchInput.BackColor = Color.Silver
-        txtBoxSearchInput.BorderStyle = BorderStyle.FixedSingle
-        txtBoxSearchInput.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0)
-        txtBoxSearchInput.Location = New Point(805, 6)
-        txtBoxSearchInput.Name = "txtBoxSearchInput"
-        txtBoxSearchInput.Size = New Size(161, 25)
-        txtBoxSearchInput.TabIndex = 3
+        '
         ' 
         ' Label2
         ' 
