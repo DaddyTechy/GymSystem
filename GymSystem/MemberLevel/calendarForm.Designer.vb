@@ -154,7 +154,7 @@ Partial Class calendarForm
         ' 
         ' lblMonthYear
         ' 
-        lblMonthYear.Anchor = AnchorStyles.None
+        lblMonthYear.Anchor = AnchorStyles.Top
         lblMonthYear.AutoSize = True
         lblMonthYear.Font = New Font("Segoe UI", 19.8000011F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         lblMonthYear.ForeColor = Color.White

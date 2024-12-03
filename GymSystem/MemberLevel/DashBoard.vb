@@ -1,6 +1,6 @@
 ﻿Public Class DashBoard
     Private Sub DashBoard_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
+        Me.WindowState = FormWindowState.Maximized
     End Sub
 
     Private Sub SchedBtn_Click(sender As Object, e As EventArgs) Handles SchedBtn.Click
@@ -24,6 +24,18 @@
     Private Sub ReportsBtn_Click(sender As Object, e As EventArgs) Handles ReportBtn.Click
         Dim reps As New Reports
         reps.Show()
+        Hide()
+    End Sub
+
+    Private Sub Logout_Click(sender As Object, e As EventArgs) Handles LogoutBtn.Click
+        Dim LogoutB As New Member
+        LogoutB.Show()
+        Hide()
+    End Sub
+
+    Private Sub Bill_Click(sender As Object, e As EventArgs) Handles Bills.Click
+        Dim Billpay As New Billings
+        Billpay.Show()
         Hide()
     End Sub
 

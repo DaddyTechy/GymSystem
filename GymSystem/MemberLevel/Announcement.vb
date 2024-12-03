@@ -1,6 +1,6 @@
 ﻿Public Class Announcement
     Private Sub Announcement_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
+        Me.WindowState = FormWindowState.Maximized
     End Sub
 
     Private Sub DashBtn_Click(sender As Object, e As EventArgs) Handles DashBtn.Click
