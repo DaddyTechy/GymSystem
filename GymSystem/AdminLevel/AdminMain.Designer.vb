@@ -29,9 +29,7 @@ Partial Class AdminMain
         MenuPnl = New Panel()
         othersBtn = New Button()
         ReportsSubMenu = New Panel()
-        MemProgRepBtn = New Button()
         MemRepBtn = New Button()
-        ChartsBtn = New Button()
         ReportsBtn = New Button()
         GymEqpSubMenu = New Panel()
         UpdEqpDetBtn = New Button()
@@ -161,7 +159,7 @@ Partial Class AdminMain
         othersBtn.ForeColor = SystemColors.ButtonHighlight
         othersBtn.Image = Cog1
         othersBtn.ImageAlign = ContentAlignment.MiddleLeft
-        othersBtn.Location = New Point(13, 865)
+        othersBtn.Location = New Point(13, 811)
         othersBtn.Margin = New Padding(3, 2, 3, 2)
         othersBtn.Name = "othersBtn"
         othersBtn.Size = New Size(235, 47)
@@ -173,33 +171,13 @@ Partial Class AdminMain
         ' 
         ' ReportsSubMenu
         ' 
-        ReportsSubMenu.Controls.Add(MemProgRepBtn)
         ReportsSubMenu.Controls.Add(MemRepBtn)
-        ReportsSubMenu.Controls.Add(ChartsBtn)
         ReportsSubMenu.Dock = DockStyle.Top
         ReportsSubMenu.Location = New Point(13, 779)
         ReportsSubMenu.Margin = New Padding(3, 2, 3, 2)
         ReportsSubMenu.Name = "ReportsSubMenu"
-        ReportsSubMenu.Size = New Size(235, 86)
+        ReportsSubMenu.Size = New Size(235, 32)
         ReportsSubMenu.TabIndex = 19
-        ' 
-        ' MemProgRepBtn
-        ' 
-        MemProgRepBtn.Dock = DockStyle.Top
-        MemProgRepBtn.FlatAppearance.BorderSize = 0
-        MemProgRepBtn.FlatStyle = FlatStyle.Flat
-        MemProgRepBtn.ForeColor = SystemColors.ButtonHighlight
-        MemProgRepBtn.Image = Vector_1
-        MemProgRepBtn.ImageAlign = ContentAlignment.MiddleLeft
-        MemProgRepBtn.Location = New Point(0, 52)
-        MemProgRepBtn.Name = "MemProgRepBtn"
-        MemProgRepBtn.Padding = New Padding(39, 0, 0, 0)
-        MemProgRepBtn.Size = New Size(235, 29)
-        MemProgRepBtn.TabIndex = 6
-        MemProgRepBtn.Text = "  Members' Progress"
-        MemProgRepBtn.TextAlign = ContentAlignment.TopLeft
-        MemProgRepBtn.TextImageRelation = TextImageRelation.ImageBeforeText
-        MemProgRepBtn.UseVisualStyleBackColor = True
         ' 
         ' MemRepBtn
         ' 
@@ -209,32 +187,14 @@ Partial Class AdminMain
         MemRepBtn.ForeColor = SystemColors.ButtonHighlight
         MemRepBtn.Image = Vector_1
         MemRepBtn.ImageAlign = ContentAlignment.MiddleLeft
-        MemRepBtn.Location = New Point(0, 28)
+        MemRepBtn.Location = New Point(0, 0)
         MemRepBtn.Name = "MemRepBtn"
         MemRepBtn.Padding = New Padding(39, 0, 0, 0)
         MemRepBtn.Size = New Size(235, 24)
         MemRepBtn.TabIndex = 5
-        MemRepBtn.Text = "  Members' Report"
+        MemRepBtn.Text = "  Generate and Print"
         MemRepBtn.TextImageRelation = TextImageRelation.ImageBeforeText
         MemRepBtn.UseVisualStyleBackColor = True
-        ' 
-        ' ChartsBtn
-        ' 
-        ChartsBtn.BackColor = Color.Black
-        ChartsBtn.Dock = DockStyle.Top
-        ChartsBtn.FlatAppearance.BorderSize = 0
-        ChartsBtn.FlatStyle = FlatStyle.Flat
-        ChartsBtn.ForeColor = SystemColors.ButtonHighlight
-        ChartsBtn.Image = Vector_1
-        ChartsBtn.ImageAlign = ContentAlignment.MiddleLeft
-        ChartsBtn.Location = New Point(0, 0)
-        ChartsBtn.Name = "ChartsBtn"
-        ChartsBtn.Padding = New Padding(39, 0, 0, 0)
-        ChartsBtn.Size = New Size(235, 28)
-        ChartsBtn.TabIndex = 4
-        ChartsBtn.Text = "  Charts"
-        ChartsBtn.TextImageRelation = TextImageRelation.ImageBeforeText
-        ChartsBtn.UseVisualStyleBackColor = False
         ' 
         ' ReportsBtn
         ' 
@@ -595,7 +555,7 @@ Partial Class AdminMain
         Panel3.Dock = DockStyle.Left
         Panel3.Location = New Point(0, 0)
         Panel3.Name = "Panel3"
-        Panel3.Size = New Size(13, 957)
+        Panel3.Size = New Size(13, 903)
         Panel3.TabIndex = 6
         ' 
         ' UserPnl
@@ -722,9 +682,7 @@ Partial Class AdminMain
     Friend WithEvents UserPnl As Panel
     Friend WithEvents MenuPnl As Panel
     Friend WithEvents ReportsSubMenu As Panel
-    Friend WithEvents MemProgRepBtn As Button
     Friend WithEvents MemRepBtn As Button
-    Friend WithEvents ChartsBtn As Button
     Friend WithEvents ReportsBtn As Button
     Friend WithEvents GymEqpSubMenu As Panel
     Friend WithEvents UpdEqpDetBtn As Button
