@@ -715,7 +715,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>Reports</Value>
+                  <Value>MembersReports</Value>
                   <Style>
                     <FontSize>16pt</FontSize>
                     <FontWeight>Bold</FontWeight>
@@ -729,9 +729,9 @@
           </Paragraphs>
           <rd:DefaultName>Textbox18</rd:DefaultName>
           <Top>0.57433cm</Top>
-          <Left>6.82648cm</Left>
+          <Left>4.36586cm</Left>
           <Height>0.854cm</Height>
-          <Width>2.5cm</Width>
+          <Width>4.96062cm</Width>
           <Style>
             <Border>
               <Style>None</Style>

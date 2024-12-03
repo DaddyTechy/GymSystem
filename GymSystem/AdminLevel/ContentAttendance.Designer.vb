@@ -61,7 +61,7 @@ Partial Class ContentAttendance
         btnAddAttendance.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnAddAttendance.FlatStyle = FlatStyle.Popup
         btnAddAttendance.ForeColor = Color.White
-        btnAddAttendance.Image = My.Resources.Resources.edit
+        btnAddAttendance.Image = edit
         btnAddAttendance.ImageAlign = ContentAlignment.MiddleRight
         btnAddAttendance.Location = New Point(298, 0)
         btnAddAttendance.Name = "btnAddAttendance"
@@ -76,7 +76,7 @@ Partial Class ContentAttendance
         btnSearch2.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnSearch2.FlatStyle = FlatStyle.Popup
         btnSearch2.ForeColor = Color.White
-        btnSearch2.Image = My.Resources.Resources.Cog_1
+        btnSearch2.Image = Cog_1
         btnSearch2.ImageAlign = ContentAlignment.MiddleLeft
         btnSearch2.Location = New Point(541, 5)
         btnSearch2.Name = "btnSearch2"
@@ -92,7 +92,7 @@ Partial Class ContentAttendance
         txtUserInput.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         txtUserInput.BackColor = Color.Silver
         txtUserInput.BorderStyle = BorderStyle.FixedSingle
-        txtUserInput.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0)
+        txtUserInput.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         txtUserInput.Location = New Point(379, 5)
         txtUserInput.Name = "txtUserInput"
         txtUserInput.Size = New Size(161, 25)
@@ -103,7 +103,7 @@ Partial Class ContentAttendance
         btnSearch.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnSearch.FlatStyle = FlatStyle.Popup
         btnSearch.ForeColor = Color.White
-        btnSearch.Image = My.Resources.Resources.Cog_1
+        btnSearch.Image = Cog_1
         btnSearch.ImageAlign = ContentAlignment.MiddleLeft
         btnSearch.Location = New Point(967, 6)
         btnSearch.Name = "btnSearch"
@@ -120,20 +120,20 @@ Partial Class ContentAttendance
         attendanceDGV.AllowUserToDeleteRows = False
         attendanceDGV.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         attendanceDGV.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
-        attendanceDGV.BackgroundColor = Color.FromArgb(40, 40, 40)
+        attendanceDGV.BackgroundColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         attendanceDGV.BorderStyle = BorderStyle.None
         attendanceDGV.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
         DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = Color.FromArgb(40, 40, 40)
+        DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         DataGridViewCellStyle1.Font = New Font("Segoe UI", 10F)
         DataGridViewCellStyle1.ForeColor = Color.White
-        DataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(40, 40, 40)
+        DataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
         DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
         attendanceDGV.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         attendanceDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = Color.FromArgb(40, 40, 40)
+        DataGridViewCellStyle2.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
         DataGridViewCellStyle2.ForeColor = Color.White
         DataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight
@@ -158,12 +158,12 @@ Partial Class ContentAttendance
         attendanceDGV.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
         attendanceDGV.RowHeadersVisible = False
         attendanceDGV.RowHeadersWidth = 51
-        DataGridViewCellStyle4.BackColor = Color.FromArgb(40, 40, 40)
-        DataGridViewCellStyle4.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0)
+        DataGridViewCellStyle4.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        DataGridViewCellStyle4.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         DataGridViewCellStyle4.ForeColor = Color.White
         attendanceDGV.RowsDefaultCellStyle = DataGridViewCellStyle4
         attendanceDGV.RowTemplate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
-        attendanceDGV.RowTemplate.DefaultCellStyle.BackColor = Color.FromArgb(40, 40, 40)
+        attendanceDGV.RowTemplate.DefaultCellStyle.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         attendanceDGV.RowTemplate.DefaultCellStyle.Font = New Font("Microsoft Sans Serif", 9F)
         attendanceDGV.RowTemplate.DefaultCellStyle.ForeColor = Color.White
         attendanceDGV.RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
@@ -178,7 +178,7 @@ Partial Class ContentAttendance
         txtBoxSearchInput.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         txtBoxSearchInput.BackColor = Color.Silver
         txtBoxSearchInput.BorderStyle = BorderStyle.FixedSingle
-        txtBoxSearchInput.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0)
+        txtBoxSearchInput.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         txtBoxSearchInput.Location = New Point(805, 6)
         txtBoxSearchInput.Name = "txtBoxSearchInput"
         txtBoxSearchInput.Size = New Size(161, 25)
@@ -188,7 +188,7 @@ Partial Class ContentAttendance
         ' 
         Label2.AutoSize = True
         Label2.Dock = DockStyle.Top
-        Label2.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0)
+        Label2.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.White
         Label2.Location = New Point(20, 0)
         Label2.Margin = New Padding(3, 0, 3, 10)
@@ -203,7 +203,7 @@ Partial Class ContentAttendance
         ' 
         Label1.AutoSize = True
         Label1.Dock = DockStyle.Top
-        Label1.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0)
+        Label1.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.Gold
         Label1.Location = New Point(15, 15)
         Label1.Name = "Label1"
