@@ -294,6 +294,7 @@ Public Class AdminMain
 
     Private Sub StaffMngmtBtn_Click(sender As Object, e As EventArgs)
         ToggleSubMenu(DashboardBtn, Nothing)
+        ShowUserControl(New ContentStaffManageList)
     End Sub
 
     Private Sub othersBtn_Click(sender As Object, e As EventArgs)
@@ -352,10 +353,6 @@ Public Class AdminMain
 
     Private Sub MemRepBtn_Click(sender As Object, e As EventArgs)
         ShowUserControl(New ContentRepMemRep)
-    End Sub
-
-    Private Sub StaffMngmtBtn_Click_1(sender As Object, e As EventArgs)
-        ShowUserControl(New ContentStaffManage)
     End Sub
 
     Public Sub AttenChckNBtn_Click(sender As Object, e As EventArgs) Handles AttenChckNBtn.Click
