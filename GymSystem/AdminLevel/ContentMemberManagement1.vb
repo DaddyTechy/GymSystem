@@ -498,11 +498,11 @@ Public Class ContentMemberManagement1
                 ' Draw the icon
                 Dim icon As Bitmap
                 If MembersTable.Columns(e.ColumnIndex).Name = "Edit" Then
-                    icon = My.Resources.edit ' Access the edit icon from resources
+                    icon = My.Resources.edit1 ' Access the edit icon from resources
                 ElseIf MembersTable.Columns(e.ColumnIndex).Name = "Delete" Then
-                    icon = My.Resources.delete ' Access the delete icon from resources
+                    icon = My.Resources.delete1 ' Access the delete icon from resources
                 Else
-                    icon = My.Resources.Vector3 ' Access the view icon from resources
+                    icon = My.Resources.view1 ' Access the view icon from resources
                 End If
                 e.Graphics.DrawImage(icon, e.CellBounds.Left + 5, e.CellBounds.Top + (e.CellBounds.Height - icon.Height) \ 2)
 
@@ -717,5 +717,9 @@ Public Class ContentMemberManagement1
             btnSearch_Click(sender, e)
             e.SuppressKeyPress = True ' Prevent the beep sound on Enter key press
         End If
+    End Sub
+
+    Private Sub MembersTable_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles MembersTable.CellContentClick
+
     End Sub
 End Class
