@@ -44,9 +44,10 @@ Partial Class ContentRepMemRep
         Panel1.Controls.Add(Panel2)
         Panel1.Controls.Add(Label2)
         Panel1.Controls.Add(Label1)
-        Panel1.Location = New Point(15, 15)
+        Panel1.Location = New Point(17, 20)
+        Panel1.Margin = New Padding(3, 4, 3, 4)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(645, 466)
+        Panel1.Size = New Size(1412, 621)
         Panel1.TabIndex = 0
         ' 
         ' Panel2
@@ -56,17 +57,19 @@ Partial Class ContentRepMemRep
         Panel2.Controls.Add(Button2)
         Panel2.Controls.Add(DataGridView1)
         Panel2.Controls.Add(Label3)
-        Panel2.Location = New Point(17, 83)
+        Panel2.Location = New Point(19, 111)
+        Panel2.Margin = New Padding(3, 4, 3, 4)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(605, 355)
+        Panel2.Size = New Size(1366, 473)
         Panel2.TabIndex = 2
         ' 
         ' Button2
         ' 
         Button2.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        Button2.Location = New Point(512, 8)
+        Button2.Location = New Point(1260, 11)
+        Button2.Margin = New Padding(3, 4, 3, 4)
         Button2.Name = "Button2"
-        Button2.Size = New Size(75, 23)
+        Button2.Size = New Size(86, 31)
         Button2.TabIndex = 3
         Button2.Text = "Print All"
         Button2.UseVisualStyleBackColor = True
@@ -74,9 +77,11 @@ Partial Class ContentRepMemRep
         ' DataGridView1
         ' 
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Location = New Point(187, 110)
+        DataGridView1.Location = New Point(9, 67)
+        DataGridView1.Margin = New Padding(3, 4, 3, 4)
         DataGridView1.Name = "DataGridView1"
-        DataGridView1.Size = New Size(240, 150)
+        DataGridView1.RowHeadersWidth = 51
+        DataGridView1.Size = New Size(1337, 402)
         DataGridView1.TabIndex = 2
         ' 
         ' Label3
@@ -84,9 +89,9 @@ Partial Class ContentRepMemRep
         Label3.AutoSize = True
         Label3.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label3.ForeColor = SystemColors.ControlLight
-        Label3.Location = New Point(8, 11)
+        Label3.Location = New Point(9, 15)
         Label3.Name = "Label3"
-        Label3.Size = New Size(119, 20)
+        Label3.Size = New Size(153, 25)
         Label3.TabIndex = 0
         Label3.Text = "Report Sections"
         ' 
@@ -96,9 +101,9 @@ Partial Class ContentRepMemRep
         Label2.AutoSize = True
         Label2.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = SystemColors.ControlLight
-        Label2.Location = New Point(17, 48)
+        Label2.Location = New Point(19, 64)
         Label2.Name = "Label2"
-        Label2.Size = New Size(165, 32)
+        Label2.Size = New Size(205, 41)
         Label2.TabIndex = 1
         Label2.Text = "View Reports"
         ' 
@@ -107,9 +112,9 @@ Partial Class ContentRepMemRep
         Label1.AutoSize = True
         Label1.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = SystemColors.ControlLightLight
-        Label1.Location = New Point(17, 17)
+        Label1.Location = New Point(19, 23)
         Label1.Name = "Label1"
-        Label1.Size = New Size(127, 20)
+        Label1.Size = New Size(162, 25)
         Label1.TabIndex = 0
         Label1.Text = "Member Reports"
         ' 
@@ -129,14 +134,15 @@ Partial Class ContentRepMemRep
         ' 
         ' ContentRepMemRep
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(29), CByte(29), CByte(29))
         Controls.Add(Panel1)
-        MinimumSize = New Size(675, 496)
+        Margin = New Padding(3, 4, 3, 4)
+        MinimumSize = New Size(771, 661)
         Name = "ContentRepMemRep"
-        Padding = New Padding(15)
-        Size = New Size(675, 496)
+        Padding = New Padding(17, 20, 17, 20)
+        Size = New Size(1446, 661)
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
         Panel2.ResumeLayout(False)
