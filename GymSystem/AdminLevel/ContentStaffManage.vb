@@ -1,15 +1,12 @@
-﻿Public Class ContentStaffManage
-    Private Sub addnewStaffBtn_Click(sender As Object, e As EventArgs) Handles addnewStaffBtn.Click
-        Dim newstaffform As New ContentStaffManageForm
-        newstaffform.ShowDialog()
-    End Sub
-
+﻿' ContentStaffManage.vb
+Public Class ContentStaffManage
     Private Sub LoadstaffData()
         Dim query As String = "SELECT * FROM staff"
         LoadToDGV(query, dgvStafflist)
         SetDGVPropertiesForStaff(dgvStafflist)
-
+        RenameColumns(dgvStafflist)
     End Sub
+
     Private Sub SetDGVPropertiesForStaff(dgv As DataGridView)
         Dim parentBackgroundColor As Color = Color.FromArgb(40, 40, 40)
         dgv.BackgroundColor = Color.FromArgb(20, 20, 20)
@@ -82,22 +79,69 @@
         dgv.ShowCellErrors = False
         dgv.ShowRowErrors = False
 
-
-    End Sub
-    Private Sub Label1_Click(sender As Object, e As EventArgs)
-
+        RenameColumns(dgv)
     End Sub
 
-    Private Sub Label2_Click(sender As Object, e As EventArgs) Handles Label2.Click
+    Private Sub RenameColumns(dgv As DataGridView)
+        dgv.Columns("StaffID").HeaderText = "Staff ID"
+        dgv.Columns("FirstName").HeaderText = "First Name"
+        dgv.Columns("MiddleName").HeaderText = "Middle Name"
+        dgv.Columns("LastName").HeaderText = "Last Name"
+        dgv.Columns("Position").HeaderText = "Position"
+        dgv.Columns("Email").HeaderText = "Email"
+        dgv.Columns("PhoneNumber").HeaderText = "Phone Number"
+        dgv.Columns("HireDate").HeaderText = "Hire Date"
+        dgv.Columns("Salary").HeaderText = "Salary"
+        dgv.Columns("ShiftSchedule").HeaderText = "Shift Schedule"
+        dgv.Columns("Certification").HeaderText = "Certification"
+        dgv.Columns("PerformanceRating").HeaderText = "Performance Rating"
+        dgv.Columns("Specialization").HeaderText = "Specialization"
+        dgv.Columns("Experience").HeaderText = "Experience"
+        dgv.Columns("DTCreated").HeaderText = "DT Created"
+    End Sub
+
+    Private Sub dgvStafflist_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvStafflist.CellContentClick
 
     End Sub
 
-    Private Sub TableLayoutPanel1_Paint(sender As Object, e As PaintEventArgs) Handles TableLayoutPanel1.Paint
-
+    Private Sub ContentStaffManage_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        UpdateConnectionString()
+        InitializeDGV()
     End Sub
 
-    Private Sub dgvPayment_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvStafflist.CellContentClick
+    Private Sub InitializeDGV()
+        LoadstaffData()
+        ' Additional initialization code if needed
+    End Sub
 
+    Private gymStaffControl As ContentStaffManageForm
+
+    Public Sub New()
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Initialize the Form
+        gymStaffControl = New ContentStaffManageForm()
+
+        ' Set properties to treat the form like a control
+        gymStaffControl.TopLevel = False
+        gymStaffControl.FormBorderStyle = FormBorderStyle.None
+        gymStaffControl.Dock = DockStyle.Fill
+
+        ' Add the form to a panel (or other container) in the main form
+        Me.Controls.Add(gymStaffControl)
+        gymStaffControl.Visible = False
+    End Sub
+
+    ' Button click event to show the form
+    Private Sub AddStaff_Click(sender As Object, e As EventArgs) Handles AddStaff.Click
+        gymStaffControl.Location = New Point(100, 200)
+
+        ' Set the size of the form
+        gymStaffControl.Size = New Size(405, 486)
+
+        gymStaffControl.BringToFront()
+        gymStaffControl.Visible = True
+        Debug.WriteLine("Gym_Staff control is now visible.")
     End Sub
 End Class
-

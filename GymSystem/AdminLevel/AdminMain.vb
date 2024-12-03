@@ -354,7 +354,7 @@ Public Class AdminMain
         ShowUserControl(New ContentRepMemRep)
     End Sub
 
-    Private Sub StaffMngmtBtn_Click_1(sender As Object, e As EventArgs)
+    Private Sub StaffMngmtBtn_Click_1(sender As Object, e As EventArgs) Handles StaffMngmtBtn.Click
         ShowUserControl(New ContentStaffManage)
     End Sub
 

@@ -22,12 +22,6 @@ Partial Class ContentStaffManageForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Label14 = New Label()
-        Label13 = New Label()
-        txtbxSEFconfpass = New TextBox()
-        txtbxSEFpass = New TextBox()
-        txtbxSEFadname = New TextBox()
-        Label12 = New Label()
         btnSubmitSEF = New Button()
         DTPSEFhiredate = New DateTimePicker()
         Label2 = New Label()
@@ -54,70 +48,13 @@ Partial Class ContentStaffManageForm
         Label3 = New Label()
         SuspendLayout()
         ' 
-        ' Label14
-        ' 
-        Label14.AutoSize = True
-        Label14.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label14.ForeColor = SystemColors.ControlLight
-        Label14.Location = New Point(587, 509)
-        Label14.Name = "Label14"
-        Label14.Size = New Size(164, 23)
-        Label14.TabIndex = 61
-        Label14.Text = "Confirm Password*"
-        ' 
-        ' Label13
-        ' 
-        Label13.AutoSize = True
-        Label13.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label13.ForeColor = SystemColors.ControlLight
-        Label13.Location = New Point(587, 427)
-        Label13.Name = "Label13"
-        Label13.Size = New Size(93, 23)
-        Label13.TabIndex = 60
-        Label13.Text = "Password*"
-        ' 
-        ' txtbxSEFconfpass
-        ' 
-        txtbxSEFconfpass.Location = New Point(587, 533)
-        txtbxSEFconfpass.Margin = New Padding(3, 4, 3, 4)
-        txtbxSEFconfpass.Name = "txtbxSEFconfpass"
-        txtbxSEFconfpass.Size = New Size(285, 27)
-        txtbxSEFconfpass.TabIndex = 59
-        ' 
-        ' txtbxSEFpass
-        ' 
-        txtbxSEFpass.Location = New Point(587, 455)
-        txtbxSEFpass.Margin = New Padding(3, 4, 3, 4)
-        txtbxSEFpass.Name = "txtbxSEFpass"
-        txtbxSEFpass.Size = New Size(285, 27)
-        txtbxSEFpass.TabIndex = 58
-        ' 
-        ' txtbxSEFadname
-        ' 
-        txtbxSEFadname.Location = New Point(587, 375)
-        txtbxSEFadname.Margin = New Padding(3, 4, 3, 4)
-        txtbxSEFadname.Name = "txtbxSEFadname"
-        txtbxSEFadname.Size = New Size(285, 27)
-        txtbxSEFadname.TabIndex = 57
-        ' 
-        ' Label12
-        ' 
-        Label12.AutoSize = True
-        Label12.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label12.ForeColor = SystemColors.ControlLight
-        Label12.Location = New Point(587, 348)
-        Label12.Name = "Label12"
-        Label12.Size = New Size(124, 23)
-        Label12.TabIndex = 56
-        Label12.Text = "Admin Name*"
-        ' 
         ' btnSubmitSEF
         ' 
         btnSubmitSEF.Anchor = AnchorStyles.Top
         btnSubmitSEF.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         btnSubmitSEF.FlatStyle = FlatStyle.Flat
         btnSubmitSEF.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnSubmitSEF.Location = New Point(730, 599)
+        btnSubmitSEF.Location = New Point(696, 529)
         btnSubmitSEF.Margin = New Padding(3, 4, 3, 4)
         btnSubmitSEF.Name = "btnSubmitSEF"
         btnSubmitSEF.Size = New Size(143, 55)
@@ -128,7 +65,7 @@ Partial Class ContentStaffManageForm
         ' DTPSEFhiredate
         ' 
         DTPSEFhiredate.Anchor = AnchorStyles.Top
-        DTPSEFhiredate.Location = New Point(191, 529)
+        DTPSEFhiredate.Location = New Point(574, 373)
         DTPSEFhiredate.Margin = New Padding(3, 4, 3, 4)
         DTPSEFhiredate.Name = "DTPSEFhiredate"
         DTPSEFhiredate.Size = New Size(356, 27)
@@ -221,7 +158,7 @@ Partial Class ContentStaffManageForm
         Label8.AutoSize = True
         Label8.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label8.ForeColor = SystemColors.ControlLight
-        Label8.Location = New Point(190, 584)
+        Label8.Location = New Point(573, 428)
         Label8.Name = "Label8"
         Label8.Size = New Size(104, 23)
         Label8.TabIndex = 47
@@ -233,7 +170,7 @@ Partial Class ContentStaffManageForm
         Label1.AutoSize = True
         Label1.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = SystemColors.ControlLight
-        Label1.Location = New Point(191, 501)
+        Label1.Location = New Point(574, 345)
         Label1.Name = "Label1"
         Label1.Size = New Size(95, 23)
         Label1.TabIndex = 46
@@ -242,7 +179,7 @@ Partial Class ContentStaffManageForm
         ' txtbxSEFexp
         ' 
         txtbxSEFexp.Anchor = AnchorStyles.Top
-        txtbxSEFexp.Location = New Point(190, 612)
+        txtbxSEFexp.Location = New Point(573, 456)
         txtbxSEFexp.Margin = New Padding(3, 4, 3, 4)
         txtbxSEFexp.Name = "txtbxSEFexp"
         txtbxSEFexp.PlaceholderText = "ex. 9 years of experience in Cybersecurity"
@@ -386,12 +323,6 @@ Partial Class ContentStaffManageForm
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(29), CByte(29), CByte(29))
         ClientSize = New Size(1037, 711)
-        Controls.Add(Label14)
-        Controls.Add(Label13)
-        Controls.Add(txtbxSEFconfpass)
-        Controls.Add(txtbxSEFpass)
-        Controls.Add(txtbxSEFadname)
-        Controls.Add(Label12)
         Controls.Add(btnSubmitSEF)
         Controls.Add(DTPSEFhiredate)
         Controls.Add(Label2)
@@ -424,13 +355,6 @@ Partial Class ContentStaffManageForm
         ResumeLayout(False)
         PerformLayout()
     End Sub
-
-    Friend WithEvents Label14 As Label
-    Friend WithEvents Label13 As Label
-    Friend WithEvents txtbxSEFconfpass As TextBox
-    Friend WithEvents txtbxSEFpass As TextBox
-    Friend WithEvents txtbxSEFadname As TextBox
-    Friend WithEvents Label12 As Label
     Friend WithEvents btnSubmitSEF As Button
     Friend WithEvents DTPSEFhiredate As DateTimePicker
     Friend WithEvents Label2 As Label

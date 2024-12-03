@@ -44,7 +44,7 @@ Partial Class Equipmentlist
         dgvEquipmentlist.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
         DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        DataGridViewCellStyle1.Font = New Font("Segoe UI", 10.0F)
+        DataGridViewCellStyle1.Font = New Font("Segoe UI", 10F)
         DataGridViewCellStyle1.ForeColor = Color.White
         DataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
@@ -53,7 +53,7 @@ Partial Class Equipmentlist
         dgvEquipmentlist.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle2.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9.0F)
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
         DataGridViewCellStyle2.ForeColor = Color.White
         DataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight
         DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
@@ -80,12 +80,12 @@ Partial Class Equipmentlist
         dgvEquipmentlist.RowHeadersVisible = False
         dgvEquipmentlist.RowHeadersWidth = 51
         DataGridViewCellStyle4.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        DataGridViewCellStyle4.Font = New Font("Segoe UI", 9.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        DataGridViewCellStyle4.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         DataGridViewCellStyle4.ForeColor = Color.White
         dgvEquipmentlist.RowsDefaultCellStyle = DataGridViewCellStyle4
         dgvEquipmentlist.RowTemplate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
         dgvEquipmentlist.RowTemplate.DefaultCellStyle.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        dgvEquipmentlist.RowTemplate.DefaultCellStyle.Font = New Font("Microsoft Sans Serif", 9.0F)
+        dgvEquipmentlist.RowTemplate.DefaultCellStyle.Font = New Font("Microsoft Sans Serif", 9F)
         dgvEquipmentlist.RowTemplate.DefaultCellStyle.ForeColor = Color.White
         dgvEquipmentlist.RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
         dgvEquipmentlist.SelectionMode = DataGridViewSelectionMode.FullRowSelect
@@ -98,7 +98,7 @@ Partial Class Equipmentlist
         ' 
         Label2.AutoSize = True
         Label2.Dock = DockStyle.Top
-        Label2.Font = New Font("Segoe UI", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label2.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.White
         Label2.Location = New Point(15, 38)
         Label2.Margin = New Padding(3, 0, 3, 13)
@@ -127,7 +127,7 @@ Partial Class Equipmentlist
         AddEquipment.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         AddEquipment.BackColor = Color.DimGray
         AddEquipment.FlatStyle = FlatStyle.Popup
-        AddEquipment.Font = New Font("Segoe UI", 9.0F, FontStyle.Bold)
+        AddEquipment.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         AddEquipment.ForeColor = Color.White
         AddEquipment.Location = New Point(738, 18)
         AddEquipment.Name = "AddEquipment"
@@ -138,7 +138,7 @@ Partial Class Equipmentlist
         ' 
         ' Equipmentlist
         ' 
-        AutoScaleDimensions = New SizeF(8.0F, 20.0F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         Controls.Add(AddEquipment)
