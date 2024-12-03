@@ -11,7 +11,6 @@ Public Class AdminMain
         InitializeButton(MemManBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.tdesign_member_1, My.Resources.tdesign_member, activeButton)
         InitializeButton(AttendanceBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkatt, My.Resources.Vector1, activeButton)
         InitializeButton(PaymentsBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkpa, My.Resources.Vector_4, activeButton)
-        InitializeButton(AnnouncementBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkan, My.Resources.Vector_5, activeButton)
         InitializeButton(StaffMngmtBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkstaffman, My.Resources.Group_26, activeButton)
         InitializeButton(GymEquipmentBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkgymeqp, My.Resources.Vector2, activeButton)
         InitializeButton(ReportsBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkreps, My.Resources.Vector3, activeButton)
@@ -39,7 +38,6 @@ Public Class AdminMain
         AddHandler ReportsBtn.Click, AddressOf ReportsBtn_Click
         AddHandler DashboardBtn.Click, AddressOf DashboardBtn_Click
         AddHandler PaymentsBtn.Click, AddressOf PaymentsBtn_Click
-        AddHandler AnnouncementBtn.Click, AddressOf AnnouncementBtn_Click
         AddHandler StaffMngmtBtn.Click, AddressOf StaffMngmtBtn_Click
         AddHandler othersBtn.Click, AddressOf othersBtn_Click
 
@@ -62,7 +60,6 @@ Public Class AdminMain
             GymEquipmentBtn.Visible = True
             ReportsBtn.Visible = True
             DashboardBtn.Visible = True
-            AnnouncementBtn.Visible = True
             StaffMngmtBtn.Visible = True
         End If
     End Sub
@@ -336,6 +333,14 @@ Public Class AdminMain
     Private Sub MemEntryFormBtn_Click(sender As Object, e As EventArgs) Handles MemEntryFormBtn.Click
     End Sub
 
+    Private Sub MemRepBtn_Click(sender As Object, e As EventArgs)
+        ShowUserControl(New ContentRepMemRep)
+    End Sub
+
+    Private Sub StaffMngmtBtn_Click_1(sender As Object, e As EventArgs)
+        ShowUserControl(New ContentStaffManage)
+    End Sub
+
     Public Sub AttenChckNBtn_Click(sender As Object, e As EventArgs) Handles AttenChckNBtn.Click
         SetActiveSubMenuButton(AttenChckNBtn)
         ShowUserControl(New ContentAttendance())
@@ -368,5 +373,9 @@ Public Class AdminMain
     Private Sub ReportsBtn_Click_1(sender As Object, e As EventArgs) Handles ReportsBtn.Click
         SetActiveSubMenuButton(MemRepBtn)
         ShowUserControl(New ContentRepMemRep)
+    End Sub
+
+    Private Sub StaffMngmtBtn_Click_2(sender As Object, e As EventArgs) Handles StaffMngmtBtn.Click
+        ShowUserControl(New ContentStaffManage)
     End Sub
 End Class

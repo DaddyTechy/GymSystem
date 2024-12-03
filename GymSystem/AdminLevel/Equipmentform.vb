@@ -85,6 +85,14 @@ Public Class Gym_Equipment
         Me.Hide()
     End Sub
 
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+
+    End Sub
+
+    Private Sub Label8_Click(sender As Object, e As EventArgs) Handles Label8.Click
+
+    End Sub
+
     ' Define the readQuery method
 
 End Class
