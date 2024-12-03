@@ -24,33 +24,39 @@ Partial Class Gym_Equipment
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Gym_Equipment))
         Panel1 = New Panel()
+        Label13 = New Label()
+        Label4 = New Label()
+        Statustxtbox = New TextBox()
+        MaintenanceScheduletxtbox = New TextBox()
+        Button2 = New Button()
         Label12 = New Label()
         Label11 = New Label()
         Label10 = New Label()
         Label9 = New Label()
         Label8 = New Label()
         Label7 = New Label()
-        Button1 = New Button()
-        TextBox6 = New TextBox()
-        TextBox5 = New TextBox()
-        TextBox4 = New TextBox()
-        TextBox3 = New TextBox()
-        DateTimePicker1 = New DateTimePicker()
-        TextBox2 = New TextBox()
-        equipmentnametxtbox = New TextBox()
+        SubmitDetailstxtbox = New Button()
+        MainetenanceCosttxtbox = New TextBox()
+        PurchasePlacetxtbox = New TextBox()
+        Brandtxtbox = New TextBox()
+        dtpDateofaPurchase = New DateTimePicker()
+        Typetxtbox = New TextBox()
+        nametxtbox = New TextBox()
         Label6 = New Label()
         Label5 = New Label()
-        Label4 = New Label()
         Label3 = New Label()
         Label2 = New Label()
         Label1 = New Label()
-        Button2 = New Button()
         Panel1.SuspendLayout()
         SuspendLayout()
         ' 
         ' Panel1
         ' 
         Panel1.Anchor = AnchorStyles.None
+        Panel1.Controls.Add(Label13)
+        Panel1.Controls.Add(Label4)
+        Panel1.Controls.Add(Statustxtbox)
+        Panel1.Controls.Add(MaintenanceScheduletxtbox)
         Panel1.Controls.Add(Button2)
         Panel1.Controls.Add(Label12)
         Panel1.Controls.Add(Label11)
@@ -58,17 +64,15 @@ Partial Class Gym_Equipment
         Panel1.Controls.Add(Label9)
         Panel1.Controls.Add(Label8)
         Panel1.Controls.Add(Label7)
-        Panel1.Controls.Add(Button1)
-        Panel1.Controls.Add(TextBox6)
-        Panel1.Controls.Add(TextBox5)
-        Panel1.Controls.Add(TextBox4)
-        Panel1.Controls.Add(TextBox3)
-        Panel1.Controls.Add(DateTimePicker1)
-        Panel1.Controls.Add(TextBox2)
-        Panel1.Controls.Add(equipmentnametxtbox)
+        Panel1.Controls.Add(SubmitDetailstxtbox)
+        Panel1.Controls.Add(MainetenanceCosttxtbox)
+        Panel1.Controls.Add(PurchasePlacetxtbox)
+        Panel1.Controls.Add(Brandtxtbox)
+        Panel1.Controls.Add(dtpDateofaPurchase)
+        Panel1.Controls.Add(Typetxtbox)
+        Panel1.Controls.Add(nametxtbox)
         Panel1.Controls.Add(Label6)
         Panel1.Controls.Add(Label5)
-        Panel1.Controls.Add(Label4)
         Panel1.Controls.Add(Label3)
         Panel1.Controls.Add(Label2)
         Panel1.Controls.Add(Label1)
@@ -77,17 +81,68 @@ Partial Class Gym_Equipment
         Panel1.Size = New Size(768, 658)
         Panel1.TabIndex = 0
         ' 
+        ' Label13
+        ' 
+        Label13.AutoSize = True
+        Label13.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
+        Label13.ForeColor = Color.White
+        Label13.Location = New Point(50, 545)
+        Label13.Name = "Label13"
+        Label13.Size = New Size(50, 20)
+        Label13.TabIndex = 46
+        Label13.Text = "Status"
+        ' 
+        ' Label4
+        ' 
+        Label4.AutoSize = True
+        Label4.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
+        Label4.ForeColor = Color.White
+        Label4.Location = New Point(49, 496)
+        Label4.Name = "Label4"
+        Label4.Size = New Size(164, 20)
+        Label4.TabIndex = 45
+        Label4.Text = "Maintenance Schedule"
+        ' 
+        ' Statustxtbox
+        ' 
+        Statustxtbox.BackColor = Color.Gray
+        Statustxtbox.Location = New Point(180, 542)
+        Statustxtbox.Name = "Statustxtbox"
+        Statustxtbox.Size = New Size(200, 27)
+        Statustxtbox.TabIndex = 44
+        ' 
+        ' MaintenanceScheduletxtbox
+        ' 
+        MaintenanceScheduletxtbox.BackColor = Color.Gray
+        MaintenanceScheduletxtbox.Location = New Point(223, 493)
+        MaintenanceScheduletxtbox.Name = "MaintenanceScheduletxtbox"
+        MaintenanceScheduletxtbox.Size = New Size(157, 27)
+        MaintenanceScheduletxtbox.TabIndex = 43
+        ' 
+        ' Button2
+        ' 
+        Button2.BackColor = Color.DimGray
+        Button2.FlatStyle = FlatStyle.Popup
+        Button2.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        Button2.ForeColor = Color.White
+        Button2.Location = New Point(49, 36)
+        Button2.Name = "Button2"
+        Button2.Size = New Size(86, 31)
+        Button2.TabIndex = 41
+        Button2.Text = "Back"
+        Button2.UseVisualStyleBackColor = False
+        ' 
         ' Label12
         ' 
         Label12.AutoSize = True
         Label12.ForeColor = Color.White
         Label12.Image = CType(resources.GetObject("Label12.Image"), Image)
         Label12.ImageAlign = ContentAlignment.MiddleLeft
-        Label12.Location = New Point(472, 427)
+        Label12.Location = New Point(412, 423)
         Label12.Name = "Label12"
-        Label12.Size = New Size(82, 20)
+        Label12.Size = New Size(122, 20)
         Label12.TabIndex = 40
-        Label12.Text = "       Pricing"
+        Label12.Text = "       Maintenance"
         Label12.TextAlign = ContentAlignment.MiddleLeft
         Label12.UseMnemonic = False
         ' 
@@ -106,24 +161,21 @@ Partial Class Gym_Equipment
         ' 
         ' Label10
         ' 
-        Label10.AutoSize = True
-        Label10.ForeColor = Color.White
-        Label10.Location = New Point(472, 277)
+        Label10.Location = New Point(0, 0)
         Label10.Name = "Label10"
-        Label10.Size = New Size(97, 20)
-        Label10.TabIndex = 38
-        Label10.Text = "Order Details"
+        Label10.Size = New Size(100, 23)
+        Label10.TabIndex = 42
         ' 
         ' Label9
         ' 
         Label9.AutoSize = True
         Label9.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
         Label9.ForeColor = Color.White
-        Label9.Location = New Point(419, 463)
+        Label9.Location = New Point(452, 462)
         Label9.Name = "Label9"
-        Label9.Size = New Size(102, 20)
+        Label9.Size = New Size(42, 20)
         Label9.TabIndex = 37
-        Label9.Text = "Cost Per Item:"
+        Label9.Text = "Cost:"
         ' 
         ' Label8
         ' 
@@ -146,116 +198,92 @@ Partial Class Gym_Equipment
         Label7.TabIndex = 35
         Label7.Text = "Add Equipments"
         ' 
-        ' Button1
+        ' SubmitDetailstxtbox
         ' 
-        Button1.BackColor = Color.Gold
-        Button1.ForeColor = Color.Black
-        Button1.Location = New Point(561, 507)
-        Button1.Name = "Button1"
-        Button1.Size = New Size(115, 29)
-        Button1.TabIndex = 34
-        Button1.Text = "Submit Details"
-        Button1.UseVisualStyleBackColor = False
+        SubmitDetailstxtbox.BackColor = Color.Gold
+        SubmitDetailstxtbox.ForeColor = Color.Black
+        SubmitDetailstxtbox.Location = New Point(554, 510)
+        SubmitDetailstxtbox.Name = "SubmitDetailstxtbox"
+        SubmitDetailstxtbox.Size = New Size(115, 29)
+        SubmitDetailstxtbox.TabIndex = 34
+        SubmitDetailstxtbox.Text = "Submit Details"
+        SubmitDetailstxtbox.UseVisualStyleBackColor = False
         ' 
-        ' TextBox6
+        ' MainetenanceCosttxtbox
         ' 
-        TextBox6.BackColor = Color.Gray
-        TextBox6.ForeColor = Color.White
-        TextBox6.Location = New Point(536, 456)
-        TextBox6.Name = "TextBox6"
-        TextBox6.Size = New Size(200, 27)
-        TextBox6.TabIndex = 33
-        TextBox6.Text = "₱ Amount"
+        MainetenanceCosttxtbox.BackColor = Color.Gray
+        MainetenanceCosttxtbox.ForeColor = Color.White
+        MainetenanceCosttxtbox.Location = New Point(529, 459)
+        MainetenanceCosttxtbox.Name = "MainetenanceCosttxtbox"
+        MainetenanceCosttxtbox.Size = New Size(200, 27)
+        MainetenanceCosttxtbox.TabIndex = 33
         ' 
-        ' TextBox5
+        ' PurchasePlacetxtbox
         ' 
-        TextBox5.BackColor = Color.Gray
-        TextBox5.ForeColor = Color.White
-        TextBox5.Location = New Point(536, 358)
-        TextBox5.Name = "TextBox5"
-        TextBox5.Size = New Size(200, 27)
-        TextBox5.TabIndex = 32
-        TextBox5.Text = "Vendor Address"
+        PurchasePlacetxtbox.BackColor = Color.Gray
+        PurchasePlacetxtbox.ForeColor = Color.White
+        PurchasePlacetxtbox.Location = New Point(529, 361)
+        PurchasePlacetxtbox.Name = "PurchasePlacetxtbox"
+        PurchasePlacetxtbox.Size = New Size(200, 27)
+        PurchasePlacetxtbox.TabIndex = 32
         ' 
-        ' TextBox4
+        ' Brandtxtbox
         ' 
-        TextBox4.BackColor = Color.Gray
-        TextBox4.ForeColor = Color.White
-        TextBox4.Location = New Point(536, 312)
-        TextBox4.Name = "TextBox4"
-        TextBox4.Size = New Size(200, 27)
-        TextBox4.TabIndex = 31
-        TextBox4.Text = "Vendor"
+        Brandtxtbox.BackColor = Color.Gray
+        Brandtxtbox.ForeColor = Color.White
+        Brandtxtbox.Location = New Point(529, 315)
+        Brandtxtbox.Name = "Brandtxtbox"
+        Brandtxtbox.Size = New Size(200, 27)
+        Brandtxtbox.TabIndex = 31
         ' 
-        ' TextBox3
+        ' dtpDateofaPurchase
         ' 
-        TextBox3.BackColor = Color.Gray
-        TextBox3.ForeColor = Color.White
-        TextBox3.Location = New Point(180, 499)
-        TextBox3.Name = "TextBox3"
-        TextBox3.Size = New Size(200, 27)
-        TextBox3.TabIndex = 30
-        TextBox3.Text = "Equipment Qty"
+        dtpDateofaPurchase.Location = New Point(180, 438)
+        dtpDateofaPurchase.Name = "dtpDateofaPurchase"
+        dtpDateofaPurchase.Size = New Size(200, 27)
+        dtpDateofaPurchase.TabIndex = 29
         ' 
-        ' DateTimePicker1
+        ' Typetxtbox
         ' 
-        DateTimePicker1.Location = New Point(180, 438)
-        DateTimePicker1.Name = "DateTimePicker1"
-        DateTimePicker1.Size = New Size(200, 27)
-        DateTimePicker1.TabIndex = 29
+        Typetxtbox.BackColor = Color.Gray
+        Typetxtbox.ForeColor = Color.White
+        Typetxtbox.Location = New Point(180, 378)
+        Typetxtbox.Name = "Typetxtbox"
+        Typetxtbox.PlaceholderText = "Ex.Strength"
+        Typetxtbox.Size = New Size(200, 27)
+        Typetxtbox.TabIndex = 28
         ' 
-        ' TextBox2
+        ' nametxtbox
         ' 
-        TextBox2.BackColor = Color.Gray
-        TextBox2.ForeColor = Color.White
-        TextBox2.Location = New Point(180, 378)
-        TextBox2.Name = "TextBox2"
-        TextBox2.Size = New Size(200, 27)
-        TextBox2.TabIndex = 28
-        TextBox2.Text = "Short Description"
-        ' 
-        ' equipmentnametxtbox
-        ' 
-        equipmentnametxtbox.BackColor = Color.DimGray
-        equipmentnametxtbox.ForeColor = Color.White
-        equipmentnametxtbox.Location = New Point(180, 316)
-        equipmentnametxtbox.Name = "equipmentnametxtbox"
-        equipmentnametxtbox.Size = New Size(200, 27)
-        equipmentnametxtbox.TabIndex = 27
-        equipmentnametxtbox.Text = "Equipment Name"
+        nametxtbox.BackColor = Color.DimGray
+        nametxtbox.ForeColor = Color.White
+        nametxtbox.Location = New Point(180, 316)
+        nametxtbox.Name = "nametxtbox"
+        nametxtbox.PlaceholderText = "ex. Dumbell"
+        nametxtbox.Size = New Size(200, 27)
+        nametxtbox.TabIndex = 27
         ' 
         ' Label6
         ' 
         Label6.AutoSize = True
         Label6.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
         Label6.ForeColor = Color.White
-        Label6.Location = New Point(419, 361)
+        Label6.Location = New Point(412, 364)
         Label6.Name = "Label6"
-        Label6.Size = New Size(63, 20)
+        Label6.Size = New Size(111, 20)
         Label6.TabIndex = 26
-        Label6.Text = "Address"
+        Label6.Text = "Purchase Place"
         ' 
         ' Label5
         ' 
         Label5.AutoSize = True
         Label5.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
         Label5.ForeColor = Color.White
-        Label5.Location = New Point(419, 315)
+        Label5.Location = New Point(412, 318)
         Label5.Name = "Label5"
-        Label5.Size = New Size(59, 20)
+        Label5.Size = New Size(50, 20)
         Label5.TabIndex = 25
-        Label5.Text = "Vendor"
-        ' 
-        ' Label4
-        ' 
-        Label4.AutoSize = True
-        Label4.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
-        Label4.ForeColor = Color.White
-        Label4.Location = New Point(49, 502)
-        Label4.Name = "Label4"
-        Label4.Size = New Size(68, 20)
-        Label4.TabIndex = 24
-        Label4.Text = "Quantity"
+        Label5.Text = "Brand"
         ' 
         ' Label3
         ' 
@@ -275,9 +303,9 @@ Partial Class Gym_Equipment
         Label2.ForeColor = Color.White
         Label2.Location = New Point(49, 381)
         Label2.Name = "Label2"
-        Label2.Size = New Size(87, 20)
+        Label2.Size = New Size(41, 20)
         Label2.TabIndex = 22
-        Label2.Text = "Description"
+        Label2.Text = "Type"
         ' 
         ' Label1
         ' 
@@ -289,19 +317,6 @@ Partial Class Gym_Equipment
         Label1.Size = New Size(87, 20)
         Label1.TabIndex = 21
         Label1.Text = "Equipment:"
-        ' 
-        ' Button2
-        ' 
-        Button2.BackColor = Color.DimGray
-        Button2.FlatStyle = FlatStyle.Popup
-        Button2.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
-        Button2.ForeColor = Color.White
-        Button2.Location = New Point(49, 36)
-        Button2.Name = "Button2"
-        Button2.Size = New Size(86, 31)
-        Button2.TabIndex = 41
-        Button2.Text = "Back"
-        Button2.UseVisualStyleBackColor = False
         ' 
         ' Gym_Equipment
         ' 
@@ -326,20 +341,22 @@ Partial Class Gym_Equipment
     Friend WithEvents Label9 As Label
     Friend WithEvents Label8 As Label
     Friend WithEvents Label7 As Label
-    Friend WithEvents Button1 As Button
-    Friend WithEvents TextBox6 As TextBox
-    Friend WithEvents TextBox5 As TextBox
-    Friend WithEvents TextBox4 As TextBox
-    Friend WithEvents TextBox3 As TextBox
-    Friend WithEvents DateTimePicker1 As DateTimePicker
-    Friend WithEvents TextBox2 As TextBox
-    Friend WithEvents equipmentnametxtbox As TextBox
+    Friend WithEvents SubmitDetailstxtbox As Button
+    Friend WithEvents MainetenanceCosttxtbox As TextBox
+    Friend WithEvents PurchasePlacetxtbox As TextBox
+    Friend WithEvents Brandtxtbox As TextBox
+    Friend WithEvents dtpDateofaPurchase As DateTimePicker
+    Friend WithEvents Typetxtbox As TextBox
+    Friend WithEvents nametxtbox As TextBox
     Friend WithEvents Label6 As Label
     Friend WithEvents Label5 As Label
-    Friend WithEvents Label4 As Label
     Friend WithEvents Label3 As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents Label1 As Label
     Friend WithEvents Button2 As Button
+    Friend WithEvents Label4 As Label
+    Friend WithEvents Statustxtbox As TextBox
+    Friend WithEvents MaintenanceScheduletxtbox As TextBox
+    Friend WithEvents Label13 As Label
 
 End Class

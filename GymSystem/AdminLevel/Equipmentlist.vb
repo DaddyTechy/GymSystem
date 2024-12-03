@@ -1,6 +1,6 @@
 ﻿Public Class Equipmentlist
     Private Sub LoadEquipmentData()
-        Dim query As String = "SELECT EquipmentID, EquipmentName, EquipmentDescription, PurchaseDate, Quantity, Vendor, VendorAddress, Amount FROM equipment"
+        Dim query As String = "SELECT * FROM equipment"
         LoadToDGV(query, dgvEquipmentlist)
         SetDGVPropertiesForEquipment(dgvEquipmentlist)
         RenameColumns(dgvEquipmentlist)
@@ -78,48 +78,72 @@
         dgv.ShowCellErrors = False
         dgv.ShowRowErrors = False
 
-        AddEditAndDeleteButtons(dgv)
         RenameColumns(dgv)
     End Sub
 
     Private Sub RenameColumns(dgv As DataGridView)
         dgv.Columns("EquipmentID").HeaderText = "Equipment ID"
-        dgv.Columns("EquipmentName").HeaderText = "Name"
-        dgv.Columns("EquipmentDescription").HeaderText = "Description"
+        dgv.Columns("Name").HeaderText = "Name"
+        dgv.Columns("Type").HeaderText = "Type"
+        dgv.Columns("Brand").HeaderText = "Brand"
         dgv.Columns("PurchaseDate").HeaderText = "Purchase Date"
-        dgv.Columns("Quantity").HeaderText = "Quantity"
-        dgv.Columns("Vendor").HeaderText = "Vendor"
-        dgv.Columns("VendorAddress").HeaderText = "Vendor Address"
-        dgv.Columns("Amount").HeaderText = "Amount"
+        dgv.Columns("MaintenanceSchedule").HeaderText = "MaintenanceSchedule"
+        dgv.Columns("Status").HeaderText = "Status"
+        dgv.Columns("PurchasePlace").HeaderText = "PurchasePlace"
+        dgv.Columns("MaintenanceCost").HeaderText = "MaintenanceCost"
     End Sub
 
-    Private Sub AddEditAndDeleteButtons(dgv As DataGridView)
-        ' Add Edit button
-        If dgv.Columns("Edit") Is Nothing Then
-            Dim editButtonColumn As New DataGridViewDisableButtonColumn()
-            editButtonColumn.Name = "Edit"
-            editButtonColumn.HeaderText = "Edit"
-            editButtonColumn.Text = "Edit"
-            editButtonColumn.UseColumnTextForButtonValue = True
-            editButtonColumn.FlatStyle = FlatStyle.Standard
-            editButtonColumn.DefaultCellStyle.BackColor = Color.Gold
-            dgv.Columns.Insert(0, editButtonColumn)
-        End If
 
-        ' Add Delete button
-        If dgv.Columns("Delete") Is Nothing Then
-            Dim deleteButtonColumn As New DataGridViewDisableButtonColumn()
-            deleteButtonColumn.Name = "Delete"
-            deleteButtonColumn.HeaderText = "Delete"
-            deleteButtonColumn.Text = "Delete"
-            deleteButtonColumn.UseColumnTextForButtonValue = True
-            deleteButtonColumn.FlatStyle = FlatStyle.Standard
-            deleteButtonColumn.DefaultCellStyle.BackColor = Color.Gold
-            dgv.Columns.Insert(1, deleteButtonColumn)
-        End If
+    Private Sub dgvEquipmentlist_CellContentClick(sender As Object, e As DataGridViewCellEventArgs)
+
     End Sub
 
-    Private Sub dgvEquipmentlist_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvEquipmentlist.CellContentClick
+    Private Sub Equipmentlist_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        UpdateConnectionString()
+        InitializeDGV()
+    End Sub
+    Private Sub InitializeDGV()
+        LoadEquipmentData()
+        ' Additional initialization code if needed
+    End Sub
+    Private Sub dgvPayment_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvEquipmentlist.CellContentClick
 
+    End Sub
+
+    Private gymEquipmentControl As Gym_Equipment
+    Public Sub New()
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Initialize the Gym_Equipment control instead of AddAttendanceControl
+        gymEquipmentControl = New Gym_Equipment()
+
+        ' Add the Gym_Equipment control to the form
+        Me.Controls.Add(gymEquipmentControl)
+        gymEquipmentControl.Visible = False
+
+        ' Add any initialization after the InitializeComponent() call.
+        ' (If you need any specific initialization for gymEquipmentControl, add it here)
+    End Sub
+
+    ' Button click event to show the Gym_Equipment control
+
+    Private Sub AddEquipment_Click(sender As Object, e As EventArgs) Handles AddEquipment.Click
+        gymEquipmentControl.Location = New Point(100, 200)
+
+        ' Set the size of the Gym_Equipment control
+        gymEquipmentControl.Size = New Size(405, 486) ' Set the desired size
+
+        ' Add the Gym_Equipment control to the form if not already added
+        If Not Controls.Contains(gymEquipmentControl) Then
+            Controls.Add(gymEquipmentControl)
+            Debug.WriteLine("Gym_Equipment control added to the form.")
+        Else
+            Debug.WriteLine("Gym_Equipment control already exists on the form.")
+        End If
+
+        gymEquipmentControl.BringToFront()
+        gymEquipmentControl.Visible = True
+        Debug.WriteLine("Gym_Equipment control is now visible.")
     End Sub
 End Class
