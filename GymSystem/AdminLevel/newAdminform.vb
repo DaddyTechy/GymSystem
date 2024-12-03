@@ -91,8 +91,11 @@ Public Class newAdminform
 
     Private Sub InsertIntoAdminLogin(values As Dictionary(Of String, Object))
         Try
+            ' Encrypt the password before inserting it into the database
+            Dim encryptedPassword As String = Encrypt(values("AdminPass").ToString())
+
             ' Construct the SQL query
-            Dim query As String = $"INSERT INTO adminlogin (AdminID, Username, Password, Email, PhoneNumber, Role) VALUES (LAST_INSERT_ID(), '{values("AdminName")}', '{Encrypt(values("AdminPass"))}', '{values("Email")}', '{values("PhoneNumber")}', '{values("Role")}')"
+            Dim query As String = $"INSERT INTO adminlogin (AdminID, Username, EncryptedPassword, Email, PhoneNumber, Role) VALUES (LAST_INSERT_ID(), '{values("AdminName")}', '{encryptedPassword}', '{values("Email")}', '{values("PhoneNumber")}', '{values("Role")}')"
 
             ' Execute the query using readQuery
             readQuery(query)
@@ -100,6 +103,7 @@ Public Class newAdminform
             MessageBox.Show("An error occurred while adding the admin login: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
 
     ' Function to create a new admin
     Public Sub CreateNewAdmin()

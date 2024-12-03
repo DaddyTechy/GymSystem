@@ -27,7 +27,6 @@ Partial Class Member
         LabelPass = New Label()
         IDBox = New TextBox()
         PassBox = New TextBox()
-        CBMe = New CheckBox()
         LoginBtn = New Button()
         StaffLL = New LinkLabel()
         AdminLL = New LinkLabel()
@@ -35,6 +34,7 @@ Partial Class Member
         PictureBox1 = New PictureBox()
         Label1 = New Label()
         RegisterBtn = New Button()
+        CBMe = New CheckBox()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
@@ -100,20 +100,6 @@ Partial Class Member
         PassBox.Name = "PassBox"
         PassBox.Size = New Size(306, 26)
         PassBox.TabIndex = 2
-        ' 
-        ' CBMe
-        ' 
-        CBMe.Anchor = AnchorStyles.None
-        CBMe.AutoSize = True
-        CBMe.Font = New Font("Tahoma", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        CBMe.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
-        CBMe.Location = New Point(122, 292)
-        CBMe.Margin = New Padding(3, 2, 3, 2)
-        CBMe.Name = "CBMe"
-        CBMe.Size = New Size(94, 17)
-        CBMe.TabIndex = 3
-        CBMe.Text = "Remember me"
-        CBMe.UseVisualStyleBackColor = True
         ' 
         ' LoginBtn
         ' 
@@ -208,6 +194,21 @@ Partial Class Member
         RegisterBtn.Text = "Register"
         RegisterBtn.UseVisualStyleBackColor = False
         ' 
+        ' CBMe
+        ' 
+        CBMe.Anchor = AnchorStyles.None
+        CBMe.AutoSize = True
+        CBMe.Font = New Font("Tahoma", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        CBMe.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
+        CBMe.Location = New Point(122, 292)
+        CBMe.Margin = New Padding(3, 2, 3, 2)
+        CBMe.Name = "CBMe"
+        CBMe.Size = New Size(94, 17)
+        CBMe.TabIndex = 3
+        CBMe.Text = "Remember me"
+        CBMe.UseVisualStyleBackColor = True
+        CBMe.Visible = False
+        ' 
         ' Member
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -241,7 +242,6 @@ Partial Class Member
     Friend WithEvents LabelPass As Label
     Friend WithEvents IDBox As TextBox
     Friend WithEvents PassBox As TextBox
-    Friend WithEvents CBMe As CheckBox
     Friend WithEvents LoginBtn As Button
     Friend WithEvents StaffLL As LinkLabel
     Friend WithEvents AdminLL As LinkLabel
@@ -249,5 +249,6 @@ Partial Class Member
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents Label1 As Label
     Friend WithEvents RegisterBtn As Button
+    Friend WithEvents CBMe As CheckBox
 
 End Class
