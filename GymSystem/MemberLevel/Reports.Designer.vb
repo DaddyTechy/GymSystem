@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class DashBoard
+Partial Class Reports
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -23,7 +23,7 @@ Partial Class DashBoard
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Panel1 = New Panel()
-        ReportBtn = New Button()
+        ReportsBtn = New Button()
         AnnounceBtn = New Button()
         RemindBtn = New Button()
         SchedBtn = New Button()
@@ -44,7 +44,7 @@ Partial Class DashBoard
         ' Panel1
         ' 
         Panel1.BackColor = Color.Black
-        Panel1.Controls.Add(ReportBtn)
+        Panel1.Controls.Add(ReportsBtn)
         Panel1.Controls.Add(AnnounceBtn)
         Panel1.Controls.Add(RemindBtn)
         Panel1.Controls.Add(SchedBtn)
@@ -55,25 +55,25 @@ Partial Class DashBoard
         Panel1.Location = New Point(0, 0)
         Panel1.MinimumSize = New Size(350, 2000)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(353, 2000)
-        Panel1.TabIndex = 0
+        Panel1.Size = New Size(350, 2000)
+        Panel1.TabIndex = 2
         ' 
-        ' ReportBtn
+        ' ReportsBtn
         ' 
-        ReportBtn.FlatAppearance.BorderSize = 0
-        ReportBtn.FlatAppearance.MouseOverBackColor = Color.Khaki
-        ReportBtn.FlatStyle = FlatStyle.Flat
-        ReportBtn.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        ReportBtn.ForeColor = Color.White
-        ReportBtn.Image = My.Resources.Resources.Vector3
-        ReportBtn.Location = New Point(-9, 550)
-        ReportBtn.Name = "ReportBtn"
-        ReportBtn.Size = New Size(362, 60)
-        ReportBtn.TabIndex = 4
-        ReportBtn.Text = "Reports"
-        ReportBtn.TextAlign = ContentAlignment.MiddleRight
-        ReportBtn.TextImageRelation = TextImageRelation.ImageBeforeText
-        ReportBtn.UseVisualStyleBackColor = True
+        ReportsBtn.FlatAppearance.BorderSize = 0
+        ReportsBtn.FlatAppearance.MouseOverBackColor = Color.Khaki
+        ReportsBtn.FlatStyle = FlatStyle.Flat
+        ReportsBtn.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        ReportsBtn.ForeColor = Color.White
+        ReportsBtn.Image = My.Resources.Resources.Vector3
+        ReportsBtn.Location = New Point(-9, 550)
+        ReportsBtn.Name = "ReportsBtn"
+        ReportsBtn.Size = New Size(362, 60)
+        ReportsBtn.TabIndex = 4
+        ReportsBtn.Text = "Reports"
+        ReportsBtn.TextAlign = ContentAlignment.MiddleRight
+        ReportsBtn.TextImageRelation = TextImageRelation.ImageBeforeText
+        ReportsBtn.UseVisualStyleBackColor = True
         ' 
         ' AnnounceBtn
         ' 
@@ -141,7 +141,7 @@ Partial Class DashBoard
         DashBtn.ImageAlign = ContentAlignment.MiddleRight
         DashBtn.Location = New Point(-9, 250)
         DashBtn.Name = "DashBtn"
-        DashBtn.Size = New Size(362, 60)
+        DashBtn.Size = New Size(359, 60)
         DashBtn.TabIndex = 4
         DashBtn.Text = "Dashboard"
         DashBtn.TextImageRelation = TextImageRelation.ImageBeforeText
@@ -184,8 +184,8 @@ Partial Class DashBoard
         Panel3.Dock = DockStyle.Top
         Panel3.Location = New Point(0, 0)
         Panel3.Name = "Panel3"
-        Panel3.Size = New Size(1469, 99)
-        Panel3.TabIndex = 1
+        Panel3.Size = New Size(1302, 99)
+        Panel3.TabIndex = 3
         ' 
         ' LogoutBtn
         ' 
@@ -231,16 +231,16 @@ Partial Class DashBoard
         PictureBox2.TabIndex = 0
         PictureBox2.TabStop = False
         ' 
-        ' DashBoard
+        ' Reports
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(26), CByte(26), CByte(26))
-        ClientSize = New Size(1469, 729)
+        ClientSize = New Size(1302, 737)
         Controls.Add(Panel1)
         Controls.Add(Panel3)
-        Name = "DashBoard"
-        Text = "DashBoard"
+        Name = "Reports"
+        Text = "Reports"
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
@@ -251,16 +251,16 @@ Partial Class DashBoard
     End Sub
 
     Friend WithEvents Panel1 As Panel
-    Friend WithEvents Panel2 As Panel
-    Friend WithEvents Panel3 As Panel
-    Friend WithEvents ReportBtn As Button
+    Friend WithEvents ReportsBtn As Button
     Friend WithEvents AnnounceBtn As Button
     Friend WithEvents RemindBtn As Button
     Friend WithEvents SchedBtn As Button
     Friend WithEvents DashBtn As Button
     Friend WithEvents Label1 As Label
     Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents Panel2 As Panel
+    Friend WithEvents Panel3 As Panel
+    Friend WithEvents LogoutBtn As Button
     Friend WithEvents WelcomeLbl As Label
     Friend WithEvents PictureBox2 As PictureBox
-    Friend WithEvents LogoutBtn As Button
 End Class

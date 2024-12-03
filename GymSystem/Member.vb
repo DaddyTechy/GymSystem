@@ -159,6 +159,9 @@
     End Sub
 
     Private Sub LoginBtn_Click(sender As Object, e As EventArgs) Handles LoginBtn.Click
+        Dim dashboard As New DashBoard
+        dashboard.Show()
+        Hide()
     End Sub
 
     Private Sub StaffLL_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles StaffLL.LinkClicked
