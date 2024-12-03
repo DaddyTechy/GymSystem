@@ -74,7 +74,7 @@ Partial Class ContentRepMemRep
         ' DataGridView1
         ' 
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Location = New Point(178, 109)
+        DataGridView1.Location = New Point(187, 110)
         DataGridView1.Name = "DataGridView1"
         DataGridView1.Size = New Size(240, 150)
         DataGridView1.TabIndex = 2
@@ -112,9 +112,6 @@ Partial Class ContentRepMemRep
         Label1.Size = New Size(127, 20)
         Label1.TabIndex = 0
         Label1.Text = "Member Reports"
-        ' 
-        ' PrintDocument1
-        ' 
         ' 
         ' PrintPreviewDialog1
         ' 

@@ -296,17 +296,45 @@ Public Class ContentPayment
                     ' Add the BillingPaymentForm to the form
                     Controls.Add(paymentControl)
                     paymentControl.BringToFront()
+                    InitializeDGV()
                     Debug.WriteLine("Debug: BillingPaymentForm user control added.")
                     Debug.WriteLine($"Debug: Form Amount = {paymentControl.txtAmount.Text}, SubTotal = {paymentControl.txtSubTotal.Text}")
                 Else
                     Debug.WriteLine("Debug: Fee is zero or PaymentStatus is Paid, BillingPaymentForm not added.")
                     MessageBox.Show("This payment cannot be made.", "Payment Disabled", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
+            ElseIf e.ColumnIndex = dgvPayment.Columns("DeletePayment").Index AndAlso e.RowIndex >= 0 Then
+                Debug.WriteLine("Debug: DeletePayment button clicked.")
+                Dim selectedRow As DataGridViewRow = dgvPayment.Rows(e.RowIndex)
+                Dim paymentID As Integer = Convert.ToInt32(selectedRow.Cells("PaymentID").Value)
+
+                ' Confirm deletion
+                Dim result As DialogResult = MessageBox.Show("Are you sure you want to delete this payment?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If result = DialogResult.Yes Then
+                    ' Delete the payment from the database
+                    DeletePayment(paymentID)
+                    ' Remove the row from the DataGridView
+                    dgvPayment.Rows.Remove(selectedRow)
+                    Debug.WriteLine("Debug: Payment deleted.")
+                Else
+                    Debug.WriteLine("Debug: Deletion cancelled.")
+                End If
             End If
         Catch ex As Exception
             Debug.WriteLine("An error occurred in dgvPayment_CellContentClick: " & ex.Message)
             MessageBox.Show("An error occurred: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+    End Sub
+
+    Private Sub DeletePayment(paymentID As Integer)
+        ' Implement logic to delete the payment
+        Dim result As DialogResult = MessageBox.Show($"Are you sure you want to delete payment with ID: {paymentID}?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If result = DialogResult.Yes Then
+            Dim query As String = $"DELETE FROM Payments WHERE PaymentID = {paymentID}"
+            readQuery(query)
+            ' Refresh the DataGridView
+            InitializeDGV()
+        End If
     End Sub
 
 

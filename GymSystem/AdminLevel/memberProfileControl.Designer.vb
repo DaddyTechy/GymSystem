@@ -75,7 +75,6 @@ Partial Class memberProfileControl
         Panel4 = New Panel()
         lblPlanType = New Label()
         TableLayoutPanel7 = New TableLayoutPanel()
-        Label9 = New Label()
         Label11 = New Label()
         Panel5 = New Panel()
         reservationsDGV = New DataGridView()
@@ -846,7 +845,6 @@ Partial Class memberProfileControl
         TableLayoutPanel7.ColumnCount = 2
         TableLayoutPanel7.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
         TableLayoutPanel7.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 158F))
-        TableLayoutPanel7.Controls.Add(Label9, 1, 0)
         TableLayoutPanel7.Controls.Add(Label11, 0, 0)
         TableLayoutPanel7.Dock = DockStyle.Top
         TableLayoutPanel7.Location = New Point(20, 10)
@@ -856,23 +854,6 @@ Partial Class memberProfileControl
         TableLayoutPanel7.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
         TableLayoutPanel7.Size = New Size(406, 32)
         TableLayoutPanel7.TabIndex = 4
-        ' 
-        ' Label9
-        ' 
-        Label9.AutoSize = True
-        Label9.BackColor = Color.Black
-        Label9.Dock = DockStyle.Fill
-        Label9.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label9.ForeColor = Color.Gold
-        Label9.ImageAlign = ContentAlignment.MiddleLeft
-        Label9.Location = New Point(251, 0)
-        Label9.Margin = New Padding(3, 0, 0, 0)
-        Label9.Name = "Label9"
-        Label9.Padding = New Padding(1)
-        Label9.Size = New Size(155, 27)
-        Label9.TabIndex = 5
-        Label9.Text = "Update Membership"
-        Label9.TextAlign = ContentAlignment.MiddleCenter
         ' 
         ' Label11
         ' 
@@ -1092,7 +1073,6 @@ Partial Class memberProfileControl
     Friend WithEvents Panel4 As Panel
     Friend WithEvents lblPlanType As Label
     Friend WithEvents TableLayoutPanel7 As TableLayoutPanel
-    Friend WithEvents Label9 As Label
     Friend WithEvents Label11 As Label
     Friend WithEvents Panel5 As Panel
     Friend WithEvents reservationsDGV As DataGridView

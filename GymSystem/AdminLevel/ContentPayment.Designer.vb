@@ -152,6 +152,7 @@ Partial Class ContentPayment
         dgvPayment.Location = New Point(20, 36)
         dgvPayment.MultiSelect = False
         dgvPayment.Name = "dgvPayment"
+        dgvPayment.ReadOnly = True
         dgvPayment.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
         DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle3.BackColor = SystemColors.WindowFrame

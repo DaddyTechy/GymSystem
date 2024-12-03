@@ -91,6 +91,8 @@
         originalButtonColor = LoginBtn.BackColor
         hoverButtonColor = ControlPaint.Dark(originalButtonColor, hoverDarkenAmount)
 
+        Me.WindowState = FormWindowState.Maximized
+
     End Sub
 
     Private Sub IDBox_TextChanged(sender As Object, e As EventArgs) Handles IDBox.TextChanged
