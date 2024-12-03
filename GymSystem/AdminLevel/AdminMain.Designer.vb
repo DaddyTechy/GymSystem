@@ -195,8 +195,8 @@ Partial Class AdminMain
         MemProgRepBtn.Location = New Point(0, 69)
         MemProgRepBtn.Margin = New Padding(3, 4, 3, 4)
         MemProgRepBtn.Name = "MemProgRepBtn"
-        MemProgRepBtn.Padding = New Padding(45, 0, 0, 0)
-        MemProgRepBtn.Size = New Size(267, 27)
+        MemProgRepBtn.Padding = New Padding(39, 0, 0, 0)
+        MemProgRepBtn.Size = New Size(235, 29)
         MemProgRepBtn.TabIndex = 6
         MemProgRepBtn.Text = "  Members' Progress"
         MemProgRepBtn.TextAlign = ContentAlignment.TopLeft
@@ -719,7 +719,7 @@ Partial Class AdminMain
         ' 
         ' AdminMain
         ' 
-        AutoScaleDimensions = New SizeF(8.0F, 20.0F)
+        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
         AutoSize = True
         Controls.Add(ContentPnl)
