@@ -3,9 +3,6 @@
 
     End Sub
 
-
-
-
     Private Sub DashBtn_Click(sender As Object, e As EventArgs) Handles DashBtn.Click
         Dim DashB As New DashBoard
         DashB.Show()

@@ -4,7 +4,7 @@
     End Sub
 
     Private Sub SchedBtn_Click(sender As Object, e As EventArgs) Handles SchedBtn.Click
-        Dim schedule As New Sched
+        Dim schedule As New calendarForm
         schedule.Show()
         Hide()
     End Sub

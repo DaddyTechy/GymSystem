@@ -35,10 +35,15 @@ Partial Class Reminders
         LogoutBtn = New Button()
         WelcomeLbl = New Label()
         PictureBox2 = New PictureBox()
+        SetRemindBtn = New Button()
+        FlowLayoutPanel1 = New FlowLayoutPanel()
+        IcReminder = New PictureBox()
+        ReminderLbl = New Label()
         Panel1.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         Panel3.SuspendLayout()
         CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
+        CType(IcReminder, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' Panel1
@@ -184,7 +189,7 @@ Partial Class Reminders
         Panel3.Dock = DockStyle.Top
         Panel3.Location = New Point(0, 0)
         Panel3.Name = "Panel3"
-        Panel3.Size = New Size(1317, 99)
+        Panel3.Size = New Size(1414, 99)
         Panel3.TabIndex = 3
         ' 
         ' LogoutBtn
@@ -231,12 +236,60 @@ Partial Class Reminders
         PictureBox2.TabIndex = 0
         PictureBox2.TabStop = False
         ' 
+        ' SetRemindBtn
+        ' 
+        SetRemindBtn.Anchor = AnchorStyles.None
+        SetRemindBtn.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        SetRemindBtn.FlatAppearance.BorderSize = 0
+        SetRemindBtn.FlatStyle = FlatStyle.Flat
+        SetRemindBtn.Location = New Point(1179, 213)
+        SetRemindBtn.Name = "SetRemindBtn"
+        SetRemindBtn.Size = New Size(171, 31)
+        SetRemindBtn.TabIndex = 7
+        SetRemindBtn.Text = "+ Set Reminder"
+        SetRemindBtn.UseVisualStyleBackColor = False
+        ' 
+        ' FlowLayoutPanel1
+        ' 
+        FlowLayoutPanel1.Anchor = AnchorStyles.Top
+        FlowLayoutPanel1.Location = New Point(415, 250)
+        FlowLayoutPanel1.Name = "FlowLayoutPanel1"
+        FlowLayoutPanel1.Size = New Size(935, 360)
+        FlowLayoutPanel1.TabIndex = 10
+        ' 
+        ' IcReminder
+        ' 
+        IcReminder.Anchor = AnchorStyles.Top
+        IcReminder.Image = My.Resources.Resources.Reminder
+        IcReminder.Location = New Point(956, 133)
+        IcReminder.Name = "IcReminder"
+        IcReminder.Size = New Size(55, 63)
+        IcReminder.SizeMode = PictureBoxSizeMode.Zoom
+        IcReminder.TabIndex = 9
+        IcReminder.TabStop = False
+        ' 
+        ' ReminderLbl
+        ' 
+        ReminderLbl.Anchor = AnchorStyles.Top
+        ReminderLbl.AutoSize = True
+        ReminderLbl.Font = New Font("Segoe UI", 19.8000011F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        ReminderLbl.ForeColor = Color.White
+        ReminderLbl.Location = New Point(773, 150)
+        ReminderLbl.Name = "ReminderLbl"
+        ReminderLbl.Size = New Size(177, 46)
+        ReminderLbl.TabIndex = 8
+        ReminderLbl.Text = "Reminders"
+        ' 
         ' Reminders
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(26), CByte(26), CByte(26))
-        ClientSize = New Size(1317, 734)
+        ClientSize = New Size(1414, 734)
+        Controls.Add(SetRemindBtn)
+        Controls.Add(FlowLayoutPanel1)
+        Controls.Add(IcReminder)
+        Controls.Add(ReminderLbl)
         Controls.Add(Panel1)
         Controls.Add(Panel3)
         Name = "Reminders"
@@ -247,7 +300,9 @@ Partial Class Reminders
         Panel3.ResumeLayout(False)
         Panel3.PerformLayout()
         CType(PictureBox2, ComponentModel.ISupportInitialize).EndInit()
+        CType(IcReminder, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents Panel1 As Panel
@@ -263,4 +318,8 @@ Partial Class Reminders
     Friend WithEvents LogoutBtn As Button
     Friend WithEvents WelcomeLbl As Label
     Friend WithEvents PictureBox2 As PictureBox
+    Friend WithEvents SetRemindBtn As Button
+    Friend WithEvents FlowLayoutPanel1 As FlowLayoutPanel
+    Friend WithEvents IcReminder As PictureBox
+    Friend WithEvents ReminderLbl As Label
 End Class

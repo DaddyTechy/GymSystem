@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class Sched
+Partial Class calendarForm
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,6 +22,15 @@ Partial Class Sched
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        dgvCalendar = New DataGridView()
+        btnPrevMonth = New Button()
+        BtnToday = New Button()
+        btnNextMonth = New Button()
+        btnDayView = New Button()
+        btnMonthView = New Button()
+        btnYearView = New Button()
+        btnEnterActivity = New Button()
+        lblMonthYear = New Label()
         Panel1 = New Panel()
         ReportsBtn = New Button()
         AnnounceBtn = New Button()
@@ -35,11 +44,125 @@ Partial Class Sched
         LogoutBtn = New Button()
         WelcomeLbl = New Label()
         PictureBox2 = New PictureBox()
+        CType(dgvCalendar, ComponentModel.ISupportInitialize).BeginInit()
         Panel1.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         Panel3.SuspendLayout()
         CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
+        ' 
+        ' dgvCalendar
+        ' 
+        dgvCalendar.Anchor = AnchorStyles.Top
+        dgvCalendar.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        dgvCalendar.Location = New Point(415, 204)
+        dgvCalendar.Name = "dgvCalendar"
+        dgvCalendar.RowHeadersWidth = 51
+        dgvCalendar.Size = New Size(1430, 1100)
+        dgvCalendar.TabIndex = 0
+        ' 
+        ' btnPrevMonth
+        ' 
+        btnPrevMonth.Anchor = AnchorStyles.Top
+        btnPrevMonth.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        btnPrevMonth.FlatAppearance.BorderSize = 0
+        btnPrevMonth.FlatStyle = FlatStyle.Flat
+        btnPrevMonth.Location = New Point(415, 145)
+        btnPrevMonth.Name = "btnPrevMonth"
+        btnPrevMonth.Size = New Size(102, 39)
+        btnPrevMonth.TabIndex = 1
+        btnPrevMonth.Text = "<"
+        btnPrevMonth.UseVisualStyleBackColor = False
+        ' 
+        ' BtnToday
+        ' 
+        BtnToday.Anchor = AnchorStyles.Top
+        BtnToday.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        BtnToday.FlatAppearance.BorderSize = 0
+        BtnToday.FlatStyle = FlatStyle.Flat
+        BtnToday.Location = New Point(636, 145)
+        BtnToday.Name = "BtnToday"
+        BtnToday.Size = New Size(102, 39)
+        BtnToday.TabIndex = 1
+        BtnToday.Text = "Today"
+        BtnToday.UseVisualStyleBackColor = False
+        ' 
+        ' btnNextMonth
+        ' 
+        btnNextMonth.Anchor = AnchorStyles.Top
+        btnNextMonth.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        btnNextMonth.FlatAppearance.BorderSize = 0
+        btnNextMonth.FlatStyle = FlatStyle.Flat
+        btnNextMonth.Location = New Point(523, 145)
+        btnNextMonth.Name = "btnNextMonth"
+        btnNextMonth.Size = New Size(102, 39)
+        btnNextMonth.TabIndex = 1
+        btnNextMonth.Text = ">"
+        btnNextMonth.UseVisualStyleBackColor = False
+        ' 
+        ' btnDayView
+        ' 
+        btnDayView.Anchor = AnchorStyles.Top
+        btnDayView.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        btnDayView.FlatAppearance.BorderSize = 0
+        btnDayView.FlatStyle = FlatStyle.Flat
+        btnDayView.Location = New Point(1129, 145)
+        btnDayView.Name = "btnDayView"
+        btnDayView.Size = New Size(102, 39)
+        btnDayView.TabIndex = 1
+        btnDayView.Text = "Day"
+        btnDayView.UseVisualStyleBackColor = False
+        ' 
+        ' btnMonthView
+        ' 
+        btnMonthView.Anchor = AnchorStyles.Top
+        btnMonthView.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        btnMonthView.FlatAppearance.BorderSize = 0
+        btnMonthView.FlatStyle = FlatStyle.Flat
+        btnMonthView.Location = New Point(1237, 145)
+        btnMonthView.Name = "btnMonthView"
+        btnMonthView.Size = New Size(102, 39)
+        btnMonthView.TabIndex = 1
+        btnMonthView.Text = "Month"
+        btnMonthView.UseVisualStyleBackColor = False
+        ' 
+        ' btnYearView
+        ' 
+        btnYearView.Anchor = AnchorStyles.Top
+        btnYearView.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        btnYearView.FlatAppearance.BorderSize = 0
+        btnYearView.FlatStyle = FlatStyle.Flat
+        btnYearView.Location = New Point(1345, 145)
+        btnYearView.Name = "btnYearView"
+        btnYearView.Size = New Size(102, 39)
+        btnYearView.TabIndex = 1
+        btnYearView.Text = "Year"
+        btnYearView.UseVisualStyleBackColor = False
+        ' 
+        ' btnEnterActivity
+        ' 
+        btnEnterActivity.Anchor = AnchorStyles.Top
+        btnEnterActivity.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        btnEnterActivity.FlatAppearance.BorderSize = 0
+        btnEnterActivity.FlatStyle = FlatStyle.Flat
+        btnEnterActivity.Location = New Point(1453, 145)
+        btnEnterActivity.Name = "btnEnterActivity"
+        btnEnterActivity.Size = New Size(102, 39)
+        btnEnterActivity.TabIndex = 1
+        btnEnterActivity.Text = "Activity"
+        btnEnterActivity.UseVisualStyleBackColor = False
+        ' 
+        ' lblMonthYear
+        ' 
+        lblMonthYear.Anchor = AnchorStyles.None
+        lblMonthYear.AutoSize = True
+        lblMonthYear.Font = New Font("Segoe UI", 19.8000011F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblMonthYear.ForeColor = Color.White
+        lblMonthYear.Location = New Point(802, 145)
+        lblMonthYear.Name = "lblMonthYear"
+        lblMonthYear.Size = New Size(117, 46)
+        lblMonthYear.TabIndex = 2
+        lblMonthYear.Text = "Label1"
         ' 
         ' Panel1
         ' 
@@ -56,7 +179,7 @@ Partial Class Sched
         Panel1.MinimumSize = New Size(350, 2000)
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(353, 2000)
-        Panel1.TabIndex = 2
+        Panel1.TabIndex = 4
         ' 
         ' ReportsBtn
         ' 
@@ -184,8 +307,8 @@ Partial Class Sched
         Panel3.Dock = DockStyle.Top
         Panel3.Location = New Point(0, 0)
         Panel3.Name = "Panel3"
-        Panel3.Size = New Size(1290, 99)
-        Panel3.TabIndex = 3
+        Panel3.Size = New Size(1567, 99)
+        Panel3.TabIndex = 5
         ' 
         ' LogoutBtn
         ' 
@@ -231,16 +354,26 @@ Partial Class Sched
         PictureBox2.TabIndex = 0
         PictureBox2.TabStop = False
         ' 
-        ' Sched
+        ' CalendarForm
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(26), CByte(26), CByte(26))
-        ClientSize = New Size(1290, 722)
+        ClientSize = New Size(1567, 812)
         Controls.Add(Panel1)
         Controls.Add(Panel3)
-        Name = "Sched"
-        Text = "Sched"
+        Controls.Add(lblMonthYear)
+        Controls.Add(btnEnterActivity)
+        Controls.Add(btnYearView)
+        Controls.Add(btnMonthView)
+        Controls.Add(btnDayView)
+        Controls.Add(btnNextMonth)
+        Controls.Add(BtnToday)
+        Controls.Add(btnPrevMonth)
+        Controls.Add(dgvCalendar)
+        Name = "CalendarForm"
+        Text = "calendarForm"
+        CType(dgvCalendar, ComponentModel.ISupportInitialize).EndInit()
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
@@ -248,8 +381,18 @@ Partial Class Sched
         Panel3.PerformLayout()
         CType(PictureBox2, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
+    Friend WithEvents dgvCalendar As DataGridView
+    Friend WithEvents btnPrevMonth As Button
+    Friend WithEvents BtnToday As Button
+    Friend WithEvents btnNextMonth As Button
+    Friend WithEvents btnDayView As Button
+    Friend WithEvents btnMonthView As Button
+    Friend WithEvents btnYearView As Button
+    Friend WithEvents btnEnterActivity As Button
+    Friend WithEvents lblMonthYear As Label
     Friend WithEvents Panel1 As Panel
     Friend WithEvents ReportsBtn As Button
     Friend WithEvents AnnounceBtn As Button
@@ -263,6 +406,4 @@ Partial Class Sched
     Friend WithEvents LogoutBtn As Button
     Friend WithEvents WelcomeLbl As Label
     Friend WithEvents PictureBox2 As PictureBox
-
-
 End Class

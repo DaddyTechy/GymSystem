@@ -39,7 +39,16 @@ Partial Class Announcement
         PictureBox3 = New PictureBox()
         PictureBox4 = New PictureBox()
         Label3 = New Label()
-        RichTextBox2 = New RichTextBox()
+        AnnouncementPanel = New Panel()
+        SubAnnounce3Lbl = New Label()
+        SubAnnounce2Lbl = New Label()
+        SubAnnounce1 = New Label()
+        Announce3Lbl = New Label()
+        Announce2Lbl = New Label()
+        Announce1Lbl = New Label()
+        PictureBox7 = New PictureBox()
+        PictureBox6 = New PictureBox()
+        PictureBox5 = New PictureBox()
         LeftNavPanel.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         TopNavPanel.SuspendLayout()
@@ -47,6 +56,10 @@ Partial Class Announcement
         TopPanel.SuspendLayout()
         CType(PictureBox3, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox4, ComponentModel.ISupportInitialize).BeginInit()
+        AnnouncementPanel.SuspendLayout()
+        CType(PictureBox7, ComponentModel.ISupportInitialize).BeginInit()
+        CType(PictureBox6, ComponentModel.ISupportInitialize).BeginInit()
+        CType(PictureBox5, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' LeftNavPanel
@@ -286,16 +299,119 @@ Partial Class Announcement
         Label3.TabIndex = 6
         Label3.Text = "Announcements"
         ' 
-        ' RichTextBox2
+        ' AnnouncementPanel
         ' 
-        RichTextBox2.Anchor = AnchorStyles.Top
-        RichTextBox2.BackColor = Color.DimGray
-        RichTextBox2.BorderStyle = BorderStyle.None
-        RichTextBox2.Location = New Point(443, 268)
-        RichTextBox2.Name = "RichTextBox2"
-        RichTextBox2.Size = New Size(1000, 364)
-        RichTextBox2.TabIndex = 27
-        RichTextBox2.Text = ""
+        AnnouncementPanel.Anchor = AnchorStyles.Top
+        AnnouncementPanel.BorderStyle = BorderStyle.FixedSingle
+        AnnouncementPanel.Controls.Add(SubAnnounce3Lbl)
+        AnnouncementPanel.Controls.Add(SubAnnounce2Lbl)
+        AnnouncementPanel.Controls.Add(SubAnnounce1)
+        AnnouncementPanel.Controls.Add(Announce3Lbl)
+        AnnouncementPanel.Controls.Add(Announce2Lbl)
+        AnnouncementPanel.Controls.Add(Announce1Lbl)
+        AnnouncementPanel.Controls.Add(PictureBox7)
+        AnnouncementPanel.Controls.Add(PictureBox6)
+        AnnouncementPanel.Controls.Add(PictureBox5)
+        AnnouncementPanel.Location = New Point(443, 268)
+        AnnouncementPanel.Name = "AnnouncementPanel"
+        AnnouncementPanel.Size = New Size(1000, 373)
+        AnnouncementPanel.TabIndex = 7
+        ' 
+        ' SubAnnounce3Lbl
+        ' 
+        SubAnnounce3Lbl.AutoSize = True
+        SubAnnounce3Lbl.Font = New Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        SubAnnounce3Lbl.ForeColor = Color.Gainsboro
+        SubAnnounce3Lbl.Location = New Point(84, 156)
+        SubAnnounce3Lbl.Name = "SubAnnounce3Lbl"
+        SubAnnounce3Lbl.Size = New Size(187, 25)
+        SubAnnounce3Lbl.TabIndex = 6
+        SubAnnounce3Lbl.Text = "Demo Announcement"
+        ' 
+        ' SubAnnounce2Lbl
+        ' 
+        SubAnnounce2Lbl.AutoSize = True
+        SubAnnounce2Lbl.Font = New Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        SubAnnounce2Lbl.ForeColor = Color.Gainsboro
+        SubAnnounce2Lbl.Location = New Point(84, 92)
+        SubAnnounce2Lbl.Name = "SubAnnounce2Lbl"
+        SubAnnounce2Lbl.Size = New Size(279, 25)
+        SubAnnounce2Lbl.TabIndex = 6
+        SubAnnounce2Lbl.Text = "This is a Demo Announcement!!!!!"
+        ' 
+        ' SubAnnounce1
+        ' 
+        SubAnnounce1.AutoSize = True
+        SubAnnounce1.Font = New Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        SubAnnounce1.ForeColor = Color.Gainsboro
+        SubAnnounce1.Location = New Point(84, 30)
+        SubAnnounce1.Name = "SubAnnounce1"
+        SubAnnounce1.Size = New Size(199, 25)
+        SubAnnounce1.TabIndex = 6
+        SubAnnounce1.Text = "Renovating Going On...."
+        ' 
+        ' Announce3Lbl
+        ' 
+        Announce3Lbl.AutoSize = True
+        Announce3Lbl.Font = New Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Announce3Lbl.ForeColor = Color.White
+        Announce3Lbl.Location = New Point(84, 131)
+        Announce3Lbl.Name = "Announce3Lbl"
+        Announce3Lbl.Size = New Size(364, 25)
+        Announce3Lbl.TabIndex = 6
+        Announce3Lbl.Text = "By: System Administrator / Date 2023-01-01"
+        ' 
+        ' Announce2Lbl
+        ' 
+        Announce2Lbl.AutoSize = True
+        Announce2Lbl.Font = New Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Announce2Lbl.ForeColor = Color.White
+        Announce2Lbl.Location = New Point(84, 67)
+        Announce2Lbl.Name = "Announce2Lbl"
+        Announce2Lbl.Size = New Size(364, 25)
+        Announce2Lbl.TabIndex = 6
+        Announce2Lbl.Text = "By: System Administrator / Date 2023-01-01"
+        ' 
+        ' Announce1Lbl
+        ' 
+        Announce1Lbl.AutoSize = True
+        Announce1Lbl.Font = New Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Announce1Lbl.ForeColor = Color.White
+        Announce1Lbl.Location = New Point(84, 5)
+        Announce1Lbl.Name = "Announce1Lbl"
+        Announce1Lbl.Size = New Size(364, 25)
+        Announce1Lbl.TabIndex = 6
+        Announce1Lbl.Text = "By: System Administrator / Date 2023-01-01"
+        ' 
+        ' PictureBox7
+        ' 
+        PictureBox7.Image = My.Resources.Resources.MessageIc
+        PictureBox7.Location = New Point(32, 131)
+        PictureBox7.Name = "PictureBox7"
+        PictureBox7.Size = New Size(46, 49)
+        PictureBox7.SizeMode = PictureBoxSizeMode.Zoom
+        PictureBox7.TabIndex = 0
+        PictureBox7.TabStop = False
+        ' 
+        ' PictureBox6
+        ' 
+        PictureBox6.Image = My.Resources.Resources.MessageIc
+        PictureBox6.Location = New Point(32, 67)
+        PictureBox6.Name = "PictureBox6"
+        PictureBox6.Size = New Size(46, 49)
+        PictureBox6.SizeMode = PictureBoxSizeMode.Zoom
+        PictureBox6.TabIndex = 0
+        PictureBox6.TabStop = False
+        ' 
+        ' PictureBox5
+        ' 
+        PictureBox5.Image = My.Resources.Resources.MessageIc
+        PictureBox5.Location = New Point(32, 5)
+        PictureBox5.Name = "PictureBox5"
+        PictureBox5.Size = New Size(46, 49)
+        PictureBox5.SizeMode = PictureBoxSizeMode.Zoom
+        PictureBox5.TabIndex = 0
+        PictureBox5.TabStop = False
         ' 
         ' Announcement
         ' 
@@ -303,7 +419,7 @@ Partial Class Announcement
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(26), CByte(26), CByte(26))
         ClientSize = New Size(1511, 740)
-        Controls.Add(RichTextBox2)
+        Controls.Add(AnnouncementPanel)
         Controls.Add(Label3)
         Controls.Add(TopPanel)
         Controls.Add(PictureBox4)
@@ -321,6 +437,11 @@ Partial Class Announcement
         TopPanel.PerformLayout()
         CType(PictureBox3, ComponentModel.ISupportInitialize).EndInit()
         CType(PictureBox4, ComponentModel.ISupportInitialize).EndInit()
+        AnnouncementPanel.ResumeLayout(False)
+        AnnouncementPanel.PerformLayout()
+        CType(PictureBox7, ComponentModel.ISupportInitialize).EndInit()
+        CType(PictureBox6, ComponentModel.ISupportInitialize).EndInit()
+        CType(PictureBox5, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -342,5 +463,14 @@ Partial Class Announcement
     Friend WithEvents Label2 As Label
     Friend WithEvents PictureBox4 As PictureBox
     Friend WithEvents Label3 As Label
-    Friend WithEvents RichTextBox2 As RichTextBox
+    Friend WithEvents AnnouncementPanel As Panel
+    Friend WithEvents PictureBox5 As PictureBox
+    Friend WithEvents Announce1Lbl As Label
+    Friend WithEvents PictureBox7 As PictureBox
+    Friend WithEvents PictureBox6 As PictureBox
+    Friend WithEvents SubAnnounce1 As Label
+    Friend WithEvents SubAnnounce2Lbl As Label
+    Friend WithEvents Announce2Lbl As Label
+    Friend WithEvents Announce3Lbl As Label
+    Friend WithEvents SubAnnounce3Lbl As Label
 End Class

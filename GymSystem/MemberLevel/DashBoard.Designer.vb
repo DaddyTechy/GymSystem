@@ -84,7 +84,16 @@ Partial Class DashBoard
         Label3 = New Label()
         PictureBox5 = New PictureBox()
         RichTextBox1 = New RichTextBox()
-        RichTextBox2 = New RichTextBox()
+        AnnouncementPanel = New Panel()
+        Label17 = New Label()
+        SubAnnounce2Lbl = New Label()
+        SubAnnounce1 = New Label()
+        Label18 = New Label()
+        Announce2Lbl = New Label()
+        Announce1Lbl = New Label()
+        PictureBox7 = New PictureBox()
+        PictureBox6 = New PictureBox()
+        PictureBox8 = New PictureBox()
         Panel1.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         Panel3.SuspendLayout()
@@ -107,6 +116,10 @@ Partial Class DashBoard
         Panel20.SuspendLayout()
         TopPanel.SuspendLayout()
         CType(PictureBox5, ComponentModel.ISupportInitialize).BeginInit()
+        AnnouncementPanel.SuspendLayout()
+        CType(PictureBox7, ComponentModel.ISupportInitialize).BeginInit()
+        CType(PictureBox6, ComponentModel.ISupportInitialize).BeginInit()
+        CType(PictureBox8, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' Panel1
@@ -131,7 +144,7 @@ Partial Class DashBoard
         ReportBtn.FlatAppearance.BorderSize = 0
         ReportBtn.FlatAppearance.MouseOverBackColor = Color.Khaki
         ReportBtn.FlatStyle = FlatStyle.Flat
-        ReportBtn.Font = New Font("Segoe UI Semibold", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        ReportBtn.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         ReportBtn.ForeColor = Color.White
         ReportBtn.Image = My.Resources.Resources.Vector3
         ReportBtn.Location = New Point(-9, 550)
@@ -149,7 +162,7 @@ Partial Class DashBoard
         AnnounceBtn.FlatAppearance.BorderSize = 0
         AnnounceBtn.FlatAppearance.MouseOverBackColor = Color.Khaki
         AnnounceBtn.FlatStyle = FlatStyle.Flat
-        AnnounceBtn.Font = New Font("Segoe UI Semibold", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        AnnounceBtn.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         AnnounceBtn.ForeColor = Color.White
         AnnounceBtn.Image = My.Resources.Resources.Commercial_1
         AnnounceBtn.ImageAlign = ContentAlignment.MiddleRight
@@ -167,7 +180,7 @@ Partial Class DashBoard
         RemindBtn.FlatAppearance.BorderSize = 0
         RemindBtn.FlatAppearance.MouseOverBackColor = Color.Khaki
         RemindBtn.FlatStyle = FlatStyle.Flat
-        RemindBtn.Font = New Font("Segoe UI Semibold", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        RemindBtn.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         RemindBtn.ForeColor = Color.White
         RemindBtn.Image = My.Resources.Resources.Reminder
         RemindBtn.Location = New Point(-9, 400)
@@ -185,7 +198,7 @@ Partial Class DashBoard
         SchedBtn.FlatAppearance.BorderSize = 0
         SchedBtn.FlatAppearance.MouseOverBackColor = Color.Khaki
         SchedBtn.FlatStyle = FlatStyle.Flat
-        SchedBtn.Font = New Font("Segoe UI Semibold", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        SchedBtn.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         SchedBtn.ForeColor = Color.White
         SchedBtn.Image = My.Resources.Resources.calendar
         SchedBtn.ImageAlign = ContentAlignment.MiddleRight
@@ -203,7 +216,7 @@ Partial Class DashBoard
         DashBtn.FlatAppearance.BorderSize = 0
         DashBtn.FlatAppearance.MouseOverBackColor = Color.Khaki
         DashBtn.FlatStyle = FlatStyle.Flat
-        DashBtn.Font = New Font("Segoe UI Semibold", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        DashBtn.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         DashBtn.ForeColor = Color.White
         DashBtn.Image = My.Resources.Resources.dashbo
         DashBtn.ImageAlign = ContentAlignment.MiddleRight
@@ -218,7 +231,7 @@ Partial Class DashBoard
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Font = New Font("Times New Roman", 18.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label1.Font = New Font("Times New Roman", 18F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         Label1.Location = New Point(177, 57)
         Label1.Name = "Label1"
@@ -279,7 +292,7 @@ Partial Class DashBoard
         ' 
         WelcomeLbl.AutoSize = True
         WelcomeLbl.FlatStyle = FlatStyle.Flat
-        WelcomeLbl.Font = New Font("Segoe UI", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        WelcomeLbl.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         WelcomeLbl.ForeColor = Color.White
         WelcomeLbl.Image = My.Resources.Resources.Vector_11
         WelcomeLbl.ImageAlign = ContentAlignment.MiddleLeft
@@ -854,24 +867,127 @@ Partial Class DashBoard
         RichTextBox1.TabIndex = 25
         RichTextBox1.Text = ""
         ' 
-        ' RichTextBox2
+        ' AnnouncementPanel
         ' 
-        RichTextBox2.Anchor = AnchorStyles.Top
-        RichTextBox2.BackColor = Color.DimGray
-        RichTextBox2.BorderStyle = BorderStyle.None
-        RichTextBox2.Location = New Point(415, 1022)
-        RichTextBox2.Name = "RichTextBox2"
-        RichTextBox2.Size = New Size(954, 364)
-        RichTextBox2.TabIndex = 26
-        RichTextBox2.Text = ""
+        AnnouncementPanel.Anchor = AnchorStyles.Top
+        AnnouncementPanel.BorderStyle = BorderStyle.FixedSingle
+        AnnouncementPanel.Controls.Add(Label17)
+        AnnouncementPanel.Controls.Add(SubAnnounce2Lbl)
+        AnnouncementPanel.Controls.Add(SubAnnounce1)
+        AnnouncementPanel.Controls.Add(Label18)
+        AnnouncementPanel.Controls.Add(Announce2Lbl)
+        AnnouncementPanel.Controls.Add(Announce1Lbl)
+        AnnouncementPanel.Controls.Add(PictureBox7)
+        AnnouncementPanel.Controls.Add(PictureBox6)
+        AnnouncementPanel.Controls.Add(PictureBox8)
+        AnnouncementPanel.Location = New Point(415, 1023)
+        AnnouncementPanel.Name = "AnnouncementPanel"
+        AnnouncementPanel.Size = New Size(954, 373)
+        AnnouncementPanel.TabIndex = 26
+        ' 
+        ' Label17
+        ' 
+        Label17.AutoSize = True
+        Label17.Font = New Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label17.ForeColor = Color.LightGray
+        Label17.Location = New Point(83, 155)
+        Label17.Name = "Label17"
+        Label17.Size = New Size(187, 25)
+        Label17.TabIndex = 6
+        Label17.Text = "Demo Announcement"
+        ' 
+        ' SubAnnounce2Lbl
+        ' 
+        SubAnnounce2Lbl.AutoSize = True
+        SubAnnounce2Lbl.Font = New Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        SubAnnounce2Lbl.ForeColor = Color.LightGray
+        SubAnnounce2Lbl.Location = New Point(83, 92)
+        SubAnnounce2Lbl.Name = "SubAnnounce2Lbl"
+        SubAnnounce2Lbl.Size = New Size(284, 25)
+        SubAnnounce2Lbl.TabIndex = 6
+        SubAnnounce2Lbl.Text = "This is a Demo Announcement!!!!!!"
+        ' 
+        ' SubAnnounce1
+        ' 
+        SubAnnounce1.AutoSize = True
+        SubAnnounce1.Font = New Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        SubAnnounce1.ForeColor = Color.LightGray
+        SubAnnounce1.Location = New Point(84, 30)
+        SubAnnounce1.Name = "SubAnnounce1"
+        SubAnnounce1.Size = New Size(203, 25)
+        SubAnnounce1.TabIndex = 6
+        SubAnnounce1.Text = "Renovating Going On....."
+        ' 
+        ' Label18
+        ' 
+        Label18.AutoSize = True
+        Label18.Font = New Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label18.ForeColor = Color.White
+        Label18.Location = New Point(83, 131)
+        Label18.Name = "Label18"
+        Label18.Size = New Size(364, 25)
+        Label18.TabIndex = 6
+        Label18.Text = "By: System Administrator / Date 2023-01-01"
+        ' 
+        ' Announce2Lbl
+        ' 
+        Announce2Lbl.AutoSize = True
+        Announce2Lbl.Font = New Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Announce2Lbl.ForeColor = Color.White
+        Announce2Lbl.Location = New Point(84, 67)
+        Announce2Lbl.Name = "Announce2Lbl"
+        Announce2Lbl.Size = New Size(364, 25)
+        Announce2Lbl.TabIndex = 6
+        Announce2Lbl.Text = "By: System Administrator / Date 2023-01-01"
+        ' 
+        ' Announce1Lbl
+        ' 
+        Announce1Lbl.AutoSize = True
+        Announce1Lbl.Font = New Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Announce1Lbl.ForeColor = Color.White
+        Announce1Lbl.Location = New Point(84, 5)
+        Announce1Lbl.Name = "Announce1Lbl"
+        Announce1Lbl.Size = New Size(364, 25)
+        Announce1Lbl.TabIndex = 6
+        Announce1Lbl.Text = "By: System Administrator / Date 2023-01-01"
+        ' 
+        ' PictureBox7
+        ' 
+        PictureBox7.Image = My.Resources.Resources.MessageIc
+        PictureBox7.Location = New Point(32, 131)
+        PictureBox7.Name = "PictureBox7"
+        PictureBox7.Size = New Size(46, 49)
+        PictureBox7.SizeMode = PictureBoxSizeMode.Zoom
+        PictureBox7.TabIndex = 0
+        PictureBox7.TabStop = False
+        ' 
+        ' PictureBox6
+        ' 
+        PictureBox6.Image = My.Resources.Resources.MessageIc
+        PictureBox6.Location = New Point(32, 67)
+        PictureBox6.Name = "PictureBox6"
+        PictureBox6.Size = New Size(46, 49)
+        PictureBox6.SizeMode = PictureBoxSizeMode.Zoom
+        PictureBox6.TabIndex = 0
+        PictureBox6.TabStop = False
+        ' 
+        ' PictureBox8
+        ' 
+        PictureBox8.Image = My.Resources.Resources.MessageIc
+        PictureBox8.Location = New Point(32, 5)
+        PictureBox8.Name = "PictureBox8"
+        PictureBox8.Size = New Size(46, 49)
+        PictureBox8.SizeMode = PictureBoxSizeMode.Zoom
+        PictureBox8.TabIndex = 0
+        PictureBox8.TabStop = False
         ' 
         ' DashBoard
         ' 
-        AutoScaleDimensions = New SizeF(8.0F, 20.0F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(26), CByte(26), CByte(26))
         ClientSize = New Size(1469, 1431)
-        Controls.Add(RichTextBox2)
+        Controls.Add(AnnouncementPanel)
         Controls.Add(UpdateBtn)
         Controls.Add(TopPanel)
         Controls.Add(Panel20)
@@ -937,6 +1053,11 @@ Partial Class DashBoard
         TopPanel.ResumeLayout(False)
         TopPanel.PerformLayout()
         CType(PictureBox5, ComponentModel.ISupportInitialize).EndInit()
+        AnnouncementPanel.ResumeLayout(False)
+        AnnouncementPanel.PerformLayout()
+        CType(PictureBox7, ComponentModel.ISupportInitialize).EndInit()
+        CType(PictureBox6, ComponentModel.ISupportInitialize).EndInit()
+        CType(PictureBox8, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
 
@@ -1002,5 +1123,14 @@ Partial Class DashBoard
     Friend WithEvents Label3 As Label
     Friend WithEvents PictureBox5 As PictureBox
     Friend WithEvents RichTextBox1 As RichTextBox
-    Friend WithEvents RichTextBox2 As RichTextBox
+    Friend WithEvents AnnouncementPanel As Panel
+    Friend WithEvents Label17 As Label
+    Friend WithEvents SubAnnounce2Lbl As Label
+    Friend WithEvents SubAnnounce1 As Label
+    Friend WithEvents Label18 As Label
+    Friend WithEvents Announce2Lbl As Label
+    Friend WithEvents Announce1Lbl As Label
+    Friend WithEvents PictureBox7 As PictureBox
+    Friend WithEvents PictureBox6 As PictureBox
+    Friend WithEvents PictureBox8 As PictureBox
 End Class
