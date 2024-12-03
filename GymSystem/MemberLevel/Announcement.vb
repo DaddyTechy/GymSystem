@@ -16,7 +16,7 @@
     End Sub
 
     Private Sub SchedBtn_Click(sender As Object, e As EventArgs) Handles SchedBtn.Click
-        Dim sched As New Sched
+        Dim sched As New CalendarForm
         sched.Show()
         Hide()
     End Sub
