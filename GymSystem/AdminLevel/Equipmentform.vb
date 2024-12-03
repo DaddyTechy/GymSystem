@@ -2,114 +2,89 @@
 Imports MySql.Data.MySqlClient
 Imports ZstdSharp.Unsafe
 
+Imports System.Data.SqlClient
+
 Public Class Gym_Equipment
 
-    Private Function RetrieveValues() As Dictionary(Of String, Object)
-        Dim values As New Dictionary(Of String, Object) From {
-            {"Equipmentname", If(equipmentnametxtbox.Text, String.Empty)}
-        }
-        Return values
-    End Function
+    Private Sub nametxtbox_TextChanged(sender As Object, e As EventArgs) Handles nametxtbox.TextChanged
 
-    Private Sub InsertIntoEquipment(values As Dictionary(Of String, Object))
+    End Sub
+
+    Private Sub Brandtxtbox_TextChanged(sender As Object, e As EventArgs) Handles Brandtxtbox.TextChanged
+
+    End Sub
+
+    Private Sub Typetxtbox_TextChanged(sender As Object, e As EventArgs) Handles Typetxtbox.TextChanged
+
+    End Sub
+
+    Private Sub dtpDateofaPurchase_ValueChanged(sender As Object, e As EventArgs) Handles dtpDateofaPurchase.ValueChanged
+
+    End Sub
+
+    Private Sub MainetenanceCosttxtbox_TextChanged(sender As Object, e As EventArgs) Handles MainetenanceCosttxtbox.TextChanged
+
+    End Sub
+
+    Private Sub PurchasePlacetxtbox_TextChanged(sender As Object, e As EventArgs) Handles PurchasePlacetxtbox.TextChanged
+
+    End Sub
+
+    Private Sub SubmitDetailstxtbox_Click(sender As Object, e As EventArgs) Handles SubmitDetailstxtbox.Click
         Try
-            Using conn As New MySqlConnection("server=127.0.0.1;userid=root;password='';database=gym_infosys;")
-                conn.Open()
-                Dim query As String = "INSERT INTO equipment (Name) VALUES (@Name)"
-                Dim cmd As New MySqlCommand(query, conn)
-                cmd.Parameters.AddWithValue("@Name", values("Equipmentname"))
-                cmd.ExecuteNonQuery()
-            End Using
+            ' Step 2: Retrieve input values from text boxes
+            Dim Name As String = nametxtbox.Text
+            Dim brand As String = Brandtxtbox.Text
+            Dim Type As String = Typetxtbox.Text
+            Dim dateOfPurchase As Date = dtpDateofaPurchase.Value
+            Dim maintenanceCost As Decimal = 0
+            Dim purchasePlace As String = PurchasePlacetxtbox.Text
+            Dim maintenanceSchedule As String = MaintenanceScheduletxtbox.Text
+            Dim status As String = Statustxtbox.Text
+
+            ' Check if any required text boxes are empty
+            If String.IsNullOrWhiteSpace(Name) OrElse String.IsNullOrWhiteSpace(brand) OrElse String.IsNullOrWhiteSpace(Type) OrElse String.IsNullOrWhiteSpace(MainetenanceCosttxtbox.Text) OrElse String.IsNullOrWhiteSpace(purchasePlace) OrElse String.IsNullOrWhiteSpace(maintenanceSchedule) OrElse String.IsNullOrWhiteSpace(status) Then
+                MessageBox.Show("Please fill in all required fields.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+
+            ' Parse maintenance cost
+            maintenanceCost = Decimal.Parse(MainetenanceCosttxtbox.Text)
+
+            ' Step 3: Create SQL INSERT statement
+            Dim query As String = $"INSERT INTO equipment (Name, Brand, Type, PurchaseDate, MaintenanceSchedule, Status, MaintenanceCost, PurchasePlace) " &
+                                  $"VALUES ('{Name}', '{brand}', '{Type}', '{dateOfPurchase:yyyy-MM-dd}', '{maintenanceSchedule}', '{status}', {maintenanceCost}, '{purchasePlace}')"
+
+            ' Step 4: Execute the SQL statement using readQuery
+            readQuery(query)
+
+            ' Show success message
+            MessageBox.Show("Equipment details added successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Catch ex As Exception
-            ErrorHandler.HandleError(ex)
+            MessageBox.Show("An error occurred while adding the equipment details: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
-    End Sub
 
-    Public Sub AddnewEquipment()
-        Dim values = RetrieveValues()
+        Me.Hide()
 
-        ' Validate input
-
-        ' Insert into admin table
-        InsertIntoEquipment(values)
-
-        MessageBox.Show("New created successfully.")
-    End Sub
-
-    Private Sub btnSubmit_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Try
-            AddnewEquipment()
-        Catch ex As Exception
-            MessageBox.Show("An error occurred: " & ex.Message)
-        End Try
-    End Sub
-    Private Sub Gym_Equipment_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' Set colors for controls
-        Label1.ForeColor = System.Drawing.Color.Gold
-        Label2.ForeColor = System.Drawing.Color.Gold
-        Label3.ForeColor = System.Drawing.Color.Gold
-        Label4.ForeColor = System.Drawing.Color.Gold
-        Label5.ForeColor = System.Drawing.Color.Gold
-        Label6.ForeColor = System.Drawing.Color.Gold
-
-        equipmentnametxtbox.BackColor = System.Drawing.Color.Gold
-        TextBox2.BackColor = System.Drawing.Color.Gold
-        TextBox3.BackColor = System.Drawing.Color.Gold
-        TextBox4.BackColor = System.Drawing.Color.Gold
-        TextBox5.BackColor = System.Drawing.Color.Gold
-        TextBox6.BackColor = System.Drawing.Color.Gold
-
-        Button1.BackColor = System.Drawing.Color.Gold
-        Button1.ForeColor = System.Drawing.Color.White
-    End Sub
-
-    Private Sub Button1_Click(sender As Object, e As EventArgs)
-        MessageBox.Show("Details Submitted!")
-    End Sub
-
-    Private Sub Label1_Click(sender As Object, e As EventArgs)
 
     End Sub
 
-    Private Sub Label7_Click(sender As Object, e As EventArgs)
+    Private Sub Label4_Click(sender As Object, e As EventArgs) Handles Label4.Click
 
     End Sub
 
-    Private Sub Label7_Click_1(sender As Object, e As EventArgs)
+    Private Sub Statustxtbox_TextChanged(sender As Object, e As EventArgs) Handles Statustxtbox.TextChanged
 
     End Sub
 
-    Private Sub Label8_Click(sender As Object, e As EventArgs)
+    Private Sub MaintenanceScheduletxtbox_TextChanged(sender As Object, e As EventArgs) Handles MaintenanceScheduletxtbox.TextChanged
 
     End Sub
 
-    Private Sub Label9_Click(sender As Object, e As EventArgs)
-
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Me.Hide()
     End Sub
 
-    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs)
-
-    End Sub
-
-    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs)
-
-    End Sub
-
-    Private Sub Label11_Click(sender As Object, e As EventArgs)
-
-    End Sub
-
-    Private Sub Label10_Click(sender As Object, e As EventArgs)
-
-    End Sub
-
-    Private Sub TextBox2_TextChanged(sender As Object, e As EventArgs)
-
-    End Sub
-
-    Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
-
-    End Sub
-
+    ' Define the readQuery method
 
 End Class
