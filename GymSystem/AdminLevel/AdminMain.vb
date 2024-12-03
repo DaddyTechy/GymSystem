@@ -374,5 +374,6 @@ Public Class AdminMain
 
     Private Sub MemProgRepBtn_Click(sender As Object, e As EventArgs) Handles EqpListBtn.Click
         ShowUserControl(New Equipmentlist())
+
     End Sub
 End Class
