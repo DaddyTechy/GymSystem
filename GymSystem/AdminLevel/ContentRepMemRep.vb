@@ -6,9 +6,11 @@ Public Class ContentRepMemRep
 
     Private Sub ContentRepMemRep_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Initial setup if needed
+        DateTimePicker1.Visible = False
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        DateTimePicker1.Visible = False
         ' Load data from members table
         LoadData("SELECT MemberID, FirstName, MiddleName, LastName, Sex, PhoneNumber, Province, City, Street, ZipCode FROM members")
         ' Bind data to RDLC report and export to PDF
@@ -16,6 +18,7 @@ Public Class ContentRepMemRep
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        DateTimePicker1.Visible = False
         ' Load data from attendance table
         LoadData("SELECT AttendanceID, StaffID, MemberID, Date, CheckInTime, CheckOutTime, SessionType FROM attendance")
         ' Bind data to RDLC report and export to PDF
@@ -25,18 +28,27 @@ Public Class ContentRepMemRep
     Private Sub btnRevenue_Click(sender As Object, e As EventArgs) Handles btnRevenue.Click
         DateTimePicker1.Visible = True
         LoadData("SELECT MembershipCost, ReservationFee, PaymentDate FROM payment")
+        LoadDataWithFilter()
         ' Bind data to RDLC report and export to PDF
         BindReport("..\..\..\AdminLevel\Reports\RevenueReport.rdlc")
-    End Sub
-
-    Private Sub DateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker1.ValueChanged
-        LoadDataWithFilter()
     End Sub
 
     Private Sub LoadDataWithFilter()
         Dim selectedDate As DateTime = DateTimePicker1.Value
         Dim query As String = $"SELECT MembershipCost, ReservationFee, PaymentDate FROM payment WHERE MONTH(PaymentDate) = {selectedDate.Month} AND YEAR(PaymentDate) = {selectedDate.Year}"
         LoadData(query)
+    End Sub
+
+    Private Sub btnEquipment_Click(sender As Object, e As EventArgs) Handles btnEquipment.Click
+        DateTimePicker1.Visible = False
+        ' Load data from attendance table
+        LoadData("SELECT EquipmentID, Name, Type, Brand, PurchaseDate, Status, PurchasePlace, MaintenanceCost FROM equipment")
+        ' Bind data to RDLC report and export to PDF
+        BindReport("..\..\..\AdminLevel\Reports\Report3.rdlc")
+    End Sub
+
+    Private Sub btnMembership_Click(sender As Object, e As EventArgs) Handles btnMembership.Click
+
     End Sub
 
     Private Sub LoadData(query As String)
@@ -141,5 +153,4 @@ Public Class ContentRepMemRep
     End Function
 
     Private pdfBytes As Byte()
-
 End Class

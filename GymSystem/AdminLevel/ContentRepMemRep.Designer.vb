@@ -27,8 +27,8 @@ Partial Class ContentRepMemRep
         DateTimePicker1 = New DateTimePicker()
         Panel2 = New Panel()
         btnRevenue = New Button()
-        Button4 = New Button()
-        Button3 = New Button()
+        btnMembership = New Button()
+        btnEquipment = New Button()
         Button1 = New Button()
         Button2 = New Button()
         DataGridView1 = New DataGridView()
@@ -71,8 +71,8 @@ Partial Class ContentRepMemRep
         Panel2.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         Panel2.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         Panel2.Controls.Add(btnRevenue)
-        Panel2.Controls.Add(Button4)
-        Panel2.Controls.Add(Button3)
+        Panel2.Controls.Add(btnMembership)
+        Panel2.Controls.Add(btnEquipment)
         Panel2.Controls.Add(Button1)
         Panel2.Controls.Add(Button2)
         Panel2.Controls.Add(DataGridView1)
@@ -94,29 +94,29 @@ Partial Class ContentRepMemRep
         btnRevenue.Text = "Revenue Report"
         btnRevenue.UseVisualStyleBackColor = False
         ' 
-        ' Button4
+        ' btnMembership
         ' 
-        Button4.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        Button4.BackColor = Color.Gold
-        Button4.FlatStyle = FlatStyle.Popup
-        Button4.Location = New Point(1225, 130)
-        Button4.Name = "Button4"
-        Button4.Size = New Size(163, 23)
-        Button4.TabIndex = 6
-        Button4.Text = "Membership Report"
-        Button4.UseVisualStyleBackColor = False
+        btnMembership.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnMembership.BackColor = Color.Gold
+        btnMembership.FlatStyle = FlatStyle.Popup
+        btnMembership.Location = New Point(1225, 130)
+        btnMembership.Name = "btnMembership"
+        btnMembership.Size = New Size(163, 23)
+        btnMembership.TabIndex = 6
+        btnMembership.Text = "Membership Report"
+        btnMembership.UseVisualStyleBackColor = False
         ' 
-        ' Button3
+        ' btnEquipment
         ' 
-        Button3.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        Button3.BackColor = Color.Gold
-        Button3.FlatStyle = FlatStyle.Popup
-        Button3.Location = New Point(1225, 90)
-        Button3.Name = "Button3"
-        Button3.Size = New Size(163, 23)
-        Button3.TabIndex = 5
-        Button3.Text = "Equipment Report"
-        Button3.UseVisualStyleBackColor = False
+        btnEquipment.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnEquipment.BackColor = Color.Gold
+        btnEquipment.FlatStyle = FlatStyle.Popup
+        btnEquipment.Location = New Point(1225, 90)
+        btnEquipment.Name = "btnEquipment"
+        btnEquipment.Size = New Size(163, 23)
+        btnEquipment.TabIndex = 5
+        btnEquipment.Text = "Equipment Report"
+        btnEquipment.UseVisualStyleBackColor = False
         ' 
         ' Button1
         ' 
@@ -229,8 +229,8 @@ Partial Class ContentRepMemRep
     Friend WithEvents PrintDialog1 As PrintDialog
     Friend WithEvents Button2 As Button
     Friend WithEvents btnRevenue As Button
-    Friend WithEvents Button4 As Button
-    Friend WithEvents Button3 As Button
+    Friend WithEvents btnMembership As Button
+    Friend WithEvents btnEquipment As Button
     Friend WithEvents Button1 As Button
     Friend WithEvents DateTimePicker1 As DateTimePicker
 
