@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class ContentPayment
+Partial Class Equipmentlist
     Inherits System.Windows.Forms.UserControl
 
     'UserControl overrides dispose to clean up the component list.
@@ -32,12 +32,13 @@ Partial Class ContentPayment
         cmbPaymentType = New ComboBox()
         cmbStatus = New ComboBox()
         btnSearch = New Button()
-        dgvPayment = New DataGridView()
+        dgvEquipmentlist = New DataGridView()
         txtBoxSearchInput = New TextBox()
         Label2 = New Label()
         Label1 = New Label()
+        bttnAddEquipment = New Button()
         Panel1.SuspendLayout()
-        CType(dgvPayment, ComponentModel.ISupportInitialize).BeginInit()
+        CType(dgvEquipmentlist, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' Panel1
@@ -48,16 +49,16 @@ Partial Class ContentPayment
         Panel1.Controls.Add(cmbPaymentType)
         Panel1.Controls.Add(cmbStatus)
         Panel1.Controls.Add(btnSearch)
-        Panel1.Controls.Add(dgvPayment)
+        Panel1.Controls.Add(dgvEquipmentlist)
         Panel1.Controls.Add(txtBoxSearchInput)
         Panel1.Controls.Add(Label2)
         Panel1.Dock = DockStyle.Fill
-        Panel1.Location = New Point(17, 43)
+        Panel1.Location = New Point(15, 38)
         Panel1.Margin = New Padding(3, 4, 3, 4)
         Panel1.Name = "Panel1"
         Panel1.Padding = New Padding(23, 0, 23, 0)
-        Panel1.Size = New Size(823, 645)
-        Panel1.TabIndex = 3
+        Panel1.Size = New Size(898, 495)
+        Panel1.TabIndex = 5
         ' 
         ' Label4
         ' 
@@ -65,7 +66,7 @@ Partial Class ContentPayment
         Label4.AutoSize = True
         Label4.BackColor = Color.Transparent
         Label4.ForeColor = Color.White
-        Label4.Location = New Point(402, 8)
+        Label4.Location = New Point(1077, 8)
         Label4.Name = "Label4"
         Label4.Size = New Size(43, 20)
         Label4.TabIndex = 8
@@ -77,7 +78,7 @@ Partial Class ContentPayment
         Label3.AutoSize = True
         Label3.BackColor = Color.Transparent
         Label3.ForeColor = Color.White
-        Label3.Location = New Point(610, 8)
+        Label3.Location = New Point(1285, 8)
         Label3.Name = "Label3"
         Label3.Size = New Size(52, 20)
         Label3.TabIndex = 7
@@ -89,7 +90,7 @@ Partial Class ContentPayment
         cmbPaymentType.DropDownStyle = ComboBoxStyle.DropDownList
         cmbPaymentType.FormattingEnabled = True
         cmbPaymentType.Items.AddRange(New Object() {"All", "Membership", "Reservation"})
-        cmbPaymentType.Location = New Point(454, 4)
+        cmbPaymentType.Location = New Point(1129, 4)
         cmbPaymentType.Margin = New Padding(3, 4, 3, 4)
         cmbPaymentType.Name = "cmbPaymentType"
         cmbPaymentType.Size = New Size(138, 28)
@@ -100,7 +101,7 @@ Partial Class ContentPayment
         cmbStatus.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         cmbStatus.DropDownStyle = ComboBoxStyle.DropDownList
         cmbStatus.FormattingEnabled = True
-        cmbStatus.Location = New Point(662, 4)
+        cmbStatus.Location = New Point(1337, 4)
         cmbStatus.Margin = New Padding(3, 4, 3, 4)
         cmbStatus.Name = "cmbStatus"
         cmbStatus.Size = New Size(138, 28)
@@ -113,7 +114,7 @@ Partial Class ContentPayment
         btnSearch.ForeColor = Color.White
         btnSearch.Image = Cog_1
         btnSearch.ImageAlign = ContentAlignment.MiddleLeft
-        btnSearch.Location = New Point(1191, 8)
+        btnSearch.Location = New Point(1866, 8)
         btnSearch.Margin = New Padding(3, 4, 3, 4)
         btnSearch.Name = "btnSearch"
         btnSearch.Size = New Size(95, 32)
@@ -123,15 +124,15 @@ Partial Class ContentPayment
         btnSearch.TextImageRelation = TextImageRelation.ImageBeforeText
         btnSearch.UseVisualStyleBackColor = True
         ' 
-        ' dgvPayment
+        ' dgvEquipmentlist
         ' 
-        dgvPayment.AllowUserToAddRows = False
-        dgvPayment.AllowUserToDeleteRows = False
-        dgvPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-        dgvPayment.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
-        dgvPayment.BackgroundColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        dgvPayment.BorderStyle = BorderStyle.None
-        dgvPayment.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
+        dgvEquipmentlist.AllowUserToAddRows = False
+        dgvEquipmentlist.AllowUserToDeleteRows = False
+        dgvEquipmentlist.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+        dgvEquipmentlist.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
+        dgvEquipmentlist.BackgroundColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        dgvEquipmentlist.BorderStyle = BorderStyle.None
+        dgvEquipmentlist.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
         DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         DataGridViewCellStyle1.Font = New Font("Segoe UI", 10F)
@@ -139,8 +140,8 @@ Partial Class ContentPayment
         DataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
         DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
-        dgvPayment.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
-        dgvPayment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        dgvEquipmentlist.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        dgvEquipmentlist.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle2.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
@@ -148,17 +149,17 @@ Partial Class ContentPayment
         DataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight
         DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
         DataGridViewCellStyle2.WrapMode = DataGridViewTriState.True
-        dgvPayment.DefaultCellStyle = DataGridViewCellStyle2
-        dgvPayment.Dock = DockStyle.Fill
-        dgvPayment.EditMode = DataGridViewEditMode.EditOnEnter
-        dgvPayment.EnableHeadersVisualStyles = False
-        dgvPayment.GridColor = Color.White
-        dgvPayment.Location = New Point(23, 48)
-        dgvPayment.Margin = New Padding(3, 4, 3, 4)
-        dgvPayment.MultiSelect = False
-        dgvPayment.Name = "dgvPayment"
-        dgvPayment.ReadOnly = True
-        dgvPayment.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
+        dgvEquipmentlist.DefaultCellStyle = DataGridViewCellStyle2
+        dgvEquipmentlist.Dock = DockStyle.Fill
+        dgvEquipmentlist.EditMode = DataGridViewEditMode.EditOnEnter
+        dgvEquipmentlist.EnableHeadersVisualStyles = False
+        dgvEquipmentlist.GridColor = Color.White
+        dgvEquipmentlist.Location = New Point(23, 48)
+        dgvEquipmentlist.Margin = New Padding(3, 4, 3, 4)
+        dgvEquipmentlist.MultiSelect = False
+        dgvEquipmentlist.Name = "dgvEquipmentlist"
+        dgvEquipmentlist.ReadOnly = True
+        dgvEquipmentlist.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
         DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle3.BackColor = SystemColors.WindowFrame
         DataGridViewCellStyle3.Font = New Font("Segoe UI", 9.75F)
@@ -166,23 +167,23 @@ Partial Class ContentPayment
         DataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight
         DataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText
         DataGridViewCellStyle3.WrapMode = DataGridViewTriState.True
-        dgvPayment.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
-        dgvPayment.RowHeadersVisible = False
-        dgvPayment.RowHeadersWidth = 51
+        dgvEquipmentlist.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
+        dgvEquipmentlist.RowHeadersVisible = False
+        dgvEquipmentlist.RowHeadersWidth = 51
         DataGridViewCellStyle4.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         DataGridViewCellStyle4.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         DataGridViewCellStyle4.ForeColor = Color.White
-        dgvPayment.RowsDefaultCellStyle = DataGridViewCellStyle4
-        dgvPayment.RowTemplate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
-        dgvPayment.RowTemplate.DefaultCellStyle.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        dgvPayment.RowTemplate.DefaultCellStyle.Font = New Font("Microsoft Sans Serif", 9F)
-        dgvPayment.RowTemplate.DefaultCellStyle.ForeColor = Color.White
-        dgvPayment.RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
-        dgvPayment.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvPayment.ShowCellErrors = False
-        dgvPayment.ShowRowErrors = False
-        dgvPayment.Size = New Size(777, 597)
-        dgvPayment.TabIndex = 0
+        dgvEquipmentlist.RowsDefaultCellStyle = DataGridViewCellStyle4
+        dgvEquipmentlist.RowTemplate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+        dgvEquipmentlist.RowTemplate.DefaultCellStyle.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        dgvEquipmentlist.RowTemplate.DefaultCellStyle.Font = New Font("Microsoft Sans Serif", 9F)
+        dgvEquipmentlist.RowTemplate.DefaultCellStyle.ForeColor = Color.White
+        dgvEquipmentlist.RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
+        dgvEquipmentlist.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        dgvEquipmentlist.ShowCellErrors = False
+        dgvEquipmentlist.ShowRowErrors = False
+        dgvEquipmentlist.Size = New Size(852, 447)
+        dgvEquipmentlist.TabIndex = 0
         ' 
         ' txtBoxSearchInput
         ' 
@@ -190,7 +191,7 @@ Partial Class ContentPayment
         txtBoxSearchInput.BackColor = Color.Silver
         txtBoxSearchInput.BorderStyle = BorderStyle.FixedSingle
         txtBoxSearchInput.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        txtBoxSearchInput.Location = New Point(1006, 8)
+        txtBoxSearchInput.Location = New Point(1681, 8)
         txtBoxSearchInput.Margin = New Padding(3, 4, 3, 4)
         txtBoxSearchInput.Name = "txtBoxSearchInput"
         txtBoxSearchInput.Size = New Size(184, 29)
@@ -206,9 +207,9 @@ Partial Class ContentPayment
         Label2.Margin = New Padding(3, 0, 3, 13)
         Label2.Name = "Label2"
         Label2.Padding = New Padding(0, 7, 0, 13)
-        Label2.Size = New Size(134, 48)
+        Label2.Size = New Size(153, 48)
         Label2.TabIndex = 0
-        Label2.Text = "Payment List"
+        Label2.Text = "Equipment List"
         Label2.TextAlign = ContentAlignment.MiddleCenter
         ' 
         ' Label1
@@ -217,40 +218,53 @@ Partial Class ContentPayment
         Label1.Dock = DockStyle.Top
         Label1.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.Gold
-        Label1.Location = New Point(17, 20)
+        Label1.Location = New Point(15, 15)
         Label1.Name = "Label1"
         Label1.Padding = New Padding(2, 0, 0, 0)
-        Label1.Size = New Size(89, 23)
-        Label1.TabIndex = 2
-        Label1.Text = "Payments"
+        Label1.Size = New Size(133, 23)
+        Label1.TabIndex = 4
+        Label1.Text = "Equipment List"
         ' 
-        ' ContentPayment
+        ' bttnAddEquipment
+        ' 
+        bttnAddEquipment.BackColor = Color.DimGray
+        bttnAddEquipment.FlatStyle = FlatStyle.Popup
+        bttnAddEquipment.ForeColor = Color.White
+        bttnAddEquipment.Location = New Point(705, 9)
+        bttnAddEquipment.Name = "bttnAddEquipment"
+        bttnAddEquipment.Size = New Size(124, 29)
+        bttnAddEquipment.TabIndex = 9
+        bttnAddEquipment.Text = "Add Equipment"
+        bttnAddEquipment.UseVisualStyleBackColor = False
+        ' 
+        ' Equipmentlist
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
-        BackColor = Color.Transparent
+        BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        Controls.Add(bttnAddEquipment)
         Controls.Add(Panel1)
         Controls.Add(Label1)
-        Margin = New Padding(3, 4, 3, 4)
-        Name = "ContentPayment"
-        Padding = New Padding(17, 20, 17, 20)
-        Size = New Size(857, 708)
+        Name = "Equipmentlist"
+        Padding = New Padding(15)
+        Size = New Size(928, 548)
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
-        CType(dgvPayment, ComponentModel.ISupportInitialize).EndInit()
+        CType(dgvEquipmentlist, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
     End Sub
 
     Friend WithEvents Panel1 As Panel
-    Friend WithEvents btnSearch As Button
-    Friend WithEvents dgvPayment As DataGridView
-    Friend WithEvents txtBoxSearchInput As TextBox
-    Friend WithEvents Label2 As Label
-    Friend WithEvents Label1 As Label
-    Friend WithEvents cmbStatus As ComboBox
     Friend WithEvents Label4 As Label
     Friend WithEvents Label3 As Label
     Friend WithEvents cmbPaymentType As ComboBox
+    Friend WithEvents cmbStatus As ComboBox
+    Friend WithEvents btnSearch As Button
+    Friend WithEvents dgvEquipmentlist As DataGridView
+    Friend WithEvents txtBoxSearchInput As TextBox
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Label1 As Label
+    Friend WithEvents bttnAddEquipment As Button
 
 End Class

@@ -44,12 +44,14 @@ Partial Class Gym_Equipment
         Label3 = New Label()
         Label2 = New Label()
         Label1 = New Label()
+        Button2 = New Button()
         Panel1.SuspendLayout()
         SuspendLayout()
         ' 
         ' Panel1
         ' 
         Panel1.Anchor = AnchorStyles.None
+        Panel1.Controls.Add(Button2)
         Panel1.Controls.Add(Label12)
         Panel1.Controls.Add(Label11)
         Panel1.Controls.Add(Label10)
@@ -97,9 +99,9 @@ Partial Class Gym_Equipment
         Label11.ImageAlign = ContentAlignment.MiddleLeft
         Label11.Location = New Point(49, 277)
         Label11.Name = "Label11"
-        Label11.Size = New Size(113, 20)
+        Label11.Size = New Size(141, 20)
         Label11.TabIndex = 39
-        Label11.Text = "Equipment-Info"
+        Label11.Text = "       Equipment-Info"
         Label11.TextAlign = ContentAlignment.MiddleRight
         ' 
         ' Label10
@@ -115,7 +117,7 @@ Partial Class Gym_Equipment
         ' Label9
         ' 
         Label9.AutoSize = True
-        Label9.Font = New Font("Segoe UI Semibold", 9.0F, FontStyle.Bold)
+        Label9.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
         Label9.ForeColor = Color.White
         Label9.Location = New Point(419, 463)
         Label9.Name = "Label9"
@@ -225,7 +227,7 @@ Partial Class Gym_Equipment
         ' Label6
         ' 
         Label6.AutoSize = True
-        Label6.Font = New Font("Segoe UI Semibold", 9.0F, FontStyle.Bold)
+        Label6.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
         Label6.ForeColor = Color.White
         Label6.Location = New Point(419, 361)
         Label6.Name = "Label6"
@@ -236,7 +238,7 @@ Partial Class Gym_Equipment
         ' Label5
         ' 
         Label5.AutoSize = True
-        Label5.Font = New Font("Segoe UI Semibold", 9.0F, FontStyle.Bold)
+        Label5.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
         Label5.ForeColor = Color.White
         Label5.Location = New Point(419, 315)
         Label5.Name = "Label5"
@@ -247,7 +249,7 @@ Partial Class Gym_Equipment
         ' Label4
         ' 
         Label4.AutoSize = True
-        Label4.Font = New Font("Segoe UI Semibold", 9.0F, FontStyle.Bold)
+        Label4.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
         Label4.ForeColor = Color.White
         Label4.Location = New Point(49, 502)
         Label4.Name = "Label4"
@@ -258,7 +260,7 @@ Partial Class Gym_Equipment
         ' Label3
         ' 
         Label3.AutoSize = True
-        Label3.Font = New Font("Segoe UI Semibold", 9.0F, FontStyle.Bold)
+        Label3.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
         Label3.ForeColor = Color.White
         Label3.Location = New Point(49, 443)
         Label3.Name = "Label3"
@@ -269,7 +271,7 @@ Partial Class Gym_Equipment
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Font = New Font("Segoe UI Semibold", 9.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label2.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.White
         Label2.Location = New Point(49, 381)
         Label2.Name = "Label2"
@@ -280,7 +282,7 @@ Partial Class Gym_Equipment
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Font = New Font("Segoe UI Semibold", 9.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label1.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.White
         Label1.Location = New Point(49, 319)
         Label1.Name = "Label1"
@@ -288,9 +290,22 @@ Partial Class Gym_Equipment
         Label1.TabIndex = 21
         Label1.Text = "Equipment:"
         ' 
+        ' Button2
+        ' 
+        Button2.BackColor = Color.DimGray
+        Button2.FlatStyle = FlatStyle.Popup
+        Button2.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        Button2.ForeColor = Color.White
+        Button2.Location = New Point(49, 36)
+        Button2.Name = "Button2"
+        Button2.Size = New Size(86, 31)
+        Button2.TabIndex = 41
+        Button2.Text = "Back"
+        Button2.UseVisualStyleBackColor = False
+        ' 
         ' Gym_Equipment
         ' 
-        AutoScaleDimensions = New SizeF(8.0F, 20.0F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         Controls.Add(Panel1)
@@ -325,5 +340,6 @@ Partial Class Gym_Equipment
     Friend WithEvents Label3 As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents Label1 As Label
+    Friend WithEvents Button2 As Button
 
 End Class
