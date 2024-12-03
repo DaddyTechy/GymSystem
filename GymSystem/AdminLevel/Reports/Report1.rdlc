@@ -226,7 +226,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet1</DataSetName>
-        <Top>0.42016cm</Top>
+        <Top>1.07633cm</Top>
         <Left>1.13453cm</Left>
         <Height>3.50188cm</Height>
         <Width>15.54333cm</Width>
@@ -236,6 +236,36 @@
           </Border>
         </Style>
       </Tablix>
+      <Textbox Name="Textbox23">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>MEMBER PROGRESS REPORTS:</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox23</rd:DefaultName>
+        <Top>0.44105cm</Top>
+        <Left>1.13453cm</Left>
+        <Height>0.6cm</Height>
+        <Width>5.77377cm</Width>
+        <ZIndex>1</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
     </ReportItems>
     <Height>5.51042in</Height>
     <Style />
@@ -243,6 +273,222 @@
   <Width>7.07167in</Width>
   <Page>
     <PageHeader>
+      <Height>3.2162cm</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="Textbox18">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Reports</Value>
+                  <Style>
+                    <FontSize>16pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <LineHeight>19pt</LineHeight>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox18</rd:DefaultName>
+          <Top>0.57433cm</Top>
+          <Left>7.46148cm</Left>
+          <Height>0.854cm</Height>
+          <Width>2.5cm</Width>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Image Name="Reprts">
+          <Source>Embedded</Source>
+          <Value>Reports</Value>
+          <Sizing>FitProportional</Sizing>
+          <Top>0.35167cm</Top>
+          <Left>10.27665cm</Left>
+          <Height>1.07667cm</Height>
+          <Width>1.14017cm</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </Image>
+        <Line Name="Line1">
+          <Top>2.91987cm</Top>
+          <Left>1.13453cm</Left>
+          <Height>0cm</Height>
+          <Width>15.54333cm</Width>
+          <ZIndex>2</ZIndex>
+          <Style>
+            <Border>
+              <Style>Solid</Style>
+            </Border>
+          </Style>
+        </Line>
+        <Textbox Name="Textbox19">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>JJ Fitness GYM</Value>
+                  <Style>
+                    <FontFamily>Bernard MT Condensed</FontFamily>
+                    <FontSize>12pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox19</rd:DefaultName>
+          <Top>2.19992cm</Top>
+          <Left>1.13453cm</Left>
+          <Height>0.68467cm</Height>
+          <Width>3.17733cm</Width>
+          <ZIndex>3</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox20">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Daet, Camarines Norte</Value>
+                  <Style>
+                    <FontStyle>Normal</FontStyle>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontWeight>Normal</FontWeight>
+                    <TextDecoration>None</TextDecoration>
+                    <Color>#000000</Color>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox19</rd:DefaultName>
+          <Top>2.30575cm</Top>
+          <Left>4.34714cm</Left>
+          <Height>0.57884cm</Height>
+          <Width>3.53484cm</Width>
+          <ZIndex>4</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox21">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Tel: 09123456789</Value>
+                  <Style>
+                    <FontStyle>Normal</FontStyle>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>11pt</FontSize>
+                    <FontWeight>Normal</FontWeight>
+                    <TextDecoration>None</TextDecoration>
+                    <Color>#000000</Color>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox19</rd:DefaultName>
+          <Top>2.30575cm</Top>
+          <Left>7.88198cm</Left>
+          <Height>0.57884cm</Height>
+          <Width>3.53484cm</Width>
+          <ZIndex>5</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox22">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Email: JJFitnessGYM@gmail.com</Value>
+                  <Style>
+                    <FontStyle>Normal</FontStyle>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontWeight>Normal</FontWeight>
+                    <TextDecoration>None</TextDecoration>
+                    <Color>#000000</Color>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox19</rd:DefaultName>
+          <Top>2.30575cm</Top>
+          <Left>11.49675cm</Left>
+          <Height>0.57884cm</Height>
+          <Width>5.18111cm</Width>
+          <ZIndex>6</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+      </ReportItems>
+      <Style>
+        <Border>
+          <Style>None</Style>
+        </Border>
+      </Style>
+    </PageHeader>
+    <PageFooter>
       <Height>2.54cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
@@ -251,7 +497,7 @@
           <Style>None</Style>
         </Border>
       </Style>
-    </PageHeader>
+    </PageFooter>
     <PageHeight>29.7cm</PageHeight>
     <PageWidth>21cm</PageWidth>
     <LeftMargin>2cm</LeftMargin>
@@ -301,6 +547,16 @@
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>
+  <EmbeddedImages>
+    <EmbeddedImage Name="Reports">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
   <rd:ReportID>6ddd91df-f927-44a9-bb61-d1ddbe720431</rd:ReportID>
 </Report>
