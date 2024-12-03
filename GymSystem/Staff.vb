@@ -1,4 +1,6 @@
-﻿Public Class Staff
+﻿Imports MySql.Data.MySqlClient
+
+Public Class Staff
     Private originalColor As Color = Color.FromArgb(245, 203, 92)
     Private originalButtonColor As Color = Color.FromArgb(245, 203, 92)
     Private hoverButtonColor As Color = Color.FromArgb(245, 203, 92)
@@ -164,10 +166,125 @@
     End Sub
 
     Private Sub LoginBtn_Click(sender As Object, e As EventArgs) Handles LoginBtn.Click
-        Dim staffMain As New StaffMain()
-        ShowUserControlInForm(staffMain, "Staff Main")
-        Me.Hide()
+        Dim staffID As Integer
+        If Integer.TryParse(IDBox.Text, staffID) Then
+            Dim password As String = PassBox.Text
+
+            ' Authenticate user
+            Dim user = AuthenticateStaff(staffID, password)
+            If user IsNot Nothing Then
+                ' Show the main staff form
+                Dim staffMain As New StaffMain()
+                ShowUserControlInForm(staffMain, "Staff Main")
+                Me.Hide()
+                Logs($"staff with ID: {CurrentLoggedUser.id} logged in", "stafflogin")
+            Else
+                MessageBox.Show("Invalid StaffID or password.")
+            End If
+        Else
+            MessageBox.Show("Please enter a valid StaffID.")
+        End If
     End Sub
+
+    Private Function AuthenticateStaff(staffID As Integer, password As String) As StaffUser
+        UpdateConnectionString()
+        Try
+            Using conn As New MySqlConnection(strConnection)
+                conn.Open()
+                Dim query As String = "SELECT * FROM stafflogin WHERE StaffID = @StaffID"
+                Dim cmd As New MySqlCommand(query, conn)
+                cmd.Parameters.AddWithValue("@StaffID", staffID)
+                Dim reader As MySqlDataReader = cmd.ExecuteReader()
+
+                If reader.Read() Then
+                    ' Retrieve the encrypted password and IsEncrypted flag from the database
+                    Dim storedPassword As String = reader("Password").ToString()
+                    Dim isEncrypted As Boolean = Convert.ToBoolean(reader("IsEncrypted"))
+
+                    ' Decrypt the stored password if it is encrypted
+                    Dim decryptedPassword As String
+                    If isEncrypted Then
+                        decryptedPassword = Decrypt(storedPassword)
+                    Else
+                        ' Encrypt the plain password and update the database
+                        Dim encryptedPassword As String = Encrypt(storedPassword)
+                        Dim updateQuery As String = $"UPDATE stafflogin SET EncryptedPassword = '{encryptedPassword}', IsEncrypted = TRUE WHERE StaffID = {staffID}"
+                        readQuery(updateQuery)
+
+                        ' Set the decrypted password to the original plain password
+                        decryptedPassword = storedPassword
+                    End If
+
+                    ' Compare the decrypted password with the entered password
+                    If decryptedPassword = password Then
+                        ' Create a StaffUser object to hold the user details
+                        Dim user As New StaffUser()
+                        user.StaffID = reader("StaffID")
+                        user.Username = reader("Username")
+
+                        ' Set the current logged user after successful login
+                        CurrentLoggedUser.id = user.StaffID
+                        CurrentLoggedUser.name = user.Username
+                        ' ... set other fields as needed
+
+                        ' Access the current logged user's details
+                        MsgBox("Welcome, Staff: " & staffID & " " & CurrentLoggedUser.name & "!")
+
+                        Logs($"Staff user {user.Username} logged in", "Login")
+
+                        ' Return the user object
+                        Return user
+                    Else
+                        ' Return Nothing if the password does not match
+                        Return Nothing
+                    End If
+                Else
+                    ' Return Nothing if no user is found
+                    Return Nothing
+                End If
+            End Using
+        Catch ex As Exception
+            ErrorHandler.HandleError(ex)
+            Return Nothing
+        End Try
+    End Function
+
+    Public Class StaffUser
+        Public Property StaffID As Integer
+        Public Property Username As String
+    End Class
+
+
+    Private Sub EncryptExistingStaffPasswords()
+        Try
+            UpdateConnectionString()
+            Using conn As New MySqlConnection(strConnection)
+                conn.Open()
+                Dim query As String = "SELECT StaffID, password FROM stafflogin WHERE IsEncrypted = False"
+                Dim cmd As New MySqlCommand(query, conn)
+                Dim reader As MySqlDataReader = cmd.ExecuteReader()
+
+                Using writer As New System.IO.StreamWriter("encrypted_staff_passwords.txt", True)
+                    While reader.Read()
+                        Dim staffID As Integer = reader("StaffID")
+                        Dim plainPassword As String = reader("Password").ToString()
+                        Dim encryptedPassword As String = Encrypt(plainPassword)
+
+                        ' Save the encrypted password to a file
+                        writer.WriteLine($"{staffID}, {encryptedPassword}")
+
+                        ' Update the password to encrypted and set IsEncrypted to TRUE
+                        Dim updateQuery As String = $"UPDATE stafflogin SET EncryptedPassword = '{encryptedPassword}', IsEncrypted = TRUE WHERE StaffID = {staffID}"
+                        readQuery(updateQuery)
+                    End While
+                End Using
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("An error occurred while encrypting existing staff passwords: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+
     Private Sub MemberLL_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles MemberLL.LinkClicked
         ' Navigate to Staff form
         Dim staffForm As New Member()

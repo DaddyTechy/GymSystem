@@ -183,7 +183,6 @@ Public Class Admin
         hostForm.Show()
     End Sub
 
-
     Private Sub LoginBtn_Click(sender As Object, e As EventArgs) Handles LoginBtn.Click
         Dim adminID As Integer
         If Integer.TryParse(IDBox.Text, adminID) Then
