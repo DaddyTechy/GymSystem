@@ -1,6 +1,4 @@
-﻿
-
-Public Class Admin
+﻿Public Class Admin
     Private originalColor As Color = Color.FromArgb(245, 203, 92)
     Private originalButtonColor As Color = Color.FromArgb(245, 203, 92)
     Private hoverButtonColor As Color = Color.FromArgb(245, 203, 92)
@@ -18,10 +16,6 @@ Public Class Admin
         textBoxPanel.Size = New Size(IDBox.Width + 2, IDBox.Height + 2) ' Add space for border
         textBoxPanel.Location = New Point(IDBox.Location.X - 0, IDBox.Location.Y - 0)
 
-        ' Set TextBox properties
-        IDBox.BorderStyle = BorderStyle.FixedSingle
-        IDBox.BackColor = Color.Gray ' Background color
-
         ' Add TextBox to Panel
         textBoxPanel.Controls.Add(IDBox)
         IDBox.Location = New Point(1, 1)
@@ -34,10 +28,6 @@ Public Class Admin
         passBoxPanel.BackColor = Color.FromArgb(245, 203, 92) ' Border color
         passBoxPanel.Size = New Size(PassBox.Width + 2, PassBox.Height + 2) ' Add space for border
         passBoxPanel.Location = New Point(PassBox.Location.X - 0, PassBox.Location.Y - 0)
-
-        ' Set TextBox properties
-        PassBox.BorderStyle = BorderStyle.FixedSingle
-        PassBox.BackColor = Color.Gray ' Background color
 
         ' Add TextBox to Panel
         passBoxPanel.Controls.Add(PassBox)
@@ -109,13 +99,6 @@ Public Class Admin
         LoginBtn.BackColor = originalButtonColor
         LoginBtn.ForeColor = Color.Black
     End Sub
-    Private Sub CBMe_CheckedChanged(sender As Object, e As EventArgs) Handles CBMe.CheckedChanged
-        If CBMe.Checked Then
-            CBMe.ForeColor = Color.FromArgb(245, 203, 92)
-        Else
-            CBMe.ForeColor = Color.FromArgb(224, 224, 224)
-        End If
-    End Sub
 
     Private Sub StaffLL_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles StaffLL.LinkClicked
         ' Navigate to Staff form
@@ -170,6 +153,24 @@ Public Class Admin
         Dim adminMain As New AdminMain()
         ShowUserControlInForm(adminMain, "Admin Main")
         Me.Hide()
+    End Sub
+
+    Private caretHandler As New CaretHandler()
+
+    Private Sub ID_GotFocus(sender As Object, e As EventArgs) Handles IDBox.GotFocus
+        caretHandler.InitializeCaret(IDBox, Color.FromArgb(245, 203, 92))
+    End Sub
+
+    Private Sub IDBox_LostFocus(sender As Object, e As EventArgs) Handles IDBox.LostFocus
+        caretHandler.HideCaret(IDBox)
+    End Sub
+
+    Private Sub PasswordBoxFocus(sender As Object, e As EventArgs) Handles PassBox.GotFocus
+        caretHandler.InitializeCaret(PassBox, Color.FromArgb(245, 203, 92))
+    End Sub
+
+    Private Sub PasswordBox_LostFocus(sender As Object, e As EventArgs) Handles PassBox.LostFocus
+        caretHandler.HideCaret(PassBox)
     End Sub
 
 End Class

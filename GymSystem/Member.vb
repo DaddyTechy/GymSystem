@@ -10,38 +10,30 @@
         AdminLL.LinkBehavior = LinkBehavior.NeverUnderline
 
         ' Use a Panel to simulate TextBox border color change
-        Dim textBoxPanel As New Panel()
-        textBoxPanel.BackColor = Color.FromArgb(245, 203, 92) ' Border color
-        textBoxPanel.Size = New Size(IDBox.Width + 2, IDBox.Height + 2) ' Add space for border
-        textBoxPanel.Location = New Point(IDBox.Location.X - 0, IDBox.Location.Y - 0)
-
-        ' Set TextBox properties
-        IDBox.BorderStyle = BorderStyle.FixedSingle
-        IDBox.BackColor = Color.Gray  'Background color
+        Dim IDPanel As New Panel()
+        IDPanel.BackColor = Color.FromArgb(245, 203, 92) ' Border color
+        IDPanel.Size = New Size(IDBox.Width + 2, IDBox.Height + 2) ' Add space for border
+        IDPanel.Location = New Point(IDBox.Location.X - 0, IDBox.Location.Y - 0)
 
         ' Add TextBox to Panel
-        textBoxPanel.Controls.Add(IDBox)
+        IDPanel.Controls.Add(IDBox)
         IDBox.Location = New Point(1, 1)
 
         ' Add Panel to the Form
-        Me.Controls.Add(textBoxPanel)
+        Me.Controls.Add(IDPanel)
 
         ' Repeat for PassBox
-        Dim passBoxPanel As New Panel()
-        passBoxPanel.BackColor = Color.FromArgb(245, 203, 92) ' Border color
-        passBoxPanel.Size = New Size(PassBox.Width + 2, PassBox.Height + 2) ' Add space for border
-        passBoxPanel.Location = New Point(PassBox.Location.X - 0, PassBox.Location.Y - 0)
-
-        ' Set TextBox properties
-        PassBox.BorderStyle = BorderStyle.FixedSingle
-        PassBox.BackColor = Color.Gray ' Background color
+        Dim PasswordPanel As New Panel()
+        PasswordPanel.BackColor = Color.FromArgb(245, 203, 92) ' Border color
+        PasswordPanel.Size = New Size(PassBox.Width + 2, PassBox.Height + 2) ' Add space for border
+        PasswordPanel.Location = New Point(PassBox.Location.X - 0, PassBox.Location.Y - 0)
 
         ' Add TextBox to Panel
-        passBoxPanel.Controls.Add(PassBox)
+        PasswordPanel.Controls.Add(PassBox)
         PassBox.Location = New Point(1, 1)
 
         ' Add Panel to the Form
-        Me.Controls.Add(passBoxPanel)
+        Me.Controls.Add(PasswordPanel)
 
         ' Use a Panel to simulate Button border color change
         Dim buttonPanel As New Panel()
@@ -55,20 +47,33 @@
         LoginBtn.BackColor = Color.FromArgb(245, 203, 92) ' Button background color
 
 
-
         ' Add Button to Panel
         buttonPanel.Controls.Add(LoginBtn)
 
         LoginBtn.Location = New Point(2, 2)
 
+        ' Use a Panel to simulate Button border color change
+        Dim Register As New Panel()
+        Register.BackColor = Color.FromArgb(245, 203, 92) ' Border color
+        Register.Size = New Size(RegisterBtn.Width + 4, RegisterBtn.Height + 4) ' Add space for border
+        Register.Location = New Point(RegisterBtn.Location.X - 2, RegisterBtn.Location.Y - 2)
 
-        ' Add Panel to the Form
+        ' Set Button properties
+        RegisterBtn.FlatStyle = FlatStyle.Flat
+        RegisterBtn.FlatAppearance.BorderSize = 0
+        RegisterBtn.BackColor = Color.FromArgb(245, 203, 92)
+
+        Register.Controls.Add(RegisterBtn)
+
+        RegisterBtn.Location = New Point(2, 2)
+
+
+        ' Add Panel to the Form'
+        Me.Controls.Add(Register)
         Me.Controls.Add(buttonPanel)
 
         IDBox.Focus()
         PassBox.Focus()
-
-
 
         Dim verticalLine As New Label()
         verticalLine.Width = 2
@@ -126,14 +131,6 @@
         RegisterBtn.ForeColor = Color.Black
     End Sub
 
-    Private Sub CBMe_CheckedChanged(sender As Object, e As EventArgs) Handles CBMe.CheckedChanged
-        If CBMe.Checked Then
-            CBMe.ForeColor = Color.FromArgb(245, 203, 92)
-        Else
-            CBMe.ForeColor = Color.FromArgb(224, 224, 224)
-        End If
-    End Sub
-
     Private Sub ForgotLL_MouseEnter(sender As Object, e As EventArgs) Handles ForgotLL.MouseEnter
         ForgotLL.LinkColor = ControlPaint.Dark(originalColor, 0.3F)
     End Sub
@@ -182,4 +179,23 @@
         registerform.Show()
         Hide()
     End Sub
+
+    Private caretHandler As New CaretHandler()
+
+    Private Sub ID_GotFocus(sender As Object, e As EventArgs) Handles IDBox.GotFocus
+        CaretHandler.InitializeCaret(IDBox, Color.FromArgb(245, 203, 92))
+    End Sub
+
+    Private Sub IDBox_LostFocus(sender As Object, e As EventArgs) Handles IDBox.LostFocus
+        caretHandler.HideCaret(IDBox)
+    End Sub
+
+    Private Sub PasswordBoxFocus(sender As Object, e As EventArgs) Handles PassBox.GotFocus
+        caretHandler.InitializeCaret(PassBox, Color.FromArgb(245, 203, 92))
+    End Sub
+
+    Private Sub PasswordBox_LostFocus(sender As Object, e As EventArgs) Handles PassBox.LostFocus
+        caretHandler.HideCaret(PassBox)
+    End Sub
+
 End Class
