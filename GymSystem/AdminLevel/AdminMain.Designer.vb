@@ -32,16 +32,11 @@ Partial Class AdminMain
         MemRepBtn = New Button()
         ReportsBtn = New Button()
         GymEqpSubMenu = New Panel()
-        UpdEqpDetBtn = New Button()
-        RemoveEqpBtn = New Button()
-        AddEqpBtn = New Button()
         EqpListBtn = New Button()
         GymEquipmentBtn = New Button()
         StaffMngmtBtn = New Button()
         AnnouncementBtn = New Button()
         PaymentsBtn = New Button()
-        MemStatBtn = New Button()
-        MemProgBtn = New Button()
         AttendanceSubMenu = New Panel()
         AttenChckNBtn = New Button()
         AttendanceBtn = New Button()
@@ -133,8 +128,6 @@ Partial Class AdminMain
         MenuPnl.Controls.Add(StaffMngmtBtn)
         MenuPnl.Controls.Add(AnnouncementBtn)
         MenuPnl.Controls.Add(PaymentsBtn)
-        MenuPnl.Controls.Add(MemStatBtn)
-        MenuPnl.Controls.Add(MemProgBtn)
         MenuPnl.Controls.Add(AttendanceSubMenu)
         MenuPnl.Controls.Add(AttendanceBtn)
         MenuPnl.Controls.Add(MemManSubMenu)
@@ -159,7 +152,7 @@ Partial Class AdminMain
         othersBtn.ForeColor = SystemColors.ButtonHighlight
         othersBtn.Image = Cog1
         othersBtn.ImageAlign = ContentAlignment.MiddleLeft
-        othersBtn.Location = New Point(13, 811)
+        othersBtn.Location = New Point(13, 626)
         othersBtn.Margin = New Padding(3, 2, 3, 2)
         othersBtn.Name = "othersBtn"
         othersBtn.Size = New Size(235, 47)
@@ -173,7 +166,7 @@ Partial Class AdminMain
         ' 
         ReportsSubMenu.Controls.Add(MemRepBtn)
         ReportsSubMenu.Dock = DockStyle.Top
-        ReportsSubMenu.Location = New Point(13, 779)
+        ReportsSubMenu.Location = New Point(13, 594)
         ReportsSubMenu.Margin = New Padding(3, 2, 3, 2)
         ReportsSubMenu.Name = "ReportsSubMenu"
         ReportsSubMenu.Size = New Size(235, 32)
@@ -206,7 +199,7 @@ Partial Class AdminMain
         ReportsBtn.ForeColor = SystemColors.ButtonHighlight
         ReportsBtn.Image = Vector3
         ReportsBtn.ImageAlign = ContentAlignment.MiddleLeft
-        ReportsBtn.Location = New Point(13, 716)
+        ReportsBtn.Location = New Point(13, 531)
         ReportsBtn.Margin = New Padding(3, 2, 3, 2)
         ReportsBtn.Name = "ReportsBtn"
         ReportsBtn.Size = New Size(235, 63)
@@ -218,68 +211,13 @@ Partial Class AdminMain
         ' 
         ' GymEqpSubMenu
         ' 
-        GymEqpSubMenu.Controls.Add(UpdEqpDetBtn)
-        GymEqpSubMenu.Controls.Add(RemoveEqpBtn)
-        GymEqpSubMenu.Controls.Add(AddEqpBtn)
         GymEqpSubMenu.Controls.Add(EqpListBtn)
         GymEqpSubMenu.Dock = DockStyle.Top
-        GymEqpSubMenu.Location = New Point(13, 611)
+        GymEqpSubMenu.Location = New Point(13, 500)
         GymEqpSubMenu.Margin = New Padding(3, 2, 3, 2)
         GymEqpSubMenu.Name = "GymEqpSubMenu"
-        GymEqpSubMenu.Size = New Size(235, 105)
+        GymEqpSubMenu.Size = New Size(235, 31)
         GymEqpSubMenu.TabIndex = 17
-        ' 
-        ' UpdEqpDetBtn
-        ' 
-        UpdEqpDetBtn.Dock = DockStyle.Top
-        UpdEqpDetBtn.FlatAppearance.BorderSize = 0
-        UpdEqpDetBtn.FlatStyle = FlatStyle.Flat
-        UpdEqpDetBtn.ForeColor = SystemColors.ButtonHighlight
-        UpdEqpDetBtn.Image = Vector_1
-        UpdEqpDetBtn.ImageAlign = ContentAlignment.MiddleLeft
-        UpdEqpDetBtn.Location = New Point(0, 77)
-        UpdEqpDetBtn.Name = "UpdEqpDetBtn"
-        UpdEqpDetBtn.Padding = New Padding(39, 0, 0, 0)
-        UpdEqpDetBtn.Size = New Size(235, 28)
-        UpdEqpDetBtn.TabIndex = 7
-        UpdEqpDetBtn.Text = "  Update Equipment Details"
-        UpdEqpDetBtn.TextAlign = ContentAlignment.MiddleLeft
-        UpdEqpDetBtn.TextImageRelation = TextImageRelation.ImageBeforeText
-        UpdEqpDetBtn.UseVisualStyleBackColor = True
-        ' 
-        ' RemoveEqpBtn
-        ' 
-        RemoveEqpBtn.Dock = DockStyle.Top
-        RemoveEqpBtn.FlatAppearance.BorderSize = 0
-        RemoveEqpBtn.FlatStyle = FlatStyle.Flat
-        RemoveEqpBtn.ForeColor = SystemColors.ButtonHighlight
-        RemoveEqpBtn.Image = Vector_1
-        RemoveEqpBtn.ImageAlign = ContentAlignment.MiddleLeft
-        RemoveEqpBtn.Location = New Point(0, 48)
-        RemoveEqpBtn.Name = "RemoveEqpBtn"
-        RemoveEqpBtn.Padding = New Padding(39, 0, 0, 0)
-        RemoveEqpBtn.Size = New Size(235, 29)
-        RemoveEqpBtn.TabIndex = 6
-        RemoveEqpBtn.Text = "  Remove Equipment"
-        RemoveEqpBtn.TextImageRelation = TextImageRelation.ImageBeforeText
-        RemoveEqpBtn.UseVisualStyleBackColor = True
-        ' 
-        ' AddEqpBtn
-        ' 
-        AddEqpBtn.Dock = DockStyle.Top
-        AddEqpBtn.FlatAppearance.BorderSize = 0
-        AddEqpBtn.FlatStyle = FlatStyle.Flat
-        AddEqpBtn.ForeColor = SystemColors.ButtonHighlight
-        AddEqpBtn.Image = Vector_1
-        AddEqpBtn.ImageAlign = ContentAlignment.MiddleLeft
-        AddEqpBtn.Location = New Point(0, 22)
-        AddEqpBtn.Name = "AddEqpBtn"
-        AddEqpBtn.Padding = New Padding(39, 0, 0, 0)
-        AddEqpBtn.Size = New Size(235, 26)
-        AddEqpBtn.TabIndex = 5
-        AddEqpBtn.Text = "  Add Equipment"
-        AddEqpBtn.TextImageRelation = TextImageRelation.ImageBeforeText
-        AddEqpBtn.UseVisualStyleBackColor = True
         ' 
         ' EqpListBtn
         ' 
@@ -309,7 +247,7 @@ Partial Class AdminMain
         GymEquipmentBtn.ForeColor = SystemColors.ButtonHighlight
         GymEquipmentBtn.Image = Vector2
         GymEquipmentBtn.ImageAlign = ContentAlignment.MiddleLeft
-        GymEquipmentBtn.Location = New Point(13, 552)
+        GymEquipmentBtn.Location = New Point(13, 441)
         GymEquipmentBtn.Margin = New Padding(3, 2, 3, 2)
         GymEquipmentBtn.Name = "GymEquipmentBtn"
         GymEquipmentBtn.Size = New Size(235, 59)
@@ -329,7 +267,7 @@ Partial Class AdminMain
         StaffMngmtBtn.ForeColor = SystemColors.ButtonHighlight
         StaffMngmtBtn.Image = Group_26
         StaffMngmtBtn.ImageAlign = ContentAlignment.MiddleLeft
-        StaffMngmtBtn.Location = New Point(13, 489)
+        StaffMngmtBtn.Location = New Point(13, 378)
         StaffMngmtBtn.Margin = New Padding(3, 2, 3, 2)
         StaffMngmtBtn.Name = "StaffMngmtBtn"
         StaffMngmtBtn.Size = New Size(235, 63)
@@ -349,7 +287,7 @@ Partial Class AdminMain
         AnnouncementBtn.ForeColor = SystemColors.ButtonHighlight
         AnnouncementBtn.Image = Vector_5
         AnnouncementBtn.ImageAlign = ContentAlignment.MiddleLeft
-        AnnouncementBtn.Location = New Point(13, 425)
+        AnnouncementBtn.Location = New Point(13, 314)
         AnnouncementBtn.Margin = New Padding(3, 2, 3, 2)
         AnnouncementBtn.Name = "AnnouncementBtn"
         AnnouncementBtn.Size = New Size(235, 64)
@@ -369,7 +307,7 @@ Partial Class AdminMain
         PaymentsBtn.ForeColor = SystemColors.ButtonHighlight
         PaymentsBtn.Image = Vector_4
         PaymentsBtn.ImageAlign = ContentAlignment.MiddleLeft
-        PaymentsBtn.Location = New Point(13, 367)
+        PaymentsBtn.Location = New Point(13, 256)
         PaymentsBtn.Margin = New Padding(3, 2, 3, 2)
         PaymentsBtn.Name = "PaymentsBtn"
         PaymentsBtn.Size = New Size(235, 58)
@@ -378,46 +316,6 @@ Partial Class AdminMain
         PaymentsBtn.TextAlign = ContentAlignment.MiddleLeft
         PaymentsBtn.TextImageRelation = TextImageRelation.ImageBeforeText
         PaymentsBtn.UseVisualStyleBackColor = False
-        ' 
-        ' MemStatBtn
-        ' 
-        MemStatBtn.BackColor = Color.Black
-        MemStatBtn.Dock = DockStyle.Top
-        MemStatBtn.FlatAppearance.BorderSize = 0
-        MemStatBtn.FlatStyle = FlatStyle.Flat
-        MemStatBtn.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
-        MemStatBtn.ForeColor = SystemColors.ButtonHighlight
-        MemStatBtn.Image = Vector4
-        MemStatBtn.ImageAlign = ContentAlignment.MiddleLeft
-        MemStatBtn.Location = New Point(13, 309)
-        MemStatBtn.Margin = New Padding(3, 2, 3, 2)
-        MemStatBtn.Name = "MemStatBtn"
-        MemStatBtn.Size = New Size(235, 58)
-        MemStatBtn.TabIndex = 11
-        MemStatBtn.Text = "   Members' Status"
-        MemStatBtn.TextAlign = ContentAlignment.MiddleLeft
-        MemStatBtn.TextImageRelation = TextImageRelation.ImageBeforeText
-        MemStatBtn.UseVisualStyleBackColor = False
-        ' 
-        ' MemProgBtn
-        ' 
-        MemProgBtn.BackColor = Color.Black
-        MemProgBtn.Dock = DockStyle.Top
-        MemProgBtn.FlatAppearance.BorderSize = 0
-        MemProgBtn.FlatStyle = FlatStyle.Flat
-        MemProgBtn.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
-        MemProgBtn.ForeColor = SystemColors.ButtonHighlight
-        MemProgBtn.Image = Group_241
-        MemProgBtn.ImageAlign = ContentAlignment.MiddleLeft
-        MemProgBtn.Location = New Point(13, 256)
-        MemProgBtn.Margin = New Padding(3, 2, 3, 2)
-        MemProgBtn.Name = "MemProgBtn"
-        MemProgBtn.Size = New Size(235, 53)
-        MemProgBtn.TabIndex = 10
-        MemProgBtn.Text = "  Members' Progress"
-        MemProgBtn.TextAlign = ContentAlignment.MiddleLeft
-        MemProgBtn.TextImageRelation = TextImageRelation.ImageBeforeText
-        MemProgBtn.UseVisualStyleBackColor = False
         ' 
         ' AttendanceSubMenu
         ' 
@@ -555,7 +453,7 @@ Partial Class AdminMain
         Panel3.Dock = DockStyle.Left
         Panel3.Location = New Point(0, 0)
         Panel3.Name = "Panel3"
-        Panel3.Size = New Size(13, 903)
+        Panel3.Size = New Size(13, 718)
         Panel3.TabIndex = 6
         ' 
         ' UserPnl
@@ -685,16 +583,11 @@ Partial Class AdminMain
     Friend WithEvents MemRepBtn As Button
     Friend WithEvents ReportsBtn As Button
     Friend WithEvents GymEqpSubMenu As Panel
-    Friend WithEvents UpdEqpDetBtn As Button
-    Friend WithEvents RemoveEqpBtn As Button
-    Friend WithEvents AddEqpBtn As Button
     Friend WithEvents EqpListBtn As Button
     Friend WithEvents GymEquipmentBtn As Button
     Friend WithEvents StaffMngmtBtn As Button
     Friend WithEvents AnnouncementBtn As Button
     Friend WithEvents PaymentsBtn As Button
-    Friend WithEvents MemStatBtn As Button
-    Friend WithEvents MemProgBtn As Button
     Friend WithEvents AttendanceSubMenu As Panel
     Friend WithEvents AttnViewBtn As Button
     Friend WithEvents AttenChckNBtn As Button

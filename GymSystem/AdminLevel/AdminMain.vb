@@ -10,8 +10,6 @@ Public Class AdminMain
         InitializeButton(DashboardBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.dashboard, My.Resources.dashbo, activeButton)
         InitializeButton(MemManBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.tdesign_member_1, My.Resources.tdesign_member, activeButton)
         InitializeButton(AttendanceBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkatt, My.Resources.Vector1, activeButton)
-        InitializeButton(MemProgBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkmemprog, My.Resources.Group_241, activeButton)
-        InitializeButton(MemStatBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkmemstat, My.Resources.Vector4, activeButton)
         InitializeButton(PaymentsBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkpa, My.Resources.Vector_4, activeButton)
         InitializeButton(AnnouncementBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkan, My.Resources.Vector_5, activeButton)
         InitializeButton(StaffMngmtBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkstaffman, My.Resources.Group_26, activeButton)
@@ -40,8 +38,6 @@ Public Class AdminMain
         AddHandler GymEquipmentBtn.Click, AddressOf GymEquipmentBtn_Click
         AddHandler ReportsBtn.Click, AddressOf ReportsBtn_Click
         AddHandler DashboardBtn.Click, AddressOf DashboardBtn_Click
-        AddHandler MemProgBtn.Click, AddressOf MemProgBtn_Click
-        AddHandler MemStatBtn.Click, AddressOf MemStatBtn_Click
         AddHandler PaymentsBtn.Click, AddressOf PaymentsBtn_Click
         AddHandler AnnouncementBtn.Click, AddressOf AnnouncementBtn_Click
         AddHandler StaffMngmtBtn.Click, AddressOf StaffMngmtBtn_Click
@@ -66,8 +62,6 @@ Public Class AdminMain
             GymEquipmentBtn.Visible = True
             ReportsBtn.Visible = True
             DashboardBtn.Visible = True
-            MemProgBtn.Visible = True
-            MemStatBtn.Visible = True
             AnnouncementBtn.Visible = True
             StaffMngmtBtn.Visible = True
         End If
@@ -357,11 +351,22 @@ Public Class AdminMain
     End Sub
 
     Private Sub MemProgRepBtn_Click(sender As Object, e As EventArgs) Handles EqpListBtn.Click
+        SetActiveSubMenuButton(EqpListBtn)
         ShowUserControl(New Equipmentlist())
-
     End Sub
 
     Private Sub MemRepBtn_Click_1(sender As Object, e As EventArgs) Handles MemRepBtn.Click
+        SetActiveSubMenuButton(MemRepBtn)
+        ShowUserControl(New ContentRepMemRep)
+    End Sub
+
+    Private Sub GymEquipmentBtn_Click_1(sender As Object, e As EventArgs) Handles GymEquipmentBtn.Click
+        SetActiveSubMenuButton(EqpListBtn)
+        ShowUserControl(New Equipmentlist())
+    End Sub
+
+    Private Sub ReportsBtn_Click_1(sender As Object, e As EventArgs) Handles ReportsBtn.Click
+        SetActiveSubMenuButton(MemRepBtn)
         ShowUserControl(New ContentRepMemRep)
     End Sub
 End Class

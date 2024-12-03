@@ -24,8 +24,8 @@ Partial Class ContentRepMemRep
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ContentRepMemRep))
         Panel1 = New Panel()
-        DateTimePicker1 = New DateTimePicker()
         Panel2 = New Panel()
+        DateTimePicker1 = New DateTimePicker()
         btnRevenue = New Button()
         btnMembership = New Button()
         btnEquipment = New Button()
@@ -46,30 +46,19 @@ Partial Class ContentRepMemRep
         ' Panel1
         ' 
         Panel1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
-        Panel1.Controls.Add(DateTimePicker1)
         Panel1.Controls.Add(Panel2)
         Panel1.Controls.Add(Label2)
         Panel1.Controls.Add(Label1)
         Panel1.Location = New Point(15, 15)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(1468, 466)
+        Panel1.Size = New Size(1211, 466)
         Panel1.TabIndex = 0
-        ' 
-        ' DateTimePicker1
-        ' 
-        DateTimePicker1.CustomFormat = ""
-        DateTimePicker1.Format = DateTimePickerFormat.Short
-        DateTimePicker1.Location = New Point(1106, 56)
-        DateTimePicker1.Name = "DateTimePicker1"
-        DateTimePicker1.Size = New Size(89, 23)
-        DateTimePicker1.TabIndex = 3
-        DateTimePicker1.Value = New Date(2024, 12, 4, 0, 0, 0, 0)
-        DateTimePicker1.Visible = False
         ' 
         ' Panel2
         ' 
         Panel2.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         Panel2.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        Panel2.Controls.Add(DateTimePicker1)
         Panel2.Controls.Add(btnRevenue)
         Panel2.Controls.Add(btnMembership)
         Panel2.Controls.Add(btnEquipment)
@@ -79,15 +68,27 @@ Partial Class ContentRepMemRep
         Panel2.Controls.Add(Label3)
         Panel2.Location = New Point(17, 83)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(1427, 380)
+        Panel2.Size = New Size(1191, 380)
         Panel2.TabIndex = 2
+        ' 
+        ' DateTimePicker1
+        ' 
+        DateTimePicker1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        DateTimePicker1.CustomFormat = ""
+        DateTimePicker1.Format = DateTimePickerFormat.Short
+        DateTimePicker1.Location = New Point(883, 21)
+        DateTimePicker1.Name = "DateTimePicker1"
+        DateTimePicker1.Size = New Size(89, 23)
+        DateTimePicker1.TabIndex = 3
+        DateTimePicker1.Value = New Date(2024, 12, 4, 0, 0, 0, 0)
+        DateTimePicker1.Visible = False
         ' 
         ' btnRevenue
         ' 
         btnRevenue.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnRevenue.BackColor = Color.Gold
         btnRevenue.FlatStyle = FlatStyle.Popup
-        btnRevenue.Location = New Point(1225, 168)
+        btnRevenue.Location = New Point(999, 252)
         btnRevenue.Name = "btnRevenue"
         btnRevenue.Size = New Size(163, 23)
         btnRevenue.TabIndex = 7
@@ -99,7 +100,7 @@ Partial Class ContentRepMemRep
         btnMembership.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnMembership.BackColor = Color.Gold
         btnMembership.FlatStyle = FlatStyle.Popup
-        btnMembership.Location = New Point(1225, 130)
+        btnMembership.Location = New Point(999, 214)
         btnMembership.Name = "btnMembership"
         btnMembership.Size = New Size(163, 23)
         btnMembership.TabIndex = 6
@@ -111,7 +112,7 @@ Partial Class ContentRepMemRep
         btnEquipment.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnEquipment.BackColor = Color.Gold
         btnEquipment.FlatStyle = FlatStyle.Popup
-        btnEquipment.Location = New Point(1225, 90)
+        btnEquipment.Location = New Point(999, 174)
         btnEquipment.Name = "btnEquipment"
         btnEquipment.Size = New Size(163, 23)
         btnEquipment.TabIndex = 5
@@ -123,7 +124,7 @@ Partial Class ContentRepMemRep
         Button1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         Button1.BackColor = Color.Gold
         Button1.FlatStyle = FlatStyle.Popup
-        Button1.Location = New Point(1225, 50)
+        Button1.Location = New Point(999, 134)
         Button1.Name = "Button1"
         Button1.Size = New Size(163, 23)
         Button1.TabIndex = 4
@@ -135,7 +136,7 @@ Partial Class ContentRepMemRep
         Button2.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         Button2.BackColor = Color.Gold
         Button2.FlatStyle = FlatStyle.Popup
-        Button2.Location = New Point(1225, 11)
+        Button2.Location = New Point(999, 95)
         Button2.Name = "Button2"
         Button2.Size = New Size(163, 23)
         Button2.TabIndex = 3
@@ -144,11 +145,13 @@ Partial Class ContentRepMemRep
         ' 
         ' DataGridView1
         ' 
+        DataGridView1.Anchor = AnchorStyles.Top
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridView1.Location = New Point(8, 50)
         DataGridView1.Name = "DataGridView1"
-        DataGridView1.RowHeadersWidth = 51
-        DataGridView1.Size = New Size(1170, 302)
+        DataGridView1.ReadOnly = True
+        DataGridView1.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders
+        DataGridView1.Size = New Size(964, 302)
         DataGridView1.TabIndex = 2
         ' 
         ' Label3
@@ -209,7 +212,7 @@ Partial Class ContentRepMemRep
         MinimumSize = New Size(675, 496)
         Name = "ContentRepMemRep"
         Padding = New Padding(15)
-        Size = New Size(1497, 496)
+        Size = New Size(1270, 496)
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
         Panel2.ResumeLayout(False)

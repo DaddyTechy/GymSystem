@@ -188,10 +188,6 @@ Public Class ContentRepMemRep
         End Try
     End Sub
 
-    Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellContentClick
-        ' Handle cell content click event if needed
-    End Sub
-
     Private Sub BindReport(reportPath As String)
         Dim dt As DataTable = CType(DataGridView1.DataSource, DataTable)
 
