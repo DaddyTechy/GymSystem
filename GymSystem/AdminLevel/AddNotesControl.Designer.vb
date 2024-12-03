@@ -68,6 +68,8 @@ Partial Class AddNotesControl
         txtAuthor.BorderStyle = BorderStyle.FixedSingle
         txtAuthor.Location = New Point(101, 164)
         txtAuthor.Name = "txtAuthor"
+        txtAuthor.PlaceholderText = "Current User"
+        txtAuthor.ReadOnly = True
         txtAuthor.Size = New Size(257, 23)
         txtAuthor.TabIndex = 2
         ' 

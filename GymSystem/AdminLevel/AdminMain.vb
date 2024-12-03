@@ -373,4 +373,5 @@ Public Class AdminMain
         ShowUserControl(New Equipmentlist())
 
     End Sub
+
 End Class

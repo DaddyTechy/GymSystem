@@ -22,7 +22,6 @@ Partial Class AdminMain
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AdminMain))
         LogoTxtLbl = New Label()
         LogoPicBox = New PictureBox()
         Panel1 = New Panel()
@@ -46,7 +45,6 @@ Partial Class AdminMain
         MemStatBtn = New Button()
         MemProgBtn = New Button()
         AttendanceSubMenu = New Panel()
-        AttnViewBtn = New Button()
         AttenChckNBtn = New Button()
         AttendanceBtn = New Button()
         MemManSubMenu = New Panel()
@@ -92,8 +90,8 @@ Partial Class AdminMain
         ' 
         ' LogoPicBox
         ' 
-        LogoPicBox.Image = resources._929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
-        LogoPicBox.Location = New Point(10, 39)
+        LogoPicBox.Image = My.Resources.Resources._929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
+        LogoPicBox.Location = New Point(9, 29)
         LogoPicBox.Margin = New Padding(1)
         LogoPicBox.Name = "LogoPicBox"
         LogoPicBox.Size = New Size(115, 135)
@@ -162,9 +160,10 @@ Partial Class AdminMain
         othersBtn.FlatStyle = FlatStyle.Flat
         othersBtn.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
         othersBtn.ForeColor = SystemColors.ButtonHighlight
-        othersBtn.Image = resources.Cog1
+        othersBtn.Image = My.Resources.Resources.Cog1
         othersBtn.ImageAlign = ContentAlignment.MiddleLeft
-        othersBtn.Location = New Point(15, 1182)
+        othersBtn.Location = New Point(13, 886)
+        othersBtn.Margin = New Padding(3, 2, 3, 2)
         othersBtn.Name = "othersBtn"
         othersBtn.Size = New Size(267, 63)
         othersBtn.TabIndex = 20
@@ -179,7 +178,8 @@ Partial Class AdminMain
         ReportsSubMenu.Controls.Add(MemRepBtn)
         ReportsSubMenu.Controls.Add(ChartsBtn)
         ReportsSubMenu.Dock = DockStyle.Top
-        ReportsSubMenu.Location = New Point(15, 1067)
+        ReportsSubMenu.Location = New Point(13, 800)
+        ReportsSubMenu.Margin = New Padding(3, 2, 3, 2)
         ReportsSubMenu.Name = "ReportsSubMenu"
         ReportsSubMenu.Size = New Size(267, 115)
         ReportsSubMenu.TabIndex = 19
@@ -190,7 +190,7 @@ Partial Class AdminMain
         MemProgRepBtn.FlatAppearance.BorderSize = 0
         MemProgRepBtn.FlatStyle = FlatStyle.Flat
         MemProgRepBtn.ForeColor = SystemColors.ButtonHighlight
-        MemProgRepBtn.Image = resources.Vector_1
+        MemProgRepBtn.Image = My.Resources.Resources.Vector_1
         MemProgRepBtn.ImageAlign = ContentAlignment.MiddleLeft
         MemProgRepBtn.Location = New Point(0, 69)
         MemProgRepBtn.Margin = New Padding(3, 4, 3, 4)
@@ -209,7 +209,7 @@ Partial Class AdminMain
         MemRepBtn.FlatAppearance.BorderSize = 0
         MemRepBtn.FlatStyle = FlatStyle.Flat
         MemRepBtn.ForeColor = SystemColors.ButtonHighlight
-        MemRepBtn.Image = resources.Vector_1
+        MemRepBtn.Image = My.Resources.Resources.Vector_1
         MemRepBtn.ImageAlign = ContentAlignment.MiddleLeft
         MemRepBtn.Location = New Point(0, 37)
         MemRepBtn.Margin = New Padding(3, 4, 3, 4)
@@ -228,7 +228,7 @@ Partial Class AdminMain
         ChartsBtn.FlatAppearance.BorderSize = 0
         ChartsBtn.FlatStyle = FlatStyle.Flat
         ChartsBtn.ForeColor = SystemColors.ButtonHighlight
-        ChartsBtn.Image = resources.Vector_1
+        ChartsBtn.Image = My.Resources.Resources.Vector_1
         ChartsBtn.ImageAlign = ContentAlignment.MiddleLeft
         ChartsBtn.Location = New Point(0, 0)
         ChartsBtn.Margin = New Padding(3, 4, 3, 4)
@@ -248,9 +248,10 @@ Partial Class AdminMain
         ReportsBtn.FlatStyle = FlatStyle.Flat
         ReportsBtn.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
         ReportsBtn.ForeColor = SystemColors.ButtonHighlight
-        ReportsBtn.Image = resources.Vector3
+        ReportsBtn.Image = My.Resources.Resources.Vector3
         ReportsBtn.ImageAlign = ContentAlignment.MiddleLeft
-        ReportsBtn.Location = New Point(15, 983)
+        ReportsBtn.Location = New Point(13, 737)
+        ReportsBtn.Margin = New Padding(3, 2, 3, 2)
         ReportsBtn.Name = "ReportsBtn"
         ReportsBtn.Size = New Size(267, 84)
         ReportsBtn.TabIndex = 18
@@ -266,7 +267,8 @@ Partial Class AdminMain
         GymEqpSubMenu.Controls.Add(AddEqpBtn)
         GymEqpSubMenu.Controls.Add(EqpListBtn)
         GymEqpSubMenu.Dock = DockStyle.Top
-        GymEqpSubMenu.Location = New Point(15, 843)
+        GymEqpSubMenu.Location = New Point(13, 632)
+        GymEqpSubMenu.Margin = New Padding(3, 2, 3, 2)
         GymEqpSubMenu.Name = "GymEqpSubMenu"
         GymEqpSubMenu.Size = New Size(267, 140)
         GymEqpSubMenu.TabIndex = 17
@@ -277,7 +279,7 @@ Partial Class AdminMain
         UpdEqpDetBtn.FlatAppearance.BorderSize = 0
         UpdEqpDetBtn.FlatStyle = FlatStyle.Flat
         UpdEqpDetBtn.ForeColor = SystemColors.ButtonHighlight
-        UpdEqpDetBtn.Image = resources.Vector_1
+        UpdEqpDetBtn.Image = My.Resources.Resources.Vector_1
         UpdEqpDetBtn.ImageAlign = ContentAlignment.MiddleLeft
         UpdEqpDetBtn.Location = New Point(0, 103)
         UpdEqpDetBtn.Margin = New Padding(3, 4, 3, 4)
@@ -296,7 +298,7 @@ Partial Class AdminMain
         RemoveEqpBtn.FlatAppearance.BorderSize = 0
         RemoveEqpBtn.FlatStyle = FlatStyle.Flat
         RemoveEqpBtn.ForeColor = SystemColors.ButtonHighlight
-        RemoveEqpBtn.Image = resources.Vector_1
+        RemoveEqpBtn.Image = My.Resources.Resources.Vector_1
         RemoveEqpBtn.ImageAlign = ContentAlignment.MiddleLeft
         RemoveEqpBtn.Location = New Point(0, 64)
         RemoveEqpBtn.Margin = New Padding(3, 4, 3, 4)
@@ -314,7 +316,7 @@ Partial Class AdminMain
         AddEqpBtn.FlatAppearance.BorderSize = 0
         AddEqpBtn.FlatStyle = FlatStyle.Flat
         AddEqpBtn.ForeColor = SystemColors.ButtonHighlight
-        AddEqpBtn.Image = resources.Vector_1
+        AddEqpBtn.Image = My.Resources.Resources.Vector_1
         AddEqpBtn.ImageAlign = ContentAlignment.MiddleLeft
         AddEqpBtn.Location = New Point(0, 29)
         AddEqpBtn.Margin = New Padding(3, 4, 3, 4)
@@ -333,7 +335,7 @@ Partial Class AdminMain
         EqpListBtn.FlatAppearance.BorderSize = 0
         EqpListBtn.FlatStyle = FlatStyle.Flat
         EqpListBtn.ForeColor = SystemColors.ButtonHighlight
-        EqpListBtn.Image = resources.Vector_1
+        EqpListBtn.Image = My.Resources.Resources.Vector_1
         EqpListBtn.ImageAlign = ContentAlignment.MiddleLeft
         EqpListBtn.Location = New Point(0, 0)
         EqpListBtn.Margin = New Padding(3, 4, 3, 4)
@@ -353,9 +355,10 @@ Partial Class AdminMain
         GymEquipmentBtn.FlatStyle = FlatStyle.Flat
         GymEquipmentBtn.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
         GymEquipmentBtn.ForeColor = SystemColors.ButtonHighlight
-        GymEquipmentBtn.Image = resources.Vector2
+        GymEquipmentBtn.Image = My.Resources.Resources.Vector2
         GymEquipmentBtn.ImageAlign = ContentAlignment.MiddleLeft
-        GymEquipmentBtn.Location = New Point(15, 764)
+        GymEquipmentBtn.Location = New Point(13, 573)
+        GymEquipmentBtn.Margin = New Padding(3, 2, 3, 2)
         GymEquipmentBtn.Name = "GymEquipmentBtn"
         GymEquipmentBtn.Size = New Size(267, 79)
         GymEquipmentBtn.TabIndex = 15
@@ -372,9 +375,10 @@ Partial Class AdminMain
         StaffMngmtBtn.FlatStyle = FlatStyle.Flat
         StaffMngmtBtn.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
         StaffMngmtBtn.ForeColor = SystemColors.ButtonHighlight
-        StaffMngmtBtn.Image = resources.Group_26
+        StaffMngmtBtn.Image = My.Resources.Resources.Group_26
         StaffMngmtBtn.ImageAlign = ContentAlignment.MiddleLeft
-        StaffMngmtBtn.Location = New Point(15, 680)
+        StaffMngmtBtn.Location = New Point(13, 510)
+        StaffMngmtBtn.Margin = New Padding(3, 2, 3, 2)
         StaffMngmtBtn.Name = "StaffMngmtBtn"
         StaffMngmtBtn.Size = New Size(267, 84)
         StaffMngmtBtn.TabIndex = 14
@@ -391,9 +395,10 @@ Partial Class AdminMain
         AnnouncementBtn.FlatStyle = FlatStyle.Flat
         AnnouncementBtn.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
         AnnouncementBtn.ForeColor = SystemColors.ButtonHighlight
-        AnnouncementBtn.Image = CType(resources.GetObject("AnnouncementBtn.Image"), Image)
+        AnnouncementBtn.Image = Vector_5
         AnnouncementBtn.ImageAlign = ContentAlignment.MiddleLeft
-        AnnouncementBtn.Location = New Point(15, 595)
+        AnnouncementBtn.Location = New Point(13, 446)
+        AnnouncementBtn.Margin = New Padding(3, 2, 3, 2)
         AnnouncementBtn.Name = "AnnouncementBtn"
         AnnouncementBtn.Size = New Size(267, 85)
         AnnouncementBtn.TabIndex = 13
@@ -410,9 +415,10 @@ Partial Class AdminMain
         PaymentsBtn.FlatStyle = FlatStyle.Flat
         PaymentsBtn.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
         PaymentsBtn.ForeColor = SystemColors.ButtonHighlight
-        PaymentsBtn.Image = CType(resources.GetObject("PaymentsBtn.Image"), Image)
+        PaymentsBtn.Image = Vector_4
         PaymentsBtn.ImageAlign = ContentAlignment.MiddleLeft
-        PaymentsBtn.Location = New Point(15, 518)
+        PaymentsBtn.Location = New Point(13, 388)
+        PaymentsBtn.Margin = New Padding(3, 2, 3, 2)
         PaymentsBtn.Name = "PaymentsBtn"
         PaymentsBtn.Size = New Size(267, 77)
         PaymentsBtn.TabIndex = 12
@@ -429,9 +435,10 @@ Partial Class AdminMain
         MemStatBtn.FlatStyle = FlatStyle.Flat
         MemStatBtn.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
         MemStatBtn.ForeColor = SystemColors.ButtonHighlight
-        MemStatBtn.Image = resources.Vector4
+        MemStatBtn.Image = My.Resources.Resources.Vector4
         MemStatBtn.ImageAlign = ContentAlignment.MiddleLeft
-        MemStatBtn.Location = New Point(15, 441)
+        MemStatBtn.Location = New Point(13, 330)
+        MemStatBtn.Margin = New Padding(3, 2, 3, 2)
         MemStatBtn.Name = "MemStatBtn"
         MemStatBtn.Size = New Size(267, 77)
         MemStatBtn.TabIndex = 11
@@ -448,9 +455,10 @@ Partial Class AdminMain
         MemProgBtn.FlatStyle = FlatStyle.Flat
         MemProgBtn.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
         MemProgBtn.ForeColor = SystemColors.ButtonHighlight
-        MemProgBtn.Image = resources.Group_241
+        MemProgBtn.Image = My.Resources.Resources.Group_241
         MemProgBtn.ImageAlign = ContentAlignment.MiddleLeft
-        MemProgBtn.Location = New Point(15, 370)
+        MemProgBtn.Location = New Point(13, 277)
+        MemProgBtn.Margin = New Padding(3, 2, 3, 2)
         MemProgBtn.Name = "MemProgBtn"
         MemProgBtn.Size = New Size(267, 71)
         MemProgBtn.TabIndex = 10
@@ -461,12 +469,11 @@ Partial Class AdminMain
         ' 
         ' AttendanceSubMenu
         ' 
-        AttendanceSubMenu.Controls.Add(AttnViewBtn)
         AttendanceSubMenu.Controls.Add(AttenChckNBtn)
         AttendanceSubMenu.Dock = DockStyle.Top
         AttendanceSubMenu.Location = New Point(15, 298)
         AttendanceSubMenu.Name = "AttendanceSubMenu"
-        AttendanceSubMenu.Size = New Size(267, 72)
+        AttendanceSubMenu.Size = New Size(235, 54)
         AttendanceSubMenu.TabIndex = 9
         ' 
         ' AttnViewBtn
@@ -475,13 +482,12 @@ Partial Class AdminMain
         AttnViewBtn.FlatAppearance.BorderSize = 0
         AttnViewBtn.FlatStyle = FlatStyle.Flat
         AttnViewBtn.ForeColor = SystemColors.ButtonHighlight
-        AttnViewBtn.Image = resources.Vector_1
+        AttnViewBtn.Image = My.Resources.Resources.Vector_1
         AttnViewBtn.ImageAlign = ContentAlignment.MiddleLeft
-        AttnViewBtn.Location = New Point(0, 37)
-        AttnViewBtn.Margin = New Padding(3, 4, 3, 4)
+        AttnViewBtn.Location = New Point(0, 28)
         AttnViewBtn.Name = "AttnViewBtn"
-        AttnViewBtn.Padding = New Padding(45, 0, 0, 0)
-        AttnViewBtn.Size = New Size(267, 33)
+        AttnViewBtn.Padding = New Padding(39, 0, 0, 0)
+        AttnViewBtn.Size = New Size(235, 25)
         AttnViewBtn.TabIndex = 5
         AttnViewBtn.Text = "  View"
         AttnViewBtn.TextImageRelation = TextImageRelation.ImageBeforeText
@@ -494,7 +500,7 @@ Partial Class AdminMain
         AttenChckNBtn.FlatAppearance.BorderSize = 0
         AttenChckNBtn.FlatStyle = FlatStyle.Flat
         AttenChckNBtn.ForeColor = SystemColors.ButtonHighlight
-        AttenChckNBtn.Image = resources.Vector_1
+        AttenChckNBtn.Image = My.Resources.Resources.Vector_1
         AttenChckNBtn.ImageAlign = ContentAlignment.MiddleLeft
         AttenChckNBtn.Location = New Point(0, 0)
         AttenChckNBtn.Margin = New Padding(3, 4, 3, 4)
@@ -514,7 +520,7 @@ Partial Class AdminMain
         AttendanceBtn.FlatStyle = FlatStyle.Flat
         AttendanceBtn.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
         AttendanceBtn.ForeColor = SystemColors.ButtonHighlight
-        AttendanceBtn.Image = resources.Vector1
+        AttendanceBtn.Image = My.Resources.Resources.Vector1
         AttendanceBtn.ImageAlign = ContentAlignment.MiddleLeft
         AttendanceBtn.Location = New Point(15, 230)
         AttendanceBtn.Name = "AttendanceBtn"
@@ -542,7 +548,7 @@ Partial Class AdminMain
         MemEntryFormBtn.FlatAppearance.BorderSize = 0
         MemEntryFormBtn.FlatStyle = FlatStyle.Flat
         MemEntryFormBtn.ForeColor = SystemColors.ButtonHighlight
-        MemEntryFormBtn.Image = resources.Vector_1
+        MemEntryFormBtn.Image = My.Resources.Resources.Vector_1
         MemEntryFormBtn.ImageAlign = ContentAlignment.MiddleLeft
         MemEntryFormBtn.Location = New Point(0, 36)
         MemEntryFormBtn.Margin = New Padding(3, 4, 3, 4)
@@ -561,7 +567,7 @@ Partial Class AdminMain
         ListAllMembersBtn.FlatAppearance.BorderSize = 0
         ListAllMembersBtn.FlatStyle = FlatStyle.Flat
         ListAllMembersBtn.ForeColor = SystemColors.ButtonHighlight
-        ListAllMembersBtn.Image = resources.Vector_1
+        ListAllMembersBtn.Image = My.Resources.Resources.Vector_1
         ListAllMembersBtn.ImageAlign = ContentAlignment.MiddleLeft
         ListAllMembersBtn.Location = New Point(0, 0)
         ListAllMembersBtn.Margin = New Padding(3, 4, 3, 4)
@@ -581,7 +587,7 @@ Partial Class AdminMain
         MemManBtn.FlatStyle = FlatStyle.Flat
         MemManBtn.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
         MemManBtn.ForeColor = SystemColors.ButtonHighlight
-        MemManBtn.Image = resources.tdesign_member
+        MemManBtn.Image = My.Resources.Resources.tdesign_member
         MemManBtn.ImageAlign = ContentAlignment.MiddleLeft
         MemManBtn.Location = New Point(15, 83)
         MemManBtn.Margin = New Padding(3, 4, 3, 4)
@@ -601,7 +607,7 @@ Partial Class AdminMain
         DashboardBtn.FlatStyle = FlatStyle.Flat
         DashboardBtn.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
         DashboardBtn.ForeColor = SystemColors.ButtonHighlight
-        DashboardBtn.Image = resources.Vector
+        DashboardBtn.Image = My.Resources.Resources.Vector
         DashboardBtn.ImageAlign = ContentAlignment.MiddleLeft
         DashboardBtn.Location = New Point(15, 0)
         DashboardBtn.Margin = New Padding(3, 4, 3, 4)
@@ -619,7 +625,7 @@ Partial Class AdminMain
         Panel3.Location = New Point(0, 0)
         Panel3.Margin = New Padding(3, 4, 3, 4)
         Panel3.Name = "Panel3"
-        Panel3.Size = New Size(15, 1290)
+        Panel3.Size = New Size(13, 978)
         Panel3.TabIndex = 6
         ' 
         ' UserPnl
@@ -653,7 +659,7 @@ Partial Class AdminMain
         LogoutBtn.FlatStyle = FlatStyle.Flat
         LogoutBtn.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
         LogoutBtn.ForeColor = SystemColors.ButtonHighlight
-        LogoutBtn.Image = resources.Vector_21
+        LogoutBtn.Image = My.Resources.Resources.Vector_21
         LogoutBtn.ImageAlign = ContentAlignment.MiddleLeft
         LogoutBtn.Location = New Point(219, 13)
         LogoutBtn.Margin = New Padding(3, 4, 3, 4)
@@ -680,7 +686,7 @@ Partial Class AdminMain
         ' PictureBox1
         ' 
         PictureBox1.Dock = DockStyle.Left
-        PictureBox1.Image = resources.Vector_11
+        PictureBox1.Image = My.Resources.Resources.Vector_11
         PictureBox1.Location = New Point(0, 0)
         PictureBox1.Margin = New Padding(3, 4, 3, 4)
         PictureBox1.Name = "PictureBox1"
@@ -702,8 +708,8 @@ Partial Class AdminMain
         ' PictureBox2
         ' 
         PictureBox2.Anchor = AnchorStyles.None
-        PictureBox2.Image = resources._929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
-        PictureBox2.Location = New Point(142, 100)
+        PictureBox2.Image = My.Resources.Resources._929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
+        PictureBox2.Location = New Point(124, 75)
         PictureBox2.Margin = New Padding(1)
         PictureBox2.Name = "PictureBox2"
         PictureBox2.Size = New Size(482, 496)
