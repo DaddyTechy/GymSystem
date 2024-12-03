@@ -270,7 +270,7 @@
     <Height>5.51042in</Height>
     <Style />
   </Body>
-  <Width>7.07167in</Width>
+  <Width>7.34759in</Width>
   <Page>
     <PageHeader>
       <Height>3.2162cm</Height>
@@ -298,7 +298,7 @@
           </Paragraphs>
           <rd:DefaultName>Textbox18</rd:DefaultName>
           <Top>0.57433cm</Top>
-          <Left>7.46148cm</Left>
+          <Left>6.82648cm</Left>
           <Height>0.854cm</Height>
           <Width>2.5cm</Width>
           <Style>
@@ -316,7 +316,7 @@
           <Value>Reports</Value>
           <Sizing>FitProportional</Sizing>
           <Top>0.35167cm</Top>
-          <Left>10.27665cm</Left>
+          <Left>9.64165cm</Left>
           <Height>1.07667cm</Height>
           <Width>1.14017cm</Width>
           <ZIndex>1</ZIndex>
@@ -492,6 +492,37 @@
       <Height>2.54cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="PageNumber">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Globals!PageNumber</Value>
+                  <Style />
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>PageNumber</rd:DefaultName>
+          <Top>1.94cm</Top>
+          <Left>14.17786cm</Left>
+          <Height>0.6cm</Height>
+          <Width>2.5cm</Width>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+      </ReportItems>
       <Style>
         <Border>
           <Style>None</Style>
