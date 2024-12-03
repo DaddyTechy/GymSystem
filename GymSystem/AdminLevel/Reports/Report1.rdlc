@@ -627,7 +627,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>MEMBER PROGRESS REPORTS:</Value>
+                <Value>MEMBER DETAILS REPORTS:</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -715,7 +715,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>MembersReports</Value>
+                  <Value>Members Reports</Value>
                   <Style>
                     <FontSize>16pt</FontSize>
                     <FontWeight>Bold</FontWeight>
@@ -729,7 +729,7 @@
           </Paragraphs>
           <rd:DefaultName>Textbox18</rd:DefaultName>
           <Top>0.57433cm</Top>
-          <Left>4.36586cm</Left>
+          <Left>5.31836cm</Left>
           <Height>0.854cm</Height>
           <Width>4.96062cm</Width>
           <Style>
@@ -747,7 +747,7 @@
           <Value>Reports</Value>
           <Sizing>FitProportional</Sizing>
           <Top>0.35167cm</Top>
-          <Left>9.64165cm</Left>
+          <Left>10.59415cm</Left>
           <Height>1.07667cm</Height>
           <Width>1.14017cm</Width>
           <ZIndex>1</ZIndex>
@@ -921,7 +921,7 @@
           </Paragraphs>
           <rd:DefaultName>PageNumber</rd:DefaultName>
           <Top>1.94cm</Top>
-          <Left>6.70757cm</Left>
+          <Left>7.34257cm</Left>
           <Height>0.6cm</Height>
           <Width>2.5cm</Width>
           <Style>

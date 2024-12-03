@@ -4,7 +4,7 @@
     Private Sub btnSaveNote_Click(sender As Object, e As EventArgs) Handles btnSaveNote.Click
         Try
             Dim noteDetails As String = txtNoteDetails.Text
-            Dim author As String = txtAuthor.Text
+            Dim author As String = CurrentLoggedUser.position & ": " & CurrentLoggedUser.name
             Dim dateAdded As DateTime = dtpDateAdded.Value
 
             ' Validate inputs
@@ -29,6 +29,7 @@
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Me.Hide()
     End Sub
+
 End Class
 
 

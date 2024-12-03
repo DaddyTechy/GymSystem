@@ -6,28 +6,46 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>2.00996cm</Width>
+              <Width>1.57333cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.10312cm</Width>
+              <Width>1.6871cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.89146cm</Width>
+              <Width>1.95156cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.51686cm</Width>
+              <Width>1.64671cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.15603cm</Width>
+              <Width>1.02133cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.97083cm</Width>
+              <Width>2.0087cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.28835cm</Width>
+              <Width>1.72567cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.60672cm</Width>
+              <Width>1.54133cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.86583cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>2.52322cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.71813cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>2.09681cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>2.08545cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.63104cm</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -43,7 +61,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Equipment ID</Value>
+                              <Value>Membership ID</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -73,7 +91,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Name</Value>
+                              <Value>Member ID</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -103,7 +121,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Type</Value>
+                              <Value>Member Ship Name</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -133,7 +151,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Brand</Value>
+                              <Value>Duration</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -163,7 +181,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Purchase Date</Value>
+                              <Value>Cost</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -186,21 +204,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox18">
+                    <Textbox Name="Textbox17">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Status</Value>
+                              <Value>Benefits</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox18</rd:DefaultName>
+                      <rd:DefaultName>Textbox17</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -223,7 +241,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Purchase Place</Value>
+                              <Value>Start Date</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -253,7 +271,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Maintenance Cost</Value>
+                              <Value>End Date</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -274,6 +292,186 @@
                     </Textbox>
                   </CellContents>
                 </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox28">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Discount Available</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox28</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox30">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Cancelation Policy</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox30</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox32">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Renewal Policy</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox32</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox34">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Training Session</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox34</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox40">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Locker Access</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox40</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox42">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Membership Type</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox42</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
               </TablixCells>
             </TablixRow>
             <TablixRow>
@@ -281,21 +479,21 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="EquipmentID">
+                    <Textbox Name="MembershipID">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!EquipmentID.Value</Value>
+                              <Value>=Fields!MembershipID.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>EquipmentID</rd:DefaultName>
+                      <rd:DefaultName>MembershipID</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -311,21 +509,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Name">
+                    <Textbox Name="MemberID">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Name.Value</Value>
+                              <Value>=Fields!MemberID.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Name</rd:DefaultName>
+                      <rd:DefaultName>MemberID</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -341,21 +539,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Type">
+                    <Textbox Name="MemberShipName">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Type.Value</Value>
+                              <Value>=Fields!MemberShipName.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Type</rd:DefaultName>
+                      <rd:DefaultName>MemberShipName</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -371,21 +569,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Brand">
+                    <Textbox Name="Duration">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Brand.Value</Value>
+                              <Value>=Fields!Duration.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Brand</rd:DefaultName>
+                      <rd:DefaultName>Duration</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -401,21 +599,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="PurchaseDate">
+                    <Textbox Name="Cost">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!PurchaseDate.Value</Value>
+                              <Value>=Fields!Cost.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>PurchaseDate</rd:DefaultName>
+                      <rd:DefaultName>Cost</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -431,21 +629,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Status">
+                    <Textbox Name="Benefits">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Status.Value</Value>
+                              <Value>=Fields!Benefits.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Status</rd:DefaultName>
+                      <rd:DefaultName>Benefits</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -461,21 +659,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="PurchasePlace">
+                    <Textbox Name="StartDate">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!PurchasePlace.Value</Value>
+                              <Value>=Fields!StartDate.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>PurchasePlace</rd:DefaultName>
+                      <rd:DefaultName>StartDate</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -491,21 +689,201 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="MaintenanceCost">
+                    <Textbox Name="EndDate">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!MaintenanceCost.Value</Value>
+                              <Value>=Fields!EndDate.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>MaintenanceCost</rd:DefaultName>
+                      <rd:DefaultName>EndDate</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="DiscountAvailable">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!DiscountAvailable.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>DiscountAvailable</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="CancelationPolicy">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!CancelationPolicy.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>CancelationPolicy</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="RenewalPolicy">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!RenewalPolicy.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>RenewalPolicy</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TrainingSession">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!TrainingSession.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>TrainingSession</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="LockerAccess">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!LockerAccess.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>LockerAccess</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="MembershipType">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!MembershipType.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>MembershipType</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -533,6 +911,12 @@
             <TablixMember />
             <TablixMember />
             <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
           </TablixMembers>
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
@@ -545,11 +929,12 @@
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
+        <KeepTogether>true</KeepTogether>
         <DataSetName>DataSet1</DataSetName>
-        <Top>0.45516cm</Top>
-        <Left>0.48333cm</Left>
+        <Top>0.10583cm</Top>
+        <Left>0.07851cm</Left>
         <Height>1.2cm</Height>
-        <Width>15.54333cm</Width>
+        <Width>25.07621cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -560,8 +945,8 @@
         <Source>Embedded</Source>
         <Value>lowopacitylogo1</Value>
         <Sizing>FitProportional</Sizing>
-        <Top>2.52563cm</Top>
-        <Left>12.13159cm</Left>
+        <Top>2.39549cm</Top>
+        <Left>20.47337cm</Left>
         <Height>3.31143cm</Height>
         <Width>2.96822cm</Width>
         <ZIndex>1</ZIndex>
@@ -588,8 +973,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox4</rd:DefaultName>
-        <Top>1.72572cm</Top>
-        <Left>10.99964cm</Left>
+        <Top>1.59558cm</Top>
+        <Left>19.34142cm</Left>
         <Height>0.76463cm</Height>
         <Width>2.92894cm</Width>
         <ZIndex>2</ZIndex>
@@ -604,38 +989,52 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>2.29805in</Height>
+    <Height>2.24682in</Height>
     <Style />
   </Body>
-  <Width>6.30971in</Width>
+  <Width>9.90344in</Width>
   <Page>
     <PageHeader>
-      <Height>2.55792cm</Height>
+      <Height>2.63877cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
-        <Textbox Name="Textbox17">
+        <Line Name="Line1">
+          <Top>2.56821cm</Top>
+          <Left>5.08cm</Left>
+          <Height>0cm</Height>
+          <Width>15.54333cm</Width>
+          <Style>
+            <Border>
+              <Style>Solid</Style>
+            </Border>
+          </Style>
+        </Line>
+        <Textbox Name="Textbox18">
           <CanGrow>true</CanGrow>
           <KeepTogether>true</KeepTogether>
           <Paragraphs>
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>Equipment Report</Value>
+                  <Value>Membership Reports</Value>
                   <Style>
-                    <FontSize>14pt</FontSize>
+                    <FontSize>16pt</FontSize>
                     <FontWeight>Bold</FontWeight>
                   </Style>
                 </TextRun>
               </TextRuns>
-              <Style />
+              <Style>
+                <LineHeight>19pt</LineHeight>
+              </Style>
             </Paragraph>
           </Paragraphs>
-          <rd:DefaultName>Textbox17</rd:DefaultName>
-          <Top>0.37042cm</Top>
-          <Left>5.16419cm</Left>
-          <Height>0.75875cm</Height>
-          <Width>4.98708cm</Width>
+          <rd:DefaultName>Textbox18</rd:DefaultName>
+          <Top>0.29323cm</Top>
+          <Left>8.36547cm</Left>
+          <Height>0.854cm</Height>
+          <Width>5.80729cm</Width>
+          <ZIndex>1</ZIndex>
           <Style>
             <Border>
               <Style>None</Style>
@@ -646,18 +1045,21 @@
             <PaddingBottom>2pt</PaddingBottom>
           </Style>
         </Textbox>
-        <Line Name="Line1">
-          <Top>2.52265cm</Top>
-          <Left>0.48333cm</Left>
-          <Height>0cm</Height>
-          <Width>15.54333cm</Width>
-          <ZIndex>1</ZIndex>
+        <Image Name="Reprts">
+          <Source>Embedded</Source>
+          <Value>Reports</Value>
+          <Sizing>FitProportional</Sizing>
+          <Top>0.07056cm</Top>
+          <Left>14.34914cm</Left>
+          <Height>1.07667cm</Height>
+          <Width>1.14017cm</Width>
+          <ZIndex>2</ZIndex>
           <Style>
             <Border>
-              <Style>Solid</Style>
+              <Style>None</Style>
             </Border>
           </Style>
-        </Line>
+        </Image>
         <Textbox Name="Textbox20">
           <CanGrow>true</CanGrow>
           <KeepTogether>true</KeepTogether>
@@ -679,11 +1081,11 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox19</rd:DefaultName>
-          <Top>1.87325cm</Top>
-          <Left>3.95845cm</Left>
+          <Top>2.02465cm</Top>
+          <Left>8.42612cm</Left>
           <Height>0.57884cm</Height>
           <Width>3.53484cm</Width>
-          <ZIndex>2</ZIndex>
+          <ZIndex>3</ZIndex>
           <Style>
             <Border>
               <Style>None</Style>
@@ -716,11 +1118,11 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox19</rd:DefaultName>
-          <Top>1.90853cm</Top>
-          <Left>7.66968cm</Left>
+          <Top>1.98937cm</Top>
+          <Left>12.08804cm</Left>
           <Height>0.57884cm</Height>
           <Width>3.09964cm</Width>
-          <ZIndex>3</ZIndex>
+          <ZIndex>4</ZIndex>
           <Style>
             <Border>
               <Style>None</Style>
@@ -752,11 +1154,11 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox19</rd:DefaultName>
-          <Top>1.97908cm</Top>
-          <Left>10.84556cm</Left>
+          <Top>2.02465cm</Top>
+          <Left>15.25823cm</Left>
           <Height>0.57884cm</Height>
           <Width>5.18111cm</Width>
-          <ZIndex>4</ZIndex>
+          <ZIndex>5</ZIndex>
           <Style>
             <Border>
               <Style>None</Style>
@@ -771,24 +1173,10 @@
           <Source>Embedded</Source>
           <Value>JJFitnessGYMtext</Value>
           <Sizing>FitProportional</Sizing>
-          <Top>1.85042cm</Top>
-          <Left>0.53714cm</Left>
+          <Top>1.96654cm</Top>
+          <Left>5.08cm</Left>
           <Height>0.60167cm</Height>
           <Width>3.09331cm</Width>
-          <ZIndex>5</ZIndex>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-          </Style>
-        </Image>
-        <Image Name="Image2">
-          <Source>Embedded</Source>
-          <Value>Vector</Value>
-          <Sizing>FitProportional</Sizing>
-          <Left>10.03661cm</Left>
-          <Height>1.12917cm</Height>
-          <Width>1.05021cm</Width>
           <ZIndex>6</ZIndex>
           <Style>
             <Border>
@@ -824,7 +1212,7 @@
           </Paragraphs>
           <rd:DefaultName>PageNumber</rd:DefaultName>
           <Top>1.94cm</Top>
-          <Left>7.12641cm</Left>
+          <Left>10.58143cm</Left>
           <Height>0.6cm</Height>
           <Width>2.5cm</Width>
           <Style>
@@ -877,6 +1265,8 @@
     </PageFooter>
     <PageHeight>29.7cm</PageHeight>
     <PageWidth>21cm</PageWidth>
+    <InteractiveHeight>21cm</InteractiveHeight>
+    <InteractiveWidth>29.7cm</InteractiveWidth>
     <LeftMargin>2cm</LeftMargin>
     <RightMargin>2cm</RightMargin>
     <TopMargin>2cm</TopMargin>
@@ -891,7 +1281,7 @@
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>1a57d9e6-9beb-424c-9220-e4664fb77d7a</rd:DataSourceID>
+      <rd:DataSourceID>35544b5f-470b-4a4c-bf84-3eeca8a8be7a</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
@@ -901,43 +1291,67 @@
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
-        <Field Name="EquipmentID">
-          <DataField>EquipmentID</DataField>
+        <Field Name="MembershipID">
+          <DataField>MembershipID</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Name">
-          <DataField>Name</DataField>
+        <Field Name="MemberID">
+          <DataField>MemberID</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Type">
-          <DataField>Type</DataField>
+        <Field Name="MemberShipName">
+          <DataField>MemberShipName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Brand">
-          <DataField>Brand</DataField>
+        <Field Name="Duration">
+          <DataField>Duration</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="PurchaseDate">
-          <DataField>PurchaseDate</DataField>
+        <Field Name="Cost">
+          <DataField>Cost</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Status">
-          <DataField>Status</DataField>
+        <Field Name="Benefits">
+          <DataField>Benefits</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="PurchasePlace">
-          <DataField>PurchasePlace</DataField>
+        <Field Name="StartDate">
+          <DataField>StartDate</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="MaintenanceCost">
-          <DataField>MaintenanceCost</DataField>
+        <Field Name="EndDate">
+          <DataField>EndDate</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DiscountAvailable">
+          <DataField>DiscountAvailable</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CancelationPolicy">
+          <DataField>CancelationPolicy</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RenewalPolicy">
+          <DataField>RenewalPolicy</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TrainingSession">
+          <DataField>TrainingSession</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="LockerAccess">
+          <DataField>LockerAccess</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MembershipType">
+          <DataField>MembershipType</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>DataSet1</rd:DataSetName>
         <rd:SchemaPath>C:\Users\Kenji\Source\Repos\GymSystem\GymSystem\AdminLevel\Reports\DataSet1.xsd</rd:SchemaPath>
-        <rd:TableName>DataTable4</rd:TableName>
+        <rd:TableName>DataTable5</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
         <rd:TableAdapterName />
@@ -945,6 +1359,14 @@
     </DataSet>
   </DataSets>
   <EmbeddedImages>
+    <EmbeddedImage Name="Reports">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
     <EmbeddedImage Name="JJFitnessGYMtext">
       <MIMEType>image/jpeg</MIMEType>
       <ImageData>/9j/4AAQSkZJRgABAgEASABIAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCAArAOADAREAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9P/8Ag79+NcfgP/gk1qXw8W6Cz/HX9oT4OfDv7KLh1mns/Dlxr/xjnkaCLb59rb3XwusBM86m1iuZ7Lcwu5LPeAfwS/sC/wDBJP4g/wDBRXw/qN38E/2mP2X9F8d6DaXmq+Jvg5478QfE7TPiZ4c0C31k6HbeI77TdJ+F2t6N
@@ -973,13 +1395,6 @@ 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</ImageData>
-    </EmbeddedImage>
-    <EmbeddedImage Name="Vector">
-      <MIMEType>image/jpeg</MIMEType>
-      <ImageData>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</ImageData>
     </EmbeddedImage>
     <EmbeddedImage Name="lowopacitylogo1">
       <MIMEType>image/jpeg</MIMEType>
@@ -2313,5 +2728,5 @@ BQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQA
     </EmbeddedImage>
   </EmbeddedImages>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
-  <rd:ReportID>f14c30e5-23ed-4b3c-8fbb-30d0d98f0467</rd:ReportID>
+  <rd:ReportID>03d66909-ddc5-422e-b924-38f978beda2f</rd:ReportID>
 </Report>

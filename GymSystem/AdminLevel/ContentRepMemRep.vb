@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports Microsoft.Reporting.WinForms
 Imports MySql.Data.MySqlClient
+Imports Mysqlx.Crud
 
 Public Class ContentRepMemRep
 
@@ -13,14 +14,57 @@ Public Class ContentRepMemRep
         DateTimePicker1.Visible = False
         ' Load data from members table
         LoadData("SELECT MemberID, FirstName, MiddleName, LastName, Sex, PhoneNumber, Province, City, Street, ZipCode FROM members")
+
+        ' Assuming you have the values for the fields
+        Dim adminID As String = CurrentLoggedUser.id ' Replace with actual value if admin is making the report
+        Dim staffID As String = CurrentLoggedUser.id ' Assuming CurrentLoggedUser.id is the StaffID
+        Dim title As String = "Membership Details Report" ' Replace with actual value
+        Dim reportDate As String = DateTimePicker1.Value.ToString("yyyy-MM-dd") ' Format the date
+        Dim content As String = "Details about members" ' Replace with actual value
+        Dim type As String = "A" ' Replace with actual value
+        Dim status As String = "A" ' Replace with actual value
+        Dim attachments As String = "None" ' Replace with actual value
+
+        ' Determine if the report is made by staff or admin
+        Dim query As String
+        If CurrentLoggedUser.position = "Super Admin" Or CurrentLoggedUser.position = "Normal Admin" Then
+            query = $"INSERT INTO `reports`(`AdminID`, `Title`, `ReportDate`, `Content`, `Type`, `Status`, `Attachments`) VALUES ('{adminID}','{title}','{reportDate}','{content}','{type}','{status}','{attachments}')"
+        Else
+            query = $"INSERT INTO `reports`(`StaffID`, `Title`, `ReportDate`, `Content`, `Type`, `Status`, `Attachments`) VALUES ('{staffID}','{title}','{reportDate}','{content}','{type}','{status}','{attachments}')"
+        End If
+
+        ' Execute the query
+        readQuery(query)
+
         ' Bind data to RDLC report and export to PDF
         BindReport("..\..\..\AdminLevel\Reports\Report1.rdlc")
     End Sub
+
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         DateTimePicker1.Visible = False
         ' Load data from attendance table
         LoadData("SELECT AttendanceID, StaffID, MemberID, Date, CheckInTime, CheckOutTime, SessionType FROM attendance")
+
+        Dim adminID As String = CurrentLoggedUser.id ' Replace with actual value if admin is making the report
+        Dim staffID As String = CurrentLoggedUser.id ' Assuming CurrentLoggedUser.id is the StaffID
+        Dim title As String = "Attendance Report" ' Replace with actual value
+        Dim reportDate As String = DateTimePicker1.Value.ToString("yyyy-MM-dd") ' Format the date
+        Dim content As String = "Details about attendance" ' Replace with actual value
+        Dim type As String = "A" ' Replace with actual value
+        Dim status As String = "A" ' Replace with actual value
+        Dim attachments As String = "None" ' Replace with actual value
+
+        ' Determine if the report is made by staff or admin
+        Dim query As String
+        If CurrentLoggedUser.position = "Super Admin" Or CurrentLoggedUser.position = "Normal Admin" Then
+            query = $"INSERT INTO `reports`(`AdminID`, `Title`, `ReportDate`, `Content`, `Type`, `Status`, `Attachments`) VALUES ('{adminID}','{title}','{reportDate}','{content}','{type}','{status}','{attachments}')"
+        Else
+            query = $"INSERT INTO `reports`(`StaffID`, `Title`, `ReportDate`, `Content`, `Type`, `Status`, `Attachments`) VALUES ('{staffID}','{title}','{reportDate}','{content}','{type}','{status}','{attachments}')"
+        End If
+
+        ' Execute the query
+        readQuery(query)
         ' Bind data to RDLC report and export to PDF
         BindReport("..\..\..\AdminLevel\Reports\Report2.rdlc")
     End Sub
@@ -29,6 +73,26 @@ Public Class ContentRepMemRep
         DateTimePicker1.Visible = True
         LoadData("SELECT MembershipCost, ReservationFee, PaymentDate FROM payment")
         LoadDataWithFilter()
+
+        Dim adminID As String = CurrentLoggedUser.id ' Replace with actual value if admin is making the report
+        Dim staffID As String = CurrentLoggedUser.id ' Assuming CurrentLoggedUser.id is the StaffID
+        Dim title As String = "Revenue Report" ' Replace with actual value
+        Dim reportDate As String = DateTimePicker1.Value.ToString("yyyy-MM-dd") ' Format the date
+        Dim content As String = "Details about revenue" ' Replace with actual value
+        Dim type As String = "A" ' Replace with actual value
+        Dim status As String = "A" ' Replace with actual value
+        Dim attachments As String = "None" ' Replace with actual value
+
+        ' Determine if the report is made by staff or admin
+        Dim query As String
+        If CurrentLoggedUser.position = "Super Admin" Or CurrentLoggedUser.position = "Normal Admin" Then
+            query = $"INSERT INTO `reports`(`AdminID`, `Title`, `ReportDate`, `Content`, `Type`, `Status`, `Attachments`) VALUES ('{adminID}','{title}','{reportDate}','{content}','{type}','{status}','{attachments}')"
+        Else
+            query = $"INSERT INTO `reports`(`StaffID`, `Title`, `ReportDate`, `Content`, `Type`, `Status`, `Attachments`) VALUES ('{staffID}','{title}','{reportDate}','{content}','{type}','{status}','{attachments}')"
+        End If
+
+        ' Execute the query
+        readQuery(query)
         ' Bind data to RDLC report and export to PDF
         BindReport("..\..\..\AdminLevel\Reports\RevenueReport.rdlc")
     End Sub
@@ -43,12 +107,56 @@ Public Class ContentRepMemRep
         DateTimePicker1.Visible = False
         ' Load data from attendance table
         LoadData("SELECT EquipmentID, Name, Type, Brand, PurchaseDate, Status, PurchasePlace, MaintenanceCost FROM equipment")
+
+        Dim adminID As String = CurrentLoggedUser.id ' Replace with actual value if admin is making the report
+        Dim staffID As String = CurrentLoggedUser.id ' Assuming CurrentLoggedUser.id is the StaffID
+        Dim title As String = "Equipment Report" ' Replace with actual value
+        Dim reportDate As String = DateTimePicker1.Value.ToString("yyyy-MM-dd") ' Format the date
+        Dim content As String = "Details about equipments" ' Replace with actual value
+        Dim type As String = "A" ' Replace with actual value
+        Dim status As String = "A" ' Replace with actual value
+        Dim attachments As String = "None" ' Replace with actual value
+
+        ' Determine if the report is made by staff or admin
+        Dim query As String
+        If CurrentLoggedUser.position = "Super Admin" Or CurrentLoggedUser.position = "Normal Admin" Then
+            query = $"INSERT INTO `reports`(`AdminID`, `Title`, `ReportDate`, `Content`, `Type`, `Status`, `Attachments`) VALUES ('{adminID}','{title}','{reportDate}','{content}','{type}','{status}','{attachments}')"
+        Else
+            query = $"INSERT INTO `reports`(`StaffID`, `Title`, `ReportDate`, `Content`, `Type`, `Status`, `Attachments`) VALUES ('{staffID}','{title}','{reportDate}','{content}','{type}','{status}','{attachments}')"
+        End If
+
+        ' Execute the query
+        readQuery(query)
         ' Bind data to RDLC report and export to PDF
         BindReport("..\..\..\AdminLevel\Reports\Report3.rdlc")
     End Sub
 
     Private Sub btnMembership_Click(sender As Object, e As EventArgs) Handles btnMembership.Click
+        DateTimePicker1.Visible = False
+        ' Load data from attendance table
+        LoadData("SELECT MembershipID, MemberID, MemberShipName, Duration, Cost, Benefits, StartDate, EndDate, DiscountAvailable, CancelationPolicy, RenewalPolicy, TrainingSession,LockerAccess, MembershipType FROM membership")
 
+        Dim adminID As String = CurrentLoggedUser.id ' Replace with actual value if admin is making the report
+        Dim staffID As String = CurrentLoggedUser.id ' Assuming CurrentLoggedUser.id is the StaffID
+        Dim title As String = "Membership Details Report" ' Replace with actual value
+        Dim reportDate As String = DateTimePicker1.Value.ToString("yyyy-MM-dd") ' Format the date
+        Dim content As String = "Details about membership" ' Replace with actual value
+        Dim type As String = "A" ' Replace with actual value
+        Dim status As String = "A" ' Replace with actual value
+        Dim attachments As String = "None" ' Replace with actual value
+
+        ' Determine if the report is made by staff or admin
+        Dim query As String
+        If CurrentLoggedUser.position = "Super Admin" Or CurrentLoggedUser.position = "Normal Admin" Then
+            query = $"INSERT INTO `reports`(`AdminID`, `Title`, `ReportDate`, `Content`, `Type`, `Status`, `Attachments`) VALUES ('{adminID}','{title}','{reportDate}','{content}','{type}','{status}','{attachments}')"
+        Else
+            query = $"INSERT INTO `reports`(`StaffID`, `Title`, `ReportDate`, `Content`, `Type`, `Status`, `Attachments`) VALUES ('{staffID}','{title}','{reportDate}','{content}','{type}','{status}','{attachments}')"
+        End If
+
+        ' Execute the query
+        readQuery(query)
+        ' Bind data to RDLC report and export to PDF
+        BindReport("..\..\..\AdminLevel\Reports\Report4.rdlc")
     End Sub
 
     Private Sub LoadData(query As String)
