@@ -231,8 +231,14 @@ Public Class Admin
                     ' Decrypt the stored password if it is encrypted
                     Dim decryptedPassword As String
                     If isEncrypted Then
-                        decryptedPassword = Decrypt(storedPassword)
+                        decryptedPassword = storedPassword
                     Else
+                        ' Encrypt the plain password and update the database
+                        Dim encryptedPassword As String = Encrypt(storedPassword)
+                        Dim updateQuery As String = $"UPDATE adminlogin SET EncryptedPassword = '{encryptedPassword}', IsEncrypted = TRUE WHERE AdminID = {adminID}"
+                        readQuery(updateQuery)
+
+                        ' Set the decrypted password to the original plain password
                         decryptedPassword = storedPassword
                     End If
 
@@ -253,7 +259,7 @@ Public Class Admin
                         ' Access the current logged user's details
                         MsgBox("Welcome, " & CurrentLoggedUser.position & " " & CurrentLoggedUser.name & "!")
 
-                        Logs($" {CurrentLoggedUser.position} user {CurrentLoggedUser.name} logged in", "Login")
+                        Logs($"{CurrentLoggedUser.position} user {user.Username} logged in", "Login")
 
                         ' Return the user object
                         Return user
@@ -272,23 +278,30 @@ Public Class Admin
         End Try
     End Function
 
+
     Private Sub EncryptExistingPasswords()
         Try
-            Using conn As New MySqlConnection("server=127.0.0.1;userid=root;password='';database=gym_infosys;")
+            UpdateConnectionString()
+            Using conn As New MySqlConnection(strConnection)
                 conn.Open()
                 Dim query As String = "SELECT AdminID, Password FROM adminlogin WHERE IsEncrypted = FALSE"
                 Dim cmd As New MySqlCommand(query, conn)
                 Dim reader As MySqlDataReader = cmd.ExecuteReader()
 
-                While reader.Read()
-                    Dim adminID As Integer = reader("AdminID")
-                    Dim plainPassword As String = reader("Password").ToString()
-                    Dim encryptedPassword As String = Encrypt(plainPassword)
+                Using writer As New System.IO.StreamWriter("encrypted_passwords.txt", True)
+                    While reader.Read()
+                        Dim adminID As Integer = reader("AdminID")
+                        Dim plainPassword As String = reader("Password").ToString()
+                        Dim encryptedPassword As String = Encrypt(plainPassword)
 
-                    ' Update the password to encrypted and set IsEncrypted to TRUE
-                    Dim updateQuery As String = $"UPDATE adminlogin SET Password = '{encryptedPassword}', IsEncrypted = TRUE WHERE AdminID = {adminID}"
-                    readQuery(updateQuery)
-                End While
+                        ' Save the encrypted password to a file
+                        writer.WriteLine($"{adminID},{encryptedPassword}")
+
+                        ' Update the password to encrypted and set IsEncrypted to TRUE
+                        Dim updateQuery As String = $"UPDATE adminlogin SET EncryptedPassword = '{encryptedPassword}', IsEncrypted = TRUE WHERE AdminID = {adminID}"
+                        readQuery(updateQuery)
+                    End While
+                End Using
             End Using
         Catch ex As Exception
             MessageBox.Show("An error occurred while encrypting existing passwords: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)

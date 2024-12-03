@@ -4,8 +4,6 @@
     Private hoverButtonColor As Color = Color.FromArgb(245, 203, 92)
     Private hoverDarkenAmount As Single = 0.7
     Private Sub Staff_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' Set the form to load in a maximized state
-        Me.WindowState = FormWindowState.Normal
 
         ' Create a main panel to hold all controls
         Dim mainPanel As New Panel()

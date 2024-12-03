@@ -26,7 +26,6 @@ Partial Class Admin
         ForgotLL = New LinkLabel()
         StaffLL = New LinkLabel()
         LoginBtn = New Button()
-        CBMe = New CheckBox()
         PassBox = New TextBox()
         IDBox = New TextBox()
         LabelPass = New Label()
@@ -36,13 +35,14 @@ Partial Class Admin
         lblRole = New Label()
         AdminRole = New ComboBox()
         templogin = New Button()
+        CBMe = New CheckBox()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' PictureBox1
         ' 
         PictureBox1.Anchor = AnchorStyles.None
-        PictureBox1.Image = My.Resources.Resources._929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
+        PictureBox1.Image = _929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
         PictureBox1.Location = New Point(580, 120)
         PictureBox1.Margin = New Padding(3, 2, 3, 2)
         PictureBox1.Name = "PictureBox1"
@@ -91,20 +91,6 @@ Partial Class Admin
         LoginBtn.TabIndex = 24
         LoginBtn.Text = "Login"
         LoginBtn.UseVisualStyleBackColor = False
-        ' 
-        ' CBMe
-        ' 
-        CBMe.Anchor = AnchorStyles.None
-        CBMe.AutoSize = True
-        CBMe.Font = New Font("Tahoma", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        CBMe.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
-        CBMe.Location = New Point(133, 307)
-        CBMe.Margin = New Padding(3, 2, 3, 2)
-        CBMe.Name = "CBMe"
-        CBMe.Size = New Size(94, 17)
-        CBMe.TabIndex = 23
-        CBMe.Text = "Remember me"
-        CBMe.UseVisualStyleBackColor = True
         ' 
         ' PassBox
         ' 
@@ -224,6 +210,21 @@ Partial Class Admin
         templogin.Text = "ito muna"
         templogin.UseVisualStyleBackColor = False
         ' 
+        ' CBMe
+        ' 
+        CBMe.Anchor = AnchorStyles.None
+        CBMe.AutoSize = True
+        CBMe.Font = New Font("Tahoma", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        CBMe.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
+        CBMe.Location = New Point(133, 307)
+        CBMe.Margin = New Padding(3, 2, 3, 2)
+        CBMe.Name = "CBMe"
+        CBMe.Size = New Size(94, 17)
+        CBMe.TabIndex = 23
+        CBMe.Text = "Remember me"
+        CBMe.UseVisualStyleBackColor = True
+        CBMe.Visible = False
+        ' 
         ' Admin
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -256,7 +257,6 @@ Partial Class Admin
     Friend WithEvents ForgotLL As LinkLabel
     Friend WithEvents StaffLL As LinkLabel
     Friend WithEvents LoginBtn As Button
-    Friend WithEvents CBMe As CheckBox
     Friend WithEvents PassBox As TextBox
     Friend WithEvents IDBox As TextBox
     Friend WithEvents LabelPass As Label
@@ -266,4 +266,5 @@ Partial Class Admin
     Friend WithEvents lblRole As Label
     Friend WithEvents AdminRole As ComboBox
     Friend WithEvents templogin As Button
+    Friend WithEvents CBMe As CheckBox
 End Class
