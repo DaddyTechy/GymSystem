@@ -1,5 +1,8 @@
 ﻿Imports MySql.Data.MySqlClient
 Imports Mysqlx.Datatypes
+Imports System.IO
+Imports System.Security.Cryptography
+Imports System.Text
 Imports System.Text.RegularExpressions
 
 Public Class newAdminform
@@ -76,45 +79,25 @@ Public Class newAdminform
     ' Function to insert values into the admin table
     Private Sub InsertIntoAdmin(values As Dictionary(Of String, Object))
         Try
-            Using conn As New MySqlConnection("server=127.0.0.1;userid=root;password='';database=gym_infosys;")
-                conn.Open()
-                Dim query As String = "INSERT INTO admin (FirstName, MiddleName, LastName, Email, PhoneNumber, HireDate, Salary, Status, Specialization, Experience, LastLogin, Role) VALUES (@FirstName, @MiddleName, @LastName, @Email, @PhoneNumber, @HireDate, @Salary, @Status, @Specialization, @Experience, @LastLogin, @Role)"
-                Dim cmd As New MySqlCommand(query, conn)
-                cmd.Parameters.AddWithValue("@FirstName", values("FirstName"))
-                cmd.Parameters.AddWithValue("@MiddleName", values("MiddleName"))
-                cmd.Parameters.AddWithValue("@LastName", values("LastName"))
-                cmd.Parameters.AddWithValue("@Email", values("Email"))
-                cmd.Parameters.AddWithValue("@PhoneNumber", values("PhoneNumber"))
-                cmd.Parameters.AddWithValue("@HireDate", values("HireDate"))
-                cmd.Parameters.AddWithValue("@Salary", values("Salary"))
-                cmd.Parameters.AddWithValue("@Status", values("Status"))
-                cmd.Parameters.AddWithValue("@Specialization", values("Specialization"))
-                cmd.Parameters.AddWithValue("@Experience", values("Experience"))
-                cmd.Parameters.AddWithValue("@LastLogin", values("LastLogin"))
-                cmd.Parameters.AddWithValue("@Role", values("Role"))
-                cmd.ExecuteNonQuery()
-            End Using
+            ' Construct the SQL query
+            Dim query As String = $"INSERT INTO admin (FirstName, MiddleName, LastName, Email, PhoneNumber, HireDate, Salary, Status, Specialization, Experience, LastLogin, Role) VALUES ('{values("FirstName")}', '{values("MiddleName")}', '{values("LastName")}', '{values("Email")}', '{values("PhoneNumber")}', '{values("HireDate")}', '{values("Salary")}', '{values("Status")}', '{values("Specialization")}', '{values("Experience")}', '{values("LastLogin")}', '{values("Role")}')"
+
+            ' Execute the query using readQuery
+            readQuery(query)
         Catch ex As Exception
-            ErrorHandler.HandleError(ex)
+            MessageBox.Show("An error occurred while adding the admin: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
-    ' Function to insert values into the adminlogin table
     Private Sub InsertIntoAdminLogin(values As Dictionary(Of String, Object))
         Try
-            Using conn As New MySqlConnection("server=127.0.0.1;userid=root;password='';database=gym_infosys;")
-                conn.Open()
-                Dim query As String = "INSERT INTO adminlogin (AdminID, Username, Password, Email, PhoneNumber, Role) VALUES (LAST_INSERT_ID(), @Username, @Password, @Email, @PhoneNumber, @Role)"
-                Dim cmd As New MySqlCommand(query, conn)
-                cmd.Parameters.AddWithValue("@Username", values("AdminName"))
-                cmd.Parameters.AddWithValue("@Password", values("AdminPass"))
-                cmd.Parameters.AddWithValue("@Email", values("Email"))
-                cmd.Parameters.AddWithValue("@PhoneNumber", values("PhoneNumber"))
-                cmd.Parameters.AddWithValue("@Role", values("Role"))
-                cmd.ExecuteNonQuery()
-            End Using
+            ' Construct the SQL query
+            Dim query As String = $"INSERT INTO adminlogin (AdminID, Username, Password, Email, PhoneNumber, Role) VALUES (LAST_INSERT_ID(), '{values("AdminName")}', '{Encrypt(values("AdminPass"))}', '{values("Email")}', '{values("PhoneNumber")}', '{values("Role")}')"
+
+            ' Execute the query using readQuery
+            readQuery(query)
         Catch ex As Exception
-            ErrorHandler.HandleError(ex)
+            MessageBox.Show("An error occurred while adding the admin login: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -177,5 +160,9 @@ Public Class newAdminform
 
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
         Me.Close()
+    End Sub
+
+    Private Sub newAdminform_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        UpdateConnectionString()
     End Sub
 End Class

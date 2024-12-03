@@ -41,7 +41,7 @@ Partial Class Staff
         ' PictureBox1
         ' 
         PictureBox1.Anchor = AnchorStyles.None
-        PictureBox1.Image = My.Resources.Resources._929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
+        PictureBox1.Image = _929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
         PictureBox1.Location = New Point(580, 120)
         PictureBox1.Margin = New Padding(3, 2, 3, 2)
         PictureBox1.Name = "PictureBox1"
@@ -218,7 +218,6 @@ Partial Class Staff
         Margin = New Padding(3, 2, 3, 2)
         MinimumSize = New Size(925, 580)
         Name = "Staff"
-        StartPosition = FormStartPosition.CenterParent
         Text = "Staff"
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
