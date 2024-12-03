@@ -1,25 +1,41 @@
 ﻿Imports System.IO
 Imports Microsoft.Reporting.WinForms
+Imports MySql.Data.MySqlClient
 
 Public Class ContentRepMemRep
+
     Private Sub ContentRepMemRep_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim dt As New DataTable()
-        dt.Columns.Add("MemberID")
-        dt.Columns.Add("Name")
-        dt.Columns.Add("MembershipStatus")
+        UpdateConnectionString()
+        conn = New MySqlConnection(strConnection)
+        Try
+            conn.Open()
 
-        ' Add sample data
-        dt.Rows.Add("1", "John Doe", "Active")
-        dt.Rows.Add("2", "Jane Smith", "Active")
+            ' Retrieve data from members table
+            Dim queryMembers As String = "SELECT MemberID, FirstName, MiddleName, LastName, Sex, PhoneNumber, Province, City, Street, ZipCode, Status FROM members"
+            Dim adapterMembers As New MySqlDataAdapter(queryMembers, conn)
+            Dim dtMembers As New DataTable()
+            adapterMembers.Fill(dtMembers)
 
-        DataGridView1.DataSource = dt
+            ' Assign the DataTable as the DataSource for the DataGridView
+            DataGridView1.DataSource = dtMembers
 
-        ' Debug: Check if DataGridView is populated
-        Debug.WriteLine("DataGridView populated with data:")
-        For Each row As DataRow In dt.Rows
-            Debug.WriteLine(String.Join(", ", row.ItemArray))
-        Next
+            ' Debug: Check if DataGridView is populated
+            Debug.WriteLine("DataGridView populated with data:")
+            For Each row As DataRow In dtMembers.Rows
+                Debug.WriteLine(String.Join(", ", row.ItemArray))
+            Next
+
+        Catch ex As Exception
+            ' Handle any errors that occur
+            Debug.WriteLine("An error occurred: " & ex.Message)
+        Finally
+            ' Ensure the connection is closed
+            If conn IsNot Nothing AndAlso conn.State = ConnectionState.Open Then
+                conn.Close()
+            End If
+        End Try
     End Sub
+
 
     Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellContentClick
         ' Handle cell content click event if needed
@@ -83,6 +99,7 @@ Public Class ContentRepMemRep
 
         pdfBytes = ExportToPDF(report)
     End Sub
+
 
     Private Function ExportToPDF(report As LocalReport) As Byte()
         Dim warnings As Warning()
