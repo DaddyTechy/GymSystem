@@ -1,6 +1,6 @@
 ﻿Imports Mysqlx.Session
 
-Public Class AdminMain
+Public Class Staffmain
     Inherits UserControl
 
     Private activeButton As Button = Nothing
@@ -48,6 +48,12 @@ Public Class AdminMain
 
         ' Reports
         AddHandler MemRepBtn.Click, AddressOf SubMenu_Click
+
+        If CurrentLoggedUser.position = "Super Admin" Or CurrentLoggedUser.position = "Normal Admin" Then
+            Label1.Text = "Welcome Admin"
+        Else
+            Label1.Text = "Welcome Staff"
+        End If
     End Sub
 
     Public Sub ConfigureMenu(role As String)
@@ -61,6 +67,9 @@ Public Class AdminMain
             ReportsBtn.Visible = True
             DashboardBtn.Visible = True
             StaffMngmtBtn.Visible = True
+        ElseIf role = "Staff" Then
+            StaffMngmtBtn.Visible = False
+            othersBtn.Visible = False
         End If
     End Sub
 

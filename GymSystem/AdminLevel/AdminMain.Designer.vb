@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class AdminMain
+Partial Class Staffmain
     Inherits System.Windows.Forms.UserControl
 
     'UserControl overrides dispose to clean up the component list.
@@ -454,7 +454,7 @@ Partial Class AdminMain
         Panel2.Dock = DockStyle.Left
         Panel2.Location = New Point(0, 0)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(284, 74)
+        Panel2.Size = New Size(328, 74)
         Panel2.TabIndex = 2
         ' 
         ' LogoutBtn
@@ -467,7 +467,7 @@ Partial Class AdminMain
         LogoutBtn.ForeColor = SystemColors.ButtonHighlight
         LogoutBtn.Image = Vector_21
         LogoutBtn.ImageAlign = ContentAlignment.MiddleLeft
-        LogoutBtn.Location = New Point(192, 10)
+        LogoutBtn.Location = New Point(236, 10)
         LogoutBtn.Name = "LogoutBtn"
         LogoutBtn.Size = New Size(86, 50)
         LogoutBtn.TabIndex = 5
@@ -478,7 +478,7 @@ Partial Class AdminMain
         ' 
         ' Label1
         ' 
-        Label1.Anchor = AnchorStyles.None
+        Label1.Anchor = AnchorStyles.Left
         Label1.AutoSize = True
         Label1.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = SystemColors.ButtonHighlight
@@ -522,7 +522,7 @@ Partial Class AdminMain
         PictureBox2.TabIndex = 1
         PictureBox2.TabStop = False
         ' 
-        ' AdminMain
+        ' Staffmain
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
@@ -531,7 +531,7 @@ Partial Class AdminMain
         Controls.Add(UserPnl)
         Controls.Add(Menu2Pnl)
         MinimumSize = New Size(925, 580)
-        Name = "AdminMain"
+        Name = "Staffmain"
         Size = New Size(925, 580)
         CType(LogoPicBox, ComponentModel.ISupportInitialize).EndInit()
         Panel1.ResumeLayout(False)

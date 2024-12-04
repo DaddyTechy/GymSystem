@@ -196,7 +196,7 @@ Public Class Admin
                 Dim user = AuthenticateUser(adminID, password, role)
                 If user IsNot Nothing Then
                     ' Show the main admin form
-                    Dim adminMain As New AdminMain()
+                    Dim adminMain As New Staffmain()
                     adminMain.ConfigureMenu(user.Role)
                     ShowUserControlInForm(adminMain, "Admin Main")
                     Me.Hide()
@@ -215,16 +215,23 @@ Public Class Admin
         Try
             Using conn As New MySqlConnection(strConnection)
                 conn.Open()
+                Debug.WriteLine("Connection opened successfully.")
+
                 Dim query As String = "SELECT * FROM adminlogin WHERE AdminID = @AdminID AND Role = @Role"
                 Dim cmd As New MySqlCommand(query, conn)
                 cmd.Parameters.AddWithValue("@AdminID", adminID)
                 cmd.Parameters.AddWithValue("@Role", role)
+                Debug.WriteLine($"Executing query: {query} with AdminID: {adminID} and Role: {role}")
+
                 Dim reader As MySqlDataReader = cmd.ExecuteReader()
 
                 If reader.Read() Then
+                    Debug.WriteLine("User found in database.")
+
                     ' Retrieve the encrypted password and IsEncrypted flag from the database
                     Dim storedPassword As String = reader("Password").ToString()
                     Dim isEncrypted As Boolean = Convert.ToBoolean(reader("IsEncrypted"))
+                    Debug.WriteLine($"Stored password: {storedPassword}, IsEncrypted: {isEncrypted}")
 
                     ' Decrypt the stored password if it is encrypted
                     Dim decryptedPassword As String
@@ -235,13 +242,17 @@ Public Class Admin
                         Dim encryptedPassword As String = Encrypt(storedPassword)
                         Dim updateQuery As String = $"UPDATE adminlogin SET EncryptedPassword = '{encryptedPassword}', IsEncrypted = TRUE WHERE AdminID = {adminID}"
                         readQuery(updateQuery)
+                        Debug.WriteLine($"Updated database with encrypted password: {encryptedPassword}")
 
                         ' Set the decrypted password to the original plain password
                         decryptedPassword = storedPassword
                     End If
+                    Debug.WriteLine($"Decrypted password: {decryptedPassword}")
 
                     ' Compare the decrypted password with the entered password
                     If decryptedPassword = password Then
+                        Debug.WriteLine("Password matches.")
+
                         ' Create an AdminUser object to hold the user details
                         Dim user As New AdminUser()
                         user.AdminID = reader("AdminID")
@@ -262,15 +273,18 @@ Public Class Admin
                         ' Return the user object
                         Return user
                     Else
+                        Debug.WriteLine("Password does not match.")
                         ' Return Nothing if the password does not match
                         Return Nothing
                     End If
                 Else
+                    Debug.WriteLine("User not found in database.")
                     ' Return Nothing if no user is found
                     Return Nothing
                 End If
             End Using
         Catch ex As Exception
+            Debug.WriteLine($"Error: {ex.Message}")
             ErrorHandler.HandleError(ex)
             Return Nothing
         End Try
@@ -319,7 +333,7 @@ Public Class Admin
     End Sub
 
     Private Sub templogin_Click(sender As Object, e As EventArgs) Handles templogin.Click
-        Dim adminMain As New AdminMain()
+        Dim adminMain As New Staffmain()
         ShowUserControlInForm(AdminMain, "Admin Main")
         Me.Hide()
     End Sub
