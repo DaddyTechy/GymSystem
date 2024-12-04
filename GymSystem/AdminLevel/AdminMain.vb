@@ -340,6 +340,7 @@ Public Class Staffmain
     End Sub
 
     Private Sub MemEntryFormBtn_Click(sender As Object, e As EventArgs) Handles MemEntryFormBtn.Click
+        SetActiveSubMenuButton(MemEntryFormBtn)
     End Sub
 
     Private Sub MemRepBtn_Click(sender As Object, e As EventArgs)

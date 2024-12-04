@@ -132,6 +132,10 @@ Public Class ContentDashboard
                 Debug.WriteLine($"Total expenses calculated: {totalExpenses}")
                 dashbrdTEdata.Text = totalExpenses.ToString("F2")
             End If
+        Catch ex As InvalidCastException
+            MessageBox.Show("Data is unavailable for the selected date range. Resetting to default date range.", "Data Unavailable", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            ResetDatePickers()
+            LoadInitialData()
         Catch ex As Exception
             MsgBox(ex.Message)
             Debug.WriteLine($"Error: {ex.Message}")
@@ -139,11 +143,9 @@ Public Class ContentDashboard
     End Sub
 
     Private Sub ResetDatePickers()
-        dtpStartFilter.Value = DateTime.Now.AddMonths(-1) ' Set to one month ago
+        dtpStartFilter.Value = DateTime.Now.AddMonths(-12) ' Set to one month ago
         dtpEndFilter.Value = DateTime.Now ' Set to today
     End Sub
-
-
 
     Private Function FetchMembershipData(startDate As DateTime, endDate As DateTime) As DataTable
         Dim query As String = $"SELECT MembershipType, COUNT(*) AS Count FROM membership WHERE StartDate BETWEEN '{startDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}' GROUP BY MembershipType"

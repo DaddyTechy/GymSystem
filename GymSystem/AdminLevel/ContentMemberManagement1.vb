@@ -8,43 +8,56 @@ Public Class ContentMemberManagement1
     Private selectedMemberID As Integer = -1
     Private contentPanel As Panel
 
+    Private currentOffset As Integer = 0
+    Private batchSize As Integer = 100
+    Private isLoading As Boolean = False
+
     Private Sub ContentMemberManagement1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        LoadData()
+    End Sub
+
+    Private Sub LoadData()
+        If isLoading Then Return
+        isLoading = True
+
         UpdateConnectionString()
         conn = New MySqlConnection(strConnection)
         Try
             conn.Open()
             ' Retrieve data from members table
-            Dim queryMembers As String = "SELECT MemberID, FirstName, MiddleName, LastName, Sex, PhoneNumber, DTCreated, Province, City, Street, ZipCode, Status FROM members"
+            Dim queryMembers As String = $"SELECT MemberID, FirstName, MiddleName, LastName, Sex, PhoneNumber, DTCreated, Province, City, Street, ZipCode, Status FROM members LIMIT {batchSize} OFFSET {currentOffset}"
             Dim adapterMembers As New MySqlDataAdapter(queryMembers, conn)
             Dim dtMembers As New DataTable()
             adapterMembers.Fill(dtMembers)
 
             ' Retrieve data from memberlogin table
-            Dim queryLogin As String = "SELECT MemberID, Username FROM memberlogin"
+            Dim queryLogin As String = $"SELECT MemberID, Username FROM memberlogin LIMIT {batchSize} OFFSET {currentOffset}"
             Dim adapterLogin As New MySqlDataAdapter(queryLogin, conn)
             Dim dtLogin As New DataTable()
             adapterLogin.Fill(dtLogin)
 
             ' Retrieve data from membership table
-            Dim queryMembership As String = "SELECT MemberID, Cost, MembershipType, Duration FROM membership"
+            Dim queryMembership As String = $"SELECT MemberID, Cost, MembershipType, Duration FROM membership LIMIT {batchSize} OFFSET {currentOffset}"
             Dim adapterMembership As New MySqlDataAdapter(queryMembership, conn)
             Dim dtMembership As New DataTable()
             adapterMembership.Fill(dtMembership)
 
             ' Combine data into a single DataTable
-            dtMember.Columns.Add("MemberID", GetType(Integer))
-            dtMember.Columns.Add("FirstName", GetType(String))
-            dtMember.Columns.Add("MiddleName", GetType(String))
-            dtMember.Columns.Add("LastName", GetType(String))
-            dtMember.Columns.Add("Username", GetType(String))
-            dtMember.Columns.Add("Sex", GetType(String))
-            dtMember.Columns.Add("PhoneNumber", GetType(String))
-            dtMember.Columns.Add("DTCreated", GetType(DateTime))
-            dtMember.Columns.Add("Address", GetType(String))
-            dtMember.Columns.Add("Cost", GetType(Decimal))
-            dtMember.Columns.Add("MembershipType", GetType(String))
-            dtMember.Columns.Add("Duration", GetType(String))
-            dtMember.Columns.Add("Status", GetType(String))
+            If currentOffset = 0 Then
+                dtMember.Columns.Add("MemberID", GetType(Integer))
+                dtMember.Columns.Add("FirstName", GetType(String))
+                dtMember.Columns.Add("MiddleName", GetType(String))
+                dtMember.Columns.Add("LastName", GetType(String))
+                dtMember.Columns.Add("Username", GetType(String))
+                dtMember.Columns.Add("Sex", GetType(String))
+                dtMember.Columns.Add("PhoneNumber", GetType(String))
+                dtMember.Columns.Add("DTCreated", GetType(DateTime))
+                dtMember.Columns.Add("Address", GetType(String))
+                dtMember.Columns.Add("Cost", GetType(Decimal))
+                dtMember.Columns.Add("MembershipType", GetType(String))
+                dtMember.Columns.Add("Duration", GetType(String))
+                dtMember.Columns.Add("Status", GetType(String))
+            End If
 
             For Each memberRow As DataRow In dtMembers.Rows
                 Dim memberID As Integer = memberRow("MemberID")
@@ -60,43 +73,40 @@ Public Class ContentMemberManagement1
                 If membershipRow IsNot Nothing Then
                     dtMember.Rows.Add(memberID, firstName, middleName, lastName, username, memberRow("Sex"), memberRow("PhoneNumber"), memberRow("DTCreated"), address, membershipRow("Cost"), membershipRow("MembershipType"), membershipRow("Duration"), status)
                 Else
-                    dtMember.Rows.Add(memberID, firstName, middleName, lastName, username, memberRow("Sex"), memberRow("PhoneNumber"), memberRow("DTCreated"), address, status, DBNull.Value, DBNull.Value, DBNull.Value)
+                    dtMember.Rows.Add(memberID, firstName, middleName, lastName, username, memberRow("Sex"), memberRow("PhoneNumber"), memberRow("DTCreated"), address, DBNull.Value, DBNull.Value, DBNull.Value, status)
                 End If
             Next
 
-
-
             ' Add Edit button
-            Dim editButtonColumn As New DataGridViewButtonColumn()
-            editButtonColumn.HeaderText = "Edit"
-            editButtonColumn.Name = "Edit"
-            editButtonColumn.Text = ""
-            editButtonColumn.UseColumnTextForButtonValue = True
-            editButtonColumn.MinimumWidth = 60 ' Set a minimum width
-            MembersTable.Columns.Add(editButtonColumn)
+            If currentOffset = 0 Then
+                Dim editButtonColumn As New DataGridViewButtonColumn()
+                editButtonColumn.HeaderText = "Edit"
+                editButtonColumn.Name = "Edit"
+                editButtonColumn.Text = ""
+                editButtonColumn.UseColumnTextForButtonValue = True
+                editButtonColumn.MinimumWidth = 60 ' Set a minimum width
+                MembersTable.Columns.Add(editButtonColumn)
 
-            ' Add Delete button
-            Dim deleteButtonColumn As New DataGridViewButtonColumn()
-            deleteButtonColumn.HeaderText = "Delete"
-            deleteButtonColumn.Name = "Delete"
-            deleteButtonColumn.Text = ""
-            deleteButtonColumn.UseColumnTextForButtonValue = True
-            deleteButtonColumn.MinimumWidth = 72 ' Set a minimum width
-            MembersTable.Columns.Add(deleteButtonColumn)
+                ' Add Delete button
+                Dim deleteButtonColumn As New DataGridViewButtonColumn()
+                deleteButtonColumn.HeaderText = "Delete"
+                deleteButtonColumn.Name = "Delete"
+                deleteButtonColumn.Text = ""
+                deleteButtonColumn.UseColumnTextForButtonValue = True
+                deleteButtonColumn.MinimumWidth = 72 ' Set a minimum width
+                MembersTable.Columns.Add(deleteButtonColumn)
 
-            ' Add View button
-            Dim viewButtonColumn As New DataGridViewButtonColumn()
-            viewButtonColumn.HeaderText = "View"
-            viewButtonColumn.Name = "View"
-            viewButtonColumn.Text = "View"
-            viewButtonColumn.UseColumnTextForButtonValue = True
-            viewButtonColumn.MinimumWidth = 60 ' Set a minimum width
-            MembersTable.Columns.Add(viewButtonColumn)
-
-
+                ' Add View button
+                Dim viewButtonColumn As New DataGridViewButtonColumn()
+                viewButtonColumn.HeaderText = "View"
+                viewButtonColumn.Name = "View"
+                viewButtonColumn.Text = "View"
+                viewButtonColumn.UseColumnTextForButtonValue = True
+                viewButtonColumn.MinimumWidth = 60 ' Set a minimum width
+                MembersTable.Columns.Add(viewButtonColumn)
+            End If
 
             MembersTable.DataSource = dtMember
-
 
             ' Customize DataGridView appearance
             MembersTable.BackgroundColor = Color.LightBlue
@@ -139,11 +149,11 @@ Public Class ContentMemberManagement1
             MsgBox(ex.Message)
         Finally
             conn.Close()
+            isLoading = False
         End Try
         MembersTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-
-
     End Sub
+
 
     Public Event ViewMemberProfile(memberData As MemberData)
     Private editedRows As New Dictionary(Of Integer, Boolean)
@@ -719,7 +729,8 @@ Public Class ContentMemberManagement1
         End If
     End Sub
 
-    Private Sub MembersTable_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles MembersTable.CellContentClick
-
+    Private Sub btnLoadMore_Click(sender As Object, e As EventArgs) Handles btnLoadMore.Click
+        currentOffset += batchSize
+        LoadData()
     End Sub
 End Class

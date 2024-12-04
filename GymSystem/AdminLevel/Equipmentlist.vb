@@ -1,6 +1,15 @@
 ﻿Public Class Equipmentlist
+    Private currentOffset As Integer = 0
+    Private Const batchSize As Integer = 25
+
+    Private Sub Equipmentlist_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        UpdateConnectionString()
+        InitializeDGV()
+        LoadEquipmentData()
+    End Sub
+
     Private Sub LoadEquipmentData()
-        Dim query As String = "SELECT * FROM equipment"
+        Dim query As String = $"SELECT * FROM equipment LIMIT {batchSize} OFFSET {currentOffset}"
         LoadToDGV(query, dgvEquipmentlist)
         SetDGVPropertiesForEquipment(dgvEquipmentlist)
         RenameColumns(dgvEquipmentlist)
@@ -68,6 +77,7 @@
         rowsStyle.Font = New Font("Segoe UI", 9.0F, FontStyle.Regular, GraphicsUnit.Point, 0)
         rowsStyle.ForeColor = Color.White
         dgv.RowsDefaultCellStyle = rowsStyle
+
         dgv.RowTemplate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
         dgv.RowTemplate.DefaultCellStyle.BackColor = Color.FromArgb(40, 40, 40)
         dgv.RowTemplate.DefaultCellStyle.Font = New Font("Microsoft Sans Serif", 9.0F)
@@ -97,16 +107,10 @@
 
     End Sub
 
-    Private Sub Equipmentlist_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        UpdateConnectionString()
-        InitializeDGV()
-    End Sub
+
     Private Sub InitializeDGV()
         LoadEquipmentData()
         ' Additional initialization code if needed
-    End Sub
-    Private Sub dgvPayment_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvEquipmentlist.CellContentClick
-
     End Sub
 
     Private gymEquipmentControl As Gym_Equipment
@@ -144,5 +148,19 @@
         gymEquipmentControl.BringToFront()
         gymEquipmentControl.Visible = True
         Debug.WriteLine("Gym_Equipment control is now visible.")
+    End Sub
+
+    Private Sub btnNext_Click_1(sender As Object, e As EventArgs) Handles btnNext.Click
+        If currentOffset >= batchSize Then
+            currentOffset -= batchSize
+        Else
+            currentOffset = 0
+        End If
+        LoadEquipmentData()
+    End Sub
+
+    Private Sub btnBack_Click_1(sender As Object, e As EventArgs) Handles btnBack.Click
+        currentOffset += batchSize
+        LoadEquipmentData()
     End Sub
 End Class

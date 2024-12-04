@@ -1,12 +1,13 @@
 ﻿' ContentStaffManage.vb
 Public Class ContentStaffManage
+    Private currentOffset As Integer = 0
+    Private Const batchSize As Integer = 25
     Private Sub LoadstaffData()
-        Dim query As String = "SELECT StaffID, FirstName, MiddleName, LastName, Position, Email, PhoneNumber, DATE_FORMAT(HireDate, '%Y-%m-%d') AS HireDate, Salary, ShiftSchedule, Certification, PerformanceRating, Specialization, Experience, DATE_FORMAT(DTCreated, '%Y-%m-%d %H:%i:%s') AS DTCreated FROM staff"
+        Dim query As String = $"SELECT StaffID, FirstName, MiddleName, LastName, Position, Email, PhoneNumber, DATE_FORMAT(HireDate, '%Y-%m-%d') AS HireDate, Salary, ShiftSchedule, Certification, PerformanceRating, Specialization, Experience, DATE_FORMAT(DTCreated, '%Y-%m-%d %H:%i:%s') AS DTCreated FROM staff LIMIT {batchSize} OFFSET {currentOffset}"
         LoadToDGV(query, dgvStafflist)
         SetDGVPropertiesForStaff(dgvStafflist)
         RenameColumns(dgvStafflist)
     End Sub
-
     Private Sub SetDGVPropertiesForStaff(dgv As DataGridView)
         Dim parentBackgroundColor As Color = Color.FromArgb(40, 40, 40)
         dgv.BackgroundColor = Color.FromArgb(20, 20, 20)
@@ -100,10 +101,6 @@ Public Class ContentStaffManage
         dgv.Columns("DTCreated").HeaderText = "DT Created"
     End Sub
 
-    Private Sub dgvStafflist_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvStafflist.CellContentClick
-
-    End Sub
-
     Private Sub ContentStaffManage_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         UpdateConnectionString()
         InitializeDGV()
@@ -143,5 +140,19 @@ Public Class ContentStaffManage
         gymStaffControl.BringToFront()
         gymStaffControl.Visible = True
         Debug.WriteLine("Gym_Staff control is now visible.")
+    End Sub
+
+    Private Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
+        currentOffset += batchSize
+        LoadstaffData()
+    End Sub
+
+    Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
+        If currentOffset >= batchSize Then
+            currentOffset -= batchSize
+        Else
+            currentOffset = 0
+        End If
+        LoadstaffData()
     End Sub
 End Class
