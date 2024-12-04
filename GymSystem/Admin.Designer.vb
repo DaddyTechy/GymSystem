@@ -35,7 +35,6 @@ Partial Class Admin
         lblRole = New Label()
         AdminRole = New ComboBox()
         templogin = New Button()
-        CBMe = New CheckBox()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
@@ -198,32 +197,17 @@ Partial Class Admin
         ' templogin
         ' 
         templogin.Anchor = AnchorStyles.None
-        templogin.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        templogin.BackColor = Color.Transparent
         templogin.FlatStyle = FlatStyle.Popup
         templogin.Font = New Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
         templogin.ForeColor = SystemColors.ActiveCaptionText
-        templogin.Location = New Point(372, 444)
+        templogin.Location = New Point(2, 502)
         templogin.Margin = New Padding(3, 2, 3, 2)
         templogin.Name = "templogin"
-        templogin.Size = New Size(214, 38)
+        templogin.Size = New Size(73, 38)
         templogin.TabIndex = 44
         templogin.Text = "ito muna"
         templogin.UseVisualStyleBackColor = False
-        ' 
-        ' CBMe
-        ' 
-        CBMe.Anchor = AnchorStyles.None
-        CBMe.AutoSize = True
-        CBMe.Font = New Font("Tahoma", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        CBMe.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
-        CBMe.Location = New Point(133, 307)
-        CBMe.Margin = New Padding(3, 2, 3, 2)
-        CBMe.Name = "CBMe"
-        CBMe.Size = New Size(94, 17)
-        CBMe.TabIndex = 23
-        CBMe.Text = "Remember me"
-        CBMe.UseVisualStyleBackColor = True
-        CBMe.Visible = False
         ' 
         ' Admin
         ' 
@@ -239,7 +223,6 @@ Partial Class Admin
         Controls.Add(StaffLL)
         Controls.Add(MemberLL)
         Controls.Add(LoginBtn)
-        Controls.Add(CBMe)
         Controls.Add(PassBox)
         Controls.Add(IDBox)
         Controls.Add(LabelPass)
@@ -266,5 +249,4 @@ Partial Class Admin
     Friend WithEvents lblRole As Label
     Friend WithEvents AdminRole As ComboBox
     Friend WithEvents templogin As Button
-    Friend WithEvents CBMe As CheckBox
 End Class

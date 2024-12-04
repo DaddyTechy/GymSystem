@@ -387,4 +387,5 @@ Public Class Staffmain
     Private Sub StaffMngmtBtn_Click_2(sender As Object, e As EventArgs) Handles StaffMngmtBtn.Click
         ShowUserControl(New ContentStaffManage)
     End Sub
+
 End Class

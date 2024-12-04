@@ -1,4 +1,6 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+﻿Imports System.Data.SqlClient
+Imports System.Transactions
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports MySql.Data.MySqlClient
 
 Public Class JoinNow
@@ -398,7 +400,7 @@ Public Class JoinNow
             CPassTxt.BackColor = Color.Gray
         End If
 
-        InsertData()
+        InsertMemberAndLogin()
     End Sub
 
     ' Function to validate if all required fields are filled
@@ -475,102 +477,118 @@ Public Class JoinNow
         MessageBox.Show("All required fields are filled and selected.", "Validation Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Return True
     End Function
-
-    Private Sub InsertData()
+    Private Sub InsertMemberAndLogin()
         UpdateConnectionString()
-        If ValidateForm() Then
-            Try
-                Debug.WriteLine("Validation passed.")
+        Try
+            Using conn As New MySqlConnection(strConnection)
                 conn.Open()
                 Debug.WriteLine("Connection opened successfully.")
 
-                ' Insert into members table
-                Dim insertMembersQuery As String = "INSERT INTO `members`(`FirstName`, `MiddleName`, `LastName`, `Sex`, `DOB`, `Weight`, `Height`, `Province`, `City`, `Street`, `ZipCode`, `PhoneNumber`, `DTCreated`, `Status`, `Email`) VALUES ('" & FirstTxt.Text & "', '" & MiddleTxt.Text & "', '" & LastTxt.Text & "', '" & SexTxt.Text & "', '" & CustomCalendar1.Value.ToString("yyyy-MM-dd") & "', '" & KgTxt.Text & "', '" & HeightTxt.Text & "', '" & CustomComboProvince.SelectedItem.ToString() & "', '" & CustomComboCity.SelectedItem.ToString() & "', '" & CustomComboStreet.SelectedItem.ToString() & "', '" & CustomComboZip.SelectedItem.ToString() & "', '" & ContactTxt.Text & "', '" & DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") & "', 'Active', '" & EmailTxt.Text & "')"
-                Debug.WriteLine($"Executing query: {insertMembersQuery}")
-                readQuery(insertMembersQuery)
+                Using transaction As MySqlTransaction = conn.BeginTransaction()
+                    Try
+                        ' Insert into members table
+                        Dim insertMembersQuery As String = "INSERT INTO `members`(`FirstName`, `MiddleName`, `LastName`, `Sex`, `DOB`, `Weight`, `Height`, `Province`, `City`, `Street`, `ZipCode`, `PhoneNumber`, `DTCreated`, `Status`, `Email`) " &
+                                                       "VALUES ('" & FirstTxt.Text & "', '" & MiddleTxt.Text & "', '" & LastTxt.Text & "', '" & SexTxt.Text & "', '" & CustomCalendar1.Value.ToString("yyyy-MM-dd") & "', '" & KgTxt.Text & "', '" & HeightTxt.Text & "', '" & CustomComboProvince.SelectedItem.ToString() & "', '" & CustomComboCity.SelectedItem.ToString() & "', '" & CustomComboStreet.SelectedItem.ToString() & "', '" & CustomComboZip.SelectedItem.ToString() & "', '" & ContactTxt.Text & "', '" & DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") & "', 'Active', '" & EmailTxt.Text & "')"
+                        Debug.WriteLine($"Executing query: {insertMembersQuery}")
+                        Using insertMembersCommand As New MySqlCommand(insertMembersQuery, conn, transaction)
+                            insertMembersCommand.ExecuteNonQuery()
+                        End Using
 
-                ' Insert into memberlogin table
-                Dim insertMemberLoginQuery As String = "INSERT INTO `memberlogin`(`MemberID`,`Username`, `Password`, `Email`, `PhoneNumber`, `IsEncrypted`, `EncryptedPassword`) VALUES ('" & EmailTxt.Text & "', '" & PassTxt.Text & "', '" & EmailTxt.Text & "', '" & ContactTxt.Text & "', TRUE, 'hashed_password')" ' Replace with actual hashed password
-                Debug.WriteLine($"Executing query: {insertMemberLoginQuery}")
-                readQuery(insertMemberLoginQuery)
+                        ' Retrieve the MemberID of the newly inserted member
+                        Dim memberIdQuery As String = "SELECT LAST_INSERT_ID()"
+                        Dim cmd As New MySqlCommand(memberIdQuery, conn, transaction)
+                        Dim memberId As Integer = Convert.ToInt32(cmd.ExecuteScalar())
+                        Debug.WriteLine($"New MemberID: {memberId}")
 
-                ' Determine membership details based on membership name
-                Dim membershipName As String = PlansCB.SelectedItem.ToString()
-                Dim duration As String
-                Dim cost As Double
-                Dim benefits As String
-                Dim startDate As DateTime = DateTime.Now
-                Dim endDate As DateTime
-                Dim discountAvailable As String
-                Dim cancelationPolicy As String
-                Dim renewalPolicy As String
-                Dim trainingSession As Integer
-                Dim lockerAccess As String
+                        ' Insert into memberlogin table
+                        Dim insertMemberLoginQuery As String = "INSERT INTO `memberlogin`(`MemberID`, `Username`, `Password`, `Email`, `PhoneNumber`, `IsEncrypted`, `EncryptedPassword`) " &
+                                                           "VALUES (" & memberId & ", '" & FirstTxt.Text & "', '" & PassTxt.Text & "', '" & EmailTxt.Text & "', '" & ContactTxt.Text & "', TRUE, '" & Encrypt(PassTxt.Text) & "')"
+                        Debug.WriteLine($"Executing query: {insertMemberLoginQuery}")
+                        Using insertMemberLoginCommand As New MySqlCommand(insertMemberLoginQuery, conn, transaction)
+                            insertMemberLoginCommand.ExecuteNonQuery()
+                        End Using
 
-                Select Case membershipName
-                    Case "Diamond"
-                        duration = "1 yr"
-                        cost = 1000.0
-                        benefits = "Full benefits"
-                        endDate = startDate.AddYears(1)
-                        discountAvailable = "Yes"
-                        cancelationPolicy = "Standard"
-                        renewalPolicy = "Auto-renew"
-                        trainingSession = 1
-                        lockerAccess = "Yes"
-                    Case "Gold"
-                        duration = "6 months"
-                        cost = 600.0
-                        benefits = "Standard benefits"
-                        endDate = startDate.AddMonths(6)
-                        discountAvailable = "Yes"
-                        cancelationPolicy = "Standard"
-                        renewalPolicy = "Manual-renew"
-                        trainingSession = 1
-                        lockerAccess = "No"
-                    Case "Silver"
-                        duration = "3 months"
-                        cost = 300.0
-                        benefits = "Limited benefits"
-                        endDate = startDate.AddMonths(3)
-                        discountAvailable = "No"
-                        cancelationPolicy = "Standard"
-                        renewalPolicy = "Manual-renew"
-                        trainingSession = 0
-                        lockerAccess = "No"
-                    Case Else
-                        duration = "1 month"
-                        cost = 100.0
-                        benefits = "Basic benefits"
-                        endDate = startDate.AddMonths(1)
-                        discountAvailable = "No"
-                        cancelationPolicy = "Flexible"
-                        renewalPolicy = "Manual-renew"
-                        trainingSession = 0
-                        lockerAccess = "No"
-                End Select
+                        ' Determine membership details based on membership name
+                        Dim membershipName As String = PlansCB.SelectedItem.ToString()
+                        Dim duration As String
+                        Dim cost As Double
+                        Dim benefits As String
+                        Dim startDate As DateTime = DateTime.Now
+                        Dim endDate As DateTime
+                        Dim discountAvailable As String
+                        Dim cancelationPolicy As String
+                        Dim renewalPolicy As String
+                        Dim trainingSession As Integer
+                        Dim lockerAccess As String
 
-                Debug.WriteLine($"Membership details - Name: {membershipName}, Duration: {duration}, Cost: {cost}, Benefits: {benefits}, StartDate: {startDate}, EndDate: {endDate}, DiscountAvailable: {discountAvailable}, CancelationPolicy: {cancelationPolicy}, RenewalPolicy: {renewalPolicy}, TrainingSession: {trainingSession}, LockerAccess: {lockerAccess}")
+                        Select Case membershipName
+                            Case "Diamond (12 months)"
+                                duration = "1 yr"
+                                cost = 1000.0
+                                benefits = "Full benefits"
+                                endDate = startDate.AddYears(1)
+                                discountAvailable = "Yes"
+                                cancelationPolicy = "Standard"
+                                renewalPolicy = "Auto-renew"
+                                trainingSession = 1
+                                lockerAccess = "Yes"
+                            Case "Gold (9 months)"
+                                duration = "9 months"
+                                cost = 600.0
+                                benefits = "Standard benefits"
+                                endDate = startDate.AddMonths(9)
+                                discountAvailable = "Yes"
+                                cancelationPolicy = "Standard"
+                                renewalPolicy = "Manual-renew"
+                                trainingSession = 1
+                                lockerAccess = "No"
+                            Case "Silver (6 months)"
+                                duration = "6 months"
+                                cost = 300.0
+                                benefits = "Limited benefits"
+                                endDate = startDate.AddMonths(6)
+                                discountAvailable = "No"
+                                cancelationPolicy = "Standard"
+                                renewalPolicy = "Manual-renew"
+                                trainingSession = 0
+                                lockerAccess = "No"
+                            Case Else
+                                duration = "3 month"
+                                cost = 100.0
+                                benefits = "Basic benefits"
+                                endDate = startDate.AddMonths(3)
+                                discountAvailable = "No"
+                                cancelationPolicy = "Flexible"
+                                renewalPolicy = "Manual-renew"
+                                trainingSession = 0
+                                lockerAccess = "No"
+                        End Select
 
-                ' Insert into membership table
-                Dim insertMembershipQuery As String = "INSERT INTO `membership`(`MemberID`, `MemberShipName`, `Duration`, `Cost`, `Benefits`, `StartDate`, `EndDate`, `DiscountAvailable`, `CancelationPolicy`, `RenewalPolicy`, `TrainingSession`, `LockerAccess`, `MembershipType`) VALUES ('" & membershipName & "', '" & duration & "', " & cost & ", '" & benefits & "', '" & startDate.ToString("yyyy-MM-dd") & "', '" & endDate.ToString("yyyy-MM-dd") & "', '" & discountAvailable & "', '" & cancelationPolicy & "', '" & renewalPolicy & "', " & trainingSession & ", '" & lockerAccess & "', '" & ServiceCB.SelectedItem.ToString() & "')"
-                Debug.WriteLine($"Executing query: {insertMembershipQuery}")
-                readQuery(insertMembershipQuery)
+                        Debug.WriteLine($"Membership details - Name: {membershipName}, Duration: {duration}, Cost: {cost}, Benefits: {benefits}, StartDate: {startDate}, EndDate: {endDate}, DiscountAvailable: {discountAvailable}, CancelationPolicy: {cancelationPolicy}, RenewalPolicy: {renewalPolicy}, TrainingSession: {trainingSession}, LockerAccess: {lockerAccess}")
 
-                MessageBox.Show("Data inserted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Catch ex As Exception
-                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Debug.WriteLine($"Error: {ex.Message}")
-            Finally
-                conn.Close()
-                Debug.WriteLine("Connection closed.")
-            End Try
-        Else
-            MessageBox.Show("Please fill in all required fields.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Debug.WriteLine("Validation failed.")
-        End If
+                        ' Insert into membership table
+                        Dim insertMembershipQuery As String = "INSERT INTO `membership`(`MemberID`, `MemberShipName`, `Duration`, `Cost`, `Benefits`, `StartDate`, `EndDate`, `DiscountAvailable`, `CancelationPolicy`, `RenewalPolicy`, `TrainingSession`, `LockerAccess`, `MembershipType`) " &
+                                                          "VALUES (" & memberId & ", '" & membershipName & "', '" & duration & "', " & cost & ", '" & benefits & "', '" & startDate.ToString("yyyy-MM-dd") & "', '" & endDate.ToString("yyyy-MM-dd") & "', '" & discountAvailable & "', '" & cancelationPolicy & "', '" & renewalPolicy & "', " & trainingSession & ", '" & lockerAccess & "', '" & ServiceCB.SelectedItem.ToString() & "')"
+                        Debug.WriteLine($"Executing query: {insertMembershipQuery}")
+                        Using insertMembershipCommand As New MySqlCommand(insertMembershipQuery, conn, transaction)
+                            insertMembershipCommand.ExecuteNonQuery()
+                        End Using
+
+                        ' Commit the transaction
+                        transaction.Commit()
+                        MessageBox.Show("Member, login, and membership details added successfully.")
+                        Me.Close()
+                    Catch ex As Exception
+                        ' Rollback the transaction in case of an error
+                        transaction.Rollback()
+                        MessageBox.Show("An error occurred: " & ex.Message)
+                    End Try
+                End Using
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("An error occurred: " & ex.Message)
+        End Try
     End Sub
-
 
     Private Sub ContactTxt_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ContactTxt.KeyPress
         ' Allow only digits, the '+' sign, and control keys like backspace

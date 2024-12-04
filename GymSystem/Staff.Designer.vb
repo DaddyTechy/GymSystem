@@ -34,7 +34,6 @@ Partial Class Staff
         LabelSign = New Label()
         Splitter1 = New Splitter()
         Splitter2 = New Splitter()
-        CBMe = New CheckBox()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
@@ -182,21 +181,6 @@ Partial Class Staff
         Splitter2.TabIndex = 19
         Splitter2.TabStop = False
         ' 
-        ' CBMe
-        ' 
-        CBMe.Anchor = AnchorStyles.None
-        CBMe.AutoSize = True
-        CBMe.Font = New Font("Tahoma", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        CBMe.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
-        CBMe.Location = New Point(133, 307)
-        CBMe.Margin = New Padding(3, 2, 3, 2)
-        CBMe.Name = "CBMe"
-        CBMe.Size = New Size(94, 17)
-        CBMe.TabIndex = 12
-        CBMe.Text = "Remember me"
-        CBMe.UseVisualStyleBackColor = True
-        CBMe.Visible = False
-        ' 
         ' Staff
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -210,7 +194,6 @@ Partial Class Staff
         Controls.Add(AdminLL)
         Controls.Add(MemberLL)
         Controls.Add(LoginBtn)
-        Controls.Add(CBMe)
         Controls.Add(PassBox)
         Controls.Add(IDBox)
         Controls.Add(LabelPass)
@@ -237,5 +220,4 @@ Partial Class Staff
     Friend WithEvents LabelSign As Label
     Friend WithEvents Splitter1 As Splitter
     Friend WithEvents Splitter2 As Splitter
-    Friend WithEvents CBMe As CheckBox
 End Class

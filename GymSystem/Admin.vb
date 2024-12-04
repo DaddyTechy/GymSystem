@@ -126,13 +126,6 @@ Public Class Admin
         LoginBtn.BackColor = originalButtonColor
         LoginBtn.ForeColor = Color.Black
     End Sub
-    Private Sub CBMe_CheckedChanged(sender As Object, e As EventArgs) Handles CBMe.CheckedChanged
-        If CBMe.Checked Then
-            CBMe.ForeColor = Color.FromArgb(245, 203, 92)
-        Else
-            CBMe.ForeColor = Color.FromArgb(224, 224, 224)
-        End If
-    End Sub
 
     Private Sub StaffLL_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles StaffLL.LinkClicked
         ' Navigate to Staff form
