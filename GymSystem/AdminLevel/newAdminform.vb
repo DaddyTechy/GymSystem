@@ -10,25 +10,24 @@ Public Class newAdminform
     ' Function to retrieve values from text boxes and combo boxes
     Private Function RetrieveValues() As Dictionary(Of String, Object)
         Dim values As New Dictionary(Of String, Object) From {
-        {"FirstName", If(txtbxFname.Text, String.Empty)},
-        {"MiddleName", If(txtbxMname.Text, String.Empty)},
-        {"LastName", If(txtbxLname.Text, String.Empty)},
-        {"Email", If(txtxtbxEmail.Text, String.Empty)},
-        {"PhoneNumber", If(txtbxPNumber.Text, String.Empty)},
-        {"HireDate", DTPhiredate.Value.ToString("yyyy-MM-dd HH:mm:ss")},
-        {"Salary", If(txtbxSalary.Text, String.Empty)},
-        {"Status", If(CBStatus.SelectedItem?.ToString(), String.Empty)},
-        {"Specialization", If(txtbxSpecial.Text, String.Empty)},
-        {"Experience", If(txtbxExp.Text, String.Empty)},
-        {"LastLogin", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")},
-        {"Role", If(CBRole.SelectedItem?.ToString(), String.Empty)},
-        {"AdminName", If(txtbxAdminName.Text, String.Empty)},
-        {"AdminPass", If(txtbxAdminPass.Text, String.Empty)},
-        {"AdminPass2", If(txtbxAdminPass2.Text, String.Empty)}
-    }
+            {"FirstName", If(txtbxFname.Text, String.Empty)},
+            {"MiddleName", If(txtbxMname.Text, String.Empty)},
+            {"LastName", If(txtbxLname.Text, String.Empty)},
+            {"Email", If(txtxtbxEmail.Text, String.Empty)},
+            {"PhoneNumber", If(txtbxPNumber.Text, String.Empty)},
+            {"HireDate", DTPhiredate.Value},
+            {"Salary", If(txtbxSalary.Text, String.Empty)},
+            {"Status", If(CBStatus.SelectedItem?.ToString(), String.Empty)},
+            {"Specialization", If(txtbxSpecial.Text, String.Empty)},
+            {"Experience", If(txtbxExp.Text, String.Empty)},
+            {"LastLogin", DateTime.Now},
+            {"Role", If(CBRole.SelectedItem?.ToString(), String.Empty)},
+            {"AdminName", If(txtbxAdminName.Text, String.Empty)},
+            {"AdminPass", If(txtbxAdminPass.Text, String.Empty)},
+            {"AdminPass2", If(txtbxAdminPass2.Text, String.Empty)}
+        }
         Return values
     End Function
-
 
     ' Function to validate input values
     Private Function ValidateInputs(values As Dictionary(Of String, Object)) As Boolean

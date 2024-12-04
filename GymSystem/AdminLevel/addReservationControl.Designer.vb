@@ -62,7 +62,6 @@ Partial Class addReservationControl
         btnSaveReservation.BackColor = Color.Gold
         btnSaveReservation.FlatStyle = FlatStyle.Flat
         btnSaveReservation.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnSaveReservation.Image = blkmemprog
         btnSaveReservation.Location = New Point(61, 435)
         btnSaveReservation.Name = "btnSaveReservation"
         btnSaveReservation.Size = New Size(75, 23)
