@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "GymSystem", "GymSystem\GymSystem.vbproj", "{574B9F0A-6C90-4C2A-B4DC-B28DB091A78B}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "GymSystem", "GymSystem\GymSystem.vbproj", "{574B9F0A-6C90-4C2A-B4DC-B28DB091A78B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

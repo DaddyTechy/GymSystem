@@ -1,6 +1,6 @@
 ﻿Imports Mysqlx.Session
 
-Public Class AdminMain
+Public Class Staffmain
     Inherits UserControl
 
     Private activeButton As Button = Nothing
@@ -10,10 +10,7 @@ Public Class AdminMain
         InitializeButton(DashboardBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.dashboard, My.Resources.dashbo, activeButton)
         InitializeButton(MemManBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.tdesign_member_1, My.Resources.tdesign_member, activeButton)
         InitializeButton(AttendanceBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkatt, My.Resources.Vector1, activeButton)
-        InitializeButton(MemProgBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkmemprog, My.Resources.Group_241, activeButton)
-        InitializeButton(MemStatBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkmemstat, My.Resources.Vector4, activeButton)
         InitializeButton(PaymentsBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkpa, My.Resources.Vector_4, activeButton)
-        InitializeButton(AnnouncementBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkan, My.Resources.Vector_5, activeButton)
         InitializeButton(StaffMngmtBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkstaffman, My.Resources.Group_26, activeButton)
         InitializeButton(GymEquipmentBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkgymeqp, My.Resources.Vector2, activeButton)
         InitializeButton(ReportsBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkreps, My.Resources.Vector3, activeButton)
@@ -40,10 +37,7 @@ Public Class AdminMain
         AddHandler GymEquipmentBtn.Click, AddressOf GymEquipmentBtn_Click
         AddHandler ReportsBtn.Click, AddressOf ReportsBtn_Click
         AddHandler DashboardBtn.Click, AddressOf DashboardBtn_Click
-        AddHandler MemProgBtn.Click, AddressOf MemProgBtn_Click
-        AddHandler MemStatBtn.Click, AddressOf MemStatBtn_Click
         AddHandler PaymentsBtn.Click, AddressOf PaymentsBtn_Click
-        AddHandler AnnouncementBtn.Click, AddressOf AnnouncementBtn_Click
         AddHandler StaffMngmtBtn.Click, AddressOf StaffMngmtBtn_Click
         AddHandler othersBtn.Click, AddressOf othersBtn_Click
 
@@ -53,9 +47,13 @@ Public Class AdminMain
         AddHandler AttenChckNBtn.Click, AddressOf SubMenu_Click
 
         ' Reports
-        AddHandler ChartsBtn.Click, AddressOf SubMenu_Click
         AddHandler MemRepBtn.Click, AddressOf SubMenu_Click
-        AddHandler MemProgRepBtn.Click, AddressOf SubMenu_Click
+
+        If CurrentLoggedUser.position = "Super Admin" Or CurrentLoggedUser.position = "Normal Admin" Then
+            Label1.Text = "Welcome Admin"
+        Else
+            Label1.Text = "Welcome Staff"
+        End If
     End Sub
 
     Public Sub ConfigureMenu(role As String)
@@ -68,10 +66,10 @@ Public Class AdminMain
             GymEquipmentBtn.Visible = True
             ReportsBtn.Visible = True
             DashboardBtn.Visible = True
-            MemProgBtn.Visible = True
-            MemStatBtn.Visible = True
-            AnnouncementBtn.Visible = True
             StaffMngmtBtn.Visible = True
+        ElseIf role = "Staff" Then
+            StaffMngmtBtn.Visible = False
+            othersBtn.Visible = False
         End If
     End Sub
 
@@ -257,8 +255,7 @@ Public Class AdminMain
 
     Private Sub ReportsBtn_Click(sender As Object, e As EventArgs)
         ToggleSubMenu(ReportsBtn, ReportsSubMenu)
-        SetActiveSubMenuButton(ChartsBtn)
-        ShowUserControl(New ContentReports())
+        ShowUserControl(New ContentRepMemRep())
     End Sub
 
     Private Sub DashboardBtn_Click(sender As Object, e As EventArgs)
@@ -346,11 +343,6 @@ Public Class AdminMain
     Private Sub MemEntryFormBtn_Click(sender As Object, e As EventArgs) Handles MemEntryFormBtn.Click
     End Sub
 
-
-    Private Sub ReportsBtn_Click_1(sender As Object, e As EventArgs)
-        ShowUserControl(New ContentReports)
-    End Sub
-
     Private Sub MemRepBtn_Click(sender As Object, e As EventArgs)
         ShowUserControl(New ContentRepMemRep)
     End Sub
@@ -370,8 +362,26 @@ Public Class AdminMain
     End Sub
 
     Private Sub MemProgRepBtn_Click(sender As Object, e As EventArgs) Handles EqpListBtn.Click
+        SetActiveSubMenuButton(EqpListBtn)
         ShowUserControl(New Equipmentlist())
-
     End Sub
 
+    Private Sub MemRepBtn_Click_1(sender As Object, e As EventArgs) Handles MemRepBtn.Click
+        SetActiveSubMenuButton(MemRepBtn)
+        ShowUserControl(New ContentRepMemRep)
+    End Sub
+
+    Private Sub GymEquipmentBtn_Click_1(sender As Object, e As EventArgs) Handles GymEquipmentBtn.Click
+        SetActiveSubMenuButton(EqpListBtn)
+        ShowUserControl(New Equipmentlist())
+    End Sub
+
+    Private Sub ReportsBtn_Click_1(sender As Object, e As EventArgs) Handles ReportsBtn.Click
+        SetActiveSubMenuButton(MemRepBtn)
+        ShowUserControl(New ContentRepMemRep)
+    End Sub
+
+    Private Sub StaffMngmtBtn_Click_2(sender As Object, e As EventArgs) Handles StaffMngmtBtn.Click
+        ShowUserControl(New ContentStaffManage)
+    End Sub
 End Class

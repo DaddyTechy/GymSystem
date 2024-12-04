@@ -25,10 +25,6 @@ Public Class Staff
         textBoxPanel.Size = New Size(IDBox.Width + 2, IDBox.Height + 2) ' Add space for border
         textBoxPanel.Location = New Point(IDBox.Location.X - 0, IDBox.Location.Y - 0)
 
-        ' Set TextBox properties
-        IDBox.BorderStyle = BorderStyle.FixedSingle
-        IDBox.BackColor = Color.Gray ' Background color
-
         ' Add TextBox to Panel
         textBoxPanel.Controls.Add(IDBox)
         IDBox.Location = New Point(1, 1)
@@ -41,10 +37,6 @@ Public Class Staff
         passBoxPanel.BackColor = Color.FromArgb(245, 203, 92) ' Border color
         passBoxPanel.Size = New Size(PassBox.Width + 2, PassBox.Height + 2) ' Add space for border
         passBoxPanel.Location = New Point(PassBox.Location.X - 0, PassBox.Location.Y - 0)
-
-        ' Set TextBox properties
-        PassBox.BorderStyle = BorderStyle.FixedSingle
-        PassBox.BackColor = Color.Gray ' Background color
 
         ' Add TextBox to Panel
         passBoxPanel.Controls.Add(PassBox)
@@ -120,14 +112,6 @@ Public Class Staff
         LoginBtn.BackColor = originalButtonColor
         LoginBtn.ForeColor = Color.Black
     End Sub
-    Private Sub CBMe_CheckedChanged(sender As Object, e As EventArgs) Handles CBMe.CheckedChanged
-        If CBMe.Checked Then
-            CBMe.ForeColor = Color.FromArgb(245, 203, 92)
-        Else
-            CBMe.ForeColor = Color.FromArgb(224, 224, 224)
-        End If
-    End Sub
-
     Private Sub ForgotLL_MouseEnter(sender As Object, e As EventArgs) Handles ForgotLL.MouseEnter
         ForgotLL.LinkColor = ControlPaint.Dark(originalColor, 0.3F)
     End Sub
@@ -159,7 +143,8 @@ Public Class Staff
         ' Create a new form to host the UserControl
         Dim hostForm As New Form()
         hostForm.Text = formTitle
-        hostForm.MinimumSize = New Size(925, 580) ' You can adjust the size as needed
+        hostForm.MinimumSize = New Size(925, 580)
+        hostForm.WindowState = FormWindowState.Maximized ' You can adjust the size as needed
         hostForm.Controls.Add(control)
         control.Dock = DockStyle.Fill
         hostForm.Show()
@@ -174,7 +159,8 @@ Public Class Staff
             Dim user = AuthenticateStaff(staffID, password)
             If user IsNot Nothing Then
                 ' Show the main staff form
-                Dim staffMain As New StaffMain()
+                Dim staffMain As New Staffmain()
+                staffMain.ConfigureMenu("Staff")
                 ShowUserControlInForm(staffMain, "Staff Main")
                 Me.Hide()
                 Logs($"staff with ID: {CurrentLoggedUser.id} logged in", "stafflogin")
@@ -191,36 +177,53 @@ Public Class Staff
         Try
             Using conn As New MySqlConnection(strConnection)
                 conn.Open()
+                Debug.WriteLine("Connection opened successfully.")
+
                 Dim query As String = "SELECT * FROM stafflogin WHERE StaffID = @StaffID"
                 Dim cmd As New MySqlCommand(query, conn)
                 cmd.Parameters.AddWithValue("@StaffID", staffID)
+                Debug.WriteLine($"Executing query: {query} with StaffID: {staffID}")
+
                 Dim reader As MySqlDataReader = cmd.ExecuteReader()
 
                 If reader.Read() Then
+                    Debug.WriteLine("User found in database.")
+
+                    ' List available columns in the result set
+                    For i As Integer = 0 To reader.FieldCount - 1
+                        Debug.WriteLine($"Column {i}: {reader.GetName(i)}")
+                    Next
+
                     ' Retrieve the encrypted password and IsEncrypted flag from the database
                     Dim storedPassword As String = reader("Password").ToString()
                     Dim isEncrypted As Boolean = Convert.ToBoolean(reader("IsEncrypted"))
+                    Debug.WriteLine($"Stored password: {storedPassword}, IsEncrypted: {isEncrypted}")
 
                     ' Decrypt the stored password if it is encrypted
                     Dim decryptedPassword As String
                     If isEncrypted Then
-                        decryptedPassword = Decrypt(storedPassword)
+                        decryptedPassword = storedPassword
                     Else
                         ' Encrypt the plain password and update the database
                         Dim encryptedPassword As String = Encrypt(storedPassword)
                         Dim updateQuery As String = $"UPDATE stafflogin SET EncryptedPassword = '{encryptedPassword}', IsEncrypted = TRUE WHERE StaffID = {staffID}"
                         readQuery(updateQuery)
+                        Debug.WriteLine($"Updated database with encrypted password: {encryptedPassword}")
 
                         ' Set the decrypted password to the original plain password
                         decryptedPassword = storedPassword
                     End If
+                    Debug.WriteLine($"Decrypted password: {decryptedPassword}")
 
                     ' Compare the decrypted password with the entered password
                     If decryptedPassword = password Then
+                        Debug.WriteLine("Password matches.")
+
                         ' Create a StaffUser object to hold the user details
                         Dim user As New StaffUser()
                         user.StaffID = reader("StaffID")
                         user.Username = reader("Username")
+                        user.Role = "Staff" ' Corrected the role assignment
 
                         ' Set the current logged user after successful login
                         CurrentLoggedUser.id = user.StaffID
@@ -235,23 +238,29 @@ Public Class Staff
                         ' Return the user object
                         Return user
                     Else
+                        Debug.WriteLine("Password does not match.")
                         ' Return Nothing if the password does not match
                         Return Nothing
                     End If
                 Else
+                    Debug.WriteLine("User not found in database.")
                     ' Return Nothing if no user is found
                     Return Nothing
                 End If
             End Using
         Catch ex As Exception
+            Debug.WriteLine($"Error: {ex.Message}")
             ErrorHandler.HandleError(ex)
             Return Nothing
         End Try
     End Function
 
+
+
     Public Class StaffUser
         Public Property StaffID As Integer
         Public Property Username As String
+        Public Property Role As String
     End Class
 
 
@@ -301,4 +310,23 @@ Public Class Staff
     Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
 
     End Sub
+
+    Private caretHandler As New CaretHandler()
+
+    Private Sub ID_GotFocus(sender As Object, e As EventArgs) Handles IDBox.GotFocus
+        caretHandler.InitializeCaret(IDBox, Color.FromArgb(245, 203, 92))
+    End Sub
+
+    Private Sub IDBox_LostFocus(sender As Object, e As EventArgs) Handles IDBox.LostFocus
+        caretHandler.HideCaret(IDBox)
+    End Sub
+
+    Private Sub PasswordBoxFocus(sender As Object, e As EventArgs) Handles PassBox.GotFocus
+        caretHandler.InitializeCaret(PassBox, Color.FromArgb(245, 203, 92))
+    End Sub
+
+    Private Sub PasswordBox_LostFocus(sender As Object, e As EventArgs) Handles PassBox.LostFocus
+        caretHandler.HideCaret(PassBox)
+    End Sub
+
 End Class

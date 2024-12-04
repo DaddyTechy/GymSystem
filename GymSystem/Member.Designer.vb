@@ -44,9 +44,9 @@ Partial Class Member
         LabelSign.AutoSize = True
         LabelSign.Font = New Font("Microsoft Sans Serif", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
         LabelSign.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
-        LabelSign.Location = New Point(122, 105)
+        LabelSign.Location = New Point(139, 140)
         LabelSign.Name = "LabelSign"
-        LabelSign.Size = New Size(197, 31)
+        LabelSign.Size = New Size(246, 39)
         LabelSign.TabIndex = 0
         LabelSign.Text = "Member Login"
         ' 
@@ -56,9 +56,9 @@ Partial Class Member
         LabelID.AutoSize = True
         LabelID.Font = New Font("Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         LabelID.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
-        LabelID.Location = New Point(122, 173)
+        LabelID.Location = New Point(139, 231)
         LabelID.Name = "LabelID"
-        LabelID.Size = New Size(83, 17)
+        LabelID.Size = New Size(100, 21)
         LabelID.TabIndex = 1
         LabelID.Text = "ID Number*"
         ' 
@@ -68,9 +68,9 @@ Partial Class Member
         LabelPass.AutoSize = True
         LabelPass.Font = New Font("Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         LabelPass.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
-        LabelPass.Location = New Point(122, 241)
+        LabelPass.Location = New Point(139, 321)
         LabelPass.Name = "LabelPass"
-        LabelPass.Size = New Size(74, 17)
+        LabelPass.Size = New Size(90, 21)
         LabelPass.TabIndex = 1
         LabelPass.Text = "Password*"
         ' 
@@ -82,10 +82,9 @@ Partial Class Member
         IDBox.Cursor = Cursors.IBeam
         IDBox.Font = New Font("Segoe UI Variable Small", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         IDBox.ForeColor = Color.White
-        IDBox.Location = New Point(122, 191)
-        IDBox.Margin = New Padding(3, 2, 3, 2)
+        IDBox.Location = New Point(139, 255)
         IDBox.Name = "IDBox"
-        IDBox.Size = New Size(306, 26)
+        IDBox.Size = New Size(349, 30)
         IDBox.TabIndex = 2
         ' 
         ' PassBox
@@ -95,10 +94,9 @@ Partial Class Member
         PassBox.BorderStyle = BorderStyle.FixedSingle
         PassBox.Font = New Font("Segoe UI Variable Small", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         PassBox.ForeColor = Color.White
-        PassBox.Location = New Point(122, 259)
-        PassBox.Margin = New Padding(3, 2, 3, 2)
+        PassBox.Location = New Point(139, 345)
         PassBox.Name = "PassBox"
-        PassBox.Size = New Size(306, 26)
+        PassBox.Size = New Size(349, 30)
         PassBox.TabIndex = 2
         ' 
         ' LoginBtn
@@ -107,10 +105,9 @@ Partial Class Member
         LoginBtn.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         LoginBtn.Font = New Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
         LoginBtn.ForeColor = SystemColors.ActiveCaptionText
-        LoginBtn.Location = New Point(173, 326)
-        LoginBtn.Margin = New Padding(3, 2, 3, 2)
+        LoginBtn.Location = New Point(198, 435)
         LoginBtn.Name = "LoginBtn"
-        LoginBtn.Size = New Size(214, 38)
+        LoginBtn.Size = New Size(245, 51)
         LoginBtn.TabIndex = 4
         LoginBtn.Text = "Login"
         LoginBtn.UseVisualStyleBackColor = False
@@ -120,9 +117,9 @@ Partial Class Member
         StaffLL.Anchor = AnchorStyles.None
         StaffLL.AutoSize = True
         StaffLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
-        StaffLL.Location = New Point(178, 380)
+        StaffLL.Location = New Point(203, 507)
         StaffLL.Name = "StaffLL"
-        StaffLL.Size = New Size(64, 15)
+        StaffLL.Size = New Size(81, 20)
         StaffLL.TabIndex = 5
         StaffLL.TabStop = True
         StaffLL.Text = "Staff Login"
@@ -133,9 +130,9 @@ Partial Class Member
         AdminLL.Anchor = AnchorStyles.None
         AdminLL.AutoSize = True
         AdminLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
-        AdminLL.Location = New Point(310, 380)
+        AdminLL.Location = New Point(354, 507)
         AdminLL.Name = "AdminLL"
-        AdminLL.Size = New Size(76, 15)
+        AdminLL.Size = New Size(94, 20)
         AdminLL.TabIndex = 5
         AdminLL.TabStop = True
         AdminLL.Text = "Admin Login"
@@ -146,9 +143,9 @@ Partial Class Member
         ForgotLL.Anchor = AnchorStyles.None
         ForgotLL.AutoSize = True
         ForgotLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
-        ForgotLL.Location = New Point(318, 292)
+        ForgotLL.Location = New Point(363, 389)
         ForgotLL.Name = "ForgotLL"
-        ForgotLL.Size = New Size(100, 15)
+        ForgotLL.Size = New Size(125, 20)
         ForgotLL.TabIndex = 5
         ForgotLL.TabStop = True
         ForgotLL.Text = "Forgot Password?"
@@ -170,11 +167,11 @@ Partial Class Member
         ' 
         Label1.Anchor = AnchorStyles.None
         Label1.AutoSize = True
-        Label1.Font = New Font("Tahoma", 9F)
+        Label1.Font = New Font("Tahoma", 9.0F)
         Label1.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
-        Label1.Location = New Point(187, 434)
+        Label1.Location = New Point(207, 579)
         Label1.Name = "Label1"
-        Label1.Size = New Size(91, 14)
+        Label1.Size = New Size(110, 18)
         Label1.TabIndex = 8
         Label1.Text = "Not a Member?"
         ' 
@@ -184,12 +181,11 @@ Partial Class Member
         RegisterBtn.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         RegisterBtn.FlatAppearance.BorderColor = Color.Yellow
         RegisterBtn.FlatAppearance.MouseDownBackColor = Color.Yellow
-        RegisterBtn.Font = New Font("Microsoft Sans Serif", 9F, FontStyle.Bold)
+        RegisterBtn.Font = New Font("Microsoft Sans Serif", 9.0F, FontStyle.Bold)
         RegisterBtn.ForeColor = SystemColors.ActiveCaptionText
-        RegisterBtn.Location = New Point(280, 423)
-        RegisterBtn.Margin = New Padding(3, 2, 3, 2)
+        RegisterBtn.Location = New Point(320, 564)
         RegisterBtn.Name = "RegisterBtn"
-        RegisterBtn.Size = New Size(81, 34)
+        RegisterBtn.Size = New Size(93, 45)
         RegisterBtn.TabIndex = 9
         RegisterBtn.Text = "Register"
         RegisterBtn.UseVisualStyleBackColor = False
@@ -211,10 +207,10 @@ Partial Class Member
         ' 
         ' Member
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(8.0F, 20.0F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(29), CByte(29), CByte(29))
-        ClientSize = New Size(909, 541)
+        ClientSize = New Size(1037, 711)
         Controls.Add(RegisterBtn)
         Controls.Add(Label1)
         Controls.Add(PictureBox1)
@@ -222,13 +218,13 @@ Partial Class Member
         Controls.Add(AdminLL)
         Controls.Add(StaffLL)
         Controls.Add(LoginBtn)
-        Controls.Add(CBMe)
         Controls.Add(PassBox)
         Controls.Add(IDBox)
         Controls.Add(LabelPass)
         Controls.Add(LabelID)
         Controls.Add(LabelSign)
         Margin = New Padding(3, 2, 3, 2)
+        MinimumSize = New Size(925, 580)
         MinimumSize = New Size(925, 580)
         Name = "Member"
         Text = "Member Login"
