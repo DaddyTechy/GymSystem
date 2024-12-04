@@ -341,6 +341,7 @@ Public Class Staffmain
     End Sub
 
     Private Sub MemEntryFormBtn_Click(sender As Object, e As EventArgs) Handles MemEntryFormBtn.Click
+        SetActiveSubMenuButton(MemEntryFormBtn)
     End Sub
 
     Private Sub MemRepBtn_Click(sender As Object, e As EventArgs)
@@ -384,4 +385,5 @@ Public Class Staffmain
     Private Sub StaffMngmtBtn_Click_2(sender As Object, e As EventArgs) Handles StaffMngmtBtn.Click
         ShowUserControl(New ContentStaffManage)
     End Sub
+
 End Class

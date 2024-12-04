@@ -22,45 +22,30 @@ Partial Class ContentMemEntryForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        DataGridView1 = New DataGridView()
-        Column1 = New DataGridViewTextBoxColumn()
-        Column2 = New DataGridViewTextBoxColumn()
-        CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
+        panelContainer = New Panel()
         SuspendLayout()
         ' 
-        ' DataGridView1
+        ' panelContainer
         ' 
-        DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column1, Column2})
-        DataGridView1.Location = New Point(278, 197)
-        DataGridView1.Name = "DataGridView1"
-        DataGridView1.Size = New Size(240, 150)
-        DataGridView1.TabIndex = 0
-        ' 
-        ' Column1
-        ' 
-        Column1.HeaderText = "Column1"
-        Column1.Name = "Column1"
-        ' 
-        ' Column2
-        ' 
-        Column2.HeaderText = "Column2"
-        Column2.Name = "Column2"
+        panelContainer.BackColor = Color.Transparent
+        panelContainer.Dock = DockStyle.Fill
+        panelContainer.Location = New Point(0, 0)
+        panelContainer.Name = "panelContainer"
+        panelContainer.Size = New Size(675, 496)
+        panelContainer.TabIndex = 0
         ' 
         ' ContentMemEntryForm
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        Controls.Add(DataGridView1)
+        BackColor = Color.Transparent
+        Controls.Add(panelContainer)
         MinimumSize = New Size(675, 496)
         Name = "ContentMemEntryForm"
         Size = New Size(675, 496)
-        CType(DataGridView1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
 
-    Friend WithEvents DataGridView1 As DataGridView
-    Friend WithEvents Column1 As DataGridViewTextBoxColumn
-    Friend WithEvents Column2 As DataGridViewTextBoxColumn
+    Friend WithEvents panelContainer As Panel
 
 End Class

@@ -30,7 +30,11 @@ Partial Class ContentStaffManage
         Label1 = New Label()
         dgvStafflist = New DataGridView()
         AddStaff = New Button()
+        Panel1 = New Panel()
+        btnBack = New Button()
+        btnNext = New Button()
         CType(dgvStafflist, ComponentModel.ISupportInitialize).BeginInit()
+        Panel1.SuspendLayout()
         SuspendLayout()
         ' 
         ' Label2
@@ -136,11 +140,48 @@ Partial Class ContentStaffManage
         AddStaff.Text = "Add Staff"
         AddStaff.UseVisualStyleBackColor = False
         ' 
+        ' Panel1
+        ' 
+        Panel1.Controls.Add(btnBack)
+        Panel1.Controls.Add(btnNext)
+        Panel1.Dock = DockStyle.Bottom
+        Panel1.Location = New Point(13, 463)
+        Panel1.Name = "Panel1"
+        Panel1.Size = New Size(649, 22)
+        Panel1.TabIndex = 10
+        ' 
+        ' btnBack
+        ' 
+        btnBack.BackColor = Color.Gray
+        btnBack.Dock = DockStyle.Left
+        btnBack.FlatStyle = FlatStyle.Popup
+        btnBack.ForeColor = SystemColors.ControlLightLight
+        btnBack.Location = New Point(0, 0)
+        btnBack.Name = "btnBack"
+        btnBack.Size = New Size(49, 22)
+        btnBack.TabIndex = 10
+        btnBack.Text = "Back"
+        btnBack.UseVisualStyleBackColor = False
+        ' 
+        ' btnNext
+        ' 
+        btnNext.BackColor = Color.Gray
+        btnNext.Dock = DockStyle.Right
+        btnNext.FlatStyle = FlatStyle.Popup
+        btnNext.ForeColor = SystemColors.ControlLightLight
+        btnNext.Location = New Point(600, 0)
+        btnNext.Name = "btnNext"
+        btnNext.Size = New Size(49, 22)
+        btnNext.TabIndex = 9
+        btnNext.Text = "Next"
+        btnNext.UseVisualStyleBackColor = False
+        ' 
         ' ContentStaffManage
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        Controls.Add(Panel1)
         Controls.Add(AddStaff)
         Controls.Add(dgvStafflist)
         Controls.Add(Label2)
@@ -150,6 +191,7 @@ Partial Class ContentStaffManage
         Padding = New Padding(13, 11, 13, 11)
         Size = New Size(675, 496)
         CType(dgvStafflist, ComponentModel.ISupportInitialize).EndInit()
+        Panel1.ResumeLayout(False)
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -158,5 +200,8 @@ Partial Class ContentStaffManage
     Friend WithEvents Label1 As Label
     Friend WithEvents dgvStafflist As DataGridView
     Friend WithEvents AddStaff As Button
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents btnBack As Button
+    Friend WithEvents btnNext As Button
 
 End Class

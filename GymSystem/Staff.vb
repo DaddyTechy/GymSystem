@@ -137,6 +137,8 @@ Public Class Staff
     End Sub
 
     Private Sub ForgotLL_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles ForgotLL.LinkClicked
+        Dim forgotPasswordForm As New ForgotPasswordForm()
+        forgotPasswordForm.ShowDialog()
     End Sub
 
     Public Sub ShowUserControlInForm(control As UserControl, formTitle As String)
