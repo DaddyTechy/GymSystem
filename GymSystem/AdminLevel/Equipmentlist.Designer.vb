@@ -44,7 +44,7 @@ Partial Class Equipmentlist
         dgvEquipmentlist.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
         DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        DataGridViewCellStyle1.Font = New Font("Segoe UI", 10F)
+        DataGridViewCellStyle1.Font = New Font("Segoe UI", 10.0F)
         DataGridViewCellStyle1.ForeColor = Color.White
         DataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
@@ -53,7 +53,7 @@ Partial Class Equipmentlist
         dgvEquipmentlist.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle2.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9.0F)
         DataGridViewCellStyle2.ForeColor = Color.White
         DataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight
         DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
@@ -63,7 +63,8 @@ Partial Class Equipmentlist
         dgvEquipmentlist.EditMode = DataGridViewEditMode.EditOnEnter
         dgvEquipmentlist.EnableHeadersVisualStyles = False
         dgvEquipmentlist.GridColor = Color.White
-        dgvEquipmentlist.Location = New Point(13, 64)
+        dgvEquipmentlist.Location = New Point(15, 86)
+        dgvEquipmentlist.Margin = New Padding(3, 4, 3, 4)
         dgvEquipmentlist.MultiSelect = False
         dgvEquipmentlist.Name = "dgvEquipmentlist"
         dgvEquipmentlist.ReadOnly = True
@@ -79,31 +80,31 @@ Partial Class Equipmentlist
         dgvEquipmentlist.RowHeadersVisible = False
         dgvEquipmentlist.RowHeadersWidth = 51
         DataGridViewCellStyle4.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        DataGridViewCellStyle4.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        DataGridViewCellStyle4.Font = New Font("Segoe UI", 9.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         DataGridViewCellStyle4.ForeColor = Color.White
         dgvEquipmentlist.RowsDefaultCellStyle = DataGridViewCellStyle4
         dgvEquipmentlist.RowTemplate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
         dgvEquipmentlist.RowTemplate.DefaultCellStyle.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        dgvEquipmentlist.RowTemplate.DefaultCellStyle.Font = New Font("Microsoft Sans Serif", 9F)
+        dgvEquipmentlist.RowTemplate.DefaultCellStyle.Font = New Font("Microsoft Sans Serif", 9.0F)
         dgvEquipmentlist.RowTemplate.DefaultCellStyle.ForeColor = Color.White
         dgvEquipmentlist.RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
         dgvEquipmentlist.SelectionMode = DataGridViewSelectionMode.FullRowSelect
         dgvEquipmentlist.ShowCellErrors = False
         dgvEquipmentlist.ShowRowErrors = False
-        dgvEquipmentlist.Size = New Size(786, 336)
+        dgvEquipmentlist.Size = New Size(898, 447)
         dgvEquipmentlist.TabIndex = 3
         ' 
         ' Label2
         ' 
         Label2.AutoSize = True
         Label2.Dock = DockStyle.Top
-        Label2.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label2.Font = New Font("Segoe UI", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.White
-        Label2.Location = New Point(13, 28)
-        Label2.Margin = New Padding(3, 0, 3, 10)
+        Label2.Location = New Point(15, 38)
+        Label2.Margin = New Padding(3, 0, 3, 13)
         Label2.Name = "Label2"
-        Label2.Padding = New Padding(0, 5, 0, 10)
-        Label2.Size = New Size(124, 36)
+        Label2.Padding = New Padding(0, 7, 0, 13)
+        Label2.Size = New Size(153, 48)
         Label2.TabIndex = 4
         Label2.Text = "Equipment List"
         Label2.TextAlign = ContentAlignment.MiddleCenter
@@ -114,10 +115,10 @@ Partial Class Equipmentlist
         Label1.Dock = DockStyle.Top
         Label1.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.Gold
-        Label1.Location = New Point(13, 11)
+        Label1.Location = New Point(15, 15)
         Label1.Name = "Label1"
         Label1.Padding = New Padding(2, 0, 0, 0)
-        Label1.Size = New Size(103, 17)
+        Label1.Size = New Size(133, 23)
         Label1.TabIndex = 5
         Label1.Text = "Equipment List"
         ' 
@@ -126,29 +127,27 @@ Partial Class Equipmentlist
         AddEquipment.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         AddEquipment.BackColor = Color.DimGray
         AddEquipment.FlatStyle = FlatStyle.Popup
-        AddEquipment.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        AddEquipment.Font = New Font("Segoe UI", 9.0F, FontStyle.Bold)
         AddEquipment.ForeColor = Color.White
-        AddEquipment.Location = New Point(646, 14)
-        AddEquipment.Margin = New Padding(3, 2, 3, 2)
+        AddEquipment.Location = New Point(738, 18)
         AddEquipment.Name = "AddEquipment"
-        AddEquipment.Size = New Size(110, 22)
+        AddEquipment.Size = New Size(126, 29)
         AddEquipment.TabIndex = 6
         AddEquipment.Text = "Add Equipment"
         AddEquipment.UseVisualStyleBackColor = False
         ' 
         ' Equipmentlist
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(8.0F, 20.0F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         Controls.Add(AddEquipment)
         Controls.Add(dgvEquipmentlist)
         Controls.Add(Label2)
         Controls.Add(Label1)
-        Margin = New Padding(3, 2, 3, 2)
         Name = "Equipmentlist"
-        Padding = New Padding(13, 11, 13, 11)
-        Size = New Size(812, 411)
+        Padding = New Padding(15)
+        Size = New Size(928, 548)
         CType(dgvEquipmentlist, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()

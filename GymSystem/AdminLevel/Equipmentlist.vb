@@ -68,6 +68,7 @@
         rowsStyle.Font = New Font("Segoe UI", 9.0F, FontStyle.Regular, GraphicsUnit.Point, 0)
         rowsStyle.ForeColor = Color.White
         dgv.RowsDefaultCellStyle = rowsStyle
+
         dgv.RowTemplate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
         dgv.RowTemplate.DefaultCellStyle.BackColor = Color.FromArgb(40, 40, 40)
         dgv.RowTemplate.DefaultCellStyle.Font = New Font("Microsoft Sans Serif", 9.0F)

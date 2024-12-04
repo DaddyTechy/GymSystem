@@ -5,148 +5,48 @@ Imports System.Reflection.Metadata.Ecma335
 
 Public Class ContentDashboard
     Private conn As MySqlConnection
+
     Private Sub ContentDashboard_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         InitializeConnection()
         CustomizeChartAxis()
         Try
             conn.Open()
-            Debug.WriteLine("Connection opened successfully.")
+            Dim membershipData As DataTable = FetchMembershipData()
+            LoadMembershipChartData(membershipData)
 
-            ' Load initial data without date filtering
-            LoadInitialData()
+            ' Load earnings and expenses chart
+            LoadEarningsAndExpensesChart()
 
+            ' Load gender chart
+            Dim genderData As DataTable = FetchGenderData()
+            LoadGenderChartData(genderData)
+
+            ' Load staff specialization chart
+            Dim staffSpecializationData As DataTable = FetchStaffSpecializationData()
+            LoadStaffSpecializationChartData(staffSpecializationData)
         Catch ex As Exception
             MsgBox(ex.Message)
-            Debug.WriteLine($"Error: {ex.Message}")
         Finally
             conn.Close()
-            Debug.WriteLine("Connection closed.")
         End Try
 
         'dashboard data right
         ' Fetch total members count
         Dim totalMembers As Integer = GetTotalMembers()
-        Debug.WriteLine($"Total members count: {totalMembers}")
 
         ' Update the label with the total members count
-        dashbrdTMData.Text = totalMembers.ToString()
-        dashbrdSUdata.Text = readQuery("SELECT COUNT(*) FROM staff")
-        dashbrdAEdata.Text = readQuery("SELECT COUNT(*) FROM equipment WHERE Status = 'Operational'")
-        dashbrdACTdata.Text = readQuery("SELECT COUNT(*) FROM staff WHERE Position = 'Trainer'")
-        dashbrdPMdata.Text = readQuery("SELECT COUNT(*) FROM attendance WHERE Date = CURDATE()")
+        dashbrdTMData.Text = (totalMembers * 100).ToString()
     End Sub
 
-    Private Sub LoadInitialData()
-        ' Load initial data without date filtering
-        Dim membershipData As DataTable = FetchMembershipData(DateTime.MinValue, DateTime.MaxValue)
-        LoadMembershipChartData(membershipData)
-
-        ' Load earnings and expenses chart
-        LoadEarningsAndExpensesChart(DateTime.MinValue, DateTime.MaxValue)
-
-        ' Load gender chart
-        Dim genderData As DataTable = FetchGenderData()
-        LoadGenderChartData(genderData)
-
-        ' Load staff specialization chart
-        Dim staffSpecializationData As DataTable = FetchStaffSpecializationData()
-        LoadStaffSpecializationChartData(staffSpecializationData)
-
-        ' Fetch total expenses
-        Dim expensesData As DataTable = FetchExpensesData(DateTime.MinValue, DateTime.MaxValue)
-        Dim totalExpenses As Double = CalculateTotalExpenses(expensesData)
-        dashbrdTEdata.Text = totalExpenses.ToString("F2")
-    End Sub
-
-
-    Private Function CalculateTotalExpenses(expensesData As DataTable) As Double
-        Dim totalExpenses As Double = 0
-        For Each row As DataRow In expensesData.Rows
-            totalExpenses += Convert.ToDouble(row("Amount"))
-        Next
-        Return totalExpenses
-    End Function
-
-    Private Function readQuery(query As String) As String
-        Dim result As String = ""
-        Using command As New MySqlCommand(query, conn)
-            conn.Open()
-            result = command.ExecuteScalar().ToString()
-            conn.Close()
-        End Using
-        Return result
-    End Function
 
     Private Sub InitializeConnection()
         conn = New MySqlConnection("server=ec2-54-152-32-19.compute-1.amazonaws.com;userid=remote_user;password=Aqua44.5;database=gym_infosys;port=3306;") '
         UpdateConnectionString()
         conn = New MySqlConnection(strConnection)
     End Sub
-    Private Sub dtpStartFilter_ValueChanged(sender As Object, e As EventArgs) Handles dtpStartFilter.ValueChanged
-        ValidateDateRange()
-    End Sub
 
-    Private Sub dtpEndFilter_ValueChanged(sender As Object, e As EventArgs) Handles dtpEndFilter.ValueChanged
-        ValidateDateRange()
-    End Sub
-
-    Private Sub ValidateDateRange()
-        If dtpEndFilter.Value < dtpStartFilter.Value Then
-            MessageBox.Show("End date cannot be earlier than start date.", "Invalid Date Range", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            dtpEndFilter.Value = dtpStartFilter.Value
-        Else
-            ' Call your methods to filter and load data based on the selected date range
-            FilterAndLoadData()
-        End If
-    End Sub
-
-    Private Sub FilterAndLoadData()
-        Try
-            ' Implement your logic to filter data based on the selected date range
-            Dim startDate As DateTime = dtpStartFilter.Value
-            Dim endDate As DateTime = dtpEndFilter.Value
-            Debug.WriteLine($"Selected date range: {startDate} to {endDate}")
-
-            ' Fetch and load membership chart data
-            Dim membershipData As DataTable = FetchMembershipData(startDate, endDate)
-            Debug.WriteLine($"Fetched membership data: {membershipData.Rows.Count} rows")
-
-            ' Fetch and load earnings and expenses chart data
-            Dim earningsData As DataTable = FetchEarningsData(startDate, endDate)
-            Dim expensesData As DataTable = FetchExpensesData(startDate, endDate)
-            Debug.WriteLine($"Fetched earnings data: {earningsData.Rows.Count} rows")
-            Debug.WriteLine($"Fetched expenses data: {expensesData.Rows.Count} rows")
-
-            ' Check if any of the data tables are empty
-            If membershipData.Rows.Count = 0 AndAlso earningsData.Rows.Count = 0 AndAlso expensesData.Rows.Count = 0 Then
-                MessageBox.Show("Data is unavailable for the selected date range. Resetting to default date range.", "Data Unavailable", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                ResetDatePickers()
-                LoadInitialData()
-            Else
-                ' Load the data into the charts
-                LoadMembershipChartData(membershipData)
-                LoadChartData(earningsData, expensesData)
-
-                ' Calculate and update total expenses
-                Dim totalExpenses As Double = CalculateTotalExpenses(expensesData)
-                Debug.WriteLine($"Total expenses calculated: {totalExpenses}")
-                dashbrdTEdata.Text = totalExpenses.ToString("F2")
-            End If
-        Catch ex As Exception
-            MsgBox(ex.Message)
-            Debug.WriteLine($"Error: {ex.Message}")
-        End Try
-    End Sub
-
-    Private Sub ResetDatePickers()
-        dtpStartFilter.Value = DateTime.Now.AddMonths(-1) ' Set to one month ago
-        dtpEndFilter.Value = DateTime.Now ' Set to today
-    End Sub
-
-
-
-    Private Function FetchMembershipData(startDate As DateTime, endDate As DateTime) As DataTable
-        Dim query As String = $"SELECT MembershipType, COUNT(*) AS Count FROM membership WHERE StartDate BETWEEN '{startDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}' GROUP BY MembershipType"
+    Private Function FetchMembershipData() As DataTable
+        Dim query As String = "SELECT MembershipType, COUNT(*) AS Count FROM membership GROUP BY MembershipType"
         Dim dt As New DataTable()
         Using command As New MySqlCommand(query, conn)
             Using adapter As New MySqlDataAdapter(command)
@@ -156,11 +56,11 @@ Public Class ContentDashboard
         Return dt
     End Function
 
-    Private Function FetchEarningsData(startDate As DateTime, endDate As DateTime) As DataTable
-        Dim query As String = $"
-    SELECT 'Membership Fees' AS Source, SUM(Cost) AS Amount FROM membership WHERE StartDate BETWEEN '{startDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'
-    UNION ALL
-    SELECT 'Reservation Fees' AS Source, SUM(ReservationFee) AS Amount FROM reservation WHERE ReservationDate BETWEEN '{startDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'"
+    Private Function FetchEarningsData() As DataTable
+        Dim query As String = "
+        SELECT 'Membership Fees' AS Source, SUM(Cost) AS Amount FROM membership
+        UNION ALL
+        SELECT 'Reservation Fees' AS Source, SUM(ReservationFee) AS Amount FROM reservation"
         Dim dt As New DataTable()
         Using command As New MySqlCommand(query, conn)
             Using adapter As New MySqlDataAdapter(command)
@@ -170,13 +70,13 @@ Public Class ContentDashboard
         Return dt
     End Function
 
-    Private Function FetchExpensesData(startDate As DateTime, endDate As DateTime) As DataTable
-        Dim query As String = $"
-    SELECT 'Staff Salaries' AS Source, SUM(Salary) AS Amount FROM staff WHERE HireDate BETWEEN '{startDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'
-    UNION ALL
-    SELECT 'Equipment Maintenance' AS Source, SUM(MaintenanceCost) AS Amount FROM equipment WHERE PurchaseDate BETWEEN '{startDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'
-    UNION ALL
-    SELECT 'Operational Costs' AS Source, SUM(Salary) AS Amount FROM admin WHERE HireDate BETWEEN '{startDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'"
+    Private Function FetchExpensesData() As DataTable
+        Dim query As String = "
+        SELECT 'Staff Salaries' AS Source, SUM(Salary) AS Amount FROM staff
+        UNION ALL
+        SELECT 'Equipment Maintenance' AS Source, SUM(MaintenanceCost) AS Amount FROM equipment
+        UNION ALL
+        SELECT 'Operational Costs' AS Source, SUM(Salary) AS Amount FROM admin"
         Dim dt As New DataTable()
         Using command As New MySqlCommand(query, conn)
             Using adapter As New MySqlDataAdapter(command)
@@ -185,7 +85,6 @@ Public Class ContentDashboard
         End Using
         Return dt
     End Function
-
 
     Private Function FetchGenderData() As DataTable
         Dim query As String = "SELECT Sex, COUNT(*) AS Count FROM members GROUP BY Sex"
@@ -265,7 +164,7 @@ Public Class ContentDashboard
         ' Create and configure the Series for Earnings
         Dim earningsSeries As New Series("Earnings")
         earningsSeries.ChartType = SeriesChartType.Bar
-        earningsSeries.SetCustomProperty("PointWidth", "2") ' Adjust the width of the bars
+        earningsSeries.SetCustomProperty("PointWidth", "1") ' Adjust the width of the bars
         earningsSeries.IsValueShownAsLabel = True ' Show values as labels
         earningsSeries.LabelForeColor = Color.White ' Set label font color to white
         earningsSeries.LabelBackColor = Color.FromArgb(128, Color.Black) ' Set label background color to semi-transparent black
@@ -275,7 +174,7 @@ Public Class ContentDashboard
         ' Create and configure the Series for Expenses
         Dim expensesSeries As New Series("Expenses")
         expensesSeries.ChartType = SeriesChartType.Bar
-        expensesSeries.SetCustomProperty("PointWidth", "2") ' Adjust the width of the bars
+        expensesSeries.SetCustomProperty("PointWidth", "1") ' Adjust the width of the bars
         expensesSeries.IsValueShownAsLabel = True ' Show values as labels
         expensesSeries.LabelForeColor = Color.White ' Set label font color to white
         expensesSeries.LabelBackColor = Color.FromArgb(128, Color.Black) ' Set label background color to semi-transparent black
@@ -285,11 +184,7 @@ Public Class ContentDashboard
         ' Add data points to the Earnings Series with labels and values
         Dim totalEarnings As Double = 0
         For Each row As DataRow In earningsData.Rows
-            If Not IsDBNull(row("Amount")) Then
-                totalEarnings += Convert.ToDouble(row("Amount"))
-            Else
-                Debug.WriteLine("Earnings Amount is DBNull")
-            End If
+            totalEarnings += Convert.ToDouble(row("Amount") * 10)
         Next
         Dim earningsPoint As New DataPoint()
         earningsPoint.SetValueXY(2, Math.Round(totalEarnings, 2)) ' Format the value to 2 decimal places
@@ -301,11 +196,7 @@ Public Class ContentDashboard
         ' Add data points to the Expenses Series with labels and values
         Dim totalExpenses As Double = 0
         For Each row As DataRow In expensesData.Rows
-            If Not IsDBNull(row("Amount")) Then
-                totalExpenses += Convert.ToDouble(row("Amount"))
-            Else
-                Debug.WriteLine("Expenses Amount is DBNull")
-            End If
+            totalExpenses += Convert.ToDouble(row("Amount"))
         Next
         Dim expensesPoint As New DataPoint()
         expensesPoint.SetValueXY(1, Math.Round(totalExpenses, 2)) ' Format the value to 2 decimal places
@@ -322,16 +213,14 @@ Public Class ContentDashboard
         chartEarnings.Invalidate()
     End Sub
 
-
-    Private Sub LoadEarningsAndExpensesChart(startDate As DateTime, endDate As DateTime)
+    Private Sub LoadEarningsAndExpensesChart()
         ' Fetch data
-        Dim earningsData As DataTable = FetchEarningsData(startDate, endDate)
-        Dim expensesData As DataTable = FetchExpensesData(startDate, endDate)
+        Dim earningsData As DataTable = FetchEarningsData()
+        Dim expensesData As DataTable = FetchExpensesData()
 
         ' Load data into the chart
         LoadChartData(earningsData, expensesData)
     End Sub
-
 
 
     Private Sub LoadGenderChartData(dt As DataTable)
@@ -477,8 +366,4 @@ Public Class ContentDashboard
 
         Return totalMembers
     End Function
-
-    Private Sub dashbrdTMData_Click(sender As Object, e As EventArgs) Handles dashbrdTMData.Click
-
-    End Sub
 End Class
