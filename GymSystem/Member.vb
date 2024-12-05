@@ -159,8 +159,8 @@
     End Sub
 
     Private Sub LoginBtn_Click(sender As Object, e As EventArgs) Handles LoginBtn.Click
-        Dim dashboard As New DashBoard
-        dashboard.Show()
+        Dim MeMain As New MemberMain
+        MeMain.Show()
         Hide()
     End Sub
 
