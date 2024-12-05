@@ -186,7 +186,7 @@
     Private caretHandler As New CaretHandler()
 
     Private Sub ID_GotFocus(sender As Object, e As EventArgs) Handles IDBox.GotFocus
-        CaretHandler.InitializeCaret(IDBox, Color.FromArgb(245, 203, 92))
+        caretHandler.InitializeCaret(IDBox, Color.FromArgb(245, 203, 92))
     End Sub
 
     Private Sub IDBox_LostFocus(sender As Object, e As EventArgs) Handles IDBox.LostFocus
