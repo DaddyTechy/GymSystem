@@ -146,6 +146,8 @@ Public Class JoinNow
         PlansCB.Items.Add("Gold (9 months)")
         PlansCB.Items.Add("Diamond (12 months)")
 
+
+        BLoginBtn.Visible = True
         ServiceCB.Items.Clear()
     End Sub
 

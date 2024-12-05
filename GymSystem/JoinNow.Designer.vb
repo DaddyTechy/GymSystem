@@ -22,7 +22,6 @@ Partial Class JoinNow
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        BLoginBtn = New Button()
         SubmitBtn = New Button()
         ShowLL = New LinkLabel()
         ServiceCB = New ComboBox()
@@ -60,27 +59,15 @@ Partial Class JoinNow
         CustomComboCity = New CustomComboBox()
         CustomComboStreet = New CustomComboBox()
         CustomComboZip = New CustomComboBox()
+        BLoginBtn = New Button()
         SuspendLayout()
-        ' 
-        ' BLoginBtn
-        ' 
-        BLoginBtn.Anchor = AnchorStyles.None
-        BLoginBtn.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
-        BLoginBtn.FlatStyle = FlatStyle.Flat
-        BLoginBtn.Location = New Point(312, 456)
-        BLoginBtn.Margin = New Padding(3, 2, 3, 2)
-        BLoginBtn.Name = "BLoginBtn"
-        BLoginBtn.Size = New Size(108, 38)
-        BLoginBtn.TabIndex = 42
-        BLoginBtn.Text = "Back to Login"
-        BLoginBtn.UseVisualStyleBackColor = False
         ' 
         ' SubmitBtn
         ' 
         SubmitBtn.Anchor = AnchorStyles.None
         SubmitBtn.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         SubmitBtn.FlatStyle = FlatStyle.Flat
-        SubmitBtn.Location = New Point(471, 456)
+        SubmitBtn.Location = New Point(380, 458)
         SubmitBtn.Margin = New Padding(3, 2, 3, 2)
         SubmitBtn.Name = "SubmitBtn"
         SubmitBtn.Size = New Size(108, 38)
@@ -547,18 +534,32 @@ Partial Class JoinNow
         CustomComboZip.Size = New Size(99, 24)
         CustomComboZip.TabIndex = 48
         ' 
+        ' BLoginBtn
+        ' 
+        BLoginBtn.Anchor = AnchorStyles.None
+        BLoginBtn.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        BLoginBtn.FlatStyle = FlatStyle.Flat
+        BLoginBtn.Location = New Point(52, 47)
+        BLoginBtn.Margin = New Padding(3, 2, 3, 2)
+        BLoginBtn.Name = "BLoginBtn"
+        BLoginBtn.Size = New Size(52, 27)
+        BLoginBtn.TabIndex = 49
+        BLoginBtn.Text = "Back"
+        BLoginBtn.UseVisualStyleBackColor = False
+        BLoginBtn.Visible = False
+        ' 
         ' JoinNow
         ' 
         AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(28), CByte(28), CByte(28))
         ClientSize = New Size(880, 541)
+        Controls.Add(BLoginBtn)
         Controls.Add(CustomComboZip)
         Controls.Add(CustomComboStreet)
         Controls.Add(CustomComboCity)
         Controls.Add(CustomComboProvince)
         Controls.Add(CustomCalendar1)
-        Controls.Add(BLoginBtn)
         Controls.Add(SubmitBtn)
         Controls.Add(ShowLL)
         Controls.Add(ServiceCB)
@@ -597,8 +598,6 @@ Partial Class JoinNow
         ResumeLayout(False)
         PerformLayout()
     End Sub
-
-    Friend WithEvents BLoginBtn As Button
     Friend WithEvents SubmitBtn As Button
     Friend WithEvents ShowLL As LinkLabel
     Friend WithEvents ServiceCB As ComboBox
@@ -636,4 +635,5 @@ Partial Class JoinNow
     Friend WithEvents CustomComboCity As CustomComboBox
     Friend WithEvents CustomComboStreet As CustomComboBox
     Friend WithEvents CustomComboZip As CustomComboBox
+    Friend WithEvents BLoginBtn As Button
 End Class
