@@ -74,7 +74,7 @@ Partial Class dashboard
         LogoutBtn.ForeColor = SystemColors.ButtonHighlight
         LogoutBtn.Image = My.Resources.Resources.Vector_21
         LogoutBtn.ImageAlign = ContentAlignment.MiddleLeft
-        LogoutBtn.Location = New Point(344, 13)
+        LogoutBtn.Location = New Point(262, 13)
         LogoutBtn.Margin = New Padding(3, 4, 3, 4)
         LogoutBtn.Name = "LogoutBtn"
         LogoutBtn.Size = New Size(98, 66)
@@ -88,9 +88,9 @@ Partial Class dashboard
         ' 
         Label1.Anchor = AnchorStyles.None
         Label1.AutoSize = True
-        Label1.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label1.Font = New Font("Segoe UI", 12.0F, FontStyle.Bold, GraphicsUnit.Point, 0)
         Label1.ForeColor = SystemColors.ButtonHighlight
-        Label1.Location = New Point(118, 32)
+        Label1.Location = New Point(75, 30)
         Label1.Name = "Label1"
         Label1.Size = New Size(167, 28)
         Label1.TabIndex = 1
@@ -118,7 +118,7 @@ Partial Class dashboard
         Panel2.Location = New Point(0, 0)
         Panel2.Margin = New Padding(3, 4, 3, 4)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(325, 99)
+        Panel2.Size = New Size(353, 99)
         Panel2.TabIndex = 2
         ' 
         ' ReportsBtn
@@ -142,7 +142,7 @@ Partial Class dashboard
         ' 
         ' ContentPnl
         ' 
-        ContentPnl.BackColor = Color.FromArgb(CByte(20), CByte(20), CByte(20))
+        ContentPnl.BackColor = Color.FromArgb(20, 20, 20)
         ContentPnl.Controls.Add(PictureBox2)
         ContentPnl.Dock = DockStyle.Fill
         ContentPnl.Location = New Point(303, 99)
@@ -171,7 +171,7 @@ Partial Class dashboard
         ' 
         ' UserPnl
         ' 
-        UserPnl.BackColor = Color.FromArgb(CByte(26), CByte(26), CByte(26))
+        UserPnl.BackColor = Color.FromArgb(26, 26, 26)
         UserPnl.Controls.Add(Panel2)
         UserPnl.Dock = DockStyle.Top
         UserPnl.Location = New Point(303, 0)
@@ -194,14 +194,14 @@ Partial Class dashboard
         ' 
         LogoTxtLbl.AutoSize = True
         LogoTxtLbl.BackColor = Color.Black
-        LogoTxtLbl.Font = New Font("Times New Roman", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        LogoTxtLbl.Font = New Font("Times New Roman", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0)
         LogoTxtLbl.ForeColor = SystemColors.ButtonHighlight
         LogoTxtLbl.Location = New Point(121, 69)
         LogoTxtLbl.Margin = New Padding(0)
         LogoTxtLbl.Name = "LogoTxtLbl"
         LogoTxtLbl.Size = New Size(139, 62)
         LogoTxtLbl.TabIndex = 1
-        LogoTxtLbl.Text = "JJ Fitness " & vbCrLf & "GYM"
+        LogoTxtLbl.Text = "JJ Fitness " + vbCrLf + "GYM"
         ' 
         ' PaymentsBtn
         ' 
@@ -211,13 +211,13 @@ Partial Class dashboard
         PaymentsBtn.FlatStyle = FlatStyle.Flat
         PaymentsBtn.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
         PaymentsBtn.ForeColor = SystemColors.ButtonHighlight
-        PaymentsBtn.Image = CType(resources.GetObject("PaymentsBtn.Image"), Image)
+        PaymentsBtn.Image = My.Resources.Resources.Reminder
         PaymentsBtn.ImageAlign = ContentAlignment.MiddleLeft
         PaymentsBtn.Location = New Point(15, 151)
         PaymentsBtn.Name = "PaymentsBtn"
         PaymentsBtn.Size = New Size(288, 77)
         PaymentsBtn.TabIndex = 12
-        PaymentsBtn.Text = "   Payments"
+        PaymentsBtn.Text = "   Reminders"
         PaymentsBtn.TextAlign = ContentAlignment.MiddleLeft
         PaymentsBtn.TextImageRelation = TextImageRelation.ImageBeforeText
         PaymentsBtn.UseVisualStyleBackColor = False
@@ -273,13 +273,13 @@ Partial Class dashboard
         AttendanceBtn.FlatStyle = FlatStyle.Flat
         AttendanceBtn.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
         AttendanceBtn.ForeColor = SystemColors.ButtonHighlight
-        AttendanceBtn.Image = My.Resources.Resources.Vector1
+        AttendanceBtn.Image = My.Resources.Resources.calendar
         AttendanceBtn.ImageAlign = ContentAlignment.MiddleLeft
         AttendanceBtn.Location = New Point(15, 83)
         AttendanceBtn.Name = "AttendanceBtn"
         AttendanceBtn.Size = New Size(288, 68)
         AttendanceBtn.TabIndex = 8
-        AttendanceBtn.Text = "   Attendance"
+        AttendanceBtn.Text = "   Scheduling"
         AttendanceBtn.TextAlign = ContentAlignment.MiddleLeft
         AttendanceBtn.TextImageRelation = TextImageRelation.ImageBeforeText
         AttendanceBtn.UseVisualStyleBackColor = False
@@ -289,6 +289,7 @@ Partial Class dashboard
         DashboardBtn.BackColor = Color.Black
         DashboardBtn.Dock = DockStyle.Top
         DashboardBtn.FlatAppearance.BorderSize = 0
+        DashboardBtn.FlatAppearance.MouseOverBackColor = Color.Khaki
         DashboardBtn.FlatStyle = FlatStyle.Flat
         DashboardBtn.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
         DashboardBtn.ForeColor = SystemColors.ButtonHighlight
