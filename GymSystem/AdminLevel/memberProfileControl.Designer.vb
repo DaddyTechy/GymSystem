@@ -31,28 +31,6 @@ Partial Class memberProfileControl
         TableLayoutPanel1 = New TableLayoutPanel()
         lblMemberName = New Label()
         Label1 = New Label()
-        Panel1 = New Panel()
-        TableLayoutPanel3 = New TableLayoutPanel()
-        Label7 = New Label()
-        lbldtcreated = New Label()
-        lblStatus = New Label()
-        PictureBox1 = New PictureBox()
-        TableLayoutPanel4 = New TableLayoutPanel()
-        Label6 = New Label()
-        Label5 = New Label()
-        Label4 = New Label()
-        TableLayoutPanel5 = New TableLayoutPanel()
-        lblWeightHeight = New Label()
-        Label14 = New Label()
-        lblEmail = New Label()
-        Label12 = New Label()
-        lblContactNo = New Label()
-        Label10 = New Label()
-        lbldob = New Label()
-        Label8 = New Label()
-        TableLayoutPanel9 = New TableLayoutPanel()
-        lblUserHandle = New Label()
-        lblUserName = New Label()
         Panel2 = New Panel()
         notesDGV = New DataGridView()
         TableLayoutPanel6 = New TableLayoutPanel()
@@ -81,13 +59,29 @@ Partial Class memberProfileControl
         btnAddReservation = New Label()
         Label13 = New Label()
         TableLayoutPanel2 = New TableLayoutPanel()
+        TableLayoutPanel3 = New TableLayoutPanel()
+        Label7 = New Label()
+        lbldtcreated = New Label()
+        lblStatus = New Label()
+        PictureBox1 = New PictureBox()
+        TableLayoutPanel4 = New TableLayoutPanel()
+        Label6 = New Label()
+        Label5 = New Label()
+        Label4 = New Label()
+        TableLayoutPanel5 = New TableLayoutPanel()
+        lblWeightHeight = New Label()
+        Label14 = New Label()
+        lblEmail = New Label()
+        Label12 = New Label()
+        lblContactNo = New Label()
+        Label10 = New Label()
+        lbldob = New Label()
+        Label8 = New Label()
+        TableLayoutPanel9 = New TableLayoutPanel()
+        lblUserHandle = New Label()
+        lblUserName = New Label()
+        Panel1 = New Panel()
         TableLayoutPanel1.SuspendLayout()
-        Panel1.SuspendLayout()
-        TableLayoutPanel3.SuspendLayout()
-        CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
-        TableLayoutPanel4.SuspendLayout()
-        TableLayoutPanel5.SuspendLayout()
-        TableLayoutPanel9.SuspendLayout()
         Panel2.SuspendLayout()
         CType(notesDGV, ComponentModel.ISupportInitialize).BeginInit()
         TableLayoutPanel6.SuspendLayout()
@@ -100,23 +94,30 @@ Partial Class memberProfileControl
         CType(reservationsDGV, ComponentModel.ISupportInitialize).BeginInit()
         TableLayoutPanel10.SuspendLayout()
         TableLayoutPanel2.SuspendLayout()
+        TableLayoutPanel3.SuspendLayout()
+        CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
+        TableLayoutPanel4.SuspendLayout()
+        TableLayoutPanel5.SuspendLayout()
+        TableLayoutPanel9.SuspendLayout()
+        Panel1.SuspendLayout()
         SuspendLayout()
         ' 
         ' TableLayoutPanel1
         ' 
         TableLayoutPanel1.ColumnCount = 3
-        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 155F))
-        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 81F))
-        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 513F))
+        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 177F))
+        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 93F))
+        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 709F))
         TableLayoutPanel1.Controls.Add(lblMemberName, 1, 0)
         TableLayoutPanel1.Controls.Add(Label1, 0, 0)
         TableLayoutPanel1.Dock = DockStyle.Top
-        TableLayoutPanel1.Location = New Point(15, 15)
+        TableLayoutPanel1.Location = New Point(17, 20)
+        TableLayoutPanel1.Margin = New Padding(3, 4, 3, 4)
         TableLayoutPanel1.Name = "TableLayoutPanel1"
         TableLayoutPanel1.RowCount = 2
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
-        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 8F))
-        TableLayoutPanel1.Size = New Size(856, 42)
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 11F))
+        TableLayoutPanel1.Size = New Size(989, 56)
         TableLayoutPanel1.TabIndex = 0
         ' 
         ' lblMemberName
@@ -125,9 +126,9 @@ Partial Class memberProfileControl
         lblMemberName.Dock = DockStyle.Left
         lblMemberName.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblMemberName.ForeColor = Color.Yellow
-        lblMemberName.Location = New Point(158, 0)
+        lblMemberName.Location = New Point(180, 0)
         lblMemberName.Name = "lblMemberName"
-        lblMemberName.Size = New Size(69, 34)
+        lblMemberName.Size = New Size(80, 45)
         lblMemberName.TabIndex = 7
         lblMemberName.Text = "Username"
         ' 
@@ -140,358 +141,20 @@ Partial Class memberProfileControl
         Label1.Location = New Point(3, 0)
         Label1.Margin = New Padding(3, 0, 0, 0)
         Label1.Name = "Label1"
-        Label1.Size = New Size(151, 34)
+        Label1.Size = New Size(107, 45)
         Label1.TabIndex = 6
         Label1.Text = "Registered Members  >"
-        ' 
-        ' Panel1
-        ' 
-        Panel1.AutoSizeMode = AutoSizeMode.GrowAndShrink
-        Panel1.Controls.Add(TableLayoutPanel3)
-        Panel1.Dock = DockStyle.Left
-        Panel1.Location = New Point(15, 57)
-        Panel1.Name = "Panel1"
-        Panel1.Size = New Size(277, 1654)
-        Panel1.TabIndex = 1
-        ' 
-        ' TableLayoutPanel3
-        ' 
-        TableLayoutPanel3.AutoSizeMode = AutoSizeMode.GrowAndShrink
-        TableLayoutPanel3.BackColor = Color.FromArgb(CByte(15), CByte(15), CByte(15))
-        TableLayoutPanel3.ColumnCount = 1
-        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
-        TableLayoutPanel3.Controls.Add(Label7, 0, 6)
-        TableLayoutPanel3.Controls.Add(lbldtcreated, 0, 3)
-        TableLayoutPanel3.Controls.Add(lblStatus, 0, 1)
-        TableLayoutPanel3.Controls.Add(PictureBox1, 0, 0)
-        TableLayoutPanel3.Controls.Add(TableLayoutPanel4, 0, 5)
-        TableLayoutPanel3.Controls.Add(TableLayoutPanel5, 0, 7)
-        TableLayoutPanel3.Controls.Add(TableLayoutPanel9, 0, 2)
-        TableLayoutPanel3.Dock = DockStyle.Fill
-        TableLayoutPanel3.Location = New Point(0, 0)
-        TableLayoutPanel3.Name = "TableLayoutPanel3"
-        TableLayoutPanel3.Padding = New Padding(10, 60, 10, 0)
-        TableLayoutPanel3.RowCount = 8
-        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Absolute, 84F))
-        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Absolute, 23F))
-        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Absolute, 65F))
-        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Absolute, 36F))
-        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Absolute, 8F))
-        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Absolute, 150F))
-        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Absolute, 25F))
-        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Absolute, 152F))
-        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Absolute, 17F))
-        TableLayoutPanel3.Size = New Size(277, 1654)
-        TableLayoutPanel3.TabIndex = 1
-        ' 
-        ' Label7
-        ' 
-        Label7.AutoSize = True
-        Label7.Dock = DockStyle.Fill
-        Label7.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label7.ForeColor = Color.White
-        Label7.Location = New Point(13, 426)
-        Label7.Margin = New Padding(3, 0, 0, 0)
-        Label7.Name = "Label7"
-        Label7.Size = New Size(254, 25)
-        Label7.TabIndex = 6
-        Label7.Text = "Personal Info"
-        Label7.TextAlign = ContentAlignment.MiddleLeft
-        ' 
-        ' lbldtcreated
-        ' 
-        lbldtcreated.AutoSize = True
-        lbldtcreated.Dock = DockStyle.Fill
-        lbldtcreated.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lbldtcreated.ForeColor = Color.White
-        lbldtcreated.Location = New Point(13, 232)
-        lbldtcreated.Margin = New Padding(3, 0, 0, 0)
-        lbldtcreated.Name = "lbldtcreated"
-        lbldtcreated.Size = New Size(254, 36)
-        lbldtcreated.TabIndex = 4
-        lbldtcreated.Text = "Member Since: 00/00/00"
-        lbldtcreated.TextAlign = ContentAlignment.TopCenter
-        ' 
-        ' lblStatus
-        ' 
-        lblStatus.AutoSize = True
-        lblStatus.Dock = DockStyle.Fill
-        lblStatus.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblStatus.ForeColor = Color.Gold
-        lblStatus.Location = New Point(13, 144)
-        lblStatus.Margin = New Padding(3, 0, 0, 0)
-        lblStatus.Name = "lblStatus"
-        lblStatus.Size = New Size(254, 23)
-        lblStatus.TabIndex = 2
-        lblStatus.Text = "Active"
-        lblStatus.TextAlign = ContentAlignment.MiddleCenter
-        ' 
-        ' PictureBox1
-        ' 
-        PictureBox1.Dock = DockStyle.Fill
-        PictureBox1.Image = Personal_Trainer
-        PictureBox1.Location = New Point(13, 63)
-        PictureBox1.Name = "PictureBox1"
-        PictureBox1.Size = New Size(251, 78)
-        PictureBox1.SizeMode = PictureBoxSizeMode.CenterImage
-        PictureBox1.TabIndex = 0
-        PictureBox1.TabStop = False
-        ' 
-        ' TableLayoutPanel4
-        ' 
-        TableLayoutPanel4.ColumnCount = 3
-        TableLayoutPanel4.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333321F))
-        TableLayoutPanel4.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333321F))
-        TableLayoutPanel4.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333321F))
-        TableLayoutPanel4.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 20F))
-        TableLayoutPanel4.Controls.Add(Label6, 2, 0)
-        TableLayoutPanel4.Controls.Add(Label5, 1, 0)
-        TableLayoutPanel4.Controls.Add(Label4, 0, 0)
-        TableLayoutPanel4.Dock = DockStyle.Fill
-        TableLayoutPanel4.Location = New Point(13, 279)
-        TableLayoutPanel4.Name = "TableLayoutPanel4"
-        TableLayoutPanel4.RowCount = 1
-        TableLayoutPanel4.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
-        TableLayoutPanel4.Size = New Size(251, 144)
-        TableLayoutPanel4.TabIndex = 5
-        ' 
-        ' Label6
-        ' 
-        Label6.AutoSize = True
-        Label6.Dock = DockStyle.Fill
-        Label6.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label6.ForeColor = Color.White
-        Label6.Image = Group_38
-        Label6.ImageAlign = ContentAlignment.TopCenter
-        Label6.Location = New Point(169, 0)
-        Label6.Margin = New Padding(3, 0, 0, 0)
-        Label6.Name = "Label6"
-        Label6.Size = New Size(82, 144)
-        Label6.TabIndex = 7
-        Label6.Text = "Card"
-        Label6.TextAlign = ContentAlignment.MiddleCenter
-        ' 
-        ' Label5
-        ' 
-        Label5.AutoSize = True
-        Label5.Dock = DockStyle.Fill
-        Label5.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label5.ForeColor = Color.White
-        Label5.Image = Group_37
-        Label5.ImageAlign = ContentAlignment.TopCenter
-        Label5.Location = New Point(86, 0)
-        Label5.Margin = New Padding(3, 0, 0, 0)
-        Label5.Name = "Label5"
-        Label5.Size = New Size(80, 144)
-        Label5.TabIndex = 6
-        Label5.Text = "Email"
-        Label5.TextAlign = ContentAlignment.MiddleCenter
-        ' 
-        ' Label4
-        ' 
-        Label4.AutoSize = True
-        Label4.Dock = DockStyle.Fill
-        Label4.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label4.ForeColor = Color.White
-        Label4.Image = Group_36
-        Label4.ImageAlign = ContentAlignment.TopCenter
-        Label4.Location = New Point(3, 0)
-        Label4.Margin = New Padding(3, 0, 0, 0)
-        Label4.Name = "Label4"
-        Label4.Size = New Size(80, 144)
-        Label4.TabIndex = 5
-        Label4.Text = "Call"
-        Label4.TextAlign = ContentAlignment.MiddleCenter
-        ' 
-        ' TableLayoutPanel5
-        ' 
-        TableLayoutPanel5.ColumnCount = 2
-        TableLayoutPanel5.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 38.64407F))
-        TableLayoutPanel5.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 61.35593F))
-        TableLayoutPanel5.Controls.Add(lblWeightHeight, 1, 3)
-        TableLayoutPanel5.Controls.Add(Label14, 0, 3)
-        TableLayoutPanel5.Controls.Add(lblEmail, 1, 2)
-        TableLayoutPanel5.Controls.Add(Label12, 0, 2)
-        TableLayoutPanel5.Controls.Add(lblContactNo, 1, 1)
-        TableLayoutPanel5.Controls.Add(Label10, 0, 1)
-        TableLayoutPanel5.Controls.Add(lbldob, 1, 0)
-        TableLayoutPanel5.Controls.Add(Label8, 0, 0)
-        TableLayoutPanel5.Dock = DockStyle.Top
-        TableLayoutPanel5.Location = New Point(13, 454)
-        TableLayoutPanel5.Name = "TableLayoutPanel5"
-        TableLayoutPanel5.RowCount = 4
-        TableLayoutPanel5.RowStyles.Add(New RowStyle(SizeType.Percent, 25F))
-        TableLayoutPanel5.RowStyles.Add(New RowStyle(SizeType.Percent, 25F))
-        TableLayoutPanel5.RowStyles.Add(New RowStyle(SizeType.Percent, 25F))
-        TableLayoutPanel5.RowStyles.Add(New RowStyle(SizeType.Percent, 25F))
-        TableLayoutPanel5.Size = New Size(251, 195)
-        TableLayoutPanel5.TabIndex = 7
-        ' 
-        ' lblWeightHeight
-        ' 
-        lblWeightHeight.AutoSize = True
-        lblWeightHeight.Dock = DockStyle.Fill
-        lblWeightHeight.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
-        lblWeightHeight.ForeColor = Color.White
-        lblWeightHeight.Location = New Point(99, 144)
-        lblWeightHeight.Margin = New Padding(3, 0, 0, 0)
-        lblWeightHeight.Name = "lblWeightHeight"
-        lblWeightHeight.Size = New Size(152, 51)
-        lblWeightHeight.TabIndex = 14
-        lblWeightHeight.Text = "Personal Info"
-        lblWeightHeight.TextAlign = ContentAlignment.MiddleRight
-        ' 
-        ' Label14
-        ' 
-        Label14.AutoSize = True
-        Label14.Dock = DockStyle.Fill
-        Label14.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
-        Label14.ForeColor = Color.White
-        Label14.Location = New Point(3, 144)
-        Label14.Margin = New Padding(3, 0, 0, 0)
-        Label14.Name = "Label14"
-        Label14.Size = New Size(93, 51)
-        Label14.TabIndex = 13
-        Label14.Text = "Weight and Height"
-        Label14.TextAlign = ContentAlignment.MiddleLeft
-        ' 
-        ' lblEmail
-        ' 
-        lblEmail.AutoSize = True
-        lblEmail.Dock = DockStyle.Fill
-        lblEmail.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
-        lblEmail.ForeColor = Color.White
-        lblEmail.Location = New Point(99, 96)
-        lblEmail.Margin = New Padding(3, 0, 0, 0)
-        lblEmail.Name = "lblEmail"
-        lblEmail.Size = New Size(152, 48)
-        lblEmail.TabIndex = 12
-        lblEmail.Text = "Personal Info"
-        lblEmail.TextAlign = ContentAlignment.MiddleRight
-        ' 
-        ' Label12
-        ' 
-        Label12.AutoSize = True
-        Label12.Dock = DockStyle.Fill
-        Label12.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
-        Label12.ForeColor = Color.White
-        Label12.Location = New Point(3, 96)
-        Label12.Margin = New Padding(3, 0, 0, 0)
-        Label12.Name = "Label12"
-        Label12.Size = New Size(93, 48)
-        Label12.TabIndex = 11
-        Label12.Text = "Email Address"
-        Label12.TextAlign = ContentAlignment.MiddleLeft
-        ' 
-        ' lblContactNo
-        ' 
-        lblContactNo.AutoSize = True
-        lblContactNo.Dock = DockStyle.Fill
-        lblContactNo.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
-        lblContactNo.ForeColor = Color.White
-        lblContactNo.Location = New Point(99, 48)
-        lblContactNo.Margin = New Padding(3, 0, 0, 0)
-        lblContactNo.Name = "lblContactNo"
-        lblContactNo.Size = New Size(152, 48)
-        lblContactNo.TabIndex = 10
-        lblContactNo.Text = "Personal Info"
-        lblContactNo.TextAlign = ContentAlignment.MiddleRight
-        ' 
-        ' Label10
-        ' 
-        Label10.AutoSize = True
-        Label10.Dock = DockStyle.Fill
-        Label10.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
-        Label10.ForeColor = Color.White
-        Label10.Location = New Point(3, 48)
-        Label10.Margin = New Padding(3, 0, 0, 0)
-        Label10.Name = "Label10"
-        Label10.Size = New Size(93, 48)
-        Label10.TabIndex = 9
-        Label10.Text = "Contact Number"
-        Label10.TextAlign = ContentAlignment.MiddleLeft
-        ' 
-        ' lbldob
-        ' 
-        lbldob.AutoSize = True
-        lbldob.Dock = DockStyle.Fill
-        lbldob.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
-        lbldob.ForeColor = Color.White
-        lbldob.Location = New Point(99, 0)
-        lbldob.Margin = New Padding(3, 0, 0, 0)
-        lbldob.Name = "lbldob"
-        lbldob.Size = New Size(152, 48)
-        lbldob.TabIndex = 8
-        lbldob.Text = "Personal Info"
-        lbldob.TextAlign = ContentAlignment.MiddleRight
-        ' 
-        ' Label8
-        ' 
-        Label8.AutoSize = True
-        Label8.Dock = DockStyle.Fill
-        Label8.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
-        Label8.ForeColor = Color.White
-        Label8.Location = New Point(3, 0)
-        Label8.Margin = New Padding(3, 0, 0, 0)
-        Label8.Name = "Label8"
-        Label8.Size = New Size(93, 48)
-        Label8.TabIndex = 7
-        Label8.Text = "Birthday"
-        Label8.TextAlign = ContentAlignment.MiddleLeft
-        ' 
-        ' TableLayoutPanel9
-        ' 
-        TableLayoutPanel9.ColumnCount = 1
-        TableLayoutPanel9.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
-        TableLayoutPanel9.Controls.Add(lblUserHandle, 0, 1)
-        TableLayoutPanel9.Controls.Add(lblUserName, 0, 0)
-        TableLayoutPanel9.Dock = DockStyle.Fill
-        TableLayoutPanel9.Location = New Point(13, 170)
-        TableLayoutPanel9.Name = "TableLayoutPanel9"
-        TableLayoutPanel9.RowCount = 2
-        TableLayoutPanel9.RowStyles.Add(New RowStyle(SizeType.Percent, 50.84746F))
-        TableLayoutPanel9.RowStyles.Add(New RowStyle(SizeType.Percent, 49.1525421F))
-        TableLayoutPanel9.Size = New Size(251, 59)
-        TableLayoutPanel9.TabIndex = 8
-        ' 
-        ' lblUserHandle
-        ' 
-        lblUserHandle.AutoSize = True
-        lblUserHandle.Dock = DockStyle.Top
-        lblUserHandle.Font = New Font("Segoe UI Black", 12F, FontStyle.Bold)
-        lblUserHandle.ForeColor = Color.White
-        lblUserHandle.Location = New Point(3, 30)
-        lblUserHandle.Margin = New Padding(3, 0, 0, 0)
-        lblUserHandle.Name = "lblUserHandle"
-        lblUserHandle.Size = New Size(248, 21)
-        lblUserHandle.TabIndex = 10
-        lblUserHandle.Text = "@000"
-        lblUserHandle.TextAlign = ContentAlignment.MiddleCenter
-        ' 
-        ' lblUserName
-        ' 
-        lblUserName.AutoSize = True
-        lblUserName.Dock = DockStyle.Top
-        lblUserName.Font = New Font("Segoe UI Black", 18F, FontStyle.Bold)
-        lblUserName.ForeColor = Color.White
-        lblUserName.Location = New Point(3, 0)
-        lblUserName.Margin = New Padding(3, 0, 0, 0)
-        lblUserName.Name = "lblUserName"
-        lblUserName.Size = New Size(248, 30)
-        lblUserName.TabIndex = 9
-        lblUserName.Text = "User Name"
-        lblUserName.TextAlign = ContentAlignment.MiddleCenter
         ' 
         ' Panel2
         ' 
         Panel2.Controls.Add(notesDGV)
         Panel2.Controls.Add(TableLayoutPanel6)
         Panel2.Dock = DockStyle.Fill
-        Panel2.Location = New Point(13, 454)
-        Panel2.Margin = New Padding(3, 10, 3, 3)
+        Panel2.Location = New Point(14, 450)
+        Panel2.Margin = New Padding(3, 13, 3, 4)
         Panel2.Name = "Panel2"
-        Panel2.Padding = New Padding(20, 10, 20, 10)
-        Panel2.Size = New Size(553, 436)
+        Panel2.Padding = New Padding(23, 13, 23, 13)
+        Panel2.Size = New Size(644, 422)
         Panel2.TabIndex = 15
         ' 
         ' notesDGV
@@ -510,11 +173,12 @@ Partial Class memberProfileControl
         notesDGV.DefaultCellStyle = DataGridViewCellStyle1
         notesDGV.Dock = DockStyle.Fill
         notesDGV.GridColor = Color.White
-        notesDGV.Location = New Point(20, 42)
+        notesDGV.Location = New Point(23, 56)
+        notesDGV.Margin = New Padding(3, 4, 3, 4)
         notesDGV.Name = "notesDGV"
         notesDGV.ReadOnly = True
         notesDGV.RowHeadersWidth = 51
-        notesDGV.Size = New Size(513, 384)
+        notesDGV.Size = New Size(598, 353)
         notesDGV.TabIndex = 9
         ' 
         ' TableLayoutPanel6
@@ -522,16 +186,17 @@ Partial Class memberProfileControl
         TableLayoutPanel6.BackColor = Color.Transparent
         TableLayoutPanel6.ColumnCount = 2
         TableLayoutPanel6.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
-        TableLayoutPanel6.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 89F))
+        TableLayoutPanel6.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 102F))
         TableLayoutPanel6.Controls.Add(btnAddNotes, 1, 0)
         TableLayoutPanel6.Controls.Add(Label2, 0, 0)
         TableLayoutPanel6.Dock = DockStyle.Top
-        TableLayoutPanel6.Location = New Point(20, 10)
+        TableLayoutPanel6.Location = New Point(23, 13)
+        TableLayoutPanel6.Margin = New Padding(3, 4, 3, 4)
         TableLayoutPanel6.Name = "TableLayoutPanel6"
-        TableLayoutPanel6.Padding = New Padding(0, 0, 0, 5)
+        TableLayoutPanel6.Padding = New Padding(0, 0, 0, 7)
         TableLayoutPanel6.RowCount = 1
         TableLayoutPanel6.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
-        TableLayoutPanel6.Size = New Size(513, 32)
+        TableLayoutPanel6.Size = New Size(598, 43)
         TableLayoutPanel6.TabIndex = 8
         ' 
         ' btnAddNotes
@@ -542,11 +207,11 @@ Partial Class memberProfileControl
         btnAddNotes.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnAddNotes.ForeColor = Color.Gold
         btnAddNotes.ImageAlign = ContentAlignment.MiddleLeft
-        btnAddNotes.Location = New Point(427, 0)
+        btnAddNotes.Location = New Point(499, 0)
         btnAddNotes.Margin = New Padding(3, 0, 0, 0)
         btnAddNotes.Name = "btnAddNotes"
         btnAddNotes.Padding = New Padding(1)
-        btnAddNotes.Size = New Size(86, 27)
+        btnAddNotes.Size = New Size(99, 36)
         btnAddNotes.TabIndex = 5
         btnAddNotes.Text = "Add Notes"
         btnAddNotes.TextAlign = ContentAlignment.MiddleCenter
@@ -562,7 +227,7 @@ Partial Class memberProfileControl
         Label2.Location = New Point(3, 0)
         Label2.Margin = New Padding(3, 0, 0, 0)
         Label2.Name = "Label2"
-        Label2.Size = New Size(421, 27)
+        Label2.Size = New Size(493, 36)
         Label2.TabIndex = 4
         Label2.Text = "Notes"
         Label2.TextAlign = ContentAlignment.MiddleLeft
@@ -596,7 +261,8 @@ Partial Class memberProfileControl
         Legend1.Enabled = False
         Legend1.Name = "Legend1"
         chartAttendance.Legends.Add(Legend1)
-        chartAttendance.Location = New Point(13, 13)
+        chartAttendance.Location = New Point(14, 17)
+        chartAttendance.Margin = New Padding(3, 4, 3, 4)
         chartAttendance.Name = "chartAttendance"
         Series1.ChartArea = "ChartArea1"
         Series1.Color = Color.Gold
@@ -605,13 +271,13 @@ Partial Class memberProfileControl
         Series1.Name = "Series1"
         Series1.Palette = DataVisualization.Charting.ChartColorPalette.Fire
         chartAttendance.Series.Add(Series1)
-        chartAttendance.Size = New Size(553, 428)
+        chartAttendance.Size = New Size(644, 416)
         chartAttendance.TabIndex = 13
         chartAttendance.Text = "Chart1"
         Title1.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Title1.ForeColor = Color.White
         Title1.Name = "Title1"
-        Title1.Text = "Total"
+        Title1.Text = "Attendance"
         chartAttendance.Titles.Add(Title1)
         ' 
         ' Panel3
@@ -623,11 +289,11 @@ Partial Class memberProfileControl
         Panel3.Controls.Add(Panel4)
         Panel3.Controls.Add(TableLayoutPanel7)
         Panel3.Dock = DockStyle.Fill
-        Panel3.Location = New Point(13, 903)
-        Panel3.Margin = New Padding(3, 10, 3, 3)
+        Panel3.Location = New Point(14, 889)
+        Panel3.Margin = New Padding(3, 13, 3, 4)
         Panel3.Name = "Panel3"
-        Panel3.Padding = New Padding(20, 10, 20, 10)
-        Panel3.Size = New Size(553, 405)
+        Panel3.Padding = New Padding(23, 13, 23, 13)
+        Panel3.Size = New Size(644, 392)
         Panel3.TabIndex = 14
         ' 
         ' TableLayoutPanel8
@@ -650,13 +316,14 @@ Partial Class memberProfileControl
         TableLayoutPanel8.Controls.Add(Label16, 1, 0)
         TableLayoutPanel8.Controls.Add(Label15, 0, 0)
         TableLayoutPanel8.Dock = DockStyle.Fill
-        TableLayoutPanel8.Location = New Point(20, 91)
+        TableLayoutPanel8.Location = New Point(23, 121)
+        TableLayoutPanel8.Margin = New Padding(3, 4, 3, 4)
         TableLayoutPanel8.Name = "TableLayoutPanel8"
-        TableLayoutPanel8.Padding = New Padding(10, 15, 10, 20)
+        TableLayoutPanel8.Padding = New Padding(11, 20, 11, 27)
         TableLayoutPanel8.RowCount = 2
         TableLayoutPanel8.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
         TableLayoutPanel8.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
-        TableLayoutPanel8.Size = New Size(513, 304)
+        TableLayoutPanel8.Size = New Size(598, 258)
         TableLayoutPanel8.TabIndex = 6
         ' 
         ' lblEndDate
@@ -665,10 +332,10 @@ Partial Class memberProfileControl
         lblEndDate.Dock = DockStyle.Fill
         lblEndDate.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
         lblEndDate.ForeColor = Color.White
-        lblEndDate.Location = New Point(107, 149)
+        lblEndDate.Location = New Point(124, 125)
         lblEndDate.Margin = New Padding(3, 0, 0, 0)
         lblEndDate.Name = "lblEndDate"
-        lblEndDate.Size = New Size(79, 135)
+        lblEndDate.Size = New Size(93, 106)
         lblEndDate.TabIndex = 19
         lblEndDate.Text = "Info"
         lblEndDate.TextAlign = ContentAlignment.TopCenter
@@ -679,10 +346,10 @@ Partial Class memberProfileControl
         lblRenewalPolicy.Dock = DockStyle.Fill
         lblRenewalPolicy.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
         lblRenewalPolicy.ForeColor = Color.White
-        lblRenewalPolicy.Location = New Point(358, 149)
+        lblRenewalPolicy.Location = New Point(417, 125)
         lblRenewalPolicy.Margin = New Padding(3, 0, 0, 0)
         lblRenewalPolicy.Name = "lblRenewalPolicy"
-        lblRenewalPolicy.Size = New Size(145, 135)
+        lblRenewalPolicy.Size = New Size(170, 106)
         lblRenewalPolicy.TabIndex = 18
         lblRenewalPolicy.Text = "Info"
         lblRenewalPolicy.TextAlign = ContentAlignment.TopCenter
@@ -693,10 +360,10 @@ Partial Class memberProfileControl
         Label19.Dock = DockStyle.Fill
         Label19.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
         Label19.ForeColor = Color.White
-        Label19.Location = New Point(358, 15)
+        Label19.Location = New Point(417, 20)
         Label19.Margin = New Padding(3, 0, 0, 0)
         Label19.Name = "Label19"
-        Label19.Size = New Size(145, 134)
+        Label19.Size = New Size(170, 105)
         Label19.TabIndex = 17
         Label19.Text = "Renewal Policy"
         Label19.TextAlign = ContentAlignment.MiddleCenter
@@ -707,10 +374,10 @@ Partial Class memberProfileControl
         lblPlanCost.Dock = DockStyle.Fill
         lblPlanCost.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
         lblPlanCost.ForeColor = Color.White
-        lblPlanCost.Location = New Point(286, 149)
+        lblPlanCost.Location = New Point(333, 125)
         lblPlanCost.Margin = New Padding(3, 0, 0, 0)
         lblPlanCost.Name = "lblPlanCost"
-        lblPlanCost.Size = New Size(69, 135)
+        lblPlanCost.Size = New Size(81, 106)
         lblPlanCost.TabIndex = 15
         lblPlanCost.Text = "Info"
         lblPlanCost.TextAlign = ContentAlignment.TopCenter
@@ -721,10 +388,10 @@ Partial Class memberProfileControl
         lblPlanAccess.Dock = DockStyle.Fill
         lblPlanAccess.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
         lblPlanAccess.ForeColor = Color.White
-        lblPlanAccess.Location = New Point(189, 149)
+        lblPlanAccess.Location = New Point(220, 125)
         lblPlanAccess.Margin = New Padding(3, 0, 0, 0)
         lblPlanAccess.Name = "lblPlanAccess"
-        lblPlanAccess.Size = New Size(94, 135)
+        lblPlanAccess.Size = New Size(110, 106)
         lblPlanAccess.TabIndex = 14
         lblPlanAccess.Text = "Info"
         lblPlanAccess.TextAlign = ContentAlignment.TopCenter
@@ -735,10 +402,10 @@ Partial Class memberProfileControl
         lblPlanStartDate.Dock = DockStyle.Fill
         lblPlanStartDate.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
         lblPlanStartDate.ForeColor = Color.White
-        lblPlanStartDate.Location = New Point(13, 149)
+        lblPlanStartDate.Location = New Point(14, 125)
         lblPlanStartDate.Margin = New Padding(3, 0, 0, 0)
         lblPlanStartDate.Name = "lblPlanStartDate"
-        lblPlanStartDate.Size = New Size(91, 135)
+        lblPlanStartDate.Size = New Size(107, 106)
         lblPlanStartDate.TabIndex = 12
         lblPlanStartDate.Text = "Info"
         lblPlanStartDate.TextAlign = ContentAlignment.TopCenter
@@ -749,10 +416,10 @@ Partial Class memberProfileControl
         Label18.Dock = DockStyle.Fill
         Label18.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
         Label18.ForeColor = Color.White
-        Label18.Location = New Point(286, 15)
+        Label18.Location = New Point(333, 20)
         Label18.Margin = New Padding(3, 0, 0, 0)
         Label18.Name = "Label18"
-        Label18.Size = New Size(69, 134)
+        Label18.Size = New Size(81, 105)
         Label18.TabIndex = 11
         Label18.Text = "Cost"
         Label18.TextAlign = ContentAlignment.MiddleCenter
@@ -763,10 +430,10 @@ Partial Class memberProfileControl
         Label17.Dock = DockStyle.Fill
         Label17.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
         Label17.ForeColor = Color.White
-        Label17.Location = New Point(189, 15)
+        Label17.Location = New Point(220, 20)
         Label17.Margin = New Padding(3, 0, 0, 0)
         Label17.Name = "Label17"
-        Label17.Size = New Size(94, 134)
+        Label17.Size = New Size(110, 105)
         Label17.TabIndex = 10
         Label17.Text = "Benefits"
         Label17.TextAlign = ContentAlignment.MiddleCenter
@@ -777,10 +444,10 @@ Partial Class memberProfileControl
         Label16.Dock = DockStyle.Fill
         Label16.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
         Label16.ForeColor = Color.White
-        Label16.Location = New Point(107, 15)
+        Label16.Location = New Point(124, 20)
         Label16.Margin = New Padding(3, 0, 0, 0)
         Label16.Name = "Label16"
-        Label16.Size = New Size(79, 134)
+        Label16.Size = New Size(93, 105)
         Label16.TabIndex = 9
         Label16.Text = "End Date"
         Label16.TextAlign = ContentAlignment.MiddleCenter
@@ -791,10 +458,10 @@ Partial Class memberProfileControl
         Label15.Dock = DockStyle.Fill
         Label15.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
         Label15.ForeColor = Color.White
-        Label15.Location = New Point(13, 15)
+        Label15.Location = New Point(14, 20)
         Label15.Margin = New Padding(3, 0, 0, 0)
         Label15.Name = "Label15"
-        Label15.Size = New Size(91, 134)
+        Label15.Size = New Size(107, 105)
         Label15.TabIndex = 8
         Label15.Text = "Start Date"
         Label15.TextAlign = ContentAlignment.MiddleCenter
@@ -805,10 +472,11 @@ Partial Class memberProfileControl
         Panel4.Controls.Add(lblPlanType)
         Panel4.Dock = DockStyle.Top
         Panel4.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Panel4.Location = New Point(20, 42)
+        Panel4.Location = New Point(23, 56)
+        Panel4.Margin = New Padding(3, 4, 3, 4)
         Panel4.Name = "Panel4"
-        Panel4.Padding = New Padding(10)
-        Panel4.Size = New Size(513, 49)
+        Panel4.Padding = New Padding(11, 13, 11, 13)
+        Panel4.Size = New Size(598, 65)
         Panel4.TabIndex = 5
         ' 
         ' lblPlanType
@@ -817,10 +485,10 @@ Partial Class memberProfileControl
         lblPlanType.Dock = DockStyle.Fill
         lblPlanType.Font = New Font("Segoe UI Black", 18F, FontStyle.Bold)
         lblPlanType.ForeColor = Color.White
-        lblPlanType.Location = New Point(10, 10)
+        lblPlanType.Location = New Point(11, 13)
         lblPlanType.Margin = New Padding(3, 0, 0, 0)
         lblPlanType.Name = "lblPlanType"
-        lblPlanType.Size = New Size(266, 32)
+        lblPlanType.Size = New Size(331, 41)
         lblPlanType.TabIndex = 4
         lblPlanType.Text = "JJ Fitness Plan - Type"
         lblPlanType.TextAlign = ContentAlignment.MiddleCenter
@@ -829,15 +497,16 @@ Partial Class memberProfileControl
         ' 
         TableLayoutPanel7.ColumnCount = 2
         TableLayoutPanel7.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
-        TableLayoutPanel7.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 158F))
+        TableLayoutPanel7.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 181F))
         TableLayoutPanel7.Controls.Add(Label11, 0, 0)
         TableLayoutPanel7.Dock = DockStyle.Top
-        TableLayoutPanel7.Location = New Point(20, 10)
+        TableLayoutPanel7.Location = New Point(23, 13)
+        TableLayoutPanel7.Margin = New Padding(3, 4, 3, 4)
         TableLayoutPanel7.Name = "TableLayoutPanel7"
-        TableLayoutPanel7.Padding = New Padding(0, 0, 0, 5)
+        TableLayoutPanel7.Padding = New Padding(0, 0, 0, 7)
         TableLayoutPanel7.RowCount = 1
         TableLayoutPanel7.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
-        TableLayoutPanel7.Size = New Size(513, 32)
+        TableLayoutPanel7.Size = New Size(598, 43)
         TableLayoutPanel7.TabIndex = 4
         ' 
         ' Label11
@@ -851,7 +520,7 @@ Partial Class memberProfileControl
         Label11.Location = New Point(3, 0)
         Label11.Margin = New Padding(3, 0, 0, 0)
         Label11.Name = "Label11"
-        Label11.Size = New Size(352, 27)
+        Label11.Size = New Size(414, 36)
         Label11.TabIndex = 4
         Label11.Text = "Membership"
         Label11.TextAlign = ContentAlignment.MiddleLeft
@@ -861,11 +530,11 @@ Partial Class memberProfileControl
         Panel5.Controls.Add(reservationsDGV)
         Panel5.Controls.Add(TableLayoutPanel10)
         Panel5.Dock = DockStyle.Fill
-        Panel5.Location = New Point(13, 1321)
-        Panel5.Margin = New Padding(3, 10, 3, 3)
+        Panel5.Location = New Point(14, 1298)
+        Panel5.Margin = New Padding(3, 13, 3, 4)
         Panel5.Name = "Panel5"
-        Panel5.Padding = New Padding(20, 10, 20, 10)
-        Panel5.Size = New Size(553, 330)
+        Panel5.Padding = New Padding(23, 13, 23, 13)
+        Panel5.Size = New Size(644, 440)
         Panel5.TabIndex = 16
         ' 
         ' reservationsDGV
@@ -884,11 +553,12 @@ Partial Class memberProfileControl
         reservationsDGV.DefaultCellStyle = DataGridViewCellStyle2
         reservationsDGV.Dock = DockStyle.Fill
         reservationsDGV.GridColor = Color.White
-        reservationsDGV.Location = New Point(20, 42)
+        reservationsDGV.Location = New Point(23, 56)
+        reservationsDGV.Margin = New Padding(3, 4, 3, 4)
         reservationsDGV.Name = "reservationsDGV"
         reservationsDGV.ReadOnly = True
         reservationsDGV.RowHeadersWidth = 51
-        reservationsDGV.Size = New Size(513, 278)
+        reservationsDGV.Size = New Size(598, 371)
         reservationsDGV.TabIndex = 9
         ' 
         ' TableLayoutPanel10
@@ -896,16 +566,17 @@ Partial Class memberProfileControl
         TableLayoutPanel10.BackColor = Color.Transparent
         TableLayoutPanel10.ColumnCount = 2
         TableLayoutPanel10.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
-        TableLayoutPanel10.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 89F))
+        TableLayoutPanel10.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 102F))
         TableLayoutPanel10.Controls.Add(btnAddReservation, 1, 0)
         TableLayoutPanel10.Controls.Add(Label13, 0, 0)
         TableLayoutPanel10.Dock = DockStyle.Top
-        TableLayoutPanel10.Location = New Point(20, 10)
+        TableLayoutPanel10.Location = New Point(23, 13)
+        TableLayoutPanel10.Margin = New Padding(3, 4, 3, 4)
         TableLayoutPanel10.Name = "TableLayoutPanel10"
-        TableLayoutPanel10.Padding = New Padding(0, 0, 0, 5)
+        TableLayoutPanel10.Padding = New Padding(0, 0, 0, 7)
         TableLayoutPanel10.RowCount = 1
         TableLayoutPanel10.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
-        TableLayoutPanel10.Size = New Size(513, 32)
+        TableLayoutPanel10.Size = New Size(598, 43)
         TableLayoutPanel10.TabIndex = 8
         ' 
         ' btnAddReservation
@@ -916,11 +587,11 @@ Partial Class memberProfileControl
         btnAddReservation.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnAddReservation.ForeColor = Color.Gold
         btnAddReservation.ImageAlign = ContentAlignment.MiddleLeft
-        btnAddReservation.Location = New Point(427, 0)
+        btnAddReservation.Location = New Point(499, 0)
         btnAddReservation.Margin = New Padding(3, 0, 0, 0)
         btnAddReservation.Name = "btnAddReservation"
         btnAddReservation.Padding = New Padding(1)
-        btnAddReservation.Size = New Size(86, 27)
+        btnAddReservation.Size = New Size(99, 36)
         btnAddReservation.TabIndex = 5
         btnAddReservation.Text = "Add Reservation"
         btnAddReservation.TextAlign = ContentAlignment.MiddleCenter
@@ -936,7 +607,7 @@ Partial Class memberProfileControl
         Label13.Location = New Point(3, 0)
         Label13.Margin = New Padding(3, 0, 0, 0)
         Label13.Name = "Label13"
-        Label13.Size = New Size(421, 27)
+        Label13.Size = New Size(493, 36)
         Label13.TabIndex = 4
         Label13.Text = "Reservations"
         Label13.TextAlign = ContentAlignment.MiddleLeft
@@ -944,7 +615,6 @@ Partial Class memberProfileControl
         ' TableLayoutPanel2
         ' 
         TableLayoutPanel2.AutoScroll = True
-        TableLayoutPanel2.AutoSize = True
         TableLayoutPanel2.BackColor = Color.FromArgb(CByte(20), CByte(20), CByte(20))
         TableLayoutPanel2.ColumnCount = 1
         TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
@@ -952,45 +622,382 @@ Partial Class memberProfileControl
         TableLayoutPanel2.Controls.Add(Panel3, 0, 2)
         TableLayoutPanel2.Controls.Add(chartAttendance, 0, 0)
         TableLayoutPanel2.Controls.Add(Panel2, 0, 1)
-        TableLayoutPanel2.Dock = DockStyle.Fill
-        TableLayoutPanel2.Location = New Point(292, 57)
+        TableLayoutPanel2.Dock = DockStyle.Top
+        TableLayoutPanel2.Location = New Point(334, 76)
+        TableLayoutPanel2.Margin = New Padding(3, 4, 3, 4)
+        TableLayoutPanel2.MinimumSize = New Size(672, 1000)
         TableLayoutPanel2.Name = "TableLayoutPanel2"
-        TableLayoutPanel2.Padding = New Padding(10, 10, 10, 0)
+        TableLayoutPanel2.Padding = New Padding(11, 13, 11, 0)
         TableLayoutPanel2.RowCount = 4
         TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 33.31398F))
         TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 34.5195732F))
         TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 32.1470947F))
-        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Absolute, 341F))
-        TableLayoutPanel2.Size = New Size(579, 1654)
+        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Absolute, 455F))
+        TableLayoutPanel2.Size = New Size(672, 1742)
         TableLayoutPanel2.TabIndex = 2
+        ' 
+        ' TableLayoutPanel3
+        ' 
+        TableLayoutPanel3.AutoScroll = True
+        TableLayoutPanel3.AutoSize = True
+        TableLayoutPanel3.BackColor = Color.FromArgb(CByte(15), CByte(15), CByte(15))
+        TableLayoutPanel3.ColumnCount = 1
+        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
+        TableLayoutPanel3.Controls.Add(Label7, 0, 6)
+        TableLayoutPanel3.Controls.Add(lbldtcreated, 0, 3)
+        TableLayoutPanel3.Controls.Add(lblStatus, 0, 1)
+        TableLayoutPanel3.Controls.Add(PictureBox1, 0, 0)
+        TableLayoutPanel3.Controls.Add(TableLayoutPanel4, 0, 5)
+        TableLayoutPanel3.Controls.Add(TableLayoutPanel5, 0, 7)
+        TableLayoutPanel3.Controls.Add(TableLayoutPanel9, 0, 2)
+        TableLayoutPanel3.Dock = DockStyle.Top
+        TableLayoutPanel3.Location = New Point(0, 0)
+        TableLayoutPanel3.Margin = New Padding(3, 4, 3, 4)
+        TableLayoutPanel3.Name = "TableLayoutPanel3"
+        TableLayoutPanel3.Padding = New Padding(11, 80, 11, 0)
+        TableLayoutPanel3.RowCount = 8
+        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Absolute, 112F))
+        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Absolute, 31F))
+        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Absolute, 87F))
+        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Absolute, 48F))
+        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Absolute, 11F))
+        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Absolute, 200F))
+        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Absolute, 33F))
+        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Absolute, 203F))
+        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Absolute, 23F))
+        TableLayoutPanel3.Size = New Size(317, 805)
+        TableLayoutPanel3.TabIndex = 1
+        ' 
+        ' Label7
+        ' 
+        Label7.AutoSize = True
+        Label7.Dock = DockStyle.Fill
+        Label7.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label7.ForeColor = Color.White
+        Label7.Location = New Point(14, 569)
+        Label7.Margin = New Padding(3, 0, 0, 0)
+        Label7.Name = "Label7"
+        Label7.Size = New Size(292, 33)
+        Label7.TabIndex = 6
+        Label7.Text = "Personal Info"
+        Label7.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' lbldtcreated
+        ' 
+        lbldtcreated.AutoSize = True
+        lbldtcreated.Dock = DockStyle.Fill
+        lbldtcreated.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lbldtcreated.ForeColor = Color.White
+        lbldtcreated.Location = New Point(14, 310)
+        lbldtcreated.Margin = New Padding(3, 0, 0, 0)
+        lbldtcreated.Name = "lbldtcreated"
+        lbldtcreated.Size = New Size(292, 48)
+        lbldtcreated.TabIndex = 4
+        lbldtcreated.Text = "Member Since: 00/00/00"
+        lbldtcreated.TextAlign = ContentAlignment.TopCenter
+        ' 
+        ' lblStatus
+        ' 
+        lblStatus.AutoSize = True
+        lblStatus.Dock = DockStyle.Fill
+        lblStatus.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblStatus.ForeColor = Color.Gold
+        lblStatus.Location = New Point(14, 192)
+        lblStatus.Margin = New Padding(3, 0, 0, 0)
+        lblStatus.Name = "lblStatus"
+        lblStatus.Size = New Size(292, 31)
+        lblStatus.TabIndex = 2
+        lblStatus.Text = "Active"
+        lblStatus.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' PictureBox1
+        ' 
+        PictureBox1.Dock = DockStyle.Fill
+        PictureBox1.Image = Personal_Trainer
+        PictureBox1.Location = New Point(14, 84)
+        PictureBox1.Margin = New Padding(3, 4, 3, 4)
+        PictureBox1.Name = "PictureBox1"
+        PictureBox1.Size = New Size(289, 104)
+        PictureBox1.SizeMode = PictureBoxSizeMode.CenterImage
+        PictureBox1.TabIndex = 0
+        PictureBox1.TabStop = False
+        ' 
+        ' TableLayoutPanel4
+        ' 
+        TableLayoutPanel4.ColumnCount = 3
+        TableLayoutPanel4.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333321F))
+        TableLayoutPanel4.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333321F))
+        TableLayoutPanel4.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333321F))
+        TableLayoutPanel4.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 23F))
+        TableLayoutPanel4.Controls.Add(Label6, 2, 0)
+        TableLayoutPanel4.Controls.Add(Label5, 1, 0)
+        TableLayoutPanel4.Controls.Add(Label4, 0, 0)
+        TableLayoutPanel4.Dock = DockStyle.Fill
+        TableLayoutPanel4.Location = New Point(14, 373)
+        TableLayoutPanel4.Margin = New Padding(3, 4, 3, 4)
+        TableLayoutPanel4.Name = "TableLayoutPanel4"
+        TableLayoutPanel4.RowCount = 1
+        TableLayoutPanel4.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
+        TableLayoutPanel4.Size = New Size(289, 192)
+        TableLayoutPanel4.TabIndex = 5
+        ' 
+        ' Label6
+        ' 
+        Label6.AutoSize = True
+        Label6.Dock = DockStyle.Fill
+        Label6.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label6.ForeColor = Color.White
+        Label6.Image = Group_38
+        Label6.ImageAlign = ContentAlignment.TopCenter
+        Label6.Location = New Point(195, 0)
+        Label6.Margin = New Padding(3, 0, 0, 0)
+        Label6.Name = "Label6"
+        Label6.Size = New Size(94, 192)
+        Label6.TabIndex = 7
+        Label6.Text = "Card"
+        Label6.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' Label5
+        ' 
+        Label5.AutoSize = True
+        Label5.Dock = DockStyle.Fill
+        Label5.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label5.ForeColor = Color.White
+        Label5.Image = Group_37
+        Label5.ImageAlign = ContentAlignment.TopCenter
+        Label5.Location = New Point(99, 0)
+        Label5.Margin = New Padding(3, 0, 0, 0)
+        Label5.Name = "Label5"
+        Label5.Size = New Size(93, 192)
+        Label5.TabIndex = 6
+        Label5.Text = "Email"
+        Label5.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' Label4
+        ' 
+        Label4.AutoSize = True
+        Label4.Dock = DockStyle.Fill
+        Label4.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label4.ForeColor = Color.White
+        Label4.Image = Group_36
+        Label4.ImageAlign = ContentAlignment.TopCenter
+        Label4.Location = New Point(3, 0)
+        Label4.Margin = New Padding(3, 0, 0, 0)
+        Label4.Name = "Label4"
+        Label4.Size = New Size(93, 192)
+        Label4.TabIndex = 5
+        Label4.Text = "Call"
+        Label4.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' TableLayoutPanel5
+        ' 
+        TableLayoutPanel5.ColumnCount = 2
+        TableLayoutPanel5.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 38.64407F))
+        TableLayoutPanel5.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 61.35593F))
+        TableLayoutPanel5.Controls.Add(lblWeightHeight, 1, 3)
+        TableLayoutPanel5.Controls.Add(Label14, 0, 3)
+        TableLayoutPanel5.Controls.Add(lblEmail, 1, 2)
+        TableLayoutPanel5.Controls.Add(Label12, 0, 2)
+        TableLayoutPanel5.Controls.Add(lblContactNo, 1, 1)
+        TableLayoutPanel5.Controls.Add(Label10, 0, 1)
+        TableLayoutPanel5.Controls.Add(lbldob, 1, 0)
+        TableLayoutPanel5.Controls.Add(Label8, 0, 0)
+        TableLayoutPanel5.Dock = DockStyle.Top
+        TableLayoutPanel5.Location = New Point(14, 606)
+        TableLayoutPanel5.Margin = New Padding(3, 4, 3, 4)
+        TableLayoutPanel5.Name = "TableLayoutPanel5"
+        TableLayoutPanel5.RowCount = 4
+        TableLayoutPanel5.RowStyles.Add(New RowStyle(SizeType.Percent, 25F))
+        TableLayoutPanel5.RowStyles.Add(New RowStyle(SizeType.Percent, 25F))
+        TableLayoutPanel5.RowStyles.Add(New RowStyle(SizeType.Percent, 25F))
+        TableLayoutPanel5.RowStyles.Add(New RowStyle(SizeType.Percent, 25F))
+        TableLayoutPanel5.Size = New Size(289, 195)
+        TableLayoutPanel5.TabIndex = 7
+        ' 
+        ' lblWeightHeight
+        ' 
+        lblWeightHeight.AutoSize = True
+        lblWeightHeight.Dock = DockStyle.Fill
+        lblWeightHeight.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
+        lblWeightHeight.ForeColor = Color.White
+        lblWeightHeight.Location = New Point(114, 144)
+        lblWeightHeight.Margin = New Padding(3, 0, 0, 0)
+        lblWeightHeight.Name = "lblWeightHeight"
+        lblWeightHeight.Size = New Size(175, 51)
+        lblWeightHeight.TabIndex = 14
+        lblWeightHeight.Text = "Personal Info"
+        lblWeightHeight.TextAlign = ContentAlignment.MiddleRight
+        ' 
+        ' Label14
+        ' 
+        Label14.AutoSize = True
+        Label14.Dock = DockStyle.Fill
+        Label14.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
+        Label14.ForeColor = Color.White
+        Label14.Location = New Point(3, 144)
+        Label14.Margin = New Padding(3, 0, 0, 0)
+        Label14.Name = "Label14"
+        Label14.Size = New Size(108, 51)
+        Label14.TabIndex = 13
+        Label14.Text = "Weight and Height"
+        Label14.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' lblEmail
+        ' 
+        lblEmail.AutoSize = True
+        lblEmail.Dock = DockStyle.Fill
+        lblEmail.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
+        lblEmail.ForeColor = Color.White
+        lblEmail.Location = New Point(114, 96)
+        lblEmail.Margin = New Padding(3, 0, 0, 0)
+        lblEmail.Name = "lblEmail"
+        lblEmail.Size = New Size(175, 48)
+        lblEmail.TabIndex = 12
+        lblEmail.Text = "Personal Info"
+        lblEmail.TextAlign = ContentAlignment.MiddleRight
+        ' 
+        ' Label12
+        ' 
+        Label12.AutoSize = True
+        Label12.Dock = DockStyle.Fill
+        Label12.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
+        Label12.ForeColor = Color.White
+        Label12.Location = New Point(3, 96)
+        Label12.Margin = New Padding(3, 0, 0, 0)
+        Label12.Name = "Label12"
+        Label12.Size = New Size(108, 48)
+        Label12.TabIndex = 11
+        Label12.Text = "Email Address"
+        Label12.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' lblContactNo
+        ' 
+        lblContactNo.AutoSize = True
+        lblContactNo.Dock = DockStyle.Fill
+        lblContactNo.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
+        lblContactNo.ForeColor = Color.White
+        lblContactNo.Location = New Point(114, 48)
+        lblContactNo.Margin = New Padding(3, 0, 0, 0)
+        lblContactNo.Name = "lblContactNo"
+        lblContactNo.Size = New Size(175, 48)
+        lblContactNo.TabIndex = 10
+        lblContactNo.Text = "Personal Info"
+        lblContactNo.TextAlign = ContentAlignment.MiddleRight
+        ' 
+        ' Label10
+        ' 
+        Label10.AutoSize = True
+        Label10.Dock = DockStyle.Fill
+        Label10.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
+        Label10.ForeColor = Color.White
+        Label10.Location = New Point(3, 48)
+        Label10.Margin = New Padding(3, 0, 0, 0)
+        Label10.Name = "Label10"
+        Label10.Size = New Size(108, 48)
+        Label10.TabIndex = 9
+        Label10.Text = "Contact Number"
+        Label10.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' lbldob
+        ' 
+        lbldob.AutoSize = True
+        lbldob.Dock = DockStyle.Fill
+        lbldob.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
+        lbldob.ForeColor = Color.White
+        lbldob.Location = New Point(114, 0)
+        lbldob.Margin = New Padding(3, 0, 0, 0)
+        lbldob.Name = "lbldob"
+        lbldob.Size = New Size(175, 48)
+        lbldob.TabIndex = 8
+        lbldob.Text = "Personal Info"
+        lbldob.TextAlign = ContentAlignment.MiddleRight
+        ' 
+        ' Label8
+        ' 
+        Label8.AutoSize = True
+        Label8.Dock = DockStyle.Fill
+        Label8.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold)
+        Label8.ForeColor = Color.White
+        Label8.Location = New Point(3, 0)
+        Label8.Margin = New Padding(3, 0, 0, 0)
+        Label8.Name = "Label8"
+        Label8.Size = New Size(108, 48)
+        Label8.TabIndex = 7
+        Label8.Text = "Birthday"
+        Label8.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' TableLayoutPanel9
+        ' 
+        TableLayoutPanel9.ColumnCount = 1
+        TableLayoutPanel9.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
+        TableLayoutPanel9.Controls.Add(lblUserHandle, 0, 1)
+        TableLayoutPanel9.Controls.Add(lblUserName, 0, 0)
+        TableLayoutPanel9.Dock = DockStyle.Fill
+        TableLayoutPanel9.Location = New Point(14, 227)
+        TableLayoutPanel9.Margin = New Padding(3, 4, 3, 4)
+        TableLayoutPanel9.Name = "TableLayoutPanel9"
+        TableLayoutPanel9.RowCount = 2
+        TableLayoutPanel9.RowStyles.Add(New RowStyle(SizeType.Percent, 50.84746F))
+        TableLayoutPanel9.RowStyles.Add(New RowStyle(SizeType.Percent, 49.1525421F))
+        TableLayoutPanel9.Size = New Size(289, 79)
+        TableLayoutPanel9.TabIndex = 8
+        ' 
+        ' lblUserHandle
+        ' 
+        lblUserHandle.AutoSize = True
+        lblUserHandle.Dock = DockStyle.Top
+        lblUserHandle.Font = New Font("Segoe UI Black", 12F, FontStyle.Bold)
+        lblUserHandle.ForeColor = Color.White
+        lblUserHandle.Location = New Point(3, 40)
+        lblUserHandle.Margin = New Padding(3, 0, 0, 0)
+        lblUserHandle.Name = "lblUserHandle"
+        lblUserHandle.Size = New Size(286, 28)
+        lblUserHandle.TabIndex = 10
+        lblUserHandle.Text = "@000"
+        lblUserHandle.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' lblUserName
+        ' 
+        lblUserName.AutoSize = True
+        lblUserName.Dock = DockStyle.Top
+        lblUserName.Font = New Font("Segoe UI Black", 18F, FontStyle.Bold)
+        lblUserName.ForeColor = Color.White
+        lblUserName.Location = New Point(3, 0)
+        lblUserName.Margin = New Padding(3, 0, 0, 0)
+        lblUserName.Name = "lblUserName"
+        lblUserName.Size = New Size(286, 40)
+        lblUserName.TabIndex = 9
+        lblUserName.Text = "User Name"
+        lblUserName.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' Panel1
+        ' 
+        Panel1.AutoSizeMode = AutoSizeMode.GrowAndShrink
+        Panel1.Controls.Add(TableLayoutPanel3)
+        Panel1.Dock = DockStyle.Left
+        Panel1.Location = New Point(17, 76)
+        Panel1.Margin = New Padding(3, 4, 3, 4)
+        Panel1.Name = "Panel1"
+        Panel1.Size = New Size(317, 1742)
+        Panel1.TabIndex = 1
         ' 
         ' memberProfileControl
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         AutoScroll = True
-        AutoScrollMinSize = New Size(600, 496)
         AutoSize = True
         BackColor = Color.Transparent
         Controls.Add(TableLayoutPanel2)
         Controls.Add(Panel1)
         Controls.Add(TableLayoutPanel1)
-        MinimumSize = New Size(675, 496)
+        Margin = New Padding(3, 4, 3, 4)
+        MinimumSize = New Size(1023, 1000)
         Name = "memberProfileControl"
-        Padding = New Padding(15)
-        Size = New Size(886, 1726)
+        Padding = New Padding(17, 20, 17, 20)
+        Size = New Size(1023, 1838)
         TableLayoutPanel1.ResumeLayout(False)
         TableLayoutPanel1.PerformLayout()
-        Panel1.ResumeLayout(False)
-        TableLayoutPanel3.ResumeLayout(False)
-        TableLayoutPanel3.PerformLayout()
-        CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
-        TableLayoutPanel4.ResumeLayout(False)
-        TableLayoutPanel4.PerformLayout()
-        TableLayoutPanel5.ResumeLayout(False)
-        TableLayoutPanel5.PerformLayout()
-        TableLayoutPanel9.ResumeLayout(False)
-        TableLayoutPanel9.PerformLayout()
         Panel2.ResumeLayout(False)
         CType(notesDGV, ComponentModel.ISupportInitialize).EndInit()
         TableLayoutPanel6.ResumeLayout(False)
@@ -1009,35 +1016,23 @@ Partial Class memberProfileControl
         TableLayoutPanel10.PerformLayout()
         TableLayoutPanel2.ResumeLayout(False)
         TableLayoutPanel2.PerformLayout()
+        TableLayoutPanel3.ResumeLayout(False)
+        TableLayoutPanel3.PerformLayout()
+        CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
+        TableLayoutPanel4.ResumeLayout(False)
+        TableLayoutPanel4.PerformLayout()
+        TableLayoutPanel5.ResumeLayout(False)
+        TableLayoutPanel5.PerformLayout()
+        TableLayoutPanel9.ResumeLayout(False)
+        TableLayoutPanel9.PerformLayout()
+        Panel1.ResumeLayout(False)
+        Panel1.PerformLayout()
         ResumeLayout(False)
-        PerformLayout()
     End Sub
 
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
-    Friend WithEvents Panel1 As Panel
     Friend WithEvents lblMemberName As Label
     Friend WithEvents Label1 As Label
-    Friend WithEvents TableLayoutPanel3 As TableLayoutPanel
-    Friend WithEvents Label7 As Label
-    Friend WithEvents lbldtcreated As Label
-    Friend WithEvents lblStatus As Label
-    Friend WithEvents PictureBox1 As PictureBox
-    Friend WithEvents TableLayoutPanel4 As TableLayoutPanel
-    Friend WithEvents Label5 As Label
-    Friend WithEvents Label4 As Label
-    Friend WithEvents TableLayoutPanel5 As TableLayoutPanel
-    Friend WithEvents lblWeightHeight As Label
-    Friend WithEvents Label14 As Label
-    Friend WithEvents lblEmail As Label
-    Friend WithEvents Label12 As Label
-    Friend WithEvents lblContactNo As Label
-    Friend WithEvents Label10 As Label
-    Friend WithEvents lbldob As Label
-    Friend WithEvents Label8 As Label
-    Friend WithEvents Label6 As Label
-    Friend WithEvents TableLayoutPanel9 As TableLayoutPanel
-    Friend WithEvents lblUserHandle As Label
-    Friend WithEvents lblUserName As Label
     Friend WithEvents Panel2 As Panel
     Friend WithEvents notesDGV As DataGridView
     Friend WithEvents TableLayoutPanel6 As TableLayoutPanel
@@ -1066,5 +1061,27 @@ Partial Class memberProfileControl
     Friend WithEvents btnAddReservation As Label
     Friend WithEvents Label13 As Label
     Friend WithEvents TableLayoutPanel2 As TableLayoutPanel
+    Friend WithEvents TableLayoutPanel3 As TableLayoutPanel
+    Friend WithEvents Label7 As Label
+    Friend WithEvents lbldtcreated As Label
+    Friend WithEvents lblStatus As Label
+    Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents TableLayoutPanel4 As TableLayoutPanel
+    Friend WithEvents Label6 As Label
+    Friend WithEvents Label5 As Label
+    Friend WithEvents Label4 As Label
+    Friend WithEvents TableLayoutPanel5 As TableLayoutPanel
+    Friend WithEvents lblWeightHeight As Label
+    Friend WithEvents Label14 As Label
+    Friend WithEvents lblEmail As Label
+    Friend WithEvents Label12 As Label
+    Friend WithEvents lblContactNo As Label
+    Friend WithEvents Label10 As Label
+    Friend WithEvents lbldob As Label
+    Friend WithEvents Label8 As Label
+    Friend WithEvents TableLayoutPanel9 As TableLayoutPanel
+    Friend WithEvents lblUserHandle As Label
+    Friend WithEvents lblUserName As Label
+    Friend WithEvents Panel1 As Panel
 
 End Class

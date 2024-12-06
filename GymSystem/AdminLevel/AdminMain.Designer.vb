@@ -82,8 +82,8 @@ Partial Class Staffmain
         ' 
         ' LogoPicBox
         ' 
-        LogoPicBox.Image = My.Resources.Resources._929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
-        LogoPicBox.Location = New Point(9, 29)
+        LogoPicBox.Image = _929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
+        LogoPicBox.Location = New Point(10, 39)
         LogoPicBox.Margin = New Padding(1)
         LogoPicBox.Name = "LogoPicBox"
         LogoPicBox.Size = New Size(115, 135)
@@ -151,8 +151,7 @@ Partial Class Staffmain
         othersBtn.ForeColor = SystemColors.ButtonHighlight
         othersBtn.Image = My.Resources.Resources.Cog1
         othersBtn.ImageAlign = ContentAlignment.MiddleLeft
-        othersBtn.Location = New Point(13, 562)
-        othersBtn.Margin = New Padding(3, 2, 3, 2)
+        othersBtn.Location = New Point(15, 750)
         othersBtn.Name = "othersBtn"
         othersBtn.Size = New Size(267, 63)
         othersBtn.TabIndex = 20
@@ -165,10 +164,9 @@ Partial Class Staffmain
         ' 
         ReportsSubMenu.Controls.Add(MemRepBtn)
         ReportsSubMenu.Dock = DockStyle.Top
-        ReportsSubMenu.Location = New Point(13, 530)
-        ReportsSubMenu.Margin = New Padding(3, 2, 3, 2)
+        ReportsSubMenu.Location = New Point(15, 707)
         ReportsSubMenu.Name = "ReportsSubMenu"
-        ReportsSubMenu.Size = New Size(235, 32)
+        ReportsSubMenu.Size = New Size(267, 43)
         ReportsSubMenu.TabIndex = 19
         ' MemRepBtn
         ' 
@@ -179,6 +177,7 @@ Partial Class Staffmain
         MemRepBtn.Image = My.Resources.Resources.Vector_1
         MemRepBtn.ImageAlign = ContentAlignment.MiddleLeft
         MemRepBtn.Location = New Point(0, 0)
+        MemRepBtn.Margin = New Padding(3, 4, 3, 4)
         MemRepBtn.Name = "MemRepBtn"
         MemRepBtn.Padding = New Padding(45, 0, 0, 0)
         MemRepBtn.Size = New Size(267, 32)
@@ -195,8 +194,7 @@ Partial Class Staffmain
         ReportsBtn.ForeColor = SystemColors.ButtonHighlight
         ReportsBtn.Image = My.Resources.Resources.Vector3
         ReportsBtn.ImageAlign = ContentAlignment.MiddleLeft
-        ReportsBtn.Location = New Point(13, 467)
-        ReportsBtn.Margin = New Padding(3, 2, 3, 2)
+        ReportsBtn.Location = New Point(15, 623)
         ReportsBtn.Name = "ReportsBtn"
         ReportsBtn.Size = New Size(267, 84)
         ReportsBtn.TabIndex = 18
@@ -209,10 +207,9 @@ Partial Class Staffmain
         ' 
         GymEqpSubMenu.Controls.Add(EqpListBtn)
         GymEqpSubMenu.Dock = DockStyle.Top
-        GymEqpSubMenu.Location = New Point(13, 436)
-        GymEqpSubMenu.Margin = New Padding(3, 2, 3, 2)
+        GymEqpSubMenu.Location = New Point(15, 582)
         GymEqpSubMenu.Name = "GymEqpSubMenu"
-        GymEqpSubMenu.Size = New Size(235, 31)
+        GymEqpSubMenu.Size = New Size(267, 41)
         GymEqpSubMenu.TabIndex = 17
         ' EqpListBtn
         ' 
@@ -243,8 +240,7 @@ Partial Class Staffmain
         GymEquipmentBtn.ForeColor = SystemColors.ButtonHighlight
         GymEquipmentBtn.Image = My.Resources.Resources.Vector2
         GymEquipmentBtn.ImageAlign = ContentAlignment.MiddleLeft
-        GymEquipmentBtn.Location = New Point(13, 377)
-        GymEquipmentBtn.Margin = New Padding(3, 2, 3, 2)
+        GymEquipmentBtn.Location = New Point(15, 503)
         GymEquipmentBtn.Name = "GymEquipmentBtn"
         GymEquipmentBtn.Size = New Size(267, 79)
         GymEquipmentBtn.TabIndex = 15
@@ -263,8 +259,7 @@ Partial Class Staffmain
         StaffMngmtBtn.ForeColor = SystemColors.ButtonHighlight
         StaffMngmtBtn.Image = My.Resources.Resources.Group_26
         StaffMngmtBtn.ImageAlign = ContentAlignment.MiddleLeft
-        StaffMngmtBtn.Location = New Point(13, 314)
-        StaffMngmtBtn.Margin = New Padding(3, 2, 3, 2)
+        StaffMngmtBtn.Location = New Point(15, 419)
         StaffMngmtBtn.Name = "StaffMngmtBtn"
         StaffMngmtBtn.Size = New Size(267, 84)
         StaffMngmtBtn.TabIndex = 14
@@ -281,9 +276,7 @@ Partial Class Staffmain
         PaymentsBtn.ForeColor = SystemColors.ButtonHighlight
         PaymentsBtn.Image = Vector_4
         PaymentsBtn.ImageAlign = ContentAlignment.MiddleLeft
-        PaymentsBtn.Location = New Point(13, 256)
-
-        PaymentsBtn.Margin = New Padding(3, 2, 3, 2)
+        PaymentsBtn.Location = New Point(15, 342)
         PaymentsBtn.Name = "PaymentsBtn"
         PaymentsBtn.Size = New Size(267, 77)
         PaymentsBtn.TabIndex = 12
@@ -298,7 +291,7 @@ Partial Class Staffmain
         AttendanceSubMenu.Dock = DockStyle.Top
         AttendanceSubMenu.Location = New Point(15, 298)
         AttendanceSubMenu.Name = "AttendanceSubMenu"
-        AttendanceSubMenu.Size = New Size(235, 54)
+        AttendanceSubMenu.Size = New Size(267, 44)
         AttendanceSubMenu.TabIndex = 9
         ' 
         ' AttnViewBtn
@@ -450,8 +443,7 @@ Partial Class Staffmain
         Panel3.Location = New Point(0, 0)
         Panel3.Margin = New Padding(3, 4, 3, 4)
         Panel3.Name = "Panel3"
-        Panel3.Size = New Size(13, 654)
-
+        Panel3.Size = New Size(15, 858)
         Panel3.TabIndex = 6
         ' 
         ' UserPnl
@@ -474,7 +466,7 @@ Partial Class Staffmain
         Panel2.Location = New Point(0, 0)
         Panel2.Margin = New Padding(3, 4, 3, 4)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(328, 74)
+        Panel2.Size = New Size(375, 99)
         Panel2.TabIndex = 2
         ' 
         ' LogoutBtn
@@ -487,7 +479,8 @@ Partial Class Staffmain
         LogoutBtn.ForeColor = SystemColors.ButtonHighlight
         LogoutBtn.Image = My.Resources.Resources.Vector_21
         LogoutBtn.ImageAlign = ContentAlignment.MiddleLeft
-        LogoutBtn.Location = New Point(236, 10)
+        LogoutBtn.Location = New Point(270, 13)
+        LogoutBtn.Margin = New Padding(3, 4, 3, 4)
         LogoutBtn.Name = "LogoutBtn"
         LogoutBtn.Size = New Size(98, 67)
         LogoutBtn.TabIndex = 5
@@ -533,8 +526,8 @@ Partial Class Staffmain
         ' PictureBox2
         ' 
         PictureBox2.Anchor = AnchorStyles.None
-        PictureBox2.Image = My.Resources.Resources._929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
-        PictureBox2.Location = New Point(124, 75)
+        PictureBox2.Image = _929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
+        PictureBox2.Location = New Point(142, 100)
         PictureBox2.Margin = New Padding(1)
         PictureBox2.Name = "PictureBox2"
         PictureBox2.Size = New Size(482, 496)
@@ -544,15 +537,16 @@ Partial Class Staffmain
         ' 
         ' Staffmain
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         AutoSize = True
         Controls.Add(ContentPnl)
         Controls.Add(UserPnl)
         Controls.Add(Menu2Pnl)
-        MinimumSize = New Size(925, 580)
+        Margin = New Padding(3, 4, 3, 4)
+        MinimumSize = New Size(1057, 773)
         Name = "Staffmain"
-        Size = New Size(925, 580)
+        Size = New Size(1057, 773)
         CType(LogoPicBox, ComponentModel.ISupportInitialize).EndInit()
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()

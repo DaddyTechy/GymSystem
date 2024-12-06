@@ -143,7 +143,7 @@ Public Class ContentDashboard
     End Sub
 
     Private Sub ResetDatePickers()
-        dtpStartFilter.Value = DateTime.Now.AddMonths(-12) ' Set to one month ago
+        dtpStartFilter.Value = DateTime.Now.AddMonths(-1) ' Set to one month ago
         dtpEndFilter.Value = DateTime.Now ' Set to today
     End Sub
 
@@ -480,7 +480,4 @@ Public Class ContentDashboard
         Return totalMembers
     End Function
 
-    Private Sub dashbrdTMData_Click(sender As Object, e As EventArgs) Handles dashbrdTMData.Click
-
-    End Sub
 End Class
