@@ -208,8 +208,8 @@
   <data name="Personal Trainer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Personal Trainer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="DoneIc1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DoneIc1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Peso Symbol1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Peso Symbol1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="blkpa" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\blkpa.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -322,12 +322,6 @@
   <data name="view1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\view1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MessageIc" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MessageIc.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="blkan" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\blkan.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Group1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Group1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -336,12 +330,6 @@
   </data>
   <data name="Commercial-1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Commercial-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Peso Symbol1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Peso Symbol1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Vector1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Vector1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="blkmemstat" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\blkmemstat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -355,17 +343,8 @@
   <data name="Vector-3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Vector-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CheckIc" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CheckIc.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="tdesign_member-1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\tdesign_member-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Vector2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Vector2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Group 39" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Group 39.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\edit1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

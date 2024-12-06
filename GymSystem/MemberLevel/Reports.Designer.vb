@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class Sched
+Partial Class Reports
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -55,7 +55,7 @@ Partial Class Sched
         Panel1.Location = New Point(0, 0)
         Panel1.MinimumSize = New Size(350, 2000)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(353, 2000)
+        Panel1.Size = New Size(350, 2000)
         Panel1.TabIndex = 2
         ' 
         ' ReportsBtn
@@ -141,7 +141,7 @@ Partial Class Sched
         DashBtn.ImageAlign = ContentAlignment.MiddleRight
         DashBtn.Location = New Point(-9, 250)
         DashBtn.Name = "DashBtn"
-        DashBtn.Size = New Size(362, 60)
+        DashBtn.Size = New Size(359, 60)
         DashBtn.TabIndex = 4
         DashBtn.Text = "Dashboard"
         DashBtn.TextImageRelation = TextImageRelation.ImageBeforeText
@@ -184,7 +184,7 @@ Partial Class Sched
         Panel3.Dock = DockStyle.Top
         Panel3.Location = New Point(0, 0)
         Panel3.Name = "Panel3"
-        Panel3.Size = New Size(1290, 99)
+        Panel3.Size = New Size(1302, 99)
         Panel3.TabIndex = 3
         ' 
         ' LogoutBtn
@@ -231,16 +231,16 @@ Partial Class Sched
         PictureBox2.TabIndex = 0
         PictureBox2.TabStop = False
         ' 
-        ' Sched
+        ' Reports
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(26), CByte(26), CByte(26))
-        ClientSize = New Size(1290, 722)
+        ClientSize = New Size(1302, 737)
         Controls.Add(Panel1)
         Controls.Add(Panel3)
-        Name = "Sched"
-        Text = "Sched"
+        Name = "Reports"
+        Text = "Reports"
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
@@ -263,6 +263,4 @@ Partial Class Sched
     Friend WithEvents LogoutBtn As Button
     Friend WithEvents WelcomeLbl As Label
     Friend WithEvents PictureBox2 As PictureBox
-
-
 End Class

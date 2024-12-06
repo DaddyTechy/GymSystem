@@ -51,7 +51,9 @@ Namespace GymSystem.AdminLevel.Reports
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")>  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0"),  _
+         System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called"& _ 
+            " or extended by application code.", DiagnosticId:="SYSLIB0051")>  _
         Protected Sub New(ByVal info As Global.System.Runtime.Serialization.SerializationInfo, ByVal context As Global.System.Runtime.Serialization.StreamingContext)
             MyBase.New(info, context, false)
             If (Me.IsBinarySerialized(info, context) = true) Then
@@ -471,7 +473,9 @@ Namespace GymSystem.AdminLevel.Reports
             End Sub
             
             <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-             Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")>  _
+             Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0"),  _
+             System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called"& _ 
+                " or extended by application code.", DiagnosticId:="SYSLIB0051")>  _
             Protected Sub New(ByVal info As Global.System.Runtime.Serialization.SerializationInfo, ByVal context As Global.System.Runtime.Serialization.StreamingContext)
                 MyBase.New(info, context)
                 Me.InitVars
@@ -825,7 +829,9 @@ Namespace GymSystem.AdminLevel.Reports
             End Sub
             
             <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-             Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")>  _
+             Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0"),  _
+             System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called"& _ 
+                " or extended by application code.", DiagnosticId:="SYSLIB0051")>  _
             Protected Sub New(ByVal info As Global.System.Runtime.Serialization.SerializationInfo, ByVal context As Global.System.Runtime.Serialization.StreamingContext)
                 MyBase.New(info, context)
                 Me.InitVars
@@ -1161,7 +1167,9 @@ Namespace GymSystem.AdminLevel.Reports
             End Sub
             
             <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-             Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")>  _
+             Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0"),  _
+             System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called"& _ 
+                " or extended by application code.", DiagnosticId:="SYSLIB0051")>  _
             Protected Sub New(ByVal info As Global.System.Runtime.Serialization.SerializationInfo, ByVal context As Global.System.Runtime.Serialization.StreamingContext)
                 MyBase.New(info, context)
                 Me.InitVars
@@ -1449,7 +1457,9 @@ Namespace GymSystem.AdminLevel.Reports
             End Sub
             
             <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-             Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")>  _
+             Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0"),  _
+             System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called"& _ 
+                " or extended by application code.", DiagnosticId:="SYSLIB0051")>  _
             Protected Sub New(ByVal info As Global.System.Runtime.Serialization.SerializationInfo, ByVal context As Global.System.Runtime.Serialization.StreamingContext)
                 MyBase.New(info, context)
                 Me.InitVars
@@ -1804,7 +1814,9 @@ Namespace GymSystem.AdminLevel.Reports
             End Sub
             
             <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-             Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")>  _
+             Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0"),  _
+             System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called"& _ 
+                " or extended by application code.", DiagnosticId:="SYSLIB0051")>  _
             Protected Sub New(ByVal info As Global.System.Runtime.Serialization.SerializationInfo, ByVal context As Global.System.Runtime.Serialization.StreamingContext)
                 MyBase.New(info, context)
                 Me.InitVars
