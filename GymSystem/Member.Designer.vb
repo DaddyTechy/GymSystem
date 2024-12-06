@@ -167,7 +167,7 @@ Partial Class Member
         ' 
         Label1.Anchor = AnchorStyles.None
         Label1.AutoSize = True
-        Label1.Font = New Font("Tahoma", 9.0F)
+        Label1.Font = New Font("Tahoma", 9F)
         Label1.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
         Label1.Location = New Point(207, 579)
         Label1.Name = "Label1"
@@ -181,7 +181,8 @@ Partial Class Member
         RegisterBtn.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         RegisterBtn.FlatAppearance.BorderColor = Color.Yellow
         RegisterBtn.FlatAppearance.MouseDownBackColor = Color.Yellow
-        RegisterBtn.Font = New Font("Microsoft Sans Serif", 9.0F, FontStyle.Bold)
+        RegisterBtn.FlatStyle = FlatStyle.Popup
+        RegisterBtn.Font = New Font("Microsoft Sans Serif", 9F, FontStyle.Bold)
         RegisterBtn.ForeColor = SystemColors.ActiveCaptionText
         RegisterBtn.Location = New Point(320, 564)
         RegisterBtn.Name = "RegisterBtn"
@@ -207,7 +208,7 @@ Partial Class Member
         ' 
         ' Member
         ' 
-        AutoScaleDimensions = New SizeF(8.0F, 20.0F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(29), CByte(29), CByte(29))
         ClientSize = New Size(1037, 711)
@@ -224,7 +225,6 @@ Partial Class Member
         Controls.Add(LabelID)
         Controls.Add(LabelSign)
         Margin = New Padding(3, 2, 3, 2)
-        MinimumSize = New Size(925, 580)
         MinimumSize = New Size(925, 580)
         Name = "Member"
         Text = "Member Login"

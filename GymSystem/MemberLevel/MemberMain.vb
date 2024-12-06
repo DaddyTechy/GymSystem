@@ -59,4 +59,10 @@
         Me.ContentPanel.Controls.Add(reports)
         reports.Show()
     End Sub
+
+    Private Sub LogoutBtn_Click(sender As Object, e As EventArgs) Handles LogoutBtn.Click
+        Dim memberForm As New Member() ' Create an instance of MemberForm
+        memberForm.Show()
+        Me.Hide()
+    End Sub
 End Class

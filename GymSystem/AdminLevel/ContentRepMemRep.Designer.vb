@@ -57,7 +57,7 @@ Partial Class ContentRepMemRep
         ' Panel2
         ' 
         Panel2.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
-        Panel2.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        Panel2.BackColor = Color.FromArgb(40, 40, 40)
         Panel2.Controls.Add(DateTimePicker1)
         Panel2.Controls.Add(btnRevenue)
         Panel2.Controls.Add(btnMembership)
@@ -157,7 +157,7 @@ Partial Class ContentRepMemRep
         ' Label3
         ' 
         Label3.AutoSize = True
-        Label3.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label3.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0)
         Label3.ForeColor = SystemColors.ControlLight
         Label3.Location = New Point(8, 11)
         Label3.Name = "Label3"
@@ -169,7 +169,7 @@ Partial Class ContentRepMemRep
         ' 
         Label2.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         Label2.AutoSize = True
-        Label2.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label2.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0)
         Label2.ForeColor = SystemColors.ControlLight
         Label2.Location = New Point(17, 48)
         Label2.Name = "Label2"
@@ -180,7 +180,7 @@ Partial Class ContentRepMemRep
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label1.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0)
         Label1.ForeColor = SystemColors.ControlLightLight
         Label1.Location = New Point(17, 17)
         Label1.Name = "Label1"
@@ -206,7 +206,7 @@ Partial Class ContentRepMemRep
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        BackColor = Color.FromArgb(CByte(29), CByte(29), CByte(29))
+        BackColor = Color.FromArgb(29, 29, 29)
         BackgroundImageLayout = ImageLayout.None
         Controls.Add(Panel1)
         MinimumSize = New Size(675, 496)

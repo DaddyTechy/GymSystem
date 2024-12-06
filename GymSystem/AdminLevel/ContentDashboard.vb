@@ -480,4 +480,7 @@ Public Class ContentDashboard
         Return totalMembers
     End Function
 
+    Private Sub dashbrdTEdata_Click(sender As Object, e As EventArgs) Handles dashbrdTEdata.Click
+
+    End Sub
 End Class

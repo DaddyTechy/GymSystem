@@ -37,7 +37,7 @@ Public Class ForgotPasswordForm
         End Select
 
         Try
-            Using conn As New MySqlConnection("server=127.0.0.1;userid=root;password='';database=gym_infosys;")
+            Using conn As New MySqlConnection("server=127.0.0.1;userid=root;password='';database=gym_infosys2;")
                 conn.Open()
                 Dim cmd As New MySqlCommand("SELECT Password FROM " & tableName & " WHERE Email = @Input OR PhoneNumber = @Input", conn)
                 cmd.Parameters.AddWithValue("@Input", input)

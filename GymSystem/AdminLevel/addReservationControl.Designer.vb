@@ -50,9 +50,10 @@ Partial Class addReservationControl
         Button1.FlatStyle = FlatStyle.Popup
         Button1.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Button1.ForeColor = Color.White
-        Button1.Location = New Point(17, 17)
+        Button1.Location = New Point(19, 23)
+        Button1.Margin = New Padding(3, 4, 3, 4)
         Button1.Name = "Button1"
-        Button1.Size = New Size(75, 23)
+        Button1.Size = New Size(86, 31)
         Button1.TabIndex = 15
         Button1.Text = "Back"
         Button1.UseVisualStyleBackColor = False
@@ -62,10 +63,10 @@ Partial Class addReservationControl
         btnSaveReservation.BackColor = Color.Gold
         btnSaveReservation.FlatStyle = FlatStyle.Flat
         btnSaveReservation.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnSaveReservation.Image = blkmemprog
-        btnSaveReservation.Location = New Point(61, 435)
+        btnSaveReservation.Location = New Point(70, 580)
+        btnSaveReservation.Margin = New Padding(3, 4, 3, 4)
         btnSaveReservation.Name = "btnSaveReservation"
-        btnSaveReservation.Size = New Size(75, 23)
+        btnSaveReservation.Size = New Size(86, 31)
         btnSaveReservation.TabIndex = 14
         btnSaveReservation.Text = "Save"
         btnSaveReservation.UseVisualStyleBackColor = False
@@ -74,18 +75,19 @@ Partial Class addReservationControl
         ' 
         Label3.AutoSize = True
         Label3.ForeColor = SystemColors.Control
-        Label3.Location = New Point(61, 89)
+        Label3.Location = New Point(70, 119)
         Label3.Name = "Label3"
-        Label3.Size = New Size(31, 15)
+        Label3.Size = New Size(41, 20)
         Label3.TabIndex = 13
         Label3.Text = "Date"
         ' 
         ' dtpReservationDate
         ' 
-        dtpReservationDate.Location = New Point(61, 107)
+        dtpReservationDate.Location = New Point(70, 143)
+        dtpReservationDate.Margin = New Padding(3, 4, 3, 4)
         dtpReservationDate.MinDate = New Date(2024, 11, 28, 0, 0, 0, 0)
         dtpReservationDate.Name = "dtpReservationDate"
-        dtpReservationDate.Size = New Size(200, 23)
+        dtpReservationDate.Size = New Size(228, 27)
         dtpReservationDate.TabIndex = 12
         ' 
         ' Label1
@@ -93,9 +95,9 @@ Partial Class addReservationControl
         Label1.AutoSize = True
         Label1.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = SystemColors.Control
-        Label1.Location = New Point(199, 15)
+        Label1.Location = New Point(227, 20)
         Label1.Name = "Label1"
-        Label1.Size = New Size(159, 25)
+        Label1.Size = New Size(203, 32)
         Label1.TabIndex = 16
         Label1.Text = "Add Reservation"
         ' 
@@ -103,9 +105,9 @@ Partial Class addReservationControl
         ' 
         Label2.AutoSize = True
         Label2.ForeColor = SystemColors.Control
-        Label2.Location = New Point(297, 89)
+        Label2.Location = New Point(339, 119)
         Label2.Name = "Label2"
-        Label2.Size = New Size(61, 15)
+        Label2.Size = New Size(77, 20)
         Label2.TabIndex = 18
         Label2.Text = "Start Time"
         ' 
@@ -114,20 +116,21 @@ Partial Class addReservationControl
         dtpStartTime.Checked = False
         dtpStartTime.CustomFormat = ""
         dtpStartTime.Format = DateTimePickerFormat.Time
-        dtpStartTime.Location = New Point(297, 107)
+        dtpStartTime.Location = New Point(339, 143)
+        dtpStartTime.Margin = New Padding(3, 4, 3, 4)
         dtpStartTime.MinDate = New Date(2024, 11, 28, 0, 0, 0, 0)
         dtpStartTime.Name = "dtpStartTime"
         dtpStartTime.ShowUpDown = True
-        dtpStartTime.Size = New Size(96, 23)
+        dtpStartTime.Size = New Size(109, 27)
         dtpStartTime.TabIndex = 17
         ' 
         ' Label4
         ' 
         Label4.AutoSize = True
         Label4.ForeColor = SystemColors.Control
-        Label4.Location = New Point(424, 89)
+        Label4.Location = New Point(485, 119)
         Label4.Name = "Label4"
-        Label4.Size = New Size(57, 15)
+        Label4.Size = New Size(71, 20)
         Label4.TabIndex = 20
         Label4.Text = "End Time"
         ' 
@@ -136,11 +139,12 @@ Partial Class addReservationControl
         dtpEndTime.Checked = False
         dtpEndTime.CustomFormat = ""
         dtpEndTime.Format = DateTimePickerFormat.Time
-        dtpEndTime.Location = New Point(424, 107)
+        dtpEndTime.Location = New Point(485, 143)
+        dtpEndTime.Margin = New Padding(3, 4, 3, 4)
         dtpEndTime.MinDate = New Date(2024, 11, 28, 0, 0, 0, 0)
         dtpEndTime.Name = "dtpEndTime"
         dtpEndTime.ShowUpDown = True
-        dtpEndTime.Size = New Size(96, 23)
+        dtpEndTime.Size = New Size(109, 27)
         dtpEndTime.TabIndex = 19
         dtpEndTime.Value = New Date(2024, 12, 2, 0, 0, 0, 0)
         ' 
@@ -149,18 +153,19 @@ Partial Class addReservationControl
         cmbTrainingType.DropDownStyle = ComboBoxStyle.DropDownList
         cmbTrainingType.FormattingEnabled = True
         cmbTrainingType.Items.AddRange(New Object() {"Strength", "Endurance", "Flexibility"})
-        cmbTrainingType.Location = New Point(61, 180)
+        cmbTrainingType.Location = New Point(70, 240)
+        cmbTrainingType.Margin = New Padding(3, 4, 3, 4)
         cmbTrainingType.Name = "cmbTrainingType"
-        cmbTrainingType.Size = New Size(121, 23)
+        cmbTrainingType.Size = New Size(138, 28)
         cmbTrainingType.TabIndex = 21
         ' 
         ' Label5
         ' 
         Label5.AutoSize = True
         Label5.ForeColor = SystemColors.Control
-        Label5.Location = New Point(61, 162)
+        Label5.Location = New Point(70, 216)
         Label5.Name = "Label5"
-        Label5.Size = New Size(83, 15)
+        Label5.Size = New Size(103, 20)
         Label5.TabIndex = 22
         Label5.Text = "Training Type*"
         ' 
@@ -168,9 +173,9 @@ Partial Class addReservationControl
         ' 
         Label6.AutoSize = True
         Label6.ForeColor = SystemColors.Control
-        Label6.Location = New Point(217, 162)
+        Label6.Location = New Point(248, 216)
         Label6.Name = "Label6"
-        Label6.Size = New Size(98, 15)
+        Label6.Size = New Size(122, 20)
         Label6.TabIndex = 24
         Label6.Text = "Equipment Type*"
         ' 
@@ -178,35 +183,37 @@ Partial Class addReservationControl
         ' 
         cmbEquipmentType.DropDownStyle = ComboBoxStyle.DropDownList
         cmbEquipmentType.FormattingEnabled = True
-        cmbEquipmentType.Location = New Point(217, 180)
+        cmbEquipmentType.Location = New Point(248, 240)
+        cmbEquipmentType.Margin = New Padding(3, 4, 3, 4)
         cmbEquipmentType.Name = "cmbEquipmentType"
-        cmbEquipmentType.Size = New Size(121, 23)
+        cmbEquipmentType.Size = New Size(138, 28)
         cmbEquipmentType.TabIndex = 23
         ' 
         ' Label7
         ' 
         Label7.AutoSize = True
         Label7.ForeColor = SystemColors.Control
-        Label7.Location = New Point(399, 162)
+        Label7.Location = New Point(456, 216)
         Label7.Name = "Label7"
-        Label7.Size = New Size(0, 15)
+        Label7.Size = New Size(0, 20)
         Label7.TabIndex = 26
         ' 
         ' txtReservationNotes
         ' 
-        txtReservationNotes.Location = New Point(61, 256)
+        txtReservationNotes.Location = New Point(70, 341)
+        txtReservationNotes.Margin = New Padding(3, 4, 3, 4)
         txtReservationNotes.Multiline = True
         txtReservationNotes.Name = "txtReservationNotes"
-        txtReservationNotes.Size = New Size(292, 78)
+        txtReservationNotes.Size = New Size(333, 103)
         txtReservationNotes.TabIndex = 27
         ' 
         ' Label8
         ' 
         Label8.AutoSize = True
         Label8.ForeColor = SystemColors.Control
-        Label8.Location = New Point(61, 238)
+        Label8.Location = New Point(70, 317)
         Label8.Name = "Label8"
-        Label8.Size = New Size(38, 15)
+        Label8.Size = New Size(48, 20)
         Label8.TabIndex = 28
         Label8.Text = "Notes"
         ' 
@@ -214,9 +221,9 @@ Partial Class addReservationControl
         ' 
         Label9.AutoSize = True
         Label9.ForeColor = SystemColors.Control
-        Label9.Location = New Point(61, 346)
+        Label9.Location = New Point(70, 461)
         Label9.Name = "Label9"
-        Label9.Size = New Size(57, 15)
+        Label9.Size = New Size(72, 20)
         Label9.TabIndex = 29
         Label9.Text = "Total Fee:"
         ' 
@@ -226,33 +233,34 @@ Partial Class addReservationControl
         lblTotalFee.BackColor = Color.White
         lblTotalFee.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblTotalFee.ForeColor = Color.Black
-        lblTotalFee.Location = New Point(61, 371)
+        lblTotalFee.Location = New Point(70, 495)
         lblTotalFee.Name = "lblTotalFee"
-        lblTotalFee.Size = New Size(0, 25)
+        lblTotalFee.Size = New Size(0, 32)
         lblTotalFee.TabIndex = 30
         ' 
         ' cmbTrainer
         ' 
         cmbTrainer.DropDownStyle = ComboBoxStyle.DropDownList
         cmbTrainer.FormattingEnabled = True
-        cmbTrainer.Location = New Point(372, 180)
+        cmbTrainer.Location = New Point(425, 240)
+        cmbTrainer.Margin = New Padding(3, 4, 3, 4)
         cmbTrainer.Name = "cmbTrainer"
-        cmbTrainer.Size = New Size(148, 23)
+        cmbTrainer.Size = New Size(169, 28)
         cmbTrainer.TabIndex = 31
         ' 
         ' Label10
         ' 
         Label10.AutoSize = True
         Label10.ForeColor = SystemColors.Control
-        Label10.Location = New Point(372, 162)
+        Label10.Location = New Point(425, 216)
         Label10.Name = "Label10"
-        Label10.Size = New Size(48, 15)
+        Label10.Size = New Size(60, 20)
         Label10.TabIndex = 32
         Label10.Text = "Trainer*"
         ' 
         ' addReservationControl
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         Controls.Add(Label10)
@@ -275,8 +283,9 @@ Partial Class addReservationControl
         Controls.Add(btnSaveReservation)
         Controls.Add(Label3)
         Controls.Add(dtpReservationDate)
+        Margin = New Padding(3, 4, 3, 4)
         Name = "addReservationControl"
-        Size = New Size(576, 504)
+        Size = New Size(658, 672)
         ResumeLayout(False)
         PerformLayout()
     End Sub

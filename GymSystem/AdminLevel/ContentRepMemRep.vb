@@ -69,33 +69,6 @@ Public Class ContentRepMemRep
         BindReport("..\..\..\AdminLevel\Reports\Report2.rdlc")
     End Sub
 
-    Private Sub btnRevenue_Click(sender As Object, e As EventArgs) Handles btnRevenue.Click
-        DateTimePicker1.Visible = True
-        LoadData("SELECT MembershipCost, ReservationFee, PaymentDate FROM payment")
-        LoadDataWithFilter()
-
-        Dim adminID As String = CurrentLoggedUser.id ' Replace with actual value if admin is making the report
-        Dim staffID As String = CurrentLoggedUser.id ' Assuming CurrentLoggedUser.id is the StaffID
-        Dim title As String = "Revenue Report" ' Replace with actual value
-        Dim reportDate As String = DateTimePicker1.Value.ToString("yyyy-MM-dd") ' Format the date
-        Dim content As String = "Details about revenue" ' Replace with actual value
-        Dim type As String = "A" ' Replace with actual value
-        Dim status As String = "A" ' Replace with actual value
-        Dim attachments As String = "None" ' Replace with actual value
-
-        ' Determine if the report is made by staff or admin
-        Dim query As String
-        If CurrentLoggedUser.position = "Super Admin" Or CurrentLoggedUser.position = "Normal Admin" Then
-            query = $"INSERT INTO `reports`(`AdminID`, `Title`, `ReportDate`, `Content`, `Type`, `Status`, `Attachments`) VALUES ('{adminID}','{title}','{reportDate}','{content}','{type}','{status}','{attachments}')"
-        Else
-            query = $"INSERT INTO `reports`(`StaffID`, `Title`, `ReportDate`, `Content`, `Type`, `Status`, `Attachments`) VALUES ('{staffID}','{title}','{reportDate}','{content}','{type}','{status}','{attachments}')"
-        End If
-
-        ' Execute the query
-        readQuery(query)
-        ' Bind data to RDLC report and export to PDF
-        BindReport("..\..\..\AdminLevel\Reports\RevenueReport.rdlc")
-    End Sub
 
     Private Sub LoadDataWithFilter()
         Dim selectedDate As DateTime = DateTimePicker1.Value
@@ -187,9 +160,43 @@ Public Class ContentRepMemRep
             End If
         End Try
     End Sub
+    Private Sub btnRevenue_Click(sender As Object, e As EventArgs) Handles btnRevenue.Click
+        DateTimePicker1.Visible = True
+        LoadData("SELECT MembershipCost, ReservationFee, PaymentDate FROM payment")
+        LoadDataWithFilter()
+
+        Dim adminID As String = CurrentLoggedUser.id ' Replace with actual value if admin is making the report
+        Dim staffID As String = CurrentLoggedUser.id ' Assuming CurrentLoggedUser.id is the StaffID
+        Dim title As String = "Revenue Report" ' Replace with actual value
+        Dim reportDate As String = DateTimePicker1.Value.ToString("yyyy-MM-dd") ' Format the date
+        Dim content As String = "Details about revenue" ' Replace with actual value
+        Dim type As String = "A" ' Replace with actual value
+        Dim status As String = "A" ' Replace with actual value
+        Dim attachments As String = "None" ' Replace with actual value
+
+        ' Determine if the report is made by staff or admin
+        Dim query As String
+        If CurrentLoggedUser.position = "Super Admin" Or CurrentLoggedUser.position = "Normal Admin" Then
+            query = $"INSERT INTO `reports`(`AdminID`, `Title`, `ReportDate`, `Content`, `Type`, `Status`, `Attachments`) VALUES ('{adminID}','{title}','{reportDate}','{content}','{type}','{status}','{attachments}')"
+        Else
+            query = $"INSERT INTO `reports`(`StaffID`, `Title`, `ReportDate`, `Content`, `Type`, `Status`, `Attachments`) VALUES ('{staffID}','{title}','{reportDate}','{content}','{type}','{status}','{attachments}')"
+        End If
+
+        ' Execute the query
+        readQuery(query)
+
+        ' Bind data to RDLC report and export to PDF
+        BindReport("..\..\..\AdminLevel\Reports\RevenueReport.rdlc")
+    End Sub
 
     Private Sub BindReport(reportPath As String)
         Dim dt As DataTable = CType(DataGridView1.DataSource, DataTable)
+
+        ' Ensure the DataTable has the 'ReservationFee' column
+        AddMissingColumn(dt)
+
+        ' Update all cells with null values in the DataTable
+        UpdateSpecificNullCellsInDGV(dt)
 
         ' Debug: Check if DataTable is populated
         Debug.WriteLine("DataTable populated with data:")
@@ -236,6 +243,54 @@ Public Class ContentRepMemRep
         previewForm.ShowDialog()
     End Sub
 
+    Private Sub AddMissingColumn(dt As DataTable)
+        If Not dt.Columns.Contains("ReservationFee") Then
+            dt.Columns.Add("ReservationFee", GetType(Decimal))
+        End If
+    End Sub
+
+    Private Sub UpdateSpecificNullCellsInDGV(dt As DataTable)
+        For i As Integer = 0 To dt.Rows.Count - 1
+            Dim dgvRow As DataGridViewRow = DataGridView1.Rows(i)
+
+            ' Define columns to be updated
+            Dim columnsToUpdate As String() = {"MembershipCost", "ReservationFee"}
+
+            For Each columnName In columnsToUpdate
+                Dim cellValue = dgvRow.Cells(columnName).Value
+
+                If cellValue Is Nothing Then
+                    Debug.WriteLine($"Row {i}, Column {columnName}: Value is Nothing")
+                ElseIf IsDBNull(cellValue) Then
+                    Debug.WriteLine($"Row {i}, Column {columnName}: Value is DBNull")
+                Else
+                    Debug.WriteLine($"Row {i}, Column {columnName}: Value is {cellValue}")
+                End If
+
+                If cellValue IsNot Nothing AndAlso Not IsDBNull(cellValue) Then
+                    Try
+                        Dim decimalValue As Decimal = Convert.ToDecimal(cellValue)
+                        dt.Rows(i)(columnName) = decimalValue
+                        Debug.WriteLine($"Row {i}, Column {columnName}: Setting value to {decimalValue}")
+                    Catch ex As Exception
+                        Debug.WriteLine($"Row {i}, Column {columnName}: Error converting value to Decimal: {cellValue}")
+                        dt.Rows(i)(columnName) = 0D
+                    End Try
+                Else
+                    Debug.WriteLine($"Row {i}, Column {columnName}: Value is null or DBNull, setting to 0")
+                    dt.Rows(i)(columnName) = 0D ' Set to 0 if the value is null or DBNull
+                End If
+            Next
+        Next
+
+        ' Additional debug statement to display final DataTable content
+        Debug.WriteLine("DataTable after updating specific null cells:")
+        For Each row As DataRow In dt.Rows
+            Debug.WriteLine(String.Join(", ", row.ItemArray))
+        Next
+    End Sub
+
+
     Private Function ExportToPDF(report As LocalReport) As Byte()
         Dim warnings As Warning()
         Dim streamIds As String()
@@ -255,6 +310,9 @@ Public Class ContentRepMemRep
 
         Return bytes
     End Function
+
+
+
 
     Private pdfBytes As Byte()
 End Class

@@ -32,8 +32,10 @@ Partial Class MemberMain
         PictureBox1 = New PictureBox()
         Panel2 = New Panel()
         ContentPanel = New Panel()
+        LogoutBtn = New Button()
         Panel1.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
+        Panel2.SuspendLayout()
         SuspendLayout()
         ' 
         ' Panel1
@@ -59,7 +61,7 @@ Partial Class MemberMain
         btnReport.FlatAppearance.MouseOverBackColor = Color.Khaki
         btnReport.FlatStyle = FlatStyle.Flat
         btnReport.ForeColor = Color.White
-        btnReport.Image = My.Resources.Resources.Vector3
+        btnReport.Image = Vector3
         btnReport.ImageAlign = ContentAlignment.MiddleRight
         btnReport.Location = New Point(3, 396)
         btnReport.Name = "btnReport"
@@ -76,7 +78,7 @@ Partial Class MemberMain
         announcebtn.FlatAppearance.MouseOverBackColor = Color.Khaki
         announcebtn.FlatStyle = FlatStyle.Flat
         announcebtn.ForeColor = Color.White
-        announcebtn.Image = My.Resources.Resources.Commercial_1
+        announcebtn.Image = Commercial_1
         announcebtn.ImageAlign = ContentAlignment.MiddleRight
         announcebtn.Location = New Point(3, 334)
         announcebtn.Name = "announcebtn"
@@ -93,7 +95,7 @@ Partial Class MemberMain
         Reminder.FlatAppearance.MouseOverBackColor = Color.Khaki
         Reminder.FlatStyle = FlatStyle.Flat
         Reminder.ForeColor = Color.White
-        Reminder.Image = My.Resources.Resources.Reminder
+        Reminder.Image = Resources.Reminder
         Reminder.ImageAlign = ContentAlignment.MiddleRight
         Reminder.Location = New Point(3, 272)
         Reminder.Name = "Reminder"
@@ -110,7 +112,7 @@ Partial Class MemberMain
         SchedBtn.FlatAppearance.MouseOverBackColor = Color.Khaki
         SchedBtn.FlatStyle = FlatStyle.Flat
         SchedBtn.ForeColor = Color.White
-        SchedBtn.Image = My.Resources.Resources.calendar
+        SchedBtn.Image = calendar
         SchedBtn.ImageAlign = ContentAlignment.MiddleRight
         SchedBtn.Location = New Point(3, 210)
         SchedBtn.Name = "SchedBtn"
@@ -127,7 +129,7 @@ Partial Class MemberMain
         btnDash.FlatAppearance.MouseOverBackColor = Color.Khaki
         btnDash.FlatStyle = FlatStyle.Flat
         btnDash.ForeColor = Color.White
-        btnDash.Image = My.Resources.Resources.dashbo
+        btnDash.Image = dashbo
         btnDash.ImageAlign = ContentAlignment.MiddleRight
         btnDash.Location = New Point(3, 148)
         btnDash.Name = "btnDash"
@@ -151,7 +153,7 @@ Partial Class MemberMain
         ' 
         ' PictureBox1
         ' 
-        PictureBox1.Image = My.Resources.Resources._929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
+        PictureBox1.Image = _929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
         PictureBox1.Location = New Point(0, 3)
         PictureBox1.Name = "PictureBox1"
         PictureBox1.Size = New Size(92, 94)
@@ -162,6 +164,7 @@ Partial Class MemberMain
         ' Panel2
         ' 
         Panel2.BackColor = Color.FromArgb(CByte(20), CByte(20), CByte(20))
+        Panel2.Controls.Add(LogoutBtn)
         Panel2.Dock = DockStyle.Top
         Panel2.Location = New Point(0, 0)
         Panel2.Name = "Panel2"
@@ -175,6 +178,26 @@ Partial Class MemberMain
         ContentPanel.Name = "ContentPanel"
         ContentPanel.Size = New Size(1920, 1080)
         ContentPanel.TabIndex = 2
+        ' 
+        ' LogoutBtn
+        ' 
+        LogoutBtn.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Right
+        LogoutBtn.BackColor = Color.Transparent
+        LogoutBtn.FlatAppearance.BorderSize = 0
+        LogoutBtn.FlatStyle = FlatStyle.Flat
+        LogoutBtn.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
+        LogoutBtn.ForeColor = SystemColors.ButtonHighlight
+        LogoutBtn.Image = Vector_21
+        LogoutBtn.ImageAlign = ContentAlignment.MiddleLeft
+        LogoutBtn.Location = New Point(792, -2)
+        LogoutBtn.Margin = New Padding(3, 4, 3, 4)
+        LogoutBtn.Name = "LogoutBtn"
+        LogoutBtn.Size = New Size(98, 67)
+        LogoutBtn.TabIndex = 6
+        LogoutBtn.Text = " Logout"
+        LogoutBtn.TextAlign = ContentAlignment.MiddleLeft
+        LogoutBtn.TextImageRelation = TextImageRelation.ImageBeforeText
+        LogoutBtn.UseVisualStyleBackColor = False
         ' 
         ' MemberMain
         ' 
@@ -190,6 +213,7 @@ Partial Class MemberMain
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
+        Panel2.ResumeLayout(False)
         ResumeLayout(False)
     End Sub
 
@@ -203,4 +227,5 @@ Partial Class MemberMain
     Friend WithEvents SchedBtn As Button
     Friend WithEvents btnDash As Button
     Friend WithEvents ContentPanel As Panel
+    Friend WithEvents LogoutBtn As Button
 End Class
