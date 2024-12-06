@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class Sched
+Partial Class Announcement
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,7 +22,7 @@ Partial Class Sched
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Panel1 = New Panel()
+        LeftNavPanel = New Panel()
         ReportsBtn = New Button()
         AnnounceBtn = New Button()
         RemindBtn = New Button()
@@ -30,33 +30,40 @@ Partial Class Sched
         DashBtn = New Button()
         Label1 = New Label()
         PictureBox1 = New PictureBox()
-        Panel2 = New Panel()
-        Panel3 = New Panel()
+        TopNavPanel = New Panel()
         LogoutBtn = New Button()
         WelcomeLbl = New Label()
         PictureBox2 = New PictureBox()
-        Panel1.SuspendLayout()
+        TopPanel = New Panel()
+        Label2 = New Label()
+        PictureBox3 = New PictureBox()
+        PictureBox4 = New PictureBox()
+        Label3 = New Label()
+        RichTextBox2 = New RichTextBox()
+        LeftNavPanel.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
-        Panel3.SuspendLayout()
+        TopNavPanel.SuspendLayout()
         CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
+        TopPanel.SuspendLayout()
+        CType(PictureBox3, ComponentModel.ISupportInitialize).BeginInit()
+        CType(PictureBox4, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
-        ' Panel1
+        ' LeftNavPanel
         ' 
-        Panel1.BackColor = Color.Black
-        Panel1.Controls.Add(ReportsBtn)
-        Panel1.Controls.Add(AnnounceBtn)
-        Panel1.Controls.Add(RemindBtn)
-        Panel1.Controls.Add(SchedBtn)
-        Panel1.Controls.Add(DashBtn)
-        Panel1.Controls.Add(Label1)
-        Panel1.Controls.Add(PictureBox1)
-        Panel1.Controls.Add(Panel2)
-        Panel1.Location = New Point(0, 0)
-        Panel1.MinimumSize = New Size(350, 2000)
-        Panel1.Name = "Panel1"
-        Panel1.Size = New Size(353, 2000)
-        Panel1.TabIndex = 2
+        LeftNavPanel.BackColor = Color.Black
+        LeftNavPanel.Controls.Add(ReportsBtn)
+        LeftNavPanel.Controls.Add(AnnounceBtn)
+        LeftNavPanel.Controls.Add(RemindBtn)
+        LeftNavPanel.Controls.Add(SchedBtn)
+        LeftNavPanel.Controls.Add(DashBtn)
+        LeftNavPanel.Controls.Add(Label1)
+        LeftNavPanel.Controls.Add(PictureBox1)
+        LeftNavPanel.Location = New Point(0, 0)
+        LeftNavPanel.MinimumSize = New Size(350, 2000)
+        LeftNavPanel.Name = "LeftNavPanel"
+        LeftNavPanel.Size = New Size(353, 2000)
+        LeftNavPanel.TabIndex = 2
         ' 
         ' ReportsBtn
         ' 
@@ -168,24 +175,17 @@ Partial Class Sched
         PictureBox1.TabIndex = 2
         PictureBox1.TabStop = False
         ' 
-        ' Panel2
+        ' TopNavPanel
         ' 
-        Panel2.Location = New Point(356, 0)
-        Panel2.Name = "Panel2"
-        Panel2.Size = New Size(250, 125)
-        Panel2.TabIndex = 1
-        ' 
-        ' Panel3
-        ' 
-        Panel3.BackColor = Color.FromArgb(CByte(20), CByte(20), CByte(20))
-        Panel3.Controls.Add(LogoutBtn)
-        Panel3.Controls.Add(WelcomeLbl)
-        Panel3.Controls.Add(PictureBox2)
-        Panel3.Dock = DockStyle.Top
-        Panel3.Location = New Point(0, 0)
-        Panel3.Name = "Panel3"
-        Panel3.Size = New Size(1290, 99)
-        Panel3.TabIndex = 3
+        TopNavPanel.BackColor = Color.FromArgb(CByte(20), CByte(20), CByte(20))
+        TopNavPanel.Controls.Add(LogoutBtn)
+        TopNavPanel.Controls.Add(WelcomeLbl)
+        TopNavPanel.Controls.Add(PictureBox2)
+        TopNavPanel.Dock = DockStyle.Top
+        TopNavPanel.Location = New Point(0, 0)
+        TopNavPanel.Name = "TopNavPanel"
+        TopNavPanel.Size = New Size(1511, 99)
+        TopNavPanel.TabIndex = 3
         ' 
         ' LogoutBtn
         ' 
@@ -193,7 +193,6 @@ Partial Class Sched
         LogoutBtn.BackgroundImageLayout = ImageLayout.None
         LogoutBtn.Cursor = Cursors.Hand
         LogoutBtn.FlatAppearance.BorderSize = 0
-        LogoutBtn.FlatAppearance.MouseOverBackColor = Color.Khaki
         LogoutBtn.FlatStyle = FlatStyle.Flat
         LogoutBtn.Font = New Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         LogoutBtn.ForeColor = Color.White
@@ -231,26 +230,102 @@ Partial Class Sched
         PictureBox2.TabIndex = 0
         PictureBox2.TabStop = False
         ' 
-        ' Sched
+        ' TopPanel
+        ' 
+        TopPanel.Anchor = AnchorStyles.Top
+        TopPanel.BorderStyle = BorderStyle.FixedSingle
+        TopPanel.Controls.Add(Label2)
+        TopPanel.Controls.Add(PictureBox3)
+        TopPanel.Location = New Point(443, 218)
+        TopPanel.MinimumSize = New Size(1000, 50)
+        TopPanel.Name = "TopPanel"
+        TopPanel.Size = New Size(1000, 50)
+        TopPanel.TabIndex = 5
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Font = New Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label2.ForeColor = Color.White
+        Label2.Location = New Point(56, 11)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(183, 25)
+        Label2.TabIndex = 6
+        Label2.Text = "Gym Announcements"
+        ' 
+        ' PictureBox3
+        ' 
+        PictureBox3.Image = My.Resources.Resources.Commercial_1
+        PictureBox3.Location = New Point(3, 3)
+        PictureBox3.Name = "PictureBox3"
+        PictureBox3.Size = New Size(38, 42)
+        PictureBox3.SizeMode = PictureBoxSizeMode.Zoom
+        PictureBox3.TabIndex = 6
+        PictureBox3.TabStop = False
+        ' 
+        ' PictureBox4
+        ' 
+        PictureBox4.Anchor = AnchorStyles.Top
+        PictureBox4.Image = My.Resources.Resources.Commercial_1
+        PictureBox4.Location = New Point(1045, 136)
+        PictureBox4.Name = "PictureBox4"
+        PictureBox4.Size = New Size(64, 70)
+        PictureBox4.SizeMode = PictureBoxSizeMode.Zoom
+        PictureBox4.TabIndex = 6
+        PictureBox4.TabStop = False
+        ' 
+        ' Label3
+        ' 
+        Label3.Anchor = AnchorStyles.Top
+        Label3.AutoSize = True
+        Label3.Font = New Font("Segoe UI Semibold", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label3.ForeColor = Color.White
+        Label3.Location = New Point(767, 148)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(272, 46)
+        Label3.TabIndex = 6
+        Label3.Text = "Announcements"
+        ' 
+        ' RichTextBox2
+        ' 
+        RichTextBox2.Anchor = AnchorStyles.Top
+        RichTextBox2.BackColor = Color.DimGray
+        RichTextBox2.BorderStyle = BorderStyle.None
+        RichTextBox2.Location = New Point(443, 268)
+        RichTextBox2.Name = "RichTextBox2"
+        RichTextBox2.Size = New Size(1000, 364)
+        RichTextBox2.TabIndex = 27
+        RichTextBox2.Text = ""
+        ' 
+        ' Announcement
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(26), CByte(26), CByte(26))
-        ClientSize = New Size(1290, 722)
-        Controls.Add(Panel1)
-        Controls.Add(Panel3)
-        Name = "Sched"
-        Text = "Sched"
-        Panel1.ResumeLayout(False)
-        Panel1.PerformLayout()
+        ClientSize = New Size(1511, 740)
+        Controls.Add(RichTextBox2)
+        Controls.Add(Label3)
+        Controls.Add(TopPanel)
+        Controls.Add(PictureBox4)
+        Controls.Add(LeftNavPanel)
+        Controls.Add(TopNavPanel)
+        Name = "Announcement"
+        Text = "Announcement"
+        LeftNavPanel.ResumeLayout(False)
+        LeftNavPanel.PerformLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
-        Panel3.ResumeLayout(False)
-        Panel3.PerformLayout()
+        TopNavPanel.ResumeLayout(False)
+        TopNavPanel.PerformLayout()
         CType(PictureBox2, ComponentModel.ISupportInitialize).EndInit()
+        TopPanel.ResumeLayout(False)
+        TopPanel.PerformLayout()
+        CType(PictureBox3, ComponentModel.ISupportInitialize).EndInit()
+        CType(PictureBox4, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
-    Friend WithEvents Panel1 As Panel
+    Friend WithEvents LeftNavPanel As Panel
     Friend WithEvents ReportsBtn As Button
     Friend WithEvents AnnounceBtn As Button
     Friend WithEvents RemindBtn As Button
@@ -258,11 +333,14 @@ Partial Class Sched
     Friend WithEvents DashBtn As Button
     Friend WithEvents Label1 As Label
     Friend WithEvents PictureBox1 As PictureBox
-    Friend WithEvents Panel2 As Panel
-    Friend WithEvents Panel3 As Panel
+    Friend WithEvents TopNavPanel As Panel
     Friend WithEvents LogoutBtn As Button
     Friend WithEvents WelcomeLbl As Label
     Friend WithEvents PictureBox2 As PictureBox
-
-
+    Friend WithEvents TopPanel As Panel
+    Friend WithEvents PictureBox3 As PictureBox
+    Friend WithEvents Label2 As Label
+    Friend WithEvents PictureBox4 As PictureBox
+    Friend WithEvents Label3 As Label
+    Friend WithEvents RichTextBox2 As RichTextBox
 End Class

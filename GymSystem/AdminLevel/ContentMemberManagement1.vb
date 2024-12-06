@@ -14,7 +14,6 @@ Public Class ContentMemberManagement1
 
     Private Sub ContentMemberManagement1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadData()
-        contentPanel.AutoScroll = True
     End Sub
 
     Private Sub LoadData()

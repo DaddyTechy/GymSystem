@@ -1,5 +1,5 @@
-﻿Public Class Sched
-    Private Sub Sched_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+﻿Public Class Reminders
+    Private Sub Reminders_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
     End Sub
 
@@ -9,9 +9,9 @@
         Hide()
     End Sub
 
-    Private Sub RemindBtn_Click(sender As Object, e As EventArgs) Handles RemindBtn.Click
-        Dim remind As New Reminders
-        remind.Show()
+    Private Sub SchedBtn_Click(sender As Object, e As EventArgs) Handles SchedBtn.Click
+        Dim sched As New Sched
+        sched.Show()
         Hide()
     End Sub
 
@@ -26,4 +26,5 @@
         reps.Show()
         Hide()
     End Sub
+
 End Class

@@ -1,7 +1,10 @@
-﻿Public Class Sched
-    Private Sub Sched_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+﻿Public Class Announcement
+    Private Sub Announcement_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
     End Sub
+
+
+
 
     Private Sub DashBtn_Click(sender As Object, e As EventArgs) Handles DashBtn.Click
         Dim DashB As New DashBoard
@@ -15,9 +18,9 @@
         Hide()
     End Sub
 
-    Private Sub AnnounceBtn_Click(sender As Object, e As EventArgs) Handles AnnounceBtn.Click
-        Dim Announce As New Announcement
-        Announce.Show()
+    Private Sub SchedBtn_Click(sender As Object, e As EventArgs) Handles SchedBtn.Click
+        Dim sched As New Sched
+        sched.Show()
         Hide()
     End Sub
 
@@ -26,4 +29,5 @@
         reps.Show()
         Hide()
     End Sub
+
 End Class

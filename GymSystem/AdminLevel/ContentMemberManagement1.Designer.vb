@@ -46,11 +46,10 @@ Partial Class ContentMemberManagement1
         Panel1.Controls.Add(txtBoxSearchInput)
         Panel1.Controls.Add(Label2)
         Panel1.Dock = DockStyle.Fill
-        Panel1.Location = New Point(17, 43)
-        Panel1.Margin = New Padding(3, 4, 3, 4)
+        Panel1.Location = New Point(15, 32)
         Panel1.Name = "Panel1"
-        Panel1.Padding = New Padding(23, 0, 23, 0)
-        Panel1.Size = New Size(737, 598)
+        Panel1.Padding = New Padding(20, 0, 20, 0)
+        Panel1.Size = New Size(645, 449)
         Panel1.TabIndex = 1
         ' 
         ' btnLoadMore
@@ -59,10 +58,9 @@ Partial Class ContentMemberManagement1
         btnLoadMore.BackColor = Color.Gold
         btnLoadMore.FlatStyle = FlatStyle.Popup
         btnLoadMore.ForeColor = SystemColors.ControlText
-        btnLoadMore.Location = New Point(600, 556)
-        btnLoadMore.Margin = New Padding(3, 4, 3, 4)
+        btnLoadMore.Location = New Point(525, 418)
         btnLoadMore.Name = "btnLoadMore"
-        btnLoadMore.Size = New Size(95, 37)
+        btnLoadMore.Size = New Size(83, 28)
         btnLoadMore.TabIndex = 2
         btnLoadMore.Text = "Load More"
         btnLoadMore.UseVisualStyleBackColor = False
@@ -74,10 +72,9 @@ Partial Class ContentMemberManagement1
         btnSearch.ForeColor = Color.White
         btnSearch.Image = search11
         btnSearch.ImageAlign = ContentAlignment.MiddleLeft
-        btnSearch.Location = New Point(619, 8)
-        btnSearch.Margin = New Padding(3, 4, 3, 4)
+        btnSearch.Location = New Point(542, 6)
         btnSearch.Name = "btnSearch"
-        btnSearch.Size = New Size(95, 32)
+        btnSearch.Size = New Size(83, 24)
         btnSearch.TabIndex = 4
         btnSearch.Text = "Search"
         btnSearch.TextAlign = ContentAlignment.BottomCenter
@@ -114,8 +111,7 @@ Partial Class ContentMemberManagement1
         MembersTable.EditMode = DataGridViewEditMode.EditOnEnter
         MembersTable.EnableHeadersVisualStyles = False
         MembersTable.GridColor = Color.White
-        MembersTable.Location = New Point(23, 48)
-        MembersTable.Margin = New Padding(3, 4, 3, 4)
+        MembersTable.Location = New Point(20, 36)
         MembersTable.MultiSelect = False
         MembersTable.Name = "MembersTable"
         MembersTable.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
@@ -141,7 +137,7 @@ Partial Class ContentMemberManagement1
         MembersTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect
         MembersTable.ShowCellErrors = False
         MembersTable.ShowRowErrors = False
-        MembersTable.Size = New Size(691, 550)
+        MembersTable.Size = New Size(605, 413)
         MembersTable.TabIndex = 0
         ' 
         ' txtBoxSearchInput
@@ -150,10 +146,9 @@ Partial Class ContentMemberManagement1
         txtBoxSearchInput.BackColor = Color.Silver
         txtBoxSearchInput.BorderStyle = BorderStyle.FixedSingle
         txtBoxSearchInput.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        txtBoxSearchInput.Location = New Point(434, 8)
-        txtBoxSearchInput.Margin = New Padding(3, 4, 3, 4)
+        txtBoxSearchInput.Location = New Point(380, 6)
         txtBoxSearchInput.Name = "txtBoxSearchInput"
-        txtBoxSearchInput.Size = New Size(184, 29)
+        txtBoxSearchInput.Size = New Size(161, 25)
         txtBoxSearchInput.TabIndex = 3
         ' 
         ' Label2
@@ -162,11 +157,11 @@ Partial Class ContentMemberManagement1
         Label2.Dock = DockStyle.Top
         Label2.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.White
-        Label2.Location = New Point(23, 0)
-        Label2.Margin = New Padding(3, 0, 3, 13)
+        Label2.Location = New Point(20, 0)
+        Label2.Margin = New Padding(3, 0, 3, 10)
         Label2.Name = "Label2"
-        Label2.Padding = New Padding(0, 7, 0, 13)
-        Label2.Size = New Size(147, 48)
+        Label2.Padding = New Padding(0, 5, 0, 10)
+        Label2.Size = New Size(119, 36)
         Label2.TabIndex = 0
         Label2.Text = "Member Table"
         Label2.TextAlign = ContentAlignment.MiddleCenter
@@ -177,27 +172,26 @@ Partial Class ContentMemberManagement1
         Label1.Dock = DockStyle.Top
         Label1.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.Gold
-        Label1.Location = New Point(17, 20)
+        Label1.Location = New Point(15, 15)
         Label1.Name = "Label1"
         Label1.Padding = New Padding(2, 0, 0, 0)
-        Label1.Size = New Size(178, 23)
+        Label1.Size = New Size(136, 17)
         Label1.TabIndex = 0
         Label1.Text = "Registered Members"
         ' 
         ' ContentMemberManagement1
         ' 
-        AutoScaleDimensions = New SizeF(8F, 20F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         AutoScroll = True
         AutoScrollMinSize = New Size(600, 0)
         BackColor = Color.Transparent
         Controls.Add(Panel1)
         Controls.Add(Label1)
-        Margin = New Padding(3, 4, 3, 4)
-        MinimumSize = New Size(771, 661)
+        MinimumSize = New Size(675, 496)
         Name = "ContentMemberManagement1"
-        Padding = New Padding(17, 20, 17, 20)
-        Size = New Size(771, 661)
+        Padding = New Padding(15)
+        Size = New Size(675, 496)
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
         CType(MembersTable, ComponentModel.ISupportInitialize).EndInit()
