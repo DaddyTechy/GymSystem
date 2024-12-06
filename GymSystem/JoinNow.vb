@@ -1,4 +1,7 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+﻿Imports System.Data.SqlClient
+Imports System.Transactions
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports MySql.Data.MySqlClient
 
 Public Class JoinNow
     Inherits Form
@@ -143,6 +146,8 @@ Public Class JoinNow
         PlansCB.Items.Add("Gold (9 months)")
         PlansCB.Items.Add("Diamond (12 months)")
 
+
+        BLoginBtn.Visible = True
         ServiceCB.Items.Clear()
     End Sub
 
@@ -375,9 +380,11 @@ Public Class JoinNow
     Private Sub Form_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Set LinkLabel behavior to remove the underline
         ShowLL.LinkBehavior = LinkBehavior.NeverUnderline
+        UpdateConnectionString()
     End Sub
 
     Private Sub SubmitBtn_Click(sender As Object, e As EventArgs) Handles SubmitBtn.Click
+        UpdateConnectionString()
         ' Call the validation function before proceeding
         If Not ValidateForm() Then
             MessageBox.Show("Please fill up all the fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -394,38 +401,196 @@ Public Class JoinNow
             ' Clear any previous highlights
             CPassTxt.BackColor = Color.Gray
         End If
+
+        InsertMemberAndLogin()
     End Sub
 
     ' Function to validate if all required fields are filled
     Private Function ValidateForm() As Boolean
         ' Check if required TextBox fields are empty
-        If String.IsNullOrWhiteSpace(FirstTxt.Text) OrElse
-       String.IsNullOrWhiteSpace(MiddleTxt.Text) OrElse
-       String.IsNullOrWhiteSpace(LastTxt.Text) OrElse
-       String.IsNullOrWhiteSpace(ContactTxt.Text) OrElse
-       String.IsNullOrWhiteSpace(EmailTxt.Text) OrElse
-       String.IsNullOrWhiteSpace(SexTxt.Text) OrElse
-       String.IsNullOrWhiteSpace(HeightTxt.Text) OrElse
-       String.IsNullOrWhiteSpace(PassTxt.Text) OrElse
-       String.IsNullOrWhiteSpace(CPassTxt.Text) OrElse
-       String.IsNullOrWhiteSpace(KgTxt.Text) Then
-            Return False ' At least one TextBox is empty
+        If String.IsNullOrWhiteSpace(FirstTxt.Text) Then
+            MessageBox.Show("First name is empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+        If String.IsNullOrWhiteSpace(MiddleTxt.Text) Then
+            MessageBox.Show("Middle name is empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+        If String.IsNullOrWhiteSpace(LastTxt.Text) Then
+            MessageBox.Show("Last name is empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+        If String.IsNullOrWhiteSpace(ContactTxt.Text) Then
+            MessageBox.Show("Contact number is empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+        If String.IsNullOrWhiteSpace(EmailTxt.Text) Then
+            MessageBox.Show("Email is empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+        If String.IsNullOrWhiteSpace(SexTxt.Text) Then
+            MessageBox.Show("Sex is empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+        If String.IsNullOrWhiteSpace(HeightTxt.Text) Then
+            MessageBox.Show("Height is empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+        If String.IsNullOrWhiteSpace(PassTxt.Text) Then
+            MessageBox.Show("Password is empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+        If String.IsNullOrWhiteSpace(CPassTxt.Text) Then
+            MessageBox.Show("Confirm password is empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+        If String.IsNullOrWhiteSpace(KgTxt.Text) Then
+            MessageBox.Show("Weight is empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
         End If
 
         ' Check if ComboBox fields are not selected
-        If CustomComboProvince.SelectedItem Is Nothing OrElse
-       CustomComboCity.SelectedItem Is Nothing OrElse
-       CustomComboStreet.SelectedItem Is Nothing OrElse
-       CustomComboZip.SelectedItem Is Nothing OrElse
-       PlansCB.SelectedItem Is Nothing OrElse
-       ServiceCB.SelectedItem Is Nothing Then
-            Return False ' At least one ComboBox is not selected
+        If CustomComboProvince.SelectedItem Is Nothing Then
+            MessageBox.Show("Province is not selected.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+        If CustomComboCity.SelectedItem Is Nothing Then
+            MessageBox.Show("City is not selected.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+        If CustomComboStreet.SelectedItem Is Nothing Then
+            MessageBox.Show("Street is not selected.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+        If CustomComboZip.SelectedItem Is Nothing Then
+            MessageBox.Show("Zip code is not selected.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+        If PlansCB.SelectedItem Is Nothing Then
+            MessageBox.Show("Plan is not selected.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+        If ServiceCB.SelectedItem Is Nothing Then
+            MessageBox.Show("Service is not selected.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
         End If
 
         ' If all required fields are filled and selected, return True
+        MessageBox.Show("All required fields are filled and selected.", "Validation Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Return True
     End Function
+    Private Sub InsertMemberAndLogin()
+        UpdateConnectionString()
+        Try
+            Using conn As New MySqlConnection(strConnection)
+                conn.Open()
+                Debug.WriteLine("Connection opened successfully.")
 
+                Using transaction As MySqlTransaction = conn.BeginTransaction()
+                    Try
+                        ' Insert into members table
+                        Dim insertMembersQuery As String = "INSERT INTO `members`(`FirstName`, `MiddleName`, `LastName`, `Sex`, `DOB`, `Weight`, `Height`, `Province`, `City`, `Street`, `ZipCode`, `PhoneNumber`, `DTCreated`, `Status`, `Email`) " &
+                                                       "VALUES ('" & FirstTxt.Text & "', '" & MiddleTxt.Text & "', '" & LastTxt.Text & "', '" & SexTxt.Text & "', '" & CustomCalendar1.Value.ToString("yyyy-MM-dd") & "', '" & KgTxt.Text & "', '" & HeightTxt.Text & "', '" & CustomComboProvince.SelectedItem.ToString() & "', '" & CustomComboCity.SelectedItem.ToString() & "', '" & CustomComboStreet.SelectedItem.ToString() & "', '" & CustomComboZip.SelectedItem.ToString() & "', '" & ContactTxt.Text & "', '" & DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") & "', 'Active', '" & EmailTxt.Text & "')"
+                        Debug.WriteLine($"Executing query: {insertMembersQuery}")
+                        Using insertMembersCommand As New MySqlCommand(insertMembersQuery, conn, transaction)
+                            insertMembersCommand.ExecuteNonQuery()
+                        End Using
+
+                        ' Retrieve the MemberID of the newly inserted member
+                        Dim memberIdQuery As String = "SELECT LAST_INSERT_ID()"
+                        Dim cmd As New MySqlCommand(memberIdQuery, conn, transaction)
+                        Dim memberId As Integer = Convert.ToInt32(cmd.ExecuteScalar())
+                        Debug.WriteLine($"New MemberID: {memberId}")
+
+                        ' Insert into memberlogin table
+                        Dim insertMemberLoginQuery As String = "INSERT INTO `memberlogin`(`MemberID`, `Username`, `Password`, `Email`, `PhoneNumber`, `IsEncrypted`, `EncryptedPassword`) " &
+                                                           "VALUES (" & memberId & ", '" & FirstTxt.Text & "', '" & PassTxt.Text & "', '" & EmailTxt.Text & "', '" & ContactTxt.Text & "', TRUE, '" & Encrypt(PassTxt.Text) & "')"
+                        Debug.WriteLine($"Executing query: {insertMemberLoginQuery}")
+                        Using insertMemberLoginCommand As New MySqlCommand(insertMemberLoginQuery, conn, transaction)
+                            insertMemberLoginCommand.ExecuteNonQuery()
+                        End Using
+
+                        ' Determine membership details based on membership name
+                        Dim membershipName As String = PlansCB.SelectedItem.ToString()
+                        Dim duration As String
+                        Dim cost As Double
+                        Dim benefits As String
+                        Dim startDate As DateTime = DateTime.Now
+                        Dim endDate As DateTime
+                        Dim discountAvailable As String
+                        Dim cancelationPolicy As String
+                        Dim renewalPolicy As String
+                        Dim trainingSession As Integer
+                        Dim lockerAccess As String
+
+                        Select Case membershipName
+                            Case "Diamond (12 months)"
+                                duration = "1 yr"
+                                cost = 1000.0
+                                benefits = "Full benefits"
+                                endDate = startDate.AddYears(1)
+                                discountAvailable = "Yes"
+                                cancelationPolicy = "Standard"
+                                renewalPolicy = "Auto-renew"
+                                trainingSession = 1
+                                lockerAccess = "Yes"
+                            Case "Gold (9 months)"
+                                duration = "9 months"
+                                cost = 600.0
+                                benefits = "Standard benefits"
+                                endDate = startDate.AddMonths(9)
+                                discountAvailable = "Yes"
+                                cancelationPolicy = "Standard"
+                                renewalPolicy = "Manual-renew"
+                                trainingSession = 1
+                                lockerAccess = "No"
+                            Case "Silver (6 months)"
+                                duration = "6 months"
+                                cost = 300.0
+                                benefits = "Limited benefits"
+                                endDate = startDate.AddMonths(6)
+                                discountAvailable = "No"
+                                cancelationPolicy = "Standard"
+                                renewalPolicy = "Manual-renew"
+                                trainingSession = 0
+                                lockerAccess = "No"
+                            Case Else
+                                duration = "3 month"
+                                cost = 100.0
+                                benefits = "Basic benefits"
+                                endDate = startDate.AddMonths(3)
+                                discountAvailable = "No"
+                                cancelationPolicy = "Flexible"
+                                renewalPolicy = "Manual-renew"
+                                trainingSession = 0
+                                lockerAccess = "No"
+                        End Select
+
+                        Debug.WriteLine($"Membership details - Name: {membershipName}, Duration: {duration}, Cost: {cost}, Benefits: {benefits}, StartDate: {startDate}, EndDate: {endDate}, DiscountAvailable: {discountAvailable}, CancelationPolicy: {cancelationPolicy}, RenewalPolicy: {renewalPolicy}, TrainingSession: {trainingSession}, LockerAccess: {lockerAccess}")
+
+                        ' Insert into membership table
+                        Dim insertMembershipQuery As String = "INSERT INTO `membership`(`MemberID`, `MemberShipName`, `Duration`, `Cost`, `Benefits`, `StartDate`, `EndDate`, `DiscountAvailable`, `CancelationPolicy`, `RenewalPolicy`, `TrainingSession`, `LockerAccess`, `MembershipType`) " &
+                                                          "VALUES (" & memberId & ", '" & membershipName & "', '" & duration & "', " & cost & ", '" & benefits & "', '" & startDate.ToString("yyyy-MM-dd") & "', '" & endDate.ToString("yyyy-MM-dd") & "', '" & discountAvailable & "', '" & cancelationPolicy & "', '" & renewalPolicy & "', " & trainingSession & ", '" & lockerAccess & "', '" & ServiceCB.SelectedItem.ToString() & "')"
+                        Debug.WriteLine($"Executing query: {insertMembershipQuery}")
+                        Using insertMembershipCommand As New MySqlCommand(insertMembershipQuery, conn, transaction)
+                            insertMembershipCommand.ExecuteNonQuery()
+                        End Using
+
+                        ' Commit the transaction
+                        transaction.Commit()
+                        MessageBox.Show("Member, login, and membership details added successfully.")
+                        Me.Close()
+                    Catch ex As Exception
+                        ' Rollback the transaction in case of an error
+                        transaction.Rollback()
+                        MessageBox.Show("An error occurred: " & ex.Message)
+                    End Try
+                End Using
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("An error occurred: " & ex.Message)
+        End Try
+    End Sub
 
     Private Sub ContactTxt_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ContactTxt.KeyPress
         ' Allow only digits, the '+' sign, and control keys like backspace

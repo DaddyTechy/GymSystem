@@ -34,11 +34,13 @@ Partial Class Member
         PictureBox1 = New PictureBox()
         Label1 = New Label()
         RegisterBtn = New Button()
+        CBMe = New CheckBox()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' LabelSign
         ' 
+        LabelSign.Anchor = AnchorStyles.None
         LabelSign.AutoSize = True
         LabelSign.Font = New Font("Microsoft Sans Serif", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
         LabelSign.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
@@ -50,6 +52,7 @@ Partial Class Member
         ' 
         ' LabelID
         ' 
+        LabelID.Anchor = AnchorStyles.None
         LabelID.AutoSize = True
         LabelID.Font = New Font("Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         LabelID.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
@@ -61,6 +64,7 @@ Partial Class Member
         ' 
         ' LabelPass
         ' 
+        LabelPass.Anchor = AnchorStyles.None
         LabelPass.AutoSize = True
         LabelPass.Font = New Font("Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         LabelPass.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
@@ -72,6 +76,7 @@ Partial Class Member
         ' 
         ' IDBox
         ' 
+        IDBox.Anchor = AnchorStyles.None
         IDBox.BackColor = Color.Gray
         IDBox.BorderStyle = BorderStyle.FixedSingle
         IDBox.Cursor = Cursors.IBeam
@@ -84,6 +89,7 @@ Partial Class Member
         ' 
         ' PassBox
         ' 
+        PassBox.Anchor = AnchorStyles.None
         PassBox.BackColor = Color.Gray
         PassBox.BorderStyle = BorderStyle.FixedSingle
         PassBox.Font = New Font("Segoe UI Variable Small", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
@@ -95,6 +101,7 @@ Partial Class Member
         ' 
         ' LoginBtn
         ' 
+        LoginBtn.Anchor = AnchorStyles.None
         LoginBtn.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         LoginBtn.Font = New Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
         LoginBtn.ForeColor = SystemColors.ActiveCaptionText
@@ -107,6 +114,7 @@ Partial Class Member
         ' 
         ' StaffLL
         ' 
+        StaffLL.Anchor = AnchorStyles.None
         StaffLL.AutoSize = True
         StaffLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         StaffLL.Location = New Point(203, 507)
@@ -119,6 +127,7 @@ Partial Class Member
         ' 
         ' AdminLL
         ' 
+        AdminLL.Anchor = AnchorStyles.None
         AdminLL.AutoSize = True
         AdminLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         AdminLL.Location = New Point(354, 507)
@@ -131,6 +140,7 @@ Partial Class Member
         ' 
         ' ForgotLL
         ' 
+        ForgotLL.Anchor = AnchorStyles.None
         ForgotLL.AutoSize = True
         ForgotLL.LinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         ForgotLL.Location = New Point(363, 389)
@@ -143,8 +153,10 @@ Partial Class Member
         ' 
         ' PictureBox1
         ' 
-        PictureBox1.Image = My.Resources.Resources._929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
-        PictureBox1.Location = New Point(650, 140)
+        PictureBox1.Anchor = AnchorStyles.None
+        PictureBox1.Image = _929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
+        PictureBox1.Location = New Point(569, 105)
+        PictureBox1.Margin = New Padding(3, 2, 3, 2)
         PictureBox1.Name = "PictureBox1"
         PictureBox1.Size = New Size(220, 270)
         PictureBox1.SizeMode = PictureBoxSizeMode.AutoSize
@@ -153,8 +165,9 @@ Partial Class Member
         ' 
         ' Label1
         ' 
+        Label1.Anchor = AnchorStyles.None
         Label1.AutoSize = True
-        Label1.Font = New Font("Tahoma", 9F)
+        Label1.Font = New Font("Tahoma", 9.0F)
         Label1.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
         Label1.Location = New Point(207, 579)
         Label1.Name = "Label1"
@@ -164,10 +177,11 @@ Partial Class Member
         ' 
         ' RegisterBtn
         ' 
+        RegisterBtn.Anchor = AnchorStyles.None
         RegisterBtn.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         RegisterBtn.FlatAppearance.BorderColor = Color.Yellow
         RegisterBtn.FlatAppearance.MouseDownBackColor = Color.Yellow
-        RegisterBtn.Font = New Font("Microsoft Sans Serif", 9F, FontStyle.Bold)
+        RegisterBtn.Font = New Font("Microsoft Sans Serif", 9.0F, FontStyle.Bold)
         RegisterBtn.ForeColor = SystemColors.ActiveCaptionText
         RegisterBtn.Location = New Point(320, 564)
         RegisterBtn.Name = "RegisterBtn"
@@ -176,9 +190,24 @@ Partial Class Member
         RegisterBtn.Text = "Register"
         RegisterBtn.UseVisualStyleBackColor = False
         ' 
+        ' CBMe
+        ' 
+        CBMe.Anchor = AnchorStyles.None
+        CBMe.AutoSize = True
+        CBMe.Font = New Font("Tahoma", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        CBMe.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
+        CBMe.Location = New Point(122, 292)
+        CBMe.Margin = New Padding(3, 2, 3, 2)
+        CBMe.Name = "CBMe"
+        CBMe.Size = New Size(94, 17)
+        CBMe.TabIndex = 3
+        CBMe.Text = "Remember me"
+        CBMe.UseVisualStyleBackColor = True
+        CBMe.Visible = False
+        ' 
         ' Member
         ' 
-        AutoScaleDimensions = New SizeF(8F, 20F)
+        AutoScaleDimensions = New SizeF(8.0F, 20.0F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(29), CByte(29), CByte(29))
         ClientSize = New Size(1037, 711)
@@ -194,8 +223,9 @@ Partial Class Member
         Controls.Add(LabelPass)
         Controls.Add(LabelID)
         Controls.Add(LabelSign)
-        MaximumSize = New Size(1055, 758)
-        MinimumSize = New Size(1055, 758)
+        Margin = New Padding(3, 2, 3, 2)
+        MinimumSize = New Size(925, 580)
+        MinimumSize = New Size(925, 580)
         Name = "Member"
         Text = "Member Login"
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
@@ -215,5 +245,6 @@ Partial Class Member
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents Label1 As Label
     Friend WithEvents RegisterBtn As Button
+    Friend WithEvents CBMe As CheckBox
 
 End Class
