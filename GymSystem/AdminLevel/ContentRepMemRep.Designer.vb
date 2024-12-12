@@ -25,6 +25,7 @@ Partial Class ContentRepMemRep
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ContentRepMemRep))
         Panel1 = New Panel()
         Panel2 = New Panel()
+        btnBack = New Button()
         btnNext = New Button()
         DateTimePicker1 = New DateTimePicker()
         btnRevenue = New Button()
@@ -39,7 +40,9 @@ Partial Class ContentRepMemRep
         PrintDocument1 = New Printing.PrintDocument()
         PrintPreviewDialog1 = New PrintPreviewDialog()
         PrintDialog1 = New PrintDialog()
-        btnBack = New Button()
+        txtBatchSize = New TextBox()
+        Label4 = New Label()
+        btnApplyBatchSize = New Button()
         Panel1.SuspendLayout()
         Panel2.SuspendLayout()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
@@ -60,6 +63,9 @@ Partial Class ContentRepMemRep
         ' 
         Panel2.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         Panel2.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        Panel2.Controls.Add(btnApplyBatchSize)
+        Panel2.Controls.Add(Label4)
+        Panel2.Controls.Add(txtBatchSize)
         Panel2.Controls.Add(btnBack)
         Panel2.Controls.Add(btnNext)
         Panel2.Controls.Add(DateTimePicker1)
@@ -74,6 +80,18 @@ Partial Class ContentRepMemRep
         Panel2.Name = "Panel2"
         Panel2.Size = New Size(1191, 459)
         Panel2.TabIndex = 2
+        ' 
+        ' btnBack
+        ' 
+        btnBack.BackColor = Color.Gray
+        btnBack.FlatStyle = FlatStyle.Popup
+        btnBack.ForeColor = SystemColors.ControlLightLight
+        btnBack.Location = New Point(677, 22)
+        btnBack.Name = "btnBack"
+        btnBack.Size = New Size(66, 22)
+        btnBack.TabIndex = 12
+        btnBack.Text = "Load Less"
+        btnBack.UseVisualStyleBackColor = False
         ' 
         ' btnNext
         ' 
@@ -218,17 +236,34 @@ Partial Class ContentRepMemRep
         ' 
         PrintDialog1.UseEXDialog = True
         ' 
-        ' btnBack
+        ' txtBatchSize
         ' 
-        btnBack.BackColor = Color.Gray
-        btnBack.FlatStyle = FlatStyle.Popup
-        btnBack.ForeColor = SystemColors.ControlLightLight
-        btnBack.Location = New Point(677, 22)
-        btnBack.Name = "btnBack"
-        btnBack.Size = New Size(66, 22)
-        btnBack.TabIndex = 12
-        btnBack.Text = "Load Less"
-        btnBack.UseVisualStyleBackColor = False
+        txtBatchSize.Location = New Point(255, 21)
+        txtBatchSize.Name = "txtBatchSize"
+        txtBatchSize.Size = New Size(47, 23)
+        txtBatchSize.TabIndex = 13
+        ' 
+        ' Label4
+        ' 
+        Label4.AutoSize = True
+        Label4.ForeColor = SystemColors.ButtonFace
+        Label4.Location = New Point(155, 27)
+        Label4.Name = "Label4"
+        Label4.Size = New Size(97, 15)
+        Label4.TabIndex = 14
+        Label4.Text = "Amount to Load:"
+        ' 
+        ' btnApplyBatchSize
+        ' 
+        btnApplyBatchSize.BackColor = Color.Gray
+        btnApplyBatchSize.FlatStyle = FlatStyle.Popup
+        btnApplyBatchSize.ForeColor = SystemColors.ControlLightLight
+        btnApplyBatchSize.Location = New Point(308, 23)
+        btnApplyBatchSize.Name = "btnApplyBatchSize"
+        btnApplyBatchSize.Size = New Size(48, 22)
+        btnApplyBatchSize.TabIndex = 15
+        btnApplyBatchSize.Text = "Apply"
+        btnApplyBatchSize.UseVisualStyleBackColor = False
         ' 
         ' ContentRepMemRep
         ' 
@@ -266,5 +301,8 @@ Partial Class ContentRepMemRep
     Friend WithEvents DateTimePicker1 As DateTimePicker
     Friend WithEvents btnNext As Button
     Friend WithEvents btnBack As Button
+    Friend WithEvents Label4 As Label
+    Friend WithEvents txtBatchSize As TextBox
+    Friend WithEvents btnApplyBatchSize As Button
 
 End Class

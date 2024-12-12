@@ -10,6 +10,9 @@ Public Class ContentRepMemRep
     Private Sub ContentRepMemRep_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Initial setup if needed
         DateTimePicker1.Visible = False
+        btnApplyBatchSize.Visible = False
+        txtBatchSize.Visible = False
+        Label4.Visible = False
     End Sub
 
     Private Sub btnRevenue_Click(sender As Object, e As EventArgs) Handles btnRevenue.Click
@@ -146,8 +149,13 @@ Public Class ContentRepMemRep
 
     Private pdfBytes As Byte()
 
+    Private lastClickedButton As Button
+
     Private Sub ReloadData(query As String, reportPath As String)
         DateTimePicker1.Visible = False
+        btnApplyBatchSize.Visible = True
+        txtBatchSize.Visible = True
+        Label4.Visible = True
         LoadData(query)
 
         Dim adminID As String = CurrentLoggedUser.id
@@ -186,8 +194,6 @@ Public Class ContentRepMemRep
         End If
     End Sub
 
-    Private lastClickedButton As Button
-
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         lastClickedButton = Button1
         ReloadData($"SELECT AttendanceID, StaffID, MemberID, Date, CheckInTime, CheckOutTime, SessionType FROM attendance LIMIT {batchSize} OFFSET 0", "..\..\..\AdminLevel\Reports\Report2.rdlc")
@@ -208,5 +214,18 @@ Public Class ContentRepMemRep
         ReloadData($"SELECT MembershipID, MemberID, MemberShipName, Duration, Cost, Benefits, StartDate, EndDate, DiscountAvailable, CancelationPolicy, RenewalPolicy, TrainingSession, LockerAccess, MembershipType FROM membership LIMIT {batchSize} OFFSET 0", "..\..\..\AdminLevel\Reports\Report4.rdlc")
     End Sub
 
+    Private Sub btnApplyBatchSize_Click(sender As Object, e As EventArgs) Handles btnApplyBatchSize.Click
+        Dim userInput As String = txtBatchSize.Text
+        Dim newBatchSize As Integer
+        If Integer.TryParse(userInput, newBatchSize) AndAlso newBatchSize > 0 Then
+            batchSize = newBatchSize
+            currentOffset = 0 ' Reset the offset when batch size changes
+            If lastClickedButton IsNot Nothing Then
+                lastClickedButton.PerformClick()
+            End If
+        Else
+            MessageBox.Show("Please enter a valid positive number for batch size.")
+        End If
+    End Sub
 
 End Class

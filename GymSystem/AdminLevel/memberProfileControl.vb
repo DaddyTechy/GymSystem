@@ -359,8 +359,8 @@ Public Class memberProfileControl
                                                              Dim paymentNotes As String = paymentControl.txtPaymentNotes.Text
 
 
-                                                             Dim queryPayment As String = $"INSERT INTO payment (MemberID, PaymentMethod, PaymentDate, Amount, InvoiceNumber, ReceiptNumber, DiscountApplied, TaxAmount, TotalAmount, PaymentNotes, PaymentStatus,  MembershipID) " &
-                                                                                          $"VALUES ({memberID}, '{paymentMethod}', '{paymentDate:yyyy-MM-dd}', {subTotal}, '{invoiceNumber}', '{receiptNumber}', {discountApplied}, {taxAmount}, {totalAmount}, '{paymentNotes}', 'Paid', '{selectedMember.MemberID}')"
+                                                             Dim queryPayment As String = $"INSERT INTO payment (MemberID,  ReservationFee, PaymentMethod, PaymentDate, Amount, InvoiceNumber, ReceiptNumber, DiscountApplied, TaxAmount, TotalAmount, PaymentNotes, PaymentStatus,  MembershipID) " &
+                                                                                          $"VALUES ({memberID}, {reservationFee}, '{paymentMethod}', '{paymentDate:yyyy-MM-dd}', {subTotal}, '{invoiceNumber}', '{receiptNumber}', {discountApplied}, {taxAmount}, {totalAmount}, '{paymentNotes}', 'Paid', '{selectedMember.MemberID}')"
                                                              readQuery(queryPayment)
 
                                                              ' Update status in the relevant table
