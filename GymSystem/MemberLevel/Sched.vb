@@ -1,4 +1,6 @@
-﻿Public Class Sched
+﻿Imports MySql.Data.MySqlClient
+
+Public Class Sched
     ' Global variables for managing the calendar
     Private currentDate As Date = Date.Today
     Private viewMode As String = "Month" ' Default to Month view
@@ -17,25 +19,59 @@
 
     ' Form Load Event
     Private Sub Sched_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-
         ' Initialize sample events
-        allEvents = New List(Of CalendarEvent) From {
-            New CalendarEvent With {.EventDate = New Date(2024, 10, 2), .Title = "Power Lifting Session", .Time = "1:00 PM - 3:00 PM", .Instructor = "Jake"},
-            New CalendarEvent With {.EventDate = New Date(2024, 10, 5), .Title = "Yoga Class", .Time = "10:00 AM - 11:00 AM", .Instructor = "Anna"}
-        }
+        allEvents = New List(Of CalendarEvent)()
+
+        ' Load events from the database
+        LoadEventsFromDatabase()
 
         ' Set up DataGridView styling
         SetupDataGridViewStyle()
 
         ' Load default view
         LoadCalendar(viewMode, currentDate)
+
+        ' Add this code to your form's constructor or Load event
+        AddHandler DataGridView1.CellMouseClick, AddressOf DataGridView1_CellMouseClick
     End Sub
+
+    ' Load Events from Database
+    Private Sub LoadEventsFromDatabase()
+        Using conn As New MySqlConnection(strConnection)
+            conn.Open()
+            Dim query As String = $"SELECT r.ReservationDate AS EventDate, r.Purpose AS Title, CONCAT(s.FirstName, ' ', s.LastName) AS Instructor FROM reservation r JOIN staff s ON r.StaffID = s.StaffID WHERE s.Position = 'Trainer' AND r.MemberID = {CurrentLoggedUser.id}"
+            Using cmd As New MySqlCommand(query, conn)
+                Using reader As MySqlDataReader = cmd.ExecuteReader()
+                    While reader.Read()
+                        Dim newEvent As New CalendarEvent With {
+                        .EventDate = reader.GetDateTime("EventDate"),
+                        .Title = reader.GetString("Title"),
+                        .Instructor = reader.GetString("Instructor")
+                    }
+                        allEvents.Add(newEvent)
+                    End While
+                End Using
+            End Using
+        End Using
+    End Sub
+
+
+    ' Event handler for CellMouseClick event
+    Private Sub DataGridView1_CellMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs)
+        ' Check if the right mouse button was clicked
+        If e.Button = MouseButtons.Right Then
+            ' Get the value of the clicked cell
+            Dim cellValue As String = DataGridView1.Rows(e.RowIndex).Cells(e.ColumnIndex).Value.ToString()
+            ' Display the cell value in a message box
+            MessageBox.Show(cellValue, "Cell Data", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+    End Sub
+
 
     ' Load Calendar
     Private Sub LoadCalendar(viewMode As String, selectedDate As Date)
         DataGridView1.Rows.Clear()
-
+        DataGridView1.DefaultCellStyle.WrapMode = DataGridViewTriState.True
         If viewMode = "Month" Then
             LoadMonthView(selectedDate)
         ElseIf viewMode = "Week" Then
@@ -203,7 +239,7 @@
     Private Sub DataGridView1_CellContentDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellContentDoubleClick
         If e.RowIndex >= 0 AndAlso e.ColumnIndex >= 0 Then
             Dim cellValue As String = DataGridView1.Rows(e.RowIndex).Cells(e.ColumnIndex).Value?.ToString()
-            MessageBox.Show($"Cell Value: {cellValue}")
+            MessageBox.Show($"Reserve for this day: {cellValue}")
 
             ' Check if the cell contains a valid day number
             If Not String.IsNullOrEmpty(cellValue) AndAlso Integer.TryParse(cellValue.Split(Environment.NewLine)(0), Nothing) Then
@@ -215,8 +251,8 @@
         End If
     End Sub
 
-
-    ' Show the event form
+    ' In your main form or a shared module
+    ' In your main form or a shared module
     Private Sub ShowEventForm(selectedDate As DateTime)
         ' Remove existing event form if any
         If eventForm IsNot Nothing Then
@@ -245,13 +281,12 @@
         LoadCalendar(viewMode, currentDate)
     End Sub
 
+
     ' Public method to add new events
     Public Sub AddNewEvent(newEvent As CalendarEvent)
         allEvents.Add(newEvent)
         LoadCalendar(viewMode, currentDate)
     End Sub
 
-    Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellContentClick
 
-    End Sub
 End Class

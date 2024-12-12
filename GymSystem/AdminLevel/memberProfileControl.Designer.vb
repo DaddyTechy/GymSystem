@@ -106,8 +106,8 @@ Partial Class memberProfileControl
         ' 
         TableLayoutPanel1.ColumnCount = 3
         TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 155F))
-        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 81F))
-        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 513F))
+        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 394F))
+        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 200F))
         TableLayoutPanel1.Controls.Add(lblMemberName, 1, 0)
         TableLayoutPanel1.Controls.Add(Label1, 0, 0)
         TableLayoutPanel1.Dock = DockStyle.Top
@@ -122,10 +122,10 @@ Partial Class memberProfileControl
         ' lblMemberName
         ' 
         lblMemberName.AutoSize = True
-        lblMemberName.Dock = DockStyle.Left
+        lblMemberName.Dock = DockStyle.Right
         lblMemberName.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblMemberName.ForeColor = Color.Yellow
-        lblMemberName.Location = New Point(158, 0)
+        lblMemberName.Location = New Point(477, 0)
         lblMemberName.Name = "lblMemberName"
         lblMemberName.Size = New Size(69, 34)
         lblMemberName.TabIndex = 7

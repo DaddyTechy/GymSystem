@@ -50,9 +50,9 @@ Partial Class Payment
         ' 
         Label1.AutoSize = True
         Label1.ForeColor = Color.White
-        Label1.Location = New Point(72, 57)
+        Label1.Location = New Point(63, 43)
         Label1.Name = "Label1"
-        Label1.Size = New Size(71, 20)
+        Label1.Size = New Size(59, 15)
         Label1.TabIndex = 0
         Label1.Text = "Payments"
         ' 
@@ -62,18 +62,18 @@ Partial Class Payment
         lblCurrentPlan.ColumnCount = 3
         lblCurrentPlan.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 46.82081F))
         lblCurrentPlan.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 53.17919F))
-        lblCurrentPlan.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 266F))
+        lblCurrentPlan.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 234F))
         lblCurrentPlan.Controls.Add(lblCurrentP, 0, 0)
         lblCurrentPlan.Controls.Add(lblService, 1, 0)
         lblCurrentPlan.Controls.Add(lblStatus, 2, 0)
         lblCurrentPlan.ForeColor = Color.White
-        lblCurrentPlan.Location = New Point(72, 97)
-        lblCurrentPlan.Margin = New Padding(10, 10, 3, 3)
+        lblCurrentPlan.Location = New Point(63, 73)
+        lblCurrentPlan.Margin = New Padding(9, 8, 3, 2)
         lblCurrentPlan.Name = "lblCurrentPlan"
         lblCurrentPlan.RowCount = 1
         lblCurrentPlan.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
         lblCurrentPlan.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
-        lblCurrentPlan.Size = New Size(908, 41)
+        lblCurrentPlan.Size = New Size(794, 31)
         lblCurrentPlan.TabIndex = 1
         ' 
         ' lblCurrentP
@@ -82,8 +82,8 @@ Partial Class Payment
         lblCurrentP.ForeColor = Color.White
         lblCurrentP.Location = New Point(4, 1)
         lblCurrentP.Name = "lblCurrentP"
-        lblCurrentP.Padding = New Padding(5, 7, 0, 0)
-        lblCurrentP.Size = New Size(76, 27)
+        lblCurrentP.Padding = New Padding(4, 5, 0, 0)
+        lblCurrentP.Size = New Size(63, 20)
         lblCurrentP.TabIndex = 0
         lblCurrentP.Text = "Payments"
         ' 
@@ -91,10 +91,10 @@ Partial Class Payment
         ' 
         lblService.AutoSize = True
         lblService.ForeColor = Color.White
-        lblService.Location = New Point(303, 1)
+        lblService.Location = New Point(265, 1)
         lblService.Name = "lblService"
-        lblService.Padding = New Padding(5, 7, 0, 0)
-        lblService.Size = New Size(76, 27)
+        lblService.Padding = New Padding(4, 5, 0, 0)
+        lblService.Size = New Size(63, 20)
         lblService.TabIndex = 0
         lblService.Text = "Payments"
         ' 
@@ -102,19 +102,20 @@ Partial Class Payment
         ' 
         lblStatus.AutoSize = True
         lblStatus.ForeColor = Color.White
-        lblStatus.Location = New Point(643, 1)
+        lblStatus.Location = New Point(561, 1)
         lblStatus.Name = "lblStatus"
-        lblStatus.Padding = New Padding(5, 7, 0, 0)
-        lblStatus.Size = New Size(76, 27)
+        lblStatus.Padding = New Padding(4, 5, 0, 0)
+        lblStatus.Size = New Size(63, 20)
         lblStatus.TabIndex = 0
         lblStatus.Text = "Payments"
         ' 
         ' PictureBox1
         ' 
-        PictureBox1.Image = My.Resources.Resources._929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
-        PictureBox1.Location = New Point(107, 206)
+        PictureBox1.Image = _929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
+        PictureBox1.Location = New Point(94, 154)
+        PictureBox1.Margin = New Padding(3, 2, 3, 2)
         PictureBox1.Name = "PictureBox1"
-        PictureBox1.Size = New Size(119, 113)
+        PictureBox1.Size = New Size(104, 85)
         PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
         PictureBox1.TabIndex = 2
         PictureBox1.TabStop = False
@@ -124,9 +125,9 @@ Partial Class Payment
         Label2.AutoSize = True
         Label2.Font = New Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.FromArgb(CByte(245), CByte(203), CByte(45))
-        Label2.Location = New Point(72, 322)
+        Label2.Location = New Point(63, 242)
         Label2.Name = "Label2"
-        Label2.Size = New Size(197, 38)
+        Label2.Size = New Size(153, 30)
         Label2.TabIndex = 3
         Label2.Text = "JJ Firness GYM"
         ' 
@@ -134,9 +135,9 @@ Partial Class Payment
         ' 
         Label5.AutoSize = True
         Label5.ForeColor = Color.White
-        Label5.Location = New Point(76, 360)
+        Label5.Location = New Point(66, 270)
         Label5.Name = "Label5"
-        Label5.Size = New Size(159, 20)
+        Label5.Size = New Size(126, 15)
         Label5.TabIndex = 4
         Label5.Text = "Daet, Camarines Norte"
         ' 
@@ -144,9 +145,9 @@ Partial Class Payment
         ' 
         Label3.AutoSize = True
         Label3.ForeColor = Color.White
-        Label3.Location = New Point(76, 380)
+        Label3.Location = New Point(66, 285)
         Label3.Name = "Label3"
-        Label3.Size = New Size(123, 20)
+        Label3.Size = New Size(94, 15)
         Label3.TabIndex = 5
         Label3.Text = "Tel: 09123456789"
         ' 
@@ -154,9 +155,9 @@ Partial Class Payment
         ' 
         Label4.AutoSize = True
         Label4.ForeColor = Color.White
-        Label4.Location = New Point(76, 400)
+        Label4.Location = New Point(66, 300)
         Label4.Name = "Label4"
-        Label4.Size = New Size(217, 20)
+        Label4.Size = New Size(177, 15)
         Label4.TabIndex = 6
         Label4.Text = "Email:JJFitnessGYM@gmail.com"
         ' 
@@ -164,9 +165,9 @@ Partial Class Payment
         ' 
         Label6.AutoSize = True
         Label6.ForeColor = Color.White
-        Label6.Location = New Point(551, 206)
+        Label6.Location = New Point(482, 154)
         Label6.Name = "Label6"
-        Label6.Size = New Size(148, 20)
+        Label6.Size = New Size(120, 15)
         Label6.TabIndex = 0
         Label6.Text = "Member's Full Name:"
         ' 
@@ -174,62 +175,65 @@ Partial Class Payment
         ' 
         Label7.AutoSize = True
         Label7.ForeColor = Color.White
-        Label7.Location = New Point(551, 226)
+        Label7.Location = New Point(482, 170)
         Label7.Name = "Label7"
-        Label7.Size = New Size(37, 20)
+        Label7.Size = New Size(30, 15)
         Label7.TabIndex = 0
         Label7.Text = "Plan"
         ' 
         ' ComboBox1
         ' 
         ComboBox1.FormattingEnabled = True
-        ComboBox1.Location = New Point(551, 249)
+        ComboBox1.Location = New Point(482, 187)
+        ComboBox1.Margin = New Padding(3, 2, 3, 2)
         ComboBox1.Name = "ComboBox1"
-        ComboBox1.Size = New Size(148, 28)
+        ComboBox1.Size = New Size(130, 23)
         ComboBox1.TabIndex = 7
         ' 
         ' Label8
         ' 
         Label8.AutoSize = True
         Label8.ForeColor = Color.White
-        Label8.Location = New Point(551, 280)
+        Label8.Location = New Point(482, 210)
         Label8.Name = "Label8"
-        Label8.Size = New Size(62, 20)
+        Label8.Size = New Size(49, 15)
         Label8.TabIndex = 0
         Label8.Text = "Services"
         ' 
         ' ComboBox2
         ' 
         ComboBox2.FormattingEnabled = True
-        ComboBox2.Location = New Point(551, 303)
+        ComboBox2.Location = New Point(482, 227)
+        ComboBox2.Margin = New Padding(3, 2, 3, 2)
         ComboBox2.Name = "ComboBox2"
-        ComboBox2.Size = New Size(148, 28)
+        ComboBox2.Size = New Size(130, 23)
         ComboBox2.TabIndex = 7
         ' 
         ' Label9
         ' 
         Label9.AutoSize = True
         Label9.ForeColor = Color.White
-        Label9.Location = New Point(551, 334)
+        Label9.Location = New Point(482, 250)
         Label9.Name = "Label9"
-        Label9.Size = New Size(62, 20)
+        Label9.Size = New Size(51, 15)
         Label9.TabIndex = 0
         Label9.Text = "Amount"
         ' 
         ' TextBox1
         ' 
-        TextBox1.Location = New Point(551, 353)
+        TextBox1.Location = New Point(482, 265)
+        TextBox1.Margin = New Padding(3, 2, 3, 2)
         TextBox1.Name = "TextBox1"
-        TextBox1.Size = New Size(148, 27)
+        TextBox1.Size = New Size(130, 23)
         TextBox1.TabIndex = 8
         ' 
         ' Label10
         ' 
         Label10.AutoSize = True
         Label10.ForeColor = Color.White
-        Label10.Location = New Point(551, 383)
+        Label10.Location = New Point(482, 287)
         Label10.Name = "Label10"
-        Label10.Size = New Size(109, 20)
+        Label10.Size = New Size(87, 15)
         Label10.TabIndex = 0
         Label10.Text = "Member Status"
         ' 
@@ -237,9 +241,9 @@ Partial Class Payment
         ' 
         Label11.AutoSize = True
         Label11.ForeColor = Color.White
-        Label11.Location = New Point(551, 403)
+        Label11.Location = New Point(482, 302)
         Label11.Name = "Label11"
-        Label11.Size = New Size(50, 20)
+        Label11.Size = New Size(40, 15)
         Label11.TabIndex = 0
         Label11.Text = "Active"
         ' 
@@ -249,17 +253,19 @@ Partial Class Payment
         Button1.FlatAppearance.BorderSize = 0
         Button1.FlatStyle = FlatStyle.Flat
         Button1.ForeColor = Color.White
-        Button1.Location = New Point(354, 557)
+        Button1.Location = New Point(310, 418)
+        Button1.Margin = New Padding(3, 2, 3, 2)
         Button1.Name = "Button1"
-        Button1.Size = New Size(334, 55)
+        Button1.Size = New Size(292, 41)
         Button1.TabIndex = 9
         Button1.Text = "Make Payment"
         Button1.UseVisualStyleBackColor = False
         ' 
         ' Payment
         ' 
-        AutoScaleDimensions = New SizeF(8F, 20F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
+        BackColor = Color.Transparent
         Controls.Add(Button1)
         Controls.Add(TextBox1)
         Controls.Add(ComboBox2)
@@ -277,8 +283,9 @@ Partial Class Payment
         Controls.Add(Label7)
         Controls.Add(Label6)
         Controls.Add(Label1)
+        Margin = New Padding(3, 2, 3, 2)
         Name = "Payment"
-        Size = New Size(1063, 674)
+        Size = New Size(877, 506)
         lblCurrentPlan.ResumeLayout(False)
         lblCurrentPlan.PerformLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()

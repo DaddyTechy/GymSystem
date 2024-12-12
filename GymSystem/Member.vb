@@ -1,4 +1,6 @@
-﻿Public Class Member
+﻿Imports MySql.Data.MySqlClient
+
+Public Class Member
     Private originalColor As Color = Color.FromArgb(245, 203, 92)
     Private originalButtonColor As Color = Color.FromArgb(245, 203, 92)
     Private hoverButtonColor As Color = Color.FromArgb(245, 203, 92)
@@ -175,10 +177,118 @@
     End Sub
 
     Private Sub LoginBtn_Click(sender As Object, e As EventArgs) Handles LoginBtn.Click
-        Dim MeMain As New MemberMain
-        MeMain.Show()
-        Hide()
+        Dim memberID As Integer
+        If Integer.TryParse(IDBox.Text, memberID) Then
+            Dim password As String = PassBox.Text
+
+            ' Authenticate user
+            Dim user = AuthenticateMember(memberID, password)
+            If user IsNot Nothing Then
+                ' Show the main member form
+                Dim memberMain As New MemberMain()
+                memberMain.Show()
+                Me.Hide()
+                Logs($"Member with ID: {CurrentLoggedUser.id} logged in", "memberlogin")
+                Debug.WriteLine("id: " & CurrentLoggedUser.id)
+            Else
+                MessageBox.Show("Invalid MemberID or password.")
+            End If
+        Else
+            MessageBox.Show("Please enter a valid MemberID.")
+        End If
     End Sub
+
+
+    Private Function AuthenticateMember(memberID As Integer, password As String) As MemberUser
+        UpdateConnectionString()
+        Try
+            Using conn As New MySqlConnection(strConnection)
+                conn.Open()
+                Debug.WriteLine("Connection opened successfully.")
+
+                Dim query As String = "SELECT * FROM memberlogin WHERE MemberID = @MemberID"
+                Dim cmd As New MySqlCommand(query, conn)
+                cmd.Parameters.AddWithValue("@MemberID", memberID)
+                Debug.WriteLine($"Executing query: {query} with MemberID: {memberID}")
+
+                Dim reader As MySqlDataReader = cmd.ExecuteReader()
+
+                If reader.Read() Then
+                    Debug.WriteLine("User found in database.")
+
+                    ' List available columns in the result set
+                    For i As Integer = 0 To reader.FieldCount - 1
+                        Debug.WriteLine($"Column {i}: {reader.GetName(i)}")
+                    Next
+
+                    ' Retrieve the encrypted password and IsEncrypted flag from the database
+                    Dim storedPassword As String = reader("Password").ToString()
+                    Dim isEncrypted As Boolean = Convert.ToBoolean(reader("IsEncrypted"))
+                    Debug.WriteLine($"Stored password: {storedPassword}, IsEncrypted: {isEncrypted}")
+
+                    ' Decrypt the stored password if it is encrypted
+                    Dim decryptedPassword As String
+                    If isEncrypted Then
+                        decryptedPassword = storedPassword
+                    Else
+                        ' Encrypt the plain password and update the database
+                        Dim encryptedPassword As String = Encrypt(storedPassword)
+                        Dim updateQuery As String = $"UPDATE memberlogin SET EncryptedPassword = '{encryptedPassword}', IsEncrypted = TRUE WHERE MemberID = {memberID}"
+                        readQuery(updateQuery)
+                        Debug.WriteLine($"Updated database with encrypted password: {encryptedPassword}")
+
+                        ' Set the decrypted password to the original plain password
+                        decryptedPassword = storedPassword
+                    End If
+                    Debug.WriteLine($"Decrypted password: {decryptedPassword}")
+
+                    ' Compare the decrypted password with the entered password
+                    If decryptedPassword = password Then
+                        Debug.WriteLine("Password matches.")
+
+                        ' Create a MemberUser object to hold the user details
+                        Dim user As New MemberUser()
+                        user.MemberID = reader("MemberID")
+                        user.Username = reader("Username")
+                        user.Role = "Member"
+
+                        ' Set the current logged user after successful login
+                        CurrentLoggedUser.id = user.MemberID
+                        CurrentLoggedUser.name = user.Username
+                        ' ... set other fields as needed
+
+                        ' Access the current logged user's details
+                        MsgBox("Welcome, Member: " & memberID & " " & CurrentLoggedUser.name & "!")
+
+                        Logs($"Member user {user.Username} logged in", "Login")
+
+                        ' Return the user object
+                        Return user
+                    Else
+                        Debug.WriteLine("Password does not match.")
+                        ' Return Nothing if the password does not match
+                        Return Nothing
+                    End If
+                Else
+                    Debug.WriteLine("User not found in database.")
+                    ' Return Nothing if no user is found
+                    Return Nothing
+                End If
+            End Using
+        Catch ex As Exception
+            Debug.WriteLine($"Error: {ex.Message}")
+            ErrorHandler.HandleError(ex)
+            Return Nothing
+        End Try
+    End Function
+
+
+    Public Class MemberUser
+        Public Property MemberID As Integer
+        Public Property Username As String
+        Public Property Role As String
+    End Class
+
 
     Private Sub StaffLL_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles StaffLL.LinkClicked
         ' Navigate to Staff form

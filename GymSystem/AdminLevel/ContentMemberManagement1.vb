@@ -571,8 +571,6 @@ Public Class ContentMemberManagement1
         Return additionalData
     End Function
 
-
-
     Private Sub LoadUserControlWithMemberData(memberId As Integer)
         ' Retrieve the selected member's data from the DataGridView
         Dim selectedRow As DataGridViewRow = MembersTable.Rows.Cast(Of DataGridViewRow)().Where(Function(row) CInt(row.Cells("MemberID").Value) = memberId).FirstOrDefault()
@@ -733,4 +731,40 @@ Public Class ContentMemberManagement1
         currentOffset += batchSize
         LoadData()
     End Sub
+
+    Private Sub LoadMemberProfileControl(memberId As Integer)
+        ' Retrieve the selected member's data from the database
+        Dim memberData As MemberData = GetMemberData(memberId)
+
+        ' Create an instance of the user control
+        Dim memberProfileControl As New memberProfileControl()
+
+        ' Load the data for the selected member into the user control
+        memberProfileControl.LoadMemberData(memberData)
+
+        ' Show the user control using the provided function
+        ShowUserControl(memberProfileControl)
+    End Sub
+
+    Private Function GetMemberData(memberId As Integer) As MemberData
+        ' Fetch additional data from the database
+        Dim additionalData As MemberData = GetAdditionalMemberData(memberId)
+
+        ' Create a new MemberData object and populate it with the fetched data
+        Dim memberData As New MemberData() With {
+        .MemberID = memberId,
+        .Weight = additionalData.Weight,
+        .Height = additionalData.Height,
+        .Email = additionalData.Email,
+        .DOB = additionalData.DOB,
+        .StartDate = additionalData.StartDate,
+        .EndDate = additionalData.EndDate,
+        .RenewalPolicy = additionalData.RenewalPolicy,
+        .Benefits = additionalData.Benefits,
+        .MemberShipName = additionalData.MemberShipName
+    }
+
+        Return memberData
+    End Function
+
 End Class
