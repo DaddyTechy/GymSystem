@@ -25,6 +25,7 @@ Partial Class ContentRepMemRep
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ContentRepMemRep))
         Panel1 = New Panel()
         Panel2 = New Panel()
+        btnNext = New Button()
         DateTimePicker1 = New DateTimePicker()
         btnRevenue = New Button()
         btnMembership = New Button()
@@ -38,6 +39,7 @@ Partial Class ContentRepMemRep
         PrintDocument1 = New Printing.PrintDocument()
         PrintPreviewDialog1 = New PrintPreviewDialog()
         PrintDialog1 = New PrintDialog()
+        btnBack = New Button()
         Panel1.SuspendLayout()
         Panel2.SuspendLayout()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
@@ -51,13 +53,15 @@ Partial Class ContentRepMemRep
         Panel1.Controls.Add(Label1)
         Panel1.Location = New Point(15, 15)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(1211, 466)
+        Panel1.Size = New Size(1211, 669)
         Panel1.TabIndex = 0
         ' 
         ' Panel2
         ' 
         Panel2.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         Panel2.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        Panel2.Controls.Add(btnBack)
+        Panel2.Controls.Add(btnNext)
         Panel2.Controls.Add(DateTimePicker1)
         Panel2.Controls.Add(btnRevenue)
         Panel2.Controls.Add(btnMembership)
@@ -68,8 +72,20 @@ Partial Class ContentRepMemRep
         Panel2.Controls.Add(Label3)
         Panel2.Location = New Point(17, 83)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(1191, 380)
+        Panel2.Size = New Size(1191, 459)
         Panel2.TabIndex = 2
+        ' 
+        ' btnNext
+        ' 
+        btnNext.BackColor = Color.Gray
+        btnNext.FlatStyle = FlatStyle.Popup
+        btnNext.ForeColor = SystemColors.ControlLightLight
+        btnNext.Location = New Point(749, 22)
+        btnNext.Name = "btnNext"
+        btnNext.Size = New Size(73, 22)
+        btnNext.TabIndex = 11
+        btnNext.Text = "Load More"
+        btnNext.UseVisualStyleBackColor = False
         ' 
         ' DateTimePicker1
         ' 
@@ -151,7 +167,7 @@ Partial Class ContentRepMemRep
         DataGridView1.Name = "DataGridView1"
         DataGridView1.ReadOnly = True
         DataGridView1.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders
-        DataGridView1.Size = New Size(964, 302)
+        DataGridView1.Size = New Size(964, 359)
         DataGridView1.TabIndex = 2
         ' 
         ' Label3
@@ -202,6 +218,18 @@ Partial Class ContentRepMemRep
         ' 
         PrintDialog1.UseEXDialog = True
         ' 
+        ' btnBack
+        ' 
+        btnBack.BackColor = Color.Gray
+        btnBack.FlatStyle = FlatStyle.Popup
+        btnBack.ForeColor = SystemColors.ControlLightLight
+        btnBack.Location = New Point(677, 22)
+        btnBack.Name = "btnBack"
+        btnBack.Size = New Size(66, 22)
+        btnBack.TabIndex = 12
+        btnBack.Text = "Load Less"
+        btnBack.UseVisualStyleBackColor = False
+        ' 
         ' ContentRepMemRep
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -236,5 +264,7 @@ Partial Class ContentRepMemRep
     Friend WithEvents btnEquipment As Button
     Friend WithEvents Button1 As Button
     Friend WithEvents DateTimePicker1 As DateTimePicker
+    Friend WithEvents btnNext As Button
+    Friend WithEvents btnBack As Button
 
 End Class

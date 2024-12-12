@@ -150,7 +150,7 @@
         Debug.WriteLine("Gym_Equipment control is now visible.")
     End Sub
 
-    Private Sub btnNext_Click_1(sender As Object, e As EventArgs) Handles btnNext.Click
+    Private Sub btnNext_Click_1(sender As Object, e As EventArgs) Handles btnBack.Click
         If currentOffset >= batchSize Then
             currentOffset -= batchSize
         Else
@@ -159,7 +159,7 @@
         LoadEquipmentData()
     End Sub
 
-    Private Sub btnBack_Click_1(sender As Object, e As EventArgs) Handles btnBack.Click
+    Private Sub btnBack_Click_1(sender As Object, e As EventArgs) Handles btnNext.Click
         currentOffset += batchSize
         LoadEquipmentData()
     End Sub
