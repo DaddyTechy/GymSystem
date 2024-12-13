@@ -62,10 +62,12 @@ Public Class ContentDashboard
     Private Function CalculateTotalExpenses(expensesData As DataTable) As Double
         Dim totalExpenses As Double = 0
         For Each row As DataRow In expensesData.Rows
-            totalExpenses += Convert.ToDouble(row("Amount"))
+            Dim amount As Double = If(IsDBNull(row("Amount")), 0, Convert.ToDouble(row("Amount")))
+            totalExpenses += amount
         Next
         Return totalExpenses
     End Function
+
 
     Private Function readQuery(query As String) As String
         Dim result As String = ""
@@ -94,6 +96,7 @@ Public Class ContentDashboard
         If dtpEndFilter.Value < dtpStartFilter.Value Then
             MessageBox.Show("End date cannot be earlier than start date.", "Invalid Date Range", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             dtpEndFilter.Value = dtpStartFilter.Value
+            LoadInitialData()
         Else
             ' Call your methods to filter and load data based on the selected date range
             FilterAndLoadData()
@@ -118,9 +121,18 @@ Public Class ContentDashboard
             Debug.WriteLine($"Fetched expenses data: {expensesData.Rows.Count} rows")
 
             ' Check if any of the data tables are empty
+            If membershipData.Rows.Count = 0 Then
+                Debug.WriteLine("No data available in membershipData for the selected date range.")
+            End If
+            If earningsData.Rows.Count = 0 Then
+                Debug.WriteLine("No data available in earningsData for the selected date range.")
+            End If
+            If expensesData.Rows.Count = 0 Then
+                Debug.WriteLine("No data available in expensesData for the selected date range.")
+            End If
+
             If membershipData.Rows.Count = 0 AndAlso earningsData.Rows.Count = 0 AndAlso expensesData.Rows.Count = 0 Then
                 MessageBox.Show("Data is unavailable for the selected date range. Resetting to default date range.", "Data Unavailable", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                ResetDatePickers()
                 LoadInitialData()
             Else
                 ' Load the data into the charts
@@ -142,8 +154,9 @@ Public Class ContentDashboard
         End Try
     End Sub
 
+
     Private Sub ResetDatePickers()
-        dtpStartFilter.Value = DateTime.Now.AddMonths(-12) ' Set to one month ago
+        dtpStartFilter.Value = DateTime.Now.AddMonths(-10) ' Set to one month ago
         dtpEndFilter.Value = DateTime.Now ' Set to today
     End Sub
 
