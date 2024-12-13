@@ -213,7 +213,7 @@ Partial Class ContentPayment
         Controls.Add(Panel1)
         Controls.Add(Label1)
         Name = "ContentPayment"
-        Padding = New Padding(15, 15, 15, 15)
+        Padding = New Padding(15)
         Size = New Size(750, 531)
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()

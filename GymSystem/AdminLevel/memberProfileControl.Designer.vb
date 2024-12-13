@@ -61,6 +61,8 @@ Partial Class memberProfileControl
         chartAttendance = New DataVisualization.Charting.Chart()
         Panel3 = New Panel()
         TableLayoutPanel8 = New TableLayoutPanel()
+        lblPaymentStatus = New Label()
+        Label3 = New Label()
         lblEndDate = New Label()
         lblRenewalPolicy = New Label()
         Label19 = New Label()
@@ -74,6 +76,7 @@ Partial Class memberProfileControl
         Panel4 = New Panel()
         lblPlanType = New Label()
         TableLayoutPanel7 = New TableLayoutPanel()
+        btnForPayment = New Label()
         Label11 = New Label()
         Panel5 = New Panel()
         reservationsDGV = New DataGridView()
@@ -122,10 +125,10 @@ Partial Class memberProfileControl
         ' lblMemberName
         ' 
         lblMemberName.AutoSize = True
-        lblMemberName.Dock = DockStyle.Right
+        lblMemberName.Dock = DockStyle.Left
         lblMemberName.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblMemberName.ForeColor = Color.Yellow
-        lblMemberName.Location = New Point(477, 0)
+        lblMemberName.Location = New Point(158, 0)
         lblMemberName.Name = "lblMemberName"
         lblMemberName.Size = New Size(69, 34)
         lblMemberName.TabIndex = 7
@@ -631,12 +634,15 @@ Partial Class memberProfileControl
         ' TableLayoutPanel8
         ' 
         TableLayoutPanel8.BackColor = Color.Black
-        TableLayoutPanel8.ColumnCount = 5
-        TableLayoutPanel8.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 19.1740417F))
-        TableLayoutPanel8.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 16.81416F))
-        TableLayoutPanel8.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 19.7640114F))
-        TableLayoutPanel8.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 14.7492628F))
-        TableLayoutPanel8.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 29.4985256F))
+        TableLayoutPanel8.ColumnCount = 6
+        TableLayoutPanel8.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 12.7826929F))
+        TableLayoutPanel8.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 16.17647F))
+        TableLayoutPanel8.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 17.22689F))
+        TableLayoutPanel8.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 16.5966377F))
+        TableLayoutPanel8.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 18.69748F))
+        TableLayoutPanel8.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 18.0672264F))
+        TableLayoutPanel8.Controls.Add(lblPaymentStatus, 5, 1)
+        TableLayoutPanel8.Controls.Add(Label3, 5, 0)
         TableLayoutPanel8.Controls.Add(lblEndDate, 1, 1)
         TableLayoutPanel8.Controls.Add(lblRenewalPolicy, 4, 1)
         TableLayoutPanel8.Controls.Add(Label19, 4, 0)
@@ -657,16 +663,44 @@ Partial Class memberProfileControl
         TableLayoutPanel8.Size = New Size(496, 260)
         TableLayoutPanel8.TabIndex = 6
         ' 
+        ' lblPaymentStatus
+        ' 
+        lblPaymentStatus.AutoSize = True
+        lblPaymentStatus.Dock = DockStyle.Fill
+        lblPaymentStatus.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
+        lblPaymentStatus.ForeColor = Color.White
+        lblPaymentStatus.Location = New Point(401, 127)
+        lblPaymentStatus.Margin = New Padding(3, 0, 0, 0)
+        lblPaymentStatus.Name = "lblPaymentStatus"
+        lblPaymentStatus.Size = New Size(85, 113)
+        lblPaymentStatus.TabIndex = 21
+        lblPaymentStatus.Text = "Info"
+        lblPaymentStatus.TextAlign = ContentAlignment.TopCenter
+        ' 
+        ' Label3
+        ' 
+        Label3.AutoSize = True
+        Label3.Dock = DockStyle.Fill
+        Label3.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
+        Label3.ForeColor = Color.White
+        Label3.Location = New Point(401, 15)
+        Label3.Margin = New Padding(3, 0, 0, 0)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(85, 112)
+        Label3.TabIndex = 20
+        Label3.Text = "Payment Status"
+        Label3.TextAlign = ContentAlignment.MiddleCenter
+        ' 
         ' lblEndDate
         ' 
         lblEndDate.AutoSize = True
         lblEndDate.Dock = DockStyle.Fill
         lblEndDate.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
         lblEndDate.ForeColor = Color.White
-        lblEndDate.Location = New Point(104, 127)
+        lblEndDate.Location = New Point(74, 127)
         lblEndDate.Margin = New Padding(3, 0, 0, 0)
         lblEndDate.Name = "lblEndDate"
-        lblEndDate.Size = New Size(77, 113)
+        lblEndDate.Size = New Size(74, 113)
         lblEndDate.TabIndex = 19
         lblEndDate.Text = "Info"
         lblEndDate.TextAlign = ContentAlignment.TopCenter
@@ -677,10 +711,10 @@ Partial Class memberProfileControl
         lblRenewalPolicy.Dock = DockStyle.Fill
         lblRenewalPolicy.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
         lblRenewalPolicy.ForeColor = Color.White
-        lblRenewalPolicy.Location = New Point(348, 127)
+        lblRenewalPolicy.Location = New Point(312, 127)
         lblRenewalPolicy.Margin = New Padding(3, 0, 0, 0)
         lblRenewalPolicy.Name = "lblRenewalPolicy"
-        lblRenewalPolicy.Size = New Size(138, 113)
+        lblRenewalPolicy.Size = New Size(86, 113)
         lblRenewalPolicy.TabIndex = 18
         lblRenewalPolicy.Text = "Info"
         lblRenewalPolicy.TextAlign = ContentAlignment.TopCenter
@@ -691,10 +725,10 @@ Partial Class memberProfileControl
         Label19.Dock = DockStyle.Fill
         Label19.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
         Label19.ForeColor = Color.White
-        Label19.Location = New Point(348, 15)
+        Label19.Location = New Point(312, 15)
         Label19.Margin = New Padding(3, 0, 0, 0)
         Label19.Name = "Label19"
-        Label19.Size = New Size(138, 112)
+        Label19.Size = New Size(86, 112)
         Label19.TabIndex = 17
         Label19.Text = "Renewal Policy"
         Label19.TextAlign = ContentAlignment.MiddleCenter
@@ -705,10 +739,10 @@ Partial Class memberProfileControl
         lblPlanCost.Dock = DockStyle.Fill
         lblPlanCost.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
         lblPlanCost.ForeColor = Color.White
-        lblPlanCost.Location = New Point(278, 127)
+        lblPlanCost.Location = New Point(233, 127)
         lblPlanCost.Margin = New Padding(3, 0, 0, 0)
         lblPlanCost.Name = "lblPlanCost"
-        lblPlanCost.Size = New Size(67, 113)
+        lblPlanCost.Size = New Size(76, 113)
         lblPlanCost.TabIndex = 15
         lblPlanCost.Text = "Info"
         lblPlanCost.TextAlign = ContentAlignment.TopCenter
@@ -719,10 +753,10 @@ Partial Class memberProfileControl
         lblPlanAccess.Dock = DockStyle.Fill
         lblPlanAccess.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
         lblPlanAccess.ForeColor = Color.White
-        lblPlanAccess.Location = New Point(184, 127)
+        lblPlanAccess.Location = New Point(151, 127)
         lblPlanAccess.Margin = New Padding(3, 0, 0, 0)
         lblPlanAccess.Name = "lblPlanAccess"
-        lblPlanAccess.Size = New Size(91, 113)
+        lblPlanAccess.Size = New Size(79, 113)
         lblPlanAccess.TabIndex = 14
         lblPlanAccess.Text = "Info"
         lblPlanAccess.TextAlign = ContentAlignment.TopCenter
@@ -736,7 +770,7 @@ Partial Class memberProfileControl
         lblPlanStartDate.Location = New Point(13, 127)
         lblPlanStartDate.Margin = New Padding(3, 0, 0, 0)
         lblPlanStartDate.Name = "lblPlanStartDate"
-        lblPlanStartDate.Size = New Size(88, 113)
+        lblPlanStartDate.Size = New Size(58, 113)
         lblPlanStartDate.TabIndex = 12
         lblPlanStartDate.Text = "Info"
         lblPlanStartDate.TextAlign = ContentAlignment.TopCenter
@@ -747,10 +781,10 @@ Partial Class memberProfileControl
         Label18.Dock = DockStyle.Fill
         Label18.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
         Label18.ForeColor = Color.White
-        Label18.Location = New Point(278, 15)
+        Label18.Location = New Point(233, 15)
         Label18.Margin = New Padding(3, 0, 0, 0)
         Label18.Name = "Label18"
-        Label18.Size = New Size(67, 112)
+        Label18.Size = New Size(76, 112)
         Label18.TabIndex = 11
         Label18.Text = "Cost"
         Label18.TextAlign = ContentAlignment.MiddleCenter
@@ -761,10 +795,10 @@ Partial Class memberProfileControl
         Label17.Dock = DockStyle.Fill
         Label17.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
         Label17.ForeColor = Color.White
-        Label17.Location = New Point(184, 15)
+        Label17.Location = New Point(151, 15)
         Label17.Margin = New Padding(3, 0, 0, 0)
         Label17.Name = "Label17"
-        Label17.Size = New Size(91, 112)
+        Label17.Size = New Size(79, 112)
         Label17.TabIndex = 10
         Label17.Text = "Benefits"
         Label17.TextAlign = ContentAlignment.MiddleCenter
@@ -775,10 +809,10 @@ Partial Class memberProfileControl
         Label16.Dock = DockStyle.Fill
         Label16.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
         Label16.ForeColor = Color.White
-        Label16.Location = New Point(104, 15)
+        Label16.Location = New Point(74, 15)
         Label16.Margin = New Padding(3, 0, 0, 0)
         Label16.Name = "Label16"
-        Label16.Size = New Size(77, 112)
+        Label16.Size = New Size(74, 112)
         Label16.TabIndex = 9
         Label16.Text = "End Date"
         Label16.TextAlign = ContentAlignment.MiddleCenter
@@ -792,7 +826,7 @@ Partial Class memberProfileControl
         Label15.Location = New Point(13, 15)
         Label15.Margin = New Padding(3, 0, 0, 0)
         Label15.Name = "Label15"
-        Label15.Size = New Size(88, 112)
+        Label15.Size = New Size(58, 112)
         Label15.TabIndex = 8
         Label15.Text = "Start Date"
         Label15.TextAlign = ContentAlignment.MiddleCenter
@@ -828,6 +862,7 @@ Partial Class memberProfileControl
         TableLayoutPanel7.ColumnCount = 2
         TableLayoutPanel7.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
         TableLayoutPanel7.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 158F))
+        TableLayoutPanel7.Controls.Add(btnForPayment, 1, 0)
         TableLayoutPanel7.Controls.Add(Label11, 0, 0)
         TableLayoutPanel7.Dock = DockStyle.Top
         TableLayoutPanel7.Location = New Point(20, 10)
@@ -837,6 +872,23 @@ Partial Class memberProfileControl
         TableLayoutPanel7.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
         TableLayoutPanel7.Size = New Size(496, 32)
         TableLayoutPanel7.TabIndex = 4
+        ' 
+        ' btnForPayment
+        ' 
+        btnForPayment.AutoSize = True
+        btnForPayment.BackColor = Color.Black
+        btnForPayment.Dock = DockStyle.Fill
+        btnForPayment.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnForPayment.ForeColor = Color.Gold
+        btnForPayment.ImageAlign = ContentAlignment.MiddleLeft
+        btnForPayment.Location = New Point(341, 0)
+        btnForPayment.Margin = New Padding(3, 0, 0, 0)
+        btnForPayment.Name = "btnForPayment"
+        btnForPayment.Padding = New Padding(1)
+        btnForPayment.Size = New Size(155, 27)
+        btnForPayment.TabIndex = 6
+        btnForPayment.Text = "Payment"
+        btnForPayment.TextAlign = ContentAlignment.MiddleCenter
         ' 
         ' Label11
         ' 
@@ -1061,5 +1113,8 @@ Partial Class memberProfileControl
     Friend WithEvents btnAddReservation As Label
     Friend WithEvents Label13 As Label
     Friend WithEvents TableLayoutPanel2 As TableLayoutPanel
+    Friend WithEvents btnForPayment As Label
+    Friend WithEvents lblPaymentStatus As Label
+    Friend WithEvents Label3 As Label
 
 End Class

@@ -1,8 +1,18 @@
 ﻿Public Class BillingPaymentForm
-
     Public Property isMembership As Boolean
     Public Property paymentID As Integer
     Public Property memberID As Integer
+
+    ' Constructor that accepts necessary data
+    Public Sub New(fee As Decimal, isMembership As Boolean, paymentID As Integer, memberID As Integer)
+        InitializeComponent()
+        txtAmount.Text = fee.ToString("F2")
+        Debug.WriteLine("asdasd " & fee)
+        txtSubTotal.Text = fee.ToString("F2")
+        Me.isMembership = isMembership
+        Me.paymentID = paymentID
+        Me.memberID = memberID
+    End Sub
 
     Private Sub BillingPaymentForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Auto-generate InvoiceNumber and ReceiptNumber
@@ -136,5 +146,4 @@
         End If
         Me.Hide()
     End Sub
-
 End Class

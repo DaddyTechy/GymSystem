@@ -266,7 +266,6 @@ Partial Class EventForm
         Debug.WriteLine($"Loaded {dt.Rows.Count} certified trainers.")
     End Sub
 
-
     Public Sub SaveEventToDatabase(newEvent As CalendarEvent)
         Try
             ' Insert the new reservation into the reservations table
@@ -274,18 +273,11 @@ Partial Class EventForm
                               $"VALUES ({newEvent.MemberID}, {newEvent.EquipmentID}, {newEvent.StaffID}, '{newEvent.EventDate:yyyy-MM-dd}', '{newEvent.StartTime:HH:mm:ss}', '{newEvent.EndTime:HH:mm:ss}', {newEvent.ReservationFee}, '{newEvent.Notes}', 'Pending', False, False, 'Unpaid', '', '{newEvent.Title}')"
             ExecuteQuery(query)
 
-
             ' Ask if the user wants to make the payment now or later
             Dim result As DialogResult = MessageBox.Show("Do you want to make the payment now?", "Payment", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If result = DialogResult.Yes Then
                 ' Open the BillingPaymentForm
-                Dim paymentControl As New BillingPaymentForm()
-
-                ' Set the necessary values
-                paymentControl.txtAmount.Text = newEvent.ReservationFee.ToString("F2")
-                paymentControl.txtSubTotal.Text = newEvent.ReservationFee.ToString("F2")
-                paymentControl.isMembership = False
-                paymentControl.memberID = newEvent.MemberID
+                Dim paymentControl As New BillingPaymentForm(newEvent.ReservationFee, False, newEvent.MemberID, newEvent.MemberID)
 
                 ' Calculate the center point
                 Dim centerX As Integer = (ClientSize.Width - paymentControl.Width) / 2
@@ -322,8 +314,6 @@ Partial Class EventForm
                                                              MessageBox.Show("Payment saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                                              paymentControl.Hide()
                                                          End Sub
-
-
             Else
                 ' Set payment status to Unpaid and set default values for other fields
                 Dim defaultPaymentDate As DateTime = DateTime.MinValue
@@ -335,6 +325,7 @@ Partial Class EventForm
             MessageBox.Show("An error occurred while adding the reservation: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
 
     Private Sub ExecuteQuery(query As String)
         Try

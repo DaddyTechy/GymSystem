@@ -543,9 +543,10 @@ Public Class ContentMemberManagement1
         Dim additionalData As New MemberData()
         Try
             conn.Open()
-            Dim query As String = "SELECT m.Weight, m.Height, m.Email, m.DOB, ms.StartDate, ms.EndDate, ms.RenewalPolicy, ms.Benefits, ms.MemberShipName " &
+            Dim query As String = "SELECT m.Weight, m.Height, m.Email, m.DOB, ms.StartDate, ms.EndDate, ms.RenewalPolicy, ms.Benefits, ms.MemberShipName, p.PaymentStatus " &
                               "FROM members m " &
                               "JOIN membership ms ON m.MemberID = ms.MemberID " &
+                              "JOIN payment p ON m.MemberID = p.MemberID " &
                               "WHERE m.MemberID = @MemberID"
             Dim cmd As New MySqlCommand(query, conn)
             cmd.Parameters.AddWithValue("@MemberID", memberId)
@@ -560,6 +561,7 @@ Public Class ContentMemberManagement1
                 additionalData.RenewalPolicy = reader("RenewalPolicy").ToString()
                 additionalData.Benefits = reader("Benefits").ToString()
                 additionalData.MemberShipName = reader("MemberShipName").ToString()
+                additionalData.PaymentStatus = reader("PaymentStatus").ToString()
             End If
             reader.Close()
         Catch ex As Exception
@@ -569,7 +571,9 @@ Public Class ContentMemberManagement1
         End Try
 
         Return additionalData
+        Debug.WriteLine("status: " & additionalData.PaymentStatus)
     End Function
+
 
     Private Sub LoadUserControlWithMemberData(memberId As Integer)
         ' Retrieve the selected member's data from the DataGridView
@@ -602,12 +606,15 @@ Public Class ContentMemberManagement1
             memberData.EndDate = additionalData.EndDate
             memberData.MemberShipName = additionalData.MemberShipName
             memberData.RenewalPolicy = additionalData.RenewalPolicy
+            memberData.PaymentStatus = additionalData.PaymentStatus
 
             ' Create an instance of the user control
             Dim memberProfileControl As New memberProfileControl()
 
             ' Load the data for the selected member into the user control
             memberProfileControl.LoadMemberData(memberData)
+
+            Debug.WriteLine("status: " & memberData.PaymentStatus)
 
             ' Show the user control using the provided function
             ShowUserControl(memberProfileControl)
@@ -761,10 +768,11 @@ Public Class ContentMemberManagement1
         .EndDate = additionalData.EndDate,
         .RenewalPolicy = additionalData.RenewalPolicy,
         .Benefits = additionalData.Benefits,
-        .MemberShipName = additionalData.MemberShipName
+        .MemberShipName = additionalData.MemberShipName,
+        .PaymentStatus = additionalData.PaymentStatus
     }
 
         Return memberData
+        Debug.WriteLine("status: " & memberData.PaymentStatus)
     End Function
-
 End Class

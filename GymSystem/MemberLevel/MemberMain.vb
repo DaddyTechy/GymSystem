@@ -51,12 +51,10 @@ Public Class MemberMain
         reports.Dock = DockStyle.Fill
         reports.LoadMemberData(memberData) ' Load the fetched data into the control
         Me.ContentPanel.Controls.Add(reports)
-        reports.Label1.Visible = False
+        reports.Label1.Text = "Member: "
         reports.Show()
         Debug.WriteLine("Member profile control loaded with data.")
     End Sub
-
-
 
     Private Sub LogoutBtn_Click(sender As Object, e As EventArgs) Handles LogoutBtn.Click
         Dim result = MessageBox.Show("Are you sure you want to log out?", "Confirm Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
