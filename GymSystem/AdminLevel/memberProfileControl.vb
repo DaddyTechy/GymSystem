@@ -946,8 +946,6 @@ Public Class memberProfileControl
         End Using
     End Sub
 
-
-
     Private Function CreateNewPayment(memberID As Integer) As Integer
         Dim newPaymentID As Integer = 0
         Dim fee As Decimal = 0

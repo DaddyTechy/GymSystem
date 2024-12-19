@@ -121,6 +121,21 @@ Public Class AddAttendanceControl
         cmbMemberID.SelectionStart = cmbMemberID.Text.Length ' Move the cursor to the end of the text
     End Sub
 
+    Private Sub dtpCheckInTime_ValueChanged(sender As Object, e As EventArgs) Handles dtpCheckInTime.ValueChanged
+        If dtpCheckInTime.Value.TimeOfDay < TimeSpan.FromHours(6) Then
+            dtpCheckInTime.Value = DateTime.Today.AddHours(6)
+        ElseIf dtpCheckInTime.Value.TimeOfDay > TimeSpan.FromHours(22) Then
+            dtpCheckInTime.Value = DateTime.Today.AddHours(22)
+        End If
+    End Sub
+
+    Private Sub dtpCheckOutTime_ValueChanged(sender As Object, e As EventArgs) Handles dtpCheckOutTime.ValueChanged
+        If dtpCheckOutTime.Value.TimeOfDay < TimeSpan.FromHours(6.5) Then
+            dtpCheckOutTime.Value = DateTime.Today.AddHours(6)
+        ElseIf dtpCheckOutTime.Value.TimeOfDay > TimeSpan.FromHours(22) Then
+            dtpCheckOutTime.Value = DateTime.Today.AddHours(22)
+        End If
+    End Sub
 End Class
 
 

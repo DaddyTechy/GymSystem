@@ -202,9 +202,9 @@ Public Class ContentPayment
         ' Filter by PaymentType
         If cmbPaymentType.SelectedItem IsNot Nothing Then
             If cmbPaymentType.SelectedItem.ToString() = "Reservation" Then
-                filter = "Amount >= 0 "
+                filter = "ReservationFee >= 0 "
             ElseIf cmbPaymentType.SelectedItem.ToString() = "Membership" Then
-                filter = "MembershipCost > 0"
+                filter = "MembershipCost >= 0"
             End If
         End If
 
@@ -296,7 +296,7 @@ Public Class ContentPayment
                     Debug.WriteLine("Debug: Fee is zero or PaymentStatus is Paid, BillingPaymentForm not added.")
                     MessageBox.Show("This payment cannot be made.", "Payment Disabled", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
-            ElseIf e.ColumnIndex = dgvPayment.Columns("DeletePayment").Index AndAlso e.RowIndex >= 0 Then
+            ElseIf e.ColumnIndex = dgvPayment.Columns("Delete").Index AndAlso e.RowIndex >= 0 Then
                 Debug.WriteLine("Debug: DeletePayment button clicked.")
                 Dim selectedRow As DataGridViewRow = dgvPayment.Rows(e.RowIndex)
                 Dim paymentID As Integer = Convert.ToInt32(selectedRow.Cells("PaymentID").Value)
@@ -324,7 +324,7 @@ Public Class ContentPayment
         ' Implement logic to delete the payment
         Dim result As DialogResult = MessageBox.Show($"Are you sure you want to delete payment with ID: {paymentID}?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If result = DialogResult.Yes Then
-            Dim query As String = $"DELETE FROM Payments WHERE PaymentID = {paymentID}"
+            Dim query As String = $"DELETE FROM payment WHERE PaymentID = {paymentID}"
             readQuery(query)
             ' Refresh the DataGridView
             InitializeDGV()

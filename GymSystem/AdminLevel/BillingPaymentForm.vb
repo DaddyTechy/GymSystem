@@ -85,44 +85,57 @@
     End Sub
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
-        ' Validate input
-        If String.IsNullOrEmpty(cmbPaymentMethod.SelectedItem.ToString()) Then
-            MessageBox.Show("Please select a payment method.")
-            Return
-        End If
+        Try
+            ' Validate input
+            If cmbPaymentMethod.SelectedItem Is Nothing OrElse String.IsNullOrEmpty(cmbPaymentMethod.SelectedItem.ToString()) Then
+                MessageBox.Show("Please select a payment method.")
+                Return
+            End If
 
-        ' Confirm before saving
-        Dim result As DialogResult = MessageBox.Show("Are you sure you want to save this payment?", "Confirm Save", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-        If result = DialogResult.No Then
-            Return
-        End If
+            ' Confirm before saving
+            Dim result As DialogResult = MessageBox.Show("Are you sure you want to save this payment?", "Confirm Save", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If result = DialogResult.No Then
+                Return
+            End If
 
-        ' Insert payment data into the payment table
-        Dim paymentMethod As String = cmbPaymentMethod.SelectedItem.ToString()
-        Dim paymentDate As DateTime = dtpPaymentDate.Value
-        Dim subTotal As Decimal = Convert.ToDecimal(txtSubTotal.Text)
-        Dim invoiceNumber As String = txtInvoiceNumber.Text
-        Dim receiptNumber As String = txtReceiptNumber.Text
-        Dim discountApplied As Decimal = If(String.IsNullOrEmpty(txtDiscountAmount.Text), 0, Convert.ToDecimal(txtDiscountAmount.Text))
-        Dim taxAmount As Decimal = Convert.ToDecimal(txtTaxAmount.Text)
-        Dim totalAmount As Decimal = Convert.ToDecimal(txtTotalAmount.Text)
-        Dim paymentNotes As String = txtPaymentNotes.Text
+            ' Insert payment data into the payment table
+            Dim paymentMethod As String = cmbPaymentMethod.SelectedItem.ToString()
+            Dim paymentDate As DateTime = dtpPaymentDate.Value
+            Dim subTotal As Decimal = Convert.ToDecimal(txtSubTotal.Text)
+            Dim invoiceNumber As String = txtInvoiceNumber.Text
+            Dim receiptNumber As String = txtReceiptNumber.Text
+            Dim discountApplied As Decimal = If(String.IsNullOrEmpty(txtDiscountAmount.Text), 0, Convert.ToDecimal(txtDiscountAmount.Text))
+            Dim taxAmount As Decimal = Convert.ToDecimal(txtTaxAmount.Text)
+            Dim totalAmount As Decimal = Convert.ToDecimal(txtTotalAmount.Text)
+            Dim paymentNotes As String = txtPaymentNotes.Text
 
-        Dim queryPayment As String = $"UPDATE payment SET PaymentMethod = '{paymentMethod}', PaymentDate = '{paymentDate:yyyy-MM-dd}', Amount = {subTotal}, InvoiceNumber = '{invoiceNumber}', ReceiptNumber = '{receiptNumber}', DiscountApplied = {discountApplied}, TaxAmount = {taxAmount}, TotalAmount = {totalAmount}, PaymentNotes = '{paymentNotes}', PaymentStatus = 'Paid' WHERE PaymentID = {paymentID}"
-        readQuery(queryPayment)
+            Dim queryPayment As String = $"UPDATE payment SET PaymentMethod = '{paymentMethod}', PaymentDate = '{paymentDate:yyyy-MM-dd}', Amount = {subTotal}, InvoiceNumber = '{invoiceNumber}', ReceiptNumber = '{receiptNumber}', DiscountApplied = {discountApplied}, TaxAmount = {taxAmount}, TotalAmount = {totalAmount}, PaymentNotes = '{paymentNotes}', PaymentStatus = 'Paid' WHERE PaymentID = {paymentID}"
+            readQuery(queryPayment)
 
-        ' Update status in the relevant table
-        If isMembership Then
-            Dim queryMembership As String = $"UPDATE members SET Status = '1' WHERE MemberID = {memberID}"
-            readQuery(queryMembership)
-        Else
-            Dim queryReservation As String = $"UPDATE reservation SET PaymentStatus = 'Paid' WHERE MemberID = {memberID}"
-            readQuery(queryReservation)
-        End If
+            ' Update status in the relevant table
+            If isMembership Then
+                ' Update the status in the members table
+                Dim queryMembership As String = $"UPDATE members SET Status = '1' WHERE MemberID = {memberID}"
+                readQuery(queryMembership)
 
-        ' Notify user of successful save
-        MessageBox.Show("Payment saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        Me.Hide()
+                ' Update the MembershipCost in the payment table
+                Dim queryUpdateMembershipCost As String = $"UPDATE payment SET MembershipCost = {subTotal} WHERE MemberID = {memberID}"
+                readQuery(queryUpdateMembershipCost)
+            Else
+                ' Update the payment status in the reservation table
+                Dim queryReservation As String = $"UPDATE reservation SET PaymentStatus = 'Paid' WHERE MemberID = {memberID}"
+                readQuery(queryReservation)
+            End If
+
+
+            ' Notify user of successful save
+            MessageBox.Show("Payment completed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show($"Your MemberID is: {memberID}. Use it as your Username/UserId")
+            OnPaymentCompleted()
+            Me.Hide()
+        Catch ex As Exception
+            MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
 
@@ -144,6 +157,16 @@
                 Return
             End If
         End If
+        Me.Hide()
+    End Sub
+
+
+    Public Event PaymentCompleted As EventHandler
+
+    ' Assume this method is called when payment is completed
+    Private Sub OnPaymentCompleted()
+        ' Raise the PaymentCompleted event
+        RaiseEvent PaymentCompleted(Me, EventArgs.Empty)
         Me.Hide()
     End Sub
 End Class

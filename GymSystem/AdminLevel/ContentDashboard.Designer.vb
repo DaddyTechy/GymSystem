@@ -331,7 +331,7 @@ Partial Class ContentDashboard
         ' dashbrdPMdata
         ' 
         dashbrdPMdata.Anchor = AnchorStyles.None
-        dashbrdPMdata.Font = New Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        dashbrdPMdata.Font = New Font("Microsoft Sans Serif", 15.75F)
         dashbrdPMdata.ForeColor = SystemColors.ControlLightLight
         dashbrdPMdata.ImageAlign = ContentAlignment.MiddleRight
         dashbrdPMdata.Location = New Point(4, 37)
@@ -384,7 +384,7 @@ Partial Class ContentDashboard
         ' dashbrdACTdata
         ' 
         dashbrdACTdata.Anchor = AnchorStyles.None
-        dashbrdACTdata.Font = New Font("Segoe UI", 24F, FontStyle.Bold)
+        dashbrdACTdata.Font = New Font("Microsoft Sans Serif", 15.75F)
         dashbrdACTdata.ForeColor = SystemColors.ControlLightLight
         dashbrdACTdata.Location = New Point(4, 38)
         dashbrdACTdata.Name = "dashbrdACTdata"
@@ -436,12 +436,12 @@ Partial Class ContentDashboard
         ' dashbrdTEdata
         ' 
         dashbrdTEdata.Anchor = AnchorStyles.None
-        dashbrdTEdata.Font = New Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        dashbrdTEdata.Font = New Font("Microsoft Sans Serif", 15.75F)
         dashbrdTEdata.ForeColor = SystemColors.ControlLightLight
         dashbrdTEdata.ImageAlign = ContentAlignment.MiddleRight
-        dashbrdTEdata.Location = New Point(4, 35)
+        dashbrdTEdata.Location = New Point(4, 49)
         dashbrdTEdata.Name = "dashbrdTEdata"
-        dashbrdTEdata.Size = New Size(120, 44)
+        dashbrdTEdata.Size = New Size(120, 32)
         dashbrdTEdata.TabIndex = 1
         dashbrdTEdata.Text = "0"
         dashbrdTEdata.TextAlign = ContentAlignment.MiddleCenter
@@ -489,7 +489,7 @@ Partial Class ContentDashboard
         ' dashbrdAEdata
         ' 
         dashbrdAEdata.Anchor = AnchorStyles.None
-        dashbrdAEdata.Font = New Font("Segoe UI", 24F, FontStyle.Bold)
+        dashbrdAEdata.Font = New Font("Microsoft Sans Serif", 15.75F)
         dashbrdAEdata.ForeColor = SystemColors.ControlLightLight
         dashbrdAEdata.Location = New Point(4, 34)
         dashbrdAEdata.Name = "dashbrdAEdata"
@@ -541,7 +541,7 @@ Partial Class ContentDashboard
         ' dashbrdSUdata
         ' 
         dashbrdSUdata.Anchor = AnchorStyles.None
-        dashbrdSUdata.Font = New Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        dashbrdSUdata.Font = New Font("Microsoft Sans Serif", 15.75F)
         dashbrdSUdata.ForeColor = SystemColors.ControlLightLight
         dashbrdSUdata.ImageAlign = ContentAlignment.MiddleRight
         dashbrdSUdata.Location = New Point(4, 40)
@@ -593,7 +593,7 @@ Partial Class ContentDashboard
         ' dashbrdTMData
         ' 
         dashbrdTMData.Anchor = AnchorStyles.None
-        dashbrdTMData.Font = New Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        dashbrdTMData.Font = New Font("Microsoft Sans Serif", 15.75F)
         dashbrdTMData.ForeColor = SystemColors.ControlLightLight
         dashbrdTMData.ImageAlign = ContentAlignment.MiddleRight
         dashbrdTMData.Location = New Point(4, 40)
