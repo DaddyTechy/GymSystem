@@ -23,15 +23,15 @@ Partial Class Reminder
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Panel1 = New Panel()
+        notesDGV = New DataGridView()
         Panel2 = New Panel()
         PictureBox1 = New PictureBox()
-        Label1 = New Label()
         btnAddNotes = New Label()
-        notesDGV = New DataGridView()
+        Label1 = New Label()
         Panel1.SuspendLayout()
+        CType(notesDGV, ComponentModel.ISupportInitialize).BeginInit()
         Panel2.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
-        CType(notesDGV, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' Panel1
@@ -44,6 +44,17 @@ Partial Class Reminder
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(1494, 410)
         Panel1.TabIndex = 1
+        ' 
+        ' notesDGV
+        ' 
+        notesDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        notesDGV.Dock = DockStyle.Fill
+        notesDGV.Location = New Point(0, 64)
+        notesDGV.Margin = New Padding(3, 2, 3, 2)
+        notesDGV.Name = "notesDGV"
+        notesDGV.RowHeadersWidth = 51
+        notesDGV.Size = New Size(1494, 346)
+        notesDGV.TabIndex = 8
         ' 
         ' Panel2
         ' 
@@ -68,19 +79,6 @@ Partial Class Reminder
         PictureBox1.TabIndex = 5
         PictureBox1.TabStop = False
         ' 
-        ' Label1
-        ' 
-        Label1.Anchor = AnchorStyles.None
-        Label1.AutoSize = True
-        Label1.BackColor = Color.Transparent
-        Label1.Font = New Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label1.ForeColor = Color.White
-        Label1.Location = New Point(698, 21)
-        Label1.Name = "Label1"
-        Label1.Size = New Size(61, 25)
-        Label1.TabIndex = 4
-        Label1.Text = "Notes"
-        ' 
         ' btnAddNotes
         ' 
         btnAddNotes.AutoSize = True
@@ -97,16 +95,18 @@ Partial Class Reminder
         btnAddNotes.Text = "Add Notes"
         btnAddNotes.TextAlign = ContentAlignment.MiddleCenter
         ' 
-        ' notesDGV
+        ' Label1
         ' 
-        notesDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        notesDGV.Dock = DockStyle.Fill
-        notesDGV.Location = New Point(0, 64)
-        notesDGV.Margin = New Padding(3, 2, 3, 2)
-        notesDGV.Name = "notesDGV"
-        notesDGV.RowHeadersWidth = 51
-        notesDGV.Size = New Size(1494, 346)
-        notesDGV.TabIndex = 8
+        Label1.Anchor = AnchorStyles.None
+        Label1.AutoSize = True
+        Label1.BackColor = Color.Transparent
+        Label1.Font = New Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label1.ForeColor = Color.White
+        Label1.Location = New Point(698, 21)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(61, 25)
+        Label1.TabIndex = 4
+        Label1.Text = "Notes"
         ' 
         ' Reminder
         ' 
@@ -119,10 +119,10 @@ Partial Class Reminder
         Padding = New Padding(15)
         Size = New Size(1502, 425)
         Panel1.ResumeLayout(False)
+        CType(notesDGV, ComponentModel.ISupportInitialize).EndInit()
         Panel2.ResumeLayout(False)
         Panel2.PerformLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
-        CType(notesDGV, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
     Friend WithEvents Panel1 As Panel

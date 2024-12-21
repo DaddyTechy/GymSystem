@@ -1,10 +1,9 @@
-﻿Public Class Reminder
+﻿Imports MySql.Data.MySqlClient
 
-
-    Private memberID As Integer = CurrentLoggedUser.id
-
+Public Class ContentAnnouncement
     Private Sub LoadNotesForMember(memberID As Integer)
-        LoadToDGV($"SELECT NoteID, NoteDetails, Author, DateAdded FROM notes WHERE MemberID = {memberID}", notesDGV)
+        UpdateConnectionString()
+        LoadToDGV($"SELECT `AnnouncementID`, `Title`, `Content`, `DatePosted`, `PostedBy` FROM `announcement`", notesDGV)
 
         ' Set the properties for notesDGV
         Dim parentBackgroundColor As Color = Color.FromArgb(40, 40, 40) ' Replace with the actual parent control if different
@@ -89,35 +88,47 @@
         notesDGV.ShowCellErrors = False
         notesDGV.ShowRowErrors = False
 
-        notesDGV.Columns("NoteID").HeaderText = "Note #"
-        notesDGV.Columns("NoteDetails").HeaderText = "Note Details"
-        notesDGV.Columns("Author").HeaderText = "Author"
-        notesDGV.Columns("DateAdded").HeaderText = "Date Added"
+        notesDGV.Columns("AnnouncementID").HeaderText = "Announcement #"
+        notesDGV.Columns("Title").HeaderText = "Title"
+        notesDGV.Columns("Content").HeaderText = "Content"
+        notesDGV.Columns("DatePosted").HeaderText = "Date Added"
+        notesDGV.Columns("PostedBy").HeaderText = "Author"
     End Sub
 
-    Private Sub btnAddNotes_Click(sender As Object, e As EventArgs) Handles btnAddNotes.Click
-        Dim addNotesControl As New AddNotesControl
-        AddHandler addNotesControl.NoteAdded, AddressOf OnNoteAdded
-
-        ' Calculate the center point
-        Dim centerX As Integer = (ClientSize.Width - addNotesControl.Width) / 2
-        Dim centerY As Integer = (ClientSize.Height - addNotesControl.Height) / 2
-
-        ' Set the location of the AddNotesControl to the center
-        addNotesControl.Location = New Point(centerX, centerY)
-
-        ' Set the size of the AddNotesControl
-        addNotesControl.Size = New Size(470, 328) ' Set the desired size
-
-        ' Add the AddNotesControl to the form
-        Controls.Add(addNotesControl)
-        addNotesControl.BringToFront()
+    Private Sub AddDeleteButtonColumn()
+        Dim deleteButtonColumn As New DataGridViewButtonColumn()
+        deleteButtonColumn.Name = "Delete"
+        deleteButtonColumn.HeaderText = "Delete"
+        deleteButtonColumn.Text = "Delete"
+        deleteButtonColumn.UseColumnTextForButtonValue = True
+        notesDGV.Columns.Add(deleteButtonColumn)
     End Sub
 
-    Private Sub OnNoteAdded(noteDetails As String, author As String, dateAdded As DateTime)
+    Private Sub notesDGV_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles notesDGV.CellContentClick
+        If e.ColumnIndex = notesDGV.Columns("Delete").Index AndAlso e.RowIndex >= 0 Then
+            ' Confirm deletion
+            Dim result As DialogResult = MessageBox.Show("Are you sure you want to delete this Announcement?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If result = DialogResult.Yes Then
+                Dim AnnouncementID As Integer = Convert.ToInt32(notesDGV.Rows(e.RowIndex).Cells("AnnouncementID").Value)
+                ' Delete the row from the DataGridView
+                notesDGV.Rows.RemoveAt(e.RowIndex)
+
+
+                DeleteNoteFromDatabase(AnnouncementID)
+            End If
+        End If
+    End Sub
+
+    Private Sub DeleteNoteFromDatabase(AnnouncementID As Integer)
+        Dim query As String = $"DELETE FROM announcement WHERE AnnouncementID = {AnnouncementID}"
+        readQuery(query)
+    End Sub
+
+    Private Sub AnnAdded(annTitle As String, annDetails As String, author As String, dateAdded As DateTime)
+        UpdateConnectionString()
         Try
             ' Insert the new note into the notes table
-            Dim query As String = $"INSERT INTO notes (NoteDetails, Author, DateAdded, MemberID) VALUES ('{noteDetails}', '{author}', '{dateAdded.ToString("yyyy-MM-dd")}', '{CurrentLoggedUser.id}')"
+            Dim query As String = $"INSERT INTO `announcement`(`Title`, `Content`, `DatePosted`, `PostedBy`) VALUES ('{annTitle}', '{annDetails}', '{dateAdded.ToString("yyyy-MM-dd")}', '{author}-ID: {CurrentLoggedUser.id}')"
             readQuery(query)
 
             ' Refresh the DataGridView
@@ -127,8 +138,28 @@
         End Try
     End Sub
 
-    Private Sub Reminder_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub ContentAnnouncement_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadNotesForMember(CurrentLoggedUser.id)
+        AddDeleteButtonColumn()
+    End Sub
+
+    Private Sub btnAddNotes_Click_1(sender As Object, e As EventArgs) Handles btnAddNotes.Click
+        Dim addNotesControl As New AddAnnouncement
+        AddHandler addNotesControl.AnnAdded, AddressOf AnnAdded
+
+        ' Calculate the center point
+        Dim centerX As Integer = (ClientSize.Width - addNotesControl.Width) / 2
+        Dim centerY As Integer = (ClientSize.Height - addNotesControl.Height) / 2
+
+        ' Set the location of the AddNotesControl to the center
+        addNotesControl.Location = New Point(centerX, centerY)
+
+        ' Set the size of the AddNotesControl
+        addNotesControl.Size = New Size(400, 400) ' Set the desired size
+
+        ' Add the AddNotesControl to the form
+        Controls.Add(addNotesControl)
+        addNotesControl.BringToFront()
     End Sub
 
 End Class

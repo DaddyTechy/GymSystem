@@ -15,6 +15,7 @@ Public Class Staffmain
         InitializeButton(GymEquipmentBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkgymeqp, My.Resources.Vector2, activeButton)
         InitializeButton(ReportsBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkreps, My.Resources.Vector3, activeButton)
         InitializeButton(othersBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.Cog, My.Resources.Cog1, activeButton)
+        InitializeButton(btnAnnouncement, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkan, My.Resources.Vector_5, activeButton)
 
         ' Initialize submenu buttons
         InitializeSubMenuButton(ListAllMembersBtn, Color.Yellow, Color.White, activeSubMenuButton)
@@ -389,4 +390,7 @@ Public Class Staffmain
         ShowUserControl(New ContentStaffManage)
     End Sub
 
+    Private Sub btnAnnouncement_Click(sender As Object, e As EventArgs) Handles btnAnnouncement.Click
+        ShowUserControl(New ContentAnnouncement)
+    End Sub
 End Class

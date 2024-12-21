@@ -13,21 +13,27 @@ Public Class ContentRepMemRep
         btnApplyBatchSize.Visible = False
         txtBatchSize.Visible = False
         Label4.Visible = False
+        FormatDataGridView()
     End Sub
 
-    Private Sub btnRevenue_Click(sender As Object, e As EventArgs) Handles btnRevenue.Click
+    Private Sub btnRevenue_Click(sender As Object, e As EventArgs) Handles btnRevenue.Click, btnRevenue.Click
         DateTimePicker1.Visible = True
-        LoadData("SELECT MembershipCost, ReservationFee, PaymentDate FROM payment")
-        LoadDataWithFilter()
+        DateTimePicker2.Visible = True
+        DateTimePicker3.Visible = True
+        Label3.Visible = True
+        Label5.Visible = True
+        Dim startDate As DateTime = DateTimePicker2.Value
+        Dim endDate As DateTime = DateTimePicker3.Value
+        LoadData($"SELECT MembershipCost, ReservationFee, PaymentDate FROM payment WHERE PaymentStatus = 'Paid' AND PaymentDate BETWEEN '{startDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'")
 
         Dim adminID As String = CurrentLoggedUser.id ' Replace with actual value if admin is making the report
         Dim staffID As String = CurrentLoggedUser.id ' Assuming CurrentLoggedUser.id is the StaffID
-        Dim title As String = "Revenue Report" ' Replace with actual value
-        Dim reportDate As String = DateTimePicker1.Value.ToString("yyyy-MM-dd") ' Format the date
-        Dim content As String = "Details about revenue" ' Replace with actual value
-        Dim type As String = "A" ' Replace with actual value
-        Dim status As String = "A" ' Replace with actual value
-        Dim attachments As String = "None" ' Replace with actual value
+        Dim title = "Revenue Report" ' Replace with actual value
+        Dim reportDate = DateTimePicker1.Value.ToString("yyyy-MM-dd") ' Format the date
+        Dim content = "Details about revenue" ' Replace with actual value
+        Dim type = "A" ' Replace with actual value
+        Dim status = "A" ' Replace with actual value
+        Dim attachments = "None" ' Replace with actual value
 
         ' Determine if the report is made by staff or admin
         Dim query As String
@@ -42,12 +48,13 @@ Public Class ContentRepMemRep
         ' Bind data to RDLC report and export to PDF
         BindReport("..\..\..\AdminLevel\Reports\RevenueReport.rdlc")
     End Sub
-
     Private Sub LoadDataWithFilter()
-        Dim selectedDate As DateTime = DateTimePicker1.Value
-        Dim query As String = $"SELECT MembershipCost, ReservationFee, PaymentDate FROM payment WHERE MONTH(PaymentDate) = {selectedDate.Month} AND YEAR(PaymentDate) = {selectedDate.Year}"
+        Dim startDate As DateTime = DateTimePicker2.Value
+        Dim endDate As DateTime = DateTimePicker3.Value
+        Dim query As String = $"SELECT MembershipCost, ReservationFee, PaymentDate FROM payment WHERE PaymentStatus = 'Paid' AND PaymentDate BETWEEN '{startDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'"
         LoadData(query)
     End Sub
+
 
     Private Sub LoadData(query As String)
         UpdateConnectionString()
@@ -118,12 +125,14 @@ Public Class ContentRepMemRep
         reportViewer.LocalReport.ReportPath = fullReportPath
         reportViewer.LocalReport.DataSources.Clear()
         reportViewer.LocalReport.DataSources.Add(New ReportDataSource("DataSet1", dt))
+        reportViewer.SetDisplayMode(DisplayMode.PrintLayout)
         reportViewer.RefreshReport()
 
         Dim previewForm As New Form()
         previewForm.Controls.Add(reportViewer)
+        previewForm.Text = "Report Preview"
         reportViewer.Dock = DockStyle.Fill
-        reportViewer.Size = New Size(500, 600)
+        previewForm.WindowState = FormWindowState.Maximized
         previewForm.ShowDialog()
     End Sub
 
@@ -178,54 +187,69 @@ Public Class ContentRepMemRep
         BindReport(reportPath)
     End Sub
 
-    Private Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
+    Private Sub btnNext_Click(sender As Object, e As EventArgs)
         batchSize += 25 ' Increase the limit by 25
         If lastClickedButton IsNot Nothing Then
-            lastClickedButton.PerformClick()
+            lastClickedButton.PerformClick
         End If
     End Sub
 
-    Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
+    Private Sub btnBack_Click(sender As Object, e As EventArgs)
         If batchSize > 25 Then
             batchSize -= 25 ' Decrease the limit by 25
         End If
         If lastClickedButton IsNot Nothing Then
-            lastClickedButton.PerformClick()
+            lastClickedButton.PerformClick
         End If
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click, Button1.Click
         lastClickedButton = Button1
         ReloadData($"SELECT AttendanceID, StaffID, MemberID, Date, CheckInTime, CheckOutTime, SessionType FROM attendance LIMIT {batchSize} OFFSET 0", "..\..\..\AdminLevel\Reports\Report2.rdlc")
     End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click, Button2.Click
         lastClickedButton = Button2
         ReloadData($"SELECT MemberID, FirstName, MiddleName, LastName, Sex, PhoneNumber, Province, City, Street, ZipCode FROM members LIMIT {batchSize} OFFSET 0", "..\..\..\AdminLevel\Reports\Report1.rdlc")
     End Sub
 
-    Private Sub btnEquipment_Click(sender As Object, e As EventArgs) Handles btnEquipment.Click
+    Private Sub btnEquipment_Click(sender As Object, e As EventArgs) Handles btnEquipment.Click, btnEquipment.Click
         lastClickedButton = btnEquipment
         ReloadData($"SELECT EquipmentID, Name, Type, Brand, PurchaseDate, Status, PurchasePlace, MaintenanceCost FROM equipment LIMIT {batchSize} OFFSET 0", "..\..\..\AdminLevel\Reports\Report3.rdlc")
     End Sub
 
-    Private Sub btnMembership_Click(sender As Object, e As EventArgs) Handles btnMembership.Click
+    Private Sub btnMembership_Click(sender As Object, e As EventArgs) Handles btnMembership.Click, btnMembership.Click
         lastClickedButton = btnMembership
         ReloadData($"SELECT MembershipID, MemberID, MemberShipName, Duration, Cost, Benefits, StartDate, EndDate, DiscountAvailable, CancelationPolicy, RenewalPolicy, TrainingSession, LockerAccess, MembershipType FROM membership LIMIT {batchSize} OFFSET 0", "..\..\..\AdminLevel\Reports\Report4.rdlc")
     End Sub
 
-    Private Sub btnApplyBatchSize_Click(sender As Object, e As EventArgs) Handles btnApplyBatchSize.Click
-        Dim userInput As String = txtBatchSize.Text
+    Private Sub btnApplyBatchSize_Click(sender As Object, e As EventArgs)
+        Dim userInput = txtBatchSize.Text
         Dim newBatchSize As Integer
         If Integer.TryParse(userInput, newBatchSize) AndAlso newBatchSize > 0 Then
             batchSize = newBatchSize
             currentOffset = 0 ' Reset the offset when batch size changes
             If lastClickedButton IsNot Nothing Then
-                lastClickedButton.PerformClick()
+                lastClickedButton.PerformClick
             End If
         Else
             MessageBox.Show("Please enter a valid positive number for batch size.")
         End If
     End Sub
 
+    Private Sub FormatDataGridView()
+        ' Set the background color to match the form's background color
+        DataGridView1.BackgroundColor = Me.BackColor
+        DataGridView1.DefaultCellStyle.BackColor = Me.BackColor
+        DataGridView1.DefaultCellStyle.ForeColor = Color.White ' Set text color
+        DataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Me.BackColor
+        DataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black ' Set header text color
+
+        ' Set the DataGridView to fill the entire space
+        DataGridView1.Dock = DockStyle.Fill
+
+        ' Auto size columns and rows
+        DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+        DataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
+    End Sub
 End Class

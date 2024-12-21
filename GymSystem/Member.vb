@@ -77,16 +77,6 @@ Public Class Member
         IDBox.Focus()
         PassBox.Focus()
 
-
-
-        Dim verticalLine As New Label()
-        verticalLine.Width = 2
-        verticalLine.Height = 20 ' Set desired height
-        verticalLine.BackColor = Color.FromArgb(245, 203, 92) ' Set the desired color
-        verticalLine.Location = New Point(277, 378) ' Custom location
-
-        mainPanel.Controls.Add(verticalLine)
-
         Me.Controls.Add(mainPanel)
 
         ' Initialize button colors

@@ -23,6 +23,7 @@ Partial Class MemberMain
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Panel1 = New Panel()
+        btnAnnouncement = New Button()
         btnReport = New Button()
         Reminder = New Button()
         SchedBtn = New Button()
@@ -40,6 +41,7 @@ Partial Class MemberMain
         ' Panel1
         ' 
         Panel1.BackColor = Color.Black
+        Panel1.Controls.Add(btnAnnouncement)
         Panel1.Controls.Add(btnReport)
         Panel1.Controls.Add(Reminder)
         Panel1.Controls.Add(SchedBtn)
@@ -54,21 +56,41 @@ Partial Class MemberMain
         Panel1.Size = New Size(204, 1500)
         Panel1.TabIndex = 0
         ' 
+        ' btnAnnouncement
+        ' 
+        btnAnnouncement.BackColor = Color.Transparent
+        btnAnnouncement.FlatAppearance.BorderSize = 0
+        btnAnnouncement.FlatStyle = FlatStyle.Flat
+        btnAnnouncement.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnAnnouncement.ForeColor = SystemColors.ButtonHighlight
+        btnAnnouncement.Image = Vector_5
+        btnAnnouncement.ImageAlign = ContentAlignment.MiddleLeft
+        btnAnnouncement.Location = New Point(37, 272)
+        btnAnnouncement.Margin = New Padding(3, 2, 3, 2)
+        btnAnnouncement.Name = "btnAnnouncement"
+        btnAnnouncement.Size = New Size(167, 47)
+        btnAnnouncement.TabIndex = 22
+        btnAnnouncement.Text = "     Announcement"
+        btnAnnouncement.TextAlign = ContentAlignment.MiddleLeft
+        btnAnnouncement.TextImageRelation = TextImageRelation.ImageBeforeText
+        btnAnnouncement.UseVisualStyleBackColor = False
+        ' 
         ' btnReport
         ' 
         btnReport.BackColor = Color.Transparent
         btnReport.FlatAppearance.BorderSize = 0
         btnReport.FlatAppearance.MouseOverBackColor = Color.Khaki
         btnReport.FlatStyle = FlatStyle.Flat
+        btnReport.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         btnReport.ForeColor = Color.White
         btnReport.Image = Vector3
-        btnReport.ImageAlign = ContentAlignment.MiddleRight
-        btnReport.Location = New Point(0, 226)
+        btnReport.ImageAlign = ContentAlignment.MiddleLeft
+        btnReport.Location = New Point(37, 226)
         btnReport.Margin = New Padding(3, 2, 3, 2)
         btnReport.Name = "btnReport"
-        btnReport.Size = New Size(187, 42)
+        btnReport.Size = New Size(167, 42)
         btnReport.TabIndex = 4
-        btnReport.Text = "   Reports"
+        btnReport.Text = "      Reports"
         btnReport.TextImageRelation = TextImageRelation.ImageBeforeText
         btnReport.UseVisualStyleBackColor = False
         ' 
@@ -78,15 +100,16 @@ Partial Class MemberMain
         Reminder.FlatAppearance.BorderSize = 0
         Reminder.FlatAppearance.MouseOverBackColor = Color.Khaki
         Reminder.FlatStyle = FlatStyle.Flat
+        Reminder.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         Reminder.ForeColor = Color.White
         Reminder.Image = Resources.Reminder
-        Reminder.ImageAlign = ContentAlignment.MiddleRight
-        Reminder.Location = New Point(3, 180)
+        Reminder.ImageAlign = ContentAlignment.MiddleLeft
+        Reminder.Location = New Point(37, 180)
         Reminder.Margin = New Padding(3, 2, 3, 2)
         Reminder.Name = "Reminder"
-        Reminder.Size = New Size(174, 42)
+        Reminder.Size = New Size(167, 42)
         Reminder.TabIndex = 4
-        Reminder.Text = "      Notes"
+        Reminder.Text = "        Notes"
         Reminder.TextImageRelation = TextImageRelation.ImageBeforeText
         Reminder.UseVisualStyleBackColor = False
         ' 
@@ -96,15 +119,16 @@ Partial Class MemberMain
         SchedBtn.FlatAppearance.BorderSize = 0
         SchedBtn.FlatAppearance.MouseOverBackColor = Color.Khaki
         SchedBtn.FlatStyle = FlatStyle.Flat
+        SchedBtn.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         SchedBtn.ForeColor = Color.White
         SchedBtn.Image = calendar
-        SchedBtn.ImageAlign = ContentAlignment.MiddleRight
-        SchedBtn.Location = New Point(3, 134)
+        SchedBtn.ImageAlign = ContentAlignment.MiddleLeft
+        SchedBtn.Location = New Point(37, 134)
         SchedBtn.Margin = New Padding(3, 2, 3, 2)
         SchedBtn.Name = "SchedBtn"
-        SchedBtn.Size = New Size(201, 42)
+        SchedBtn.Size = New Size(167, 42)
         SchedBtn.TabIndex = 4
-        SchedBtn.Text = "   Scheduling"
+        SchedBtn.Text = "      Scheduling"
         SchedBtn.TextImageRelation = TextImageRelation.ImageBeforeText
         SchedBtn.UseVisualStyleBackColor = False
         ' 
@@ -114,15 +138,16 @@ Partial Class MemberMain
         btnDash.FlatAppearance.BorderSize = 0
         btnDash.FlatAppearance.MouseOverBackColor = Color.Khaki
         btnDash.FlatStyle = FlatStyle.Flat
+        btnDash.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         btnDash.ForeColor = Color.White
         btnDash.Image = dashbo
-        btnDash.ImageAlign = ContentAlignment.MiddleRight
-        btnDash.Location = New Point(3, 88)
+        btnDash.ImageAlign = ContentAlignment.MiddleLeft
+        btnDash.Location = New Point(37, 88)
         btnDash.Margin = New Padding(3, 2, 3, 2)
         btnDash.Name = "btnDash"
-        btnDash.Size = New Size(201, 42)
+        btnDash.Size = New Size(167, 42)
         btnDash.TabIndex = 4
-        btnDash.Text = "   Dashboard"
+        btnDash.Text = "     Dashboard"
         btnDash.TextImageRelation = TextImageRelation.ImageBeforeText
         btnDash.UseVisualStyleBackColor = False
         ' 
@@ -218,4 +243,5 @@ Partial Class MemberMain
     Friend WithEvents btnDash As Button
     Friend WithEvents ContentPanel As Panel
     Friend WithEvents LogoutBtn As Button
+    Friend WithEvents btnAnnouncement As Button
 End Class

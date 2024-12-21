@@ -149,8 +149,16 @@ Public Class MemberMain
         Return memberData
     End Function
 
+    Private Sub btnAnnouncement_Click(sender As Object, e As EventArgs) Handles btnAnnouncement.Click
+        While Me.ContentPanel.Controls.Count > 0
+            Me.ContentPanel.Controls(0).Dispose()
+        End While
 
 
-
+        Dim Remind As New Announcements With {.Top = False, .AutoSize = True}
+        Remind.Dock = DockStyle.Fill
+        Me.ContentPanel.Controls.Add(Remind)
+        Remind.Show()
+    End Sub
 End Class
 

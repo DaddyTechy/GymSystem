@@ -201,10 +201,10 @@ Partial Class Admin
         templogin.FlatStyle = FlatStyle.Popup
         templogin.Font = New Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, CByte(128))
         templogin.ForeColor = SystemColors.ActiveCaptionText
-        templogin.Location = New Point(2, 518)
+        templogin.Location = New Point(2, 528)
         templogin.Margin = New Padding(3, 2, 3, 2)
         templogin.Name = "templogin"
-        templogin.Size = New Size(61, 22)
+        templogin.Size = New Size(18, 12)
         templogin.TabIndex = 44
         templogin.Text = "ito muna"
         templogin.UseVisualStyleBackColor = False
