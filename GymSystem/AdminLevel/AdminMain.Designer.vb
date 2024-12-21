@@ -28,6 +28,7 @@ Partial Class Staffmain
         Menu2Pnl = New Panel()
         MenuPnl = New Panel()
         othersBtn = New Button()
+        btnAnnouncement = New Button()
         ReportsSubMenu = New Panel()
         MemRepBtn = New Button()
         ReportsBtn = New Button()
@@ -122,6 +123,7 @@ Partial Class Staffmain
         MenuPnl.AutoSize = True
         MenuPnl.BackColor = Color.Black
         MenuPnl.Controls.Add(othersBtn)
+        MenuPnl.Controls.Add(btnAnnouncement)
         MenuPnl.Controls.Add(ReportsSubMenu)
         MenuPnl.Controls.Add(ReportsBtn)
         MenuPnl.Controls.Add(GymEqpSubMenu)
@@ -151,15 +153,35 @@ Partial Class Staffmain
         othersBtn.ForeColor = SystemColors.ButtonHighlight
         othersBtn.Image = My.Resources.Resources.Cog1
         othersBtn.ImageAlign = ContentAlignment.MiddleLeft
-        othersBtn.Location = New Point(13, 562)
+        othersBtn.Location = New Point(13, 609)
         othersBtn.Margin = New Padding(3, 2, 3, 2)
         othersBtn.Name = "othersBtn"
-        othersBtn.Size = New Size(267, 63)
-        othersBtn.TabIndex = 20
+        othersBtn.Size = New Size(235, 47)
+        othersBtn.TabIndex = 22
         othersBtn.Text = "   Miscellaneous"
         othersBtn.TextAlign = ContentAlignment.MiddleLeft
         othersBtn.TextImageRelation = TextImageRelation.ImageBeforeText
         othersBtn.UseVisualStyleBackColor = False
+        ' 
+        ' btnAnnouncement
+        ' 
+        btnAnnouncement.BackColor = Color.Black
+        btnAnnouncement.Dock = DockStyle.Top
+        btnAnnouncement.FlatAppearance.BorderSize = 0
+        btnAnnouncement.FlatStyle = FlatStyle.Flat
+        btnAnnouncement.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
+        btnAnnouncement.ForeColor = SystemColors.ButtonHighlight
+        btnAnnouncement.Image = Vector_5
+        btnAnnouncement.ImageAlign = ContentAlignment.MiddleLeft
+        btnAnnouncement.Location = New Point(13, 562)
+        btnAnnouncement.Margin = New Padding(3, 2, 3, 2)
+        btnAnnouncement.Name = "btnAnnouncement"
+        btnAnnouncement.Size = New Size(235, 47)
+        btnAnnouncement.TabIndex = 21
+        btnAnnouncement.Text = "  Announcement"
+        btnAnnouncement.TextAlign = ContentAlignment.MiddleLeft
+        btnAnnouncement.TextImageRelation = TextImageRelation.ImageBeforeText
+        btnAnnouncement.UseVisualStyleBackColor = False
         ' 
         ' ReportsSubMenu
         ' 
@@ -450,8 +472,7 @@ Partial Class Staffmain
         Panel3.Location = New Point(0, 0)
         Panel3.Margin = New Padding(3, 4, 3, 4)
         Panel3.Name = "Panel3"
-        Panel3.Size = New Size(13, 654)
-
+        Panel3.Size = New Size(13, 701)
         Panel3.TabIndex = 6
         ' 
         ' UserPnl
@@ -602,5 +623,6 @@ Partial Class Staffmain
     Friend WithEvents PictureBox2 As PictureBox
     Friend WithEvents LogoutBtn As Button
     Friend WithEvents othersBtn As Button
+    Friend WithEvents btnAnnouncement As Button
 
 End Class

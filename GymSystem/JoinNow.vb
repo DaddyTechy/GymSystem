@@ -146,6 +146,8 @@ Public Class JoinNow
         PlansCB.Items.Add("Gold (9 months)")
         PlansCB.Items.Add("Diamond (12 months)")
 
+
+        BLoginBtn.Visible = True
         ServiceCB.Items.Clear()
     End Sub
 
@@ -576,8 +578,8 @@ Public Class JoinNow
 
                         ' Commit the transaction
                         transaction.Commit()
-                        MessageBox.Show("Member, login, and membership details added successfully.")
-                        Me.Close()
+                        AskPaymentOption(memberId, cost, True)
+                        'MessageBox.Show("Member, login, and membership details added successfully.")
                     Catch ex As Exception
                         ' Rollback the transaction in case of an error
                         transaction.Rollback()
@@ -588,6 +590,151 @@ Public Class JoinNow
         Catch ex As Exception
             MessageBox.Show("An error occurred: " & ex.Message)
         End Try
+    End Sub
+
+    Private paymentCompleted As Boolean = False
+
+    Private Sub AskPaymentOption(memberID As Integer, fee As Decimal, isMembership As Boolean)
+        Dim result As DialogResult = MessageBox.Show("Would you like to pay for the membership now?", "Payment Option", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+        If result = DialogResult.Yes Then
+            ' Handle immediate payment
+            HandleImmediatePayment(memberID, fee, isMembership)
+        Else
+            ' Handle later payment
+            HandleLaterPayment(memberID)
+            CloseForm() ' Separate method to close and return to admin login
+        End If
+
+        ' Check the payment status and close the form if the payment is completed
+        If paymentCompleted Then
+            MessageBox.Show($"Your MemberID is: {memberID}. Use it as your Username/UserId")
+            CloseForm() ' Separate method to close and return to admin login
+        End If
+    End Sub
+
+    Private Sub CloseForm()
+        Me.Close()
+        Dim backtoAdminLogin As New Member
+        backtoAdminLogin.Show()
+    End Sub
+
+    Private Function CheckPaymentStatus(memberID As Integer) As Boolean
+        Dim paymentExists As Boolean = False
+
+        Using conn As New MySqlConnection(strConnection)
+            conn.Open()
+            Dim query As String = $"SELECT COUNT(*) FROM payment WHERE MemberID = {memberID} AND PaymentStatus = 'Paid'"
+            Using cmd As New MySqlCommand(query, conn)
+                Dim count As Integer = Convert.ToInt32(cmd.ExecuteScalar())
+                If count > 0 Then
+                    paymentExists = True
+                End If
+            End Using
+        End Using
+
+        MessageBox.Show($"Payment Made:{paymentExists}")
+        Return paymentExists
+    End Function
+
+    Private Sub HandleImmediatePayment(memberID As Integer, fee As Decimal, isMembership As Boolean)
+        ' Create a new payment record if it's a new payment
+        Dim newPaymentID As Integer = CreateNewPayment(memberID)
+
+        ' Create a new instance of the BillingPaymentForm with the necessary data
+        Dim paymentForm As New BillingPaymentForm(fee, isMembership, newPaymentID, memberID)
+
+        ' Subscribe to the PaymentCompleted event
+        AddHandler paymentForm.PaymentCompleted, AddressOf OnPaymentCompleted
+
+        ' Calculate the center point
+        Dim centerX As Integer = (ClientSize.Width - paymentForm.Width) / 2
+        Dim centerY As Integer = (ClientSize.Height - paymentForm.Height) / 2
+
+        ' Set the location of the BillingPaymentForm to the center
+        paymentForm.Location = New Point(centerX, centerY)
+
+        ' Add the BillingPaymentForm to the form
+        Controls.Add(paymentForm)
+        paymentForm.BringToFront()
+
+        Debug.WriteLine("Debug: BillingPaymentForm user control added.")
+        Debug.WriteLine($"Debug: Form Amount = {paymentForm.txtAmount.Text}, SubTotal = {paymentForm.txtSubTotal.Text}")
+    End Sub
+
+    Private Sub OnPaymentCompleted(sender As Object, e As EventArgs)
+        ' Set the paymentCompleted flag to True
+        paymentCompleted = True
+        ' Close the form and return to admin login
+        CloseForm()
+    End Sub
+
+    Private Function CreateNewPayment(memberID As Integer) As Integer
+        Dim newPaymentID As Integer = 0
+        Dim fee As Decimal = 0
+
+        Using conn As New MySqlConnection(strConnection)
+            conn.Open()
+            ' Fetch the Cost from the membership table
+            Dim query As String = $"SELECT Cost FROM membership WHERE MemberID = {memberID}"
+            Using cmd As New MySqlCommand(query, conn)
+                Dim reader As MySqlDataReader = cmd.ExecuteReader()
+                If reader.Read() Then
+                    fee = Convert.ToDecimal(reader("Cost"))
+                    Debug.WriteLine("Cost: " & fee)
+                End If
+                reader.Close()
+            End Using
+
+            ' Insert a new payment record
+            Dim insertQuery As String = $"INSERT INTO payment (MemberID, Amount, PaymentStatus, PaymentMethod, PaymentDate, InvoiceNumber, ReceiptNumber, DiscountApplied, TaxAmount, TotalAmount, PaymentNotes, MembershipID) " &
+                                    $"VALUES ({memberID}, {fee}, 'Unpaid', 'N/A', '{DateTime.MinValue:yyyy-MM-dd}', 'N/A', 'N/A', 0, 0, 0, 'N/A', {memberID}); SELECT LAST_INSERT_ID();"
+            Using cmd As New MySqlCommand(insertQuery, conn)
+                newPaymentID = Convert.ToInt32(cmd.ExecuteScalar())
+            End Using
+        End Using
+
+        Return newPaymentID
+    End Function
+
+    Private Sub HandleLaterPayment(memberID As Integer)
+        ' Custom logic for handling later payment
+        MessageBox.Show("You can pay later. Remember to complete your payment before the due date.", "Payment Deferred", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        ' Add any additional logic for deferred payment here
+    End Sub
+
+
+    Public Sub HandlePaymentOption()
+        UpdateConnectionString()
+        ' Fetch data from the membership table in the database
+        Using conn As New MySqlConnection(strConnection)
+            conn.Open()
+            Dim query As String = $"SELECT m.MemberID, p.PaymentStatus, m.Cost FROM membership m LEFT JOIN payment p ON m.MemberID = p.MemberID WHERE m.MemberID = {CurrentLoggedUser.id}"
+            Using cmd As New MySqlCommand(query, conn)
+                Using reader As MySqlDataReader = cmd.ExecuteReader()
+                    If reader.Read() Then
+                        Dim memberID As Integer = Convert.ToInt32(reader("MemberID"))
+                        Dim paymentStatus As String = reader("PaymentStatus").ToString()
+
+                        ' Check if Cost is 0 or null
+                        Dim isMembership As Boolean = False
+                        Dim fee As Decimal = 0
+                        If Not IsDBNull(reader("Cost")) Then
+                            fee = Convert.ToDecimal(reader("Cost"))
+                            isMembership = True
+                        End If
+
+                        ' Check if the fee is greater than 0 and payment status is "Unpaid" before opening the BillingPaymentForm
+                        If fee >= 0 AndAlso paymentStatus = "Unpaid" Then
+                            ' Ask if the user wants to pay now or later
+                            AskPaymentOption(memberID, fee, isMembership)
+                        Else
+                            MessageBox.Show("This payment cannot be made.", "Payment Disabled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End If
+                    End If
+                End Using
+            End Using
+        End Using
     End Sub
 
     Private Sub ContactTxt_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ContactTxt.KeyPress

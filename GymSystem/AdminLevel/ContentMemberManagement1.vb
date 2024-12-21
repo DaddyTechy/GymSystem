@@ -24,6 +24,7 @@ Public Class ContentMemberManagement1
         conn = New MySqlConnection(strConnection)
         Try
             conn.Open()
+
             ' Retrieve data from members table
             Dim queryMembers As String = $"SELECT MemberID, FirstName, MiddleName, LastName, Sex, PhoneNumber, DTCreated, Province, City, Street, ZipCode, Status FROM members LIMIT {batchSize} OFFSET {currentOffset}"
             Dim adapterMembers As New MySqlDataAdapter(queryMembers, conn)
@@ -42,8 +43,11 @@ Public Class ContentMemberManagement1
             Dim dtMembership As New DataTable()
             adapterMembership.Fill(dtMembership)
 
-            ' Combine data into a single DataTable
+            ' Clear existing data and columns if needed
             If currentOffset = 0 Then
+                dtMember.Clear()
+                dtMember.Columns.Clear()
+
                 dtMember.Columns.Add("MemberID", GetType(Integer))
                 dtMember.Columns.Add("FirstName", GetType(String))
                 dtMember.Columns.Add("MiddleName", GetType(String))
@@ -77,6 +81,17 @@ Public Class ContentMemberManagement1
                 End If
             Next
 
+            ' Clear existing buttons if needed
+            If currentOffset = 0 AndAlso MembersTable.Columns("Edit") IsNot Nothing Then
+                MembersTable.Columns.Remove("Edit")
+            End If
+            If currentOffset = 0 AndAlso MembersTable.Columns("Delete") IsNot Nothing Then
+                MembersTable.Columns.Remove("Delete")
+            End If
+            If currentOffset = 0 AndAlso MembersTable.Columns("View") IsNot Nothing Then
+                MembersTable.Columns.Remove("View")
+            End If
+
             ' Add Edit button
             If currentOffset = 0 Then
                 Dim editButtonColumn As New DataGridViewButtonColumn()
@@ -85,6 +100,7 @@ Public Class ContentMemberManagement1
                 editButtonColumn.Text = ""
                 editButtonColumn.UseColumnTextForButtonValue = True
                 editButtonColumn.MinimumWidth = 60 ' Set a minimum width
+                editButtonColumn.DisplayIndex = 0 ' Set the display index to ensure it appears on the left
                 MembersTable.Columns.Add(editButtonColumn)
 
                 ' Add Delete button
@@ -94,6 +110,7 @@ Public Class ContentMemberManagement1
                 deleteButtonColumn.Text = ""
                 deleteButtonColumn.UseColumnTextForButtonValue = True
                 deleteButtonColumn.MinimumWidth = 72 ' Set a minimum width
+                deleteButtonColumn.DisplayIndex = 0 ' Set the display index to ensure it appears on the left
                 MembersTable.Columns.Add(deleteButtonColumn)
 
                 ' Add View button
@@ -103,6 +120,7 @@ Public Class ContentMemberManagement1
                 viewButtonColumn.Text = "View"
                 viewButtonColumn.UseColumnTextForButtonValue = True
                 viewButtonColumn.MinimumWidth = 60 ' Set a minimum width
+                viewButtonColumn.DisplayIndex = 0 ' Set the display index to ensure it appears on the left
                 MembersTable.Columns.Add(viewButtonColumn)
             End If
 
@@ -153,6 +171,7 @@ Public Class ContentMemberManagement1
         End Try
         MembersTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect
     End Sub
+
 
 
     Public Event ViewMemberProfile(memberData As MemberData)
@@ -512,7 +531,7 @@ Public Class ContentMemberManagement1
                 ElseIf MembersTable.Columns(e.ColumnIndex).Name = "Delete" Then
                     icon = My.Resources.delete1 ' Access the delete icon from resources
                 Else
-                    icon = My.Resources.view1 ' Access the view icon from resources
+                    icon = My.Resources.View ' Access the view icon from resources
                 End If
                 e.Graphics.DrawImage(icon, e.CellBounds.Left + 5, e.CellBounds.Top + (e.CellBounds.Height - icon.Height) \ 2)
 
@@ -543,9 +562,10 @@ Public Class ContentMemberManagement1
         Dim additionalData As New MemberData()
         Try
             conn.Open()
-            Dim query As String = "SELECT m.Weight, m.Height, m.Email, m.DOB, ms.StartDate, ms.EndDate, ms.RenewalPolicy, ms.Benefits, ms.MemberShipName " &
+            Dim query As String = "SELECT m.Weight, m.Height, m.Email, m.DOB, ms.StartDate, ms.EndDate, ms.RenewalPolicy, ms.Benefits, ms.MemberShipName, p.PaymentStatus " &
                               "FROM members m " &
                               "JOIN membership ms ON m.MemberID = ms.MemberID " &
+                              "JOIN payment p ON m.MemberID = p.MemberID " &
                               "WHERE m.MemberID = @MemberID"
             Dim cmd As New MySqlCommand(query, conn)
             cmd.Parameters.AddWithValue("@MemberID", memberId)
@@ -560,6 +580,7 @@ Public Class ContentMemberManagement1
                 additionalData.RenewalPolicy = reader("RenewalPolicy").ToString()
                 additionalData.Benefits = reader("Benefits").ToString()
                 additionalData.MemberShipName = reader("MemberShipName").ToString()
+                additionalData.PaymentStatus = reader("PaymentStatus").ToString()
             End If
             reader.Close()
         Catch ex As Exception
@@ -569,8 +590,8 @@ Public Class ContentMemberManagement1
         End Try
 
         Return additionalData
+        Debug.WriteLine("status: " & additionalData.PaymentStatus)
     End Function
-
 
 
     Private Sub LoadUserControlWithMemberData(memberId As Integer)
@@ -604,12 +625,15 @@ Public Class ContentMemberManagement1
             memberData.EndDate = additionalData.EndDate
             memberData.MemberShipName = additionalData.MemberShipName
             memberData.RenewalPolicy = additionalData.RenewalPolicy
+            memberData.PaymentStatus = additionalData.PaymentStatus
 
             ' Create an instance of the user control
             Dim memberProfileControl As New memberProfileControl()
 
             ' Load the data for the selected member into the user control
             memberProfileControl.LoadMemberData(memberData)
+
+            Debug.WriteLine("status: " & memberData.PaymentStatus)
 
             ' Show the user control using the provided function
             ShowUserControl(memberProfileControl)
@@ -627,60 +651,55 @@ Public Class ContentMemberManagement1
 
     'Search
     Private Sub FilterMembersTable(searchText As String)
-        ' Retrieve data from members table
-        Dim queryMembers As String = $"SELECT MemberID, FirstName, MiddleName, LastName, Sex, PhoneNumber, DTCreated, Province, City, Street, ZipCode, Status FROM members WHERE FirstName LIKE '%{searchText}%' OR LastName LIKE '%{searchText}%' OR MemberID LIKE '%{searchText}%'"
-        Dim adapterMembers As New MySqlDataAdapter(queryMembers, conn)
-        Dim dtMembers As New DataTable()
-        adapterMembers.Fill(dtMembers)
+        If String.IsNullOrWhiteSpace(searchText) Then
+            LoadData()
+            Return
+        End If
 
-        ' Retrieve data from memberlogin table
-        Dim queryLogin As String = "SELECT MemberID, Username FROM memberlogin"
-        Dim adapterLogin As New MySqlDataAdapter(queryLogin, conn)
-        Dim dtLogin As New DataTable()
-        adapterLogin.Fill(dtLogin)
+        Dim query As String
+        query = $"
+        SELECT 
+            m.MemberID, 
+            m.FirstName, 
+            m.MiddleName, 
+            m.LastName, 
+            ml.Username, 
+            m.Sex, 
+            m.PhoneNumber, 
+            m.DTCreated, 
+            CONCAT(m.Province, ', ', m.City, ', ', m.Street, ', ', m.ZipCode) AS Address, 
+            mm.Cost, 
+            mm.MembershipType, 
+            mm.Duration, 
+            m.Status
+        FROM 
+            members m
+        LEFT JOIN 
+            memberlogin ml ON m.MemberID = ml.MemberID
+        LEFT JOIN 
+            membership mm ON m.MemberID = mm.MemberID
+        WHERE 
+            m.FirstName LIKE '%{searchText}%' OR 
+            m.LastName LIKE '%{searchText}%' OR 
+            m.MemberID LIKE '%{searchText}%' OR 
+            m.MiddleName LIKE '%{searchText}%' OR 
+            m.Sex LIKE '%{searchText}%' OR 
+            m.PhoneNumber LIKE '%{searchText}%' OR 
+            m.Province LIKE '%{searchText}%' OR 
+            m.City LIKE '%{searchText}%' OR 
+            m.Street LIKE '%{searchText}%' OR 
+            m.ZipCode LIKE '%{searchText}%' OR 
+            m.Status LIKE '%{searchText}%' OR 
+            ml.Username LIKE '%{searchText}%' OR 
+            mm.MembershipType LIKE '%{searchText}%'
+    "
 
-        ' Retrieve data from membership table
-        Dim queryMembership As String = "SELECT MemberID, Cost, MembershipType, Duration FROM membership"
-        Dim adapterMembership As New MySqlDataAdapter(queryMembership, conn)
-        Dim dtMembership As New DataTable()
-        adapterMembership.Fill(dtMembership)
-
-        ' Combine data into a single DataTable
-        Dim dtMember As New DataTable()
-        dtMember.Columns.Add("MemberID", GetType(Integer))
-        dtMember.Columns.Add("FirstName", GetType(String))
-        dtMember.Columns.Add("MiddleName", GetType(String))
-        dtMember.Columns.Add("LastName", GetType(String))
-        dtMember.Columns.Add("Username", GetType(String))
-        dtMember.Columns.Add("Sex", GetType(String))
-        dtMember.Columns.Add("PhoneNumber", GetType(String))
-        dtMember.Columns.Add("DTCreated", GetType(DateTime))
-        dtMember.Columns.Add("Address", GetType(String))
-        dtMember.Columns.Add("Cost", GetType(Decimal))
-        dtMember.Columns.Add("MembershipType", GetType(String))
-        dtMember.Columns.Add("Duration", GetType(String))
-        dtMember.Columns.Add("Status", GetType(String))
-
-        For Each memberRow As DataRow In dtMembers.Rows
-            Dim memberID As Integer = memberRow("MemberID")
-            Dim firstName As String = memberRow("FirstName").ToString()
-            Dim middleName As String = memberRow("MiddleName").ToString()
-            Dim lastName As String = memberRow("LastName").ToString()
-            Dim username As String = dtLogin.AsEnumerable().FirstOrDefault(Function(r) r.Field(Of Integer)("MemberID") = memberID)?.Field(Of String)("Username")
-            Dim address As String = memberRow("Province") & ", " & memberRow("City") & ", " & memberRow("Street") & ", " & memberRow("ZipCode")
-            Dim status As String = If(memberRow("Status").ToString() = "True", "Active", "Inactive")
-            Dim membershipRow As DataRow = dtMembership.AsEnumerable().FirstOrDefault(Function(r) r.Field(Of Integer)("MemberID") = memberID)
-
-            ' Check if membershipRow is not null
-            If membershipRow IsNot Nothing Then
-                dtMember.Rows.Add(memberID, firstName, middleName, lastName, username, memberRow("Sex"), memberRow("PhoneNumber"), memberRow("DTCreated"), address, membershipRow("Cost"), membershipRow("MembershipType"), membershipRow("Duration"), status)
-            Else
-                dtMember.Rows.Add(memberID, firstName, middleName, lastName, username, memberRow("Sex"), memberRow("PhoneNumber"), memberRow("DTCreated"), address, DBNull.Value, DBNull.Value, DBNull.Value, status)
-            End If
-        Next
+        Dim adapter As New MySqlDataAdapter(query, conn)
+        Dim dt As New DataTable()
+        adapter.Fill(dt)
 
         ' Bind DataTable to DataGridView
-
+        MembersTable.DataSource = dt
 
         ' Add Edit, Delete, and View buttons
         If MembersTable.Columns("Edit") Is Nothing Then
@@ -712,10 +731,7 @@ Public Class ContentMemberManagement1
             viewButtonColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
             MembersTable.Columns.Add(viewButtonColumn)
         End If
-
-        MembersTable.DataSource = dtMember
     End Sub
-
 
     Private Sub btnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
         Dim searchText As String = txtBoxSearchInput.Text
@@ -729,8 +745,47 @@ Public Class ContentMemberManagement1
         End If
     End Sub
 
+
     Private Sub btnLoadMore_Click(sender As Object, e As EventArgs) Handles btnLoadMore.Click
         currentOffset += batchSize
         LoadData()
     End Sub
+
+    Private Sub LoadMemberProfileControl(memberId As Integer)
+        ' Retrieve the selected member's data from the database
+        Dim memberData As MemberData = GetMemberData(memberId)
+
+        ' Create an instance of the user control
+        Dim memberProfileControl As New memberProfileControl()
+
+        ' Load the data for the selected member into the user control
+        memberProfileControl.LoadMemberData(memberData)
+
+        ' Show the user control using the provided function
+        ShowUserControl(memberProfileControl)
+    End Sub
+
+    Private Function GetMemberData(memberId As Integer) As MemberData
+        ' Fetch additional data from the database
+        Dim additionalData As MemberData = GetAdditionalMemberData(memberId)
+
+        ' Create a new MemberData object and populate it with the fetched data
+        Dim memberData As New MemberData() With {
+        .MemberID = memberId,
+        .Weight = additionalData.Weight,
+        .Height = additionalData.Height,
+        .Email = additionalData.Email,
+        .DOB = additionalData.DOB,
+        .StartDate = additionalData.StartDate,
+        .EndDate = additionalData.EndDate,
+        .RenewalPolicy = additionalData.RenewalPolicy,
+        .Benefits = additionalData.Benefits,
+        .MemberShipName = additionalData.MemberShipName,
+        .PaymentStatus = additionalData.PaymentStatus
+    }
+
+        Return memberData
+        Debug.WriteLine("status: " & memberData.PaymentStatus)
+    End Function
+
 End Class

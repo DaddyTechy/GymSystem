@@ -128,6 +128,8 @@ Public Class ContentAttendance
         attendanceDGV.Columns("Status").HeaderText = "Status"
     End Sub
 
+    Private isEditing As Boolean = False
+
     Private Sub attendanceDGV_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles attendanceDGV.CellContentClick
         If e.RowIndex >= 0 Then
             If e.ColumnIndex = attendanceDGV.Columns("Edit").Index Then
@@ -138,23 +140,16 @@ Public Class ContentAttendance
                 ' Handle Delete button click
                 Dim attendanceID As Integer = If(attendanceDGV.Rows(e.RowIndex).Cells("AttendanceID").Value IsNot Nothing, Convert.ToInt32(attendanceDGV.Rows(e.RowIndex).Cells("AttendanceID").Value), 0)
                 DeleteAttendance(attendanceID)
-            ElseIf e.ColumnIndex = attendanceDGV.Columns("CheckInTime").Index OrElse e.ColumnIndex = attendanceDGV.Columns("CheckOutTime").Index Then
-                ' Show DateTimePicker for CheckInTime and CheckOutTime cells
-                ShowDateTimePicker(e.RowIndex, e.ColumnIndex)
+            ElseIf isEditing Then ' Only allow editing if the edit button was clicked
+                If e.ColumnIndex = attendanceDGV.Columns("CheckInTime").Index OrElse e.ColumnIndex = attendanceDGV.Columns("CheckOutTime").Index Then
+                    ' Show DateTimePicker for CheckInTime and CheckOutTime cells
+                    ShowDateTimePicker(e.RowIndex, e.ColumnIndex)
+                ElseIf e.ColumnIndex = attendanceDGV.Columns("SessionType").Index Then
+                    ' Show ComboBox for SessionType cells
+                    ShowComboBox(e.RowIndex, e.ColumnIndex)
+                End If
             End If
         End If
-    End Sub
-
-    Private Sub EditAttendance(attendanceID As Integer, rowIndex As Integer)
-        ' Enable editing for the entire row
-        For Each cell As DataGridViewCell In attendanceDGV.Rows(rowIndex).Cells
-            cell.ReadOnly = False
-        Next
-        MessageBox.Show("You can now edit the selected row.")
-
-        ' Handle the DateTimePicker for CheckInTime and CheckOutTime cells
-        AddHandler attendanceDGV.CellBeginEdit, AddressOf attendanceDGV_CellBeginEdit
-        AddHandler attendanceDGV.CellEndEdit, AddressOf attendanceDGV_CellEndEdit
     End Sub
 
     Private Sub DeleteAttendance(attendanceID As Integer)
@@ -168,6 +163,16 @@ Public Class ContentAttendance
         End If
     End Sub
 
+    Private Sub EndDateTimePickerEdit(rowIndex As Integer, columnIndex As Integer)
+        If attendanceDGV.CurrentCell IsNot Nothing Then
+            Debug.WriteLine("Ending edit explicitly")
+
+            ' Manually trigger the CellEndEdit method
+            Dim args As New DataGridViewCellEventArgs(columnIndex, rowIndex)
+            attendanceDGV_CellEndEdit(attendanceDGV, args)
+        End If
+    End Sub
+
     Private Sub ShowDateTimePicker(rowIndex As Integer, columnIndex As Integer)
         Dim dtp As New DateTimePicker()
         dtp.Format = DateTimePickerFormat.Time
@@ -176,11 +181,13 @@ Public Class ContentAttendance
         dtp.Width = attendanceDGV.Columns(columnIndex).Width
 
         ' Add the DateTimePicker to the DataGridView
+        Debug.WriteLine($"Adding DateTimePicker at rowIndex: {rowIndex}, columnIndex: {columnIndex}")
         attendanceDGV.Controls.Add(dtp)
 
         ' Set the initial value of the DateTimePicker to the cell value
         If attendanceDGV.Rows(rowIndex).Cells(columnIndex).Value IsNot Nothing Then
             Dim cellValue As Object = attendanceDGV.Rows(rowIndex).Cells(columnIndex).Value
+            Debug.WriteLine($"Initial cell value: {cellValue}")
             If TypeOf cellValue Is TimeSpan Then
                 dtp.Value = DateTime.Today.Add(CType(cellValue, TimeSpan))
             Else
@@ -191,15 +198,19 @@ Public Class ContentAttendance
         ' Handle the DateTimePicker's ValueChanged event
         AddHandler dtp.ValueChanged, Sub(sender, e)
                                          Dim timeValue As TimeSpan = dtp.Value.TimeOfDay
+                                         Debug.WriteLine($"DateTimePicker ValueChanged: {timeValue}")
                                          If timeValue.TotalHours < 24 Then
                                              attendanceDGV.Rows(rowIndex).Cells(columnIndex).Value = timeValue
+                                             Debug.WriteLine($"Cell value set to: {attendanceDGV.Rows(rowIndex).Cells(columnIndex).Value}")
                                          Else
                                              HandleError("Invalid time input. Please enter a valid time in HH:mm:ss format.")
                                          End If
                                      End Sub
 
-        ' Handle the DateTimePicker's LostFocus event to remove it
+        ' Handle the DateTimePicker's LostFocus event to remove it and trigger EndEdit
         AddHandler dtp.LostFocus, Sub(sender, e)
+                                      Debug.WriteLine("DateTimePicker LostFocus")
+                                      EndDateTimePickerEdit(rowIndex, columnIndex)
                                       attendanceDGV.Controls.Remove(dtp)
                                   End Sub
 
@@ -207,35 +218,57 @@ Public Class ContentAttendance
         dtp.Focus()
     End Sub
 
-
     Private Sub ShowComboBox(rowIndex As Integer, columnIndex As Integer)
         Dim comboBox As New ComboBox()
-        comboBox.Items.AddRange(New String() {"Fitness", "Endurance", "Sauna"}) ' Add your session types here
+        comboBox.Items.AddRange(New String() {"Fitness", "Endurance", "Sauna"})
         comboBox.DropDownStyle = ComboBoxStyle.DropDown
         comboBox.Location = attendanceDGV.GetCellDisplayRectangle(columnIndex, rowIndex, True).Location
         comboBox.Width = attendanceDGV.Columns(columnIndex).Width
 
         ' Add the ComboBox to the DataGridView
+        Debug.WriteLine($"Adding ComboBox at rowIndex: {rowIndex}, columnIndex: {columnIndex}")
         attendanceDGV.Controls.Add(comboBox)
 
         ' Set the initial value of the ComboBox to the cell value
         If attendanceDGV.Rows(rowIndex).Cells(columnIndex).Value IsNot Nothing Then
             comboBox.SelectedItem = attendanceDGV.Rows(rowIndex).Cells(columnIndex).Value.ToString()
+            Debug.WriteLine($"Initial ComboBox value: {comboBox.SelectedItem}")
         End If
 
         ' Handle the ComboBox's SelectedIndexChanged event
         AddHandler comboBox.SelectedIndexChanged, Sub(sender, e)
                                                       attendanceDGV.Rows(rowIndex).Cells(columnIndex).Value = comboBox.SelectedItem.ToString()
+                                                      Debug.WriteLine($"ComboBox SelectedIndexChanged: {comboBox.SelectedItem}")
+                                                      attendanceDGV.EndEdit() ' Manually trigger CellEndEdit event
                                                   End Sub
 
         ' Handle the ComboBox's LostFocus event to remove it
         AddHandler comboBox.LostFocus, Sub(sender, e)
+                                           Debug.WriteLine("ComboBox LostFocus")
                                            attendanceDGV.Controls.Remove(comboBox)
                                        End Sub
 
         ' Focus the ComboBox
         comboBox.Focus()
     End Sub
+
+   Private Sub EditAttendance(attendanceID As Integer, rowIndex As Integer)
+    isEditing = True ' Set the editing state to True
+
+    ' Enable editing for the entire row
+    For Each cell As DataGridViewCell In attendanceDGV.Rows(rowIndex).Cells
+        cell.ReadOnly = False
+        Debug.WriteLine($"Cell at column {cell.ColumnIndex}, row {rowIndex} ReadOnly status: {cell.ReadOnly}")
+    Next
+    Debug.WriteLine($"Enabled editing for row {rowIndex}")
+
+    MessageBox.Show("You can now edit the selected row.")
+
+    ' Attach event handlers
+    AddHandler attendanceDGV.CellBeginEdit, AddressOf attendanceDGV_CellBeginEdit
+    AddHandler attendanceDGV.CellEndEdit, AddressOf attendanceDGV_CellEndEdit
+End Sub
+
 
     Private Sub attendanceDGV_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs) Handles attendanceDGV.CellBeginEdit
         Dim row As DataGridViewRow = attendanceDGV.Rows(e.RowIndex)
@@ -246,23 +279,27 @@ Public Class ContentAttendance
             For Each cell As DataGridViewCell In row.Cells
                 cell.ReadOnly = False
             Next
+            Debug.WriteLine($"CellBeginEdit at rowIndex: {e.RowIndex}, columnIndex: {e.ColumnIndex}, isNewRow: {isNewRow}")
 
             ' Show appropriate control based on the column
             If e.ColumnIndex = attendanceDGV.Columns("CheckInTime").Index OrElse e.ColumnIndex = attendanceDGV.Columns("CheckOutTime").Index Then
                 ' Show DateTimePicker for CheckInTime and CheckOutTime cells
                 ShowDateTimePicker(e.RowIndex, e.ColumnIndex)
-            ElseIf e.ColumnIndex = attendanceDGV.Columns("SessionType").Index Then
+            ElseIf e.ColumnIndex = 6 Then
                 ' Show ComboBox for SessionType cell
+                Debug.WriteLine("Showing ComboBox for SessionType column")
                 ShowComboBox(e.RowIndex, e.ColumnIndex)
             End If
+
         End If
     End Sub
-    ' Method to handle the CellEndEdit event for the DataGridView
+
     Private Sub attendanceDGV_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles attendanceDGV.CellEndEdit
         Try
             Dim row As DataGridViewRow = attendanceDGV.Rows(e.RowIndex)
             Dim editCheckInTime As String = row.Cells("CheckInTime").Value?.ToString()
             Dim editCheckOutTime As String = row.Cells("CheckOutTime").Value?.ToString()
+            Debug.WriteLine($"CellEndEdit: editCheckInTime = {editCheckInTime}, editCheckOutTime = {editCheckOutTime}")
 
             ' Update the status based on CheckInTime and CheckOutTime
             If Not String.IsNullOrEmpty(editCheckInTime) AndAlso Not String.IsNullOrEmpty(editCheckOutTime) Then
@@ -275,10 +312,12 @@ Public Class ContentAttendance
             If ValidateRow(row) Then
                 ' Prompt the user to continue editing or save the changes
                 Dim result As DialogResult = MessageBox.Show("Do you want to continue editing?", "Continue Editing", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                Debug.WriteLine($"Prompt for continue editing result: {result}")
                 If result = DialogResult.No Then
                     ' Prompt the user to save the changes and display summary
                     Dim summary As String = GetSummary(row)
                     Dim saveResult As DialogResult = MessageBox.Show($"{summary}{Environment.NewLine}Do you want to save the changes?", "Save Changes", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                    Debug.WriteLine($"Prompt for save changes result: {saveResult}")
                     If saveResult = DialogResult.Yes Then
                         Try
                             ' Save the edited or new row
@@ -292,6 +331,7 @@ Public Class ContentAttendance
                             Dim status As String = row.Cells("Status").Value.ToString()
 
                             ' Update the attendance record
+                            Debug.WriteLine($"Updating attendance record: {attendanceID}, {memberID}, {staffID}, {editCheckInTimeSpan}, {editCheckOutTimeSpan}, {sessionType}, {dateValue}, {status}")
                             UpdateAttendance(attendanceID, memberID, staffID, editCheckInTimeSpan, editCheckOutTimeSpan, sessionType, dateValue, status)
 
                             MessageBox.Show("Changes saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -299,6 +339,7 @@ Public Class ContentAttendance
                             attendanceDGV.ReadOnly = True
                         Catch ex As Exception
                             MessageBox.Show($"An error occurred: {ex.Message}. Please correct the error and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            Debug.WriteLine($"Error saving changes: {ex.Message}")
                         End Try
                     Else
                         ' Go back to editing
@@ -309,8 +350,10 @@ Public Class ContentAttendance
             End If
         Catch ex As ArgumentOutOfRangeException
             MessageBox.Show($"An error occurred: {ex.Message}. Please ensure the index is within the valid range.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Debug.WriteLine($"ArgumentOutOfRangeException: {ex.Message}")
         Catch ex As Exception
             MessageBox.Show($"An unexpected error occurred: {ex.Message}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Debug.WriteLine($"Exception: {ex.Message}")
         End Try
     End Sub
 

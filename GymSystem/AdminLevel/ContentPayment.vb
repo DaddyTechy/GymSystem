@@ -202,9 +202,9 @@ Public Class ContentPayment
         ' Filter by PaymentType
         If cmbPaymentType.SelectedItem IsNot Nothing Then
             If cmbPaymentType.SelectedItem.ToString() = "Reservation" Then
-                filter = "Amount >= 0 "
+                filter = "ReservationFee >= 0 "
             ElseIf cmbPaymentType.SelectedItem.ToString() = "Membership" Then
-                filter = "MembershipCost > 0"
+                filter = "MembershipCost >= 0"
             End If
         End If
 
@@ -276,34 +276,27 @@ Public Class ContentPayment
 
                 ' Check if the fee is greater than zero and payment status is not "Paid" before opening the BillingPaymentForm
                 If fee > 0 AndAlso paymentStatus <> "Paid" Then
-                    ' Create a new instance of the BillingPaymentForm user control
-                    Dim paymentControl As New BillingPaymentForm()
-
-                    ' Set the necessary values
-                    paymentControl.txtAmount.Text = fee.ToString("F2")
-                    paymentControl.txtSubTotal.Text = fee.ToString("F2")
-                    paymentControl.isMembership = isMembership
-                    paymentControl.paymentID = paymentID
-                    paymentControl.memberID = memberID
+                    ' Create a new instance of the BillingPaymentForm with the necessary data
+                    Dim paymentForm As New BillingPaymentForm(fee, isMembership, paymentID, memberID)
 
                     ' Calculate the center point
-                    Dim centerX As Integer = (ClientSize.Width - paymentControl.Width) / 2
-                    Dim centerY As Integer = (ClientSize.Height - paymentControl.Height) / 2
+                    Dim centerX As Integer = (ClientSize.Width - paymentForm.Width) / 2
+                    Dim centerY As Integer = (ClientSize.Height - paymentForm.Height) / 2
 
                     ' Set the location of the BillingPaymentForm to the center
-                    paymentControl.Location = New Point(centerX, centerY)
+                    paymentForm.Location = New Point(centerX, centerY)
 
                     ' Add the BillingPaymentForm to the form
-                    Controls.Add(paymentControl)
-                    paymentControl.BringToFront()
+                    Controls.Add(paymentForm)
+                    paymentForm.BringToFront()
                     InitializeDGV()
                     Debug.WriteLine("Debug: BillingPaymentForm user control added.")
-                    Debug.WriteLine($"Debug: Form Amount = {paymentControl.txtAmount.Text}, SubTotal = {paymentControl.txtSubTotal.Text}")
+                    Debug.WriteLine($"Debug: Form Amount = {paymentForm.txtAmount.Text}, SubTotal = {paymentForm.txtSubTotal.Text}")
                 Else
                     Debug.WriteLine("Debug: Fee is zero or PaymentStatus is Paid, BillingPaymentForm not added.")
                     MessageBox.Show("This payment cannot be made.", "Payment Disabled", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
-            ElseIf e.ColumnIndex = dgvPayment.Columns("DeletePayment").Index AndAlso e.RowIndex >= 0 Then
+            ElseIf e.ColumnIndex = dgvPayment.Columns("Delete").Index AndAlso e.RowIndex >= 0 Then
                 Debug.WriteLine("Debug: DeletePayment button clicked.")
                 Dim selectedRow As DataGridViewRow = dgvPayment.Rows(e.RowIndex)
                 Dim paymentID As Integer = Convert.ToInt32(selectedRow.Cells("PaymentID").Value)
@@ -326,11 +319,12 @@ Public Class ContentPayment
         End Try
     End Sub
 
+
     Private Sub DeletePayment(paymentID As Integer)
         ' Implement logic to delete the payment
         Dim result As DialogResult = MessageBox.Show($"Are you sure you want to delete payment with ID: {paymentID}?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If result = DialogResult.Yes Then
-            Dim query As String = $"DELETE FROM Payments WHERE PaymentID = {paymentID}"
+            Dim query As String = $"DELETE FROM payment WHERE PaymentID = {paymentID}"
             readQuery(query)
             ' Refresh the DataGridView
             InitializeDGV()

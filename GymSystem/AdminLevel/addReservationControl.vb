@@ -104,7 +104,7 @@ Public Class addReservationControl
         UpdateConnectionString()
         Debug.WriteLine("Loading certified trainers...")
         ' Implement logic to load trainers with the "Certified Trainer" certification
-        Dim query As String = "SELECT StaffID, FirstName, LastName, Position FROM staff WHERE Position IN ('Receptionist', 'Trainer')"
+        Dim query As String = "SELECT StaffID, FirstName, LastName, Position FROM staff WHERE Position IN ('Trainer')"
         ' Execute the query and populate cmbTrainer with the results
         Dim adapter As New MySqlDataAdapter(query, conn)
         Dim dt As New DataTable()
@@ -229,5 +229,6 @@ Public Class addReservationControl
 
         Me.Hide()
     End Sub
+
 End Class
 
