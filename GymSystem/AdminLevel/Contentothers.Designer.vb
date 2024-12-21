@@ -34,13 +34,14 @@ Partial Class Contentothers
         TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
         TableLayoutPanel1.Controls.Add(addnewAdminBtn, 0, 0)
         TableLayoutPanel1.Dock = DockStyle.Left
-        TableLayoutPanel1.Location = New Point(20, 20)
+        TableLayoutPanel1.Location = New Point(23, 27)
+        TableLayoutPanel1.Margin = New Padding(3, 4, 3, 4)
         TableLayoutPanel1.Name = "TableLayoutPanel1"
         TableLayoutPanel1.RowCount = 2
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 14.5054941F))
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 85.49451F))
-        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 20F))
-        TableLayoutPanel1.Size = New Size(632, 456)
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 27F))
+        TableLayoutPanel1.Size = New Size(722, 607)
         TableLayoutPanel1.TabIndex = 0
         ' 
         ' addnewAdminBtn
@@ -51,26 +52,27 @@ Partial Class Contentothers
         addnewAdminBtn.FlatStyle = FlatStyle.Flat
         addnewAdminBtn.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         addnewAdminBtn.ForeColor = SystemColors.ButtonHighlight
-        addnewAdminBtn.Image = My.Resources.Resources.User_plus
+        addnewAdminBtn.Image = User_plus
         addnewAdminBtn.ImageAlign = ContentAlignment.MiddleLeft
         addnewAdminBtn.Location = New Point(4, 1)
         addnewAdminBtn.Name = "addnewAdminBtn"
-        addnewAdminBtn.Padding = New Padding(12)
-        addnewAdminBtn.Size = New Size(184, 65)
+        addnewAdminBtn.Padding = New Padding(14, 16, 14, 16)
+        addnewAdminBtn.Size = New Size(237, 87)
         addnewAdminBtn.TabIndex = 1
         addnewAdminBtn.Text = "                     Add New Admin"
         addnewAdminBtn.TextAlign = ContentAlignment.MiddleLeft
         ' 
         ' Contentothers
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.Transparent
         Controls.Add(TableLayoutPanel1)
-        MinimumSize = New Size(675, 496)
+        Margin = New Padding(3, 4, 3, 4)
+        MinimumSize = New Size(771, 661)
         Name = "Contentothers"
-        Padding = New Padding(20)
-        Size = New Size(675, 496)
+        Padding = New Padding(23, 27, 23, 27)
+        Size = New Size(771, 661)
         TableLayoutPanel1.ResumeLayout(False)
         TableLayoutPanel1.PerformLayout()
         ResumeLayout(False)

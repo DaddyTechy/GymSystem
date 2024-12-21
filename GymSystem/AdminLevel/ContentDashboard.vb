@@ -80,7 +80,7 @@ Public Class ContentDashboard
     End Function
 
     Private Sub InitializeConnection()
-        'conn = New MySqlConnection("server=ec2-54-152-32-19.compute-1.amazonaws.com;userid=remote_user;password=Aqua44.5;database=gym_infosys;port=3306;") '
+        conn = New MySqlConnection("server=ec2-54-152-32-19.compute-1.amazonaws.com;userid=remote_user;password=Aqua44.5;database=gym_infosys;port=3306;") '
         UpdateConnectionString()
         conn = New MySqlConnection(strConnection)
     End Sub
