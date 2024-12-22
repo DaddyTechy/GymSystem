@@ -70,7 +70,6 @@
         dgv.RowHeadersDefaultCellStyle = rowHeaderStyle
 
         dgv.RowHeadersVisible = False
-        dgv.RowHeadersWidth = 51
 
         Dim rowsStyle As New DataGridViewCellStyle()
         rowsStyle.BackColor = Color.FromArgb(40, 40, 40)
@@ -163,4 +162,5 @@
         currentOffset += batchSize
         LoadEquipmentData()
     End Sub
+
 End Class

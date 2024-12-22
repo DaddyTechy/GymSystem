@@ -1,4 +1,13 @@
-﻿Public Class BillingPaymentForm
+﻿Imports System.Net
+Imports System.IO
+Imports System.Text
+Imports Newtonsoft.Json
+Imports System.Net.Http
+Imports MySql.Data.MySqlClient
+Imports Newtonsoft.Json.Linq
+
+
+Public Class BillingPaymentForm
     Public Property isMembership As Boolean
     Public Property paymentID As Integer
     Public Property memberID As Integer
@@ -83,8 +92,7 @@
         ' Call the CalculateTotalAmount method
         CalculateTotalAmount()
     End Sub
-
-    Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
+    Private Async Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         Try
             ' Validate input
             If cmbPaymentMethod.SelectedItem Is Nothing OrElse String.IsNullOrEmpty(cmbPaymentMethod.SelectedItem.ToString()) Then
@@ -109,6 +117,25 @@
             Dim totalAmount As Decimal = Convert.ToDecimal(txtTotalAmount.Text)
             Dim paymentNotes As String = txtPaymentNotes.Text
 
+            ' Handle payment through PayMongo
+            If paymentMethod = "E-Wallet" OrElse paymentMethod = "Credit Card" Then
+                Dim description As String = $"Payment for {invoiceNumber}"
+                Dim payMongoMethod As String = If(paymentMethod = "E-Wallet", "gcash", "card")
+                Dim paymentIntentId As String = Await InitiatePayment(totalAmount, "PHP", description, payMongoMethod)
+
+                ' Retrieve member details for billing
+                Dim billingDetails As Dictionary(Of String, String) = GetMemberDetails(memberID)
+
+                ' Create payment method
+                Dim paymentMethodId As String = Await CreatePaymentMethod(payMongoMethod, billingDetails)
+
+                ' Attach payment method to payment intent
+                Dim checkoutUrl As String = Await AttachPaymentMethod(paymentIntentId, paymentMethodId)
+
+                ' Open the URL in the default web browser
+                Process.Start(New ProcessStartInfo(checkoutUrl) With {.UseShellExecute = True})
+            End If
+
             Dim queryPayment As String = $"UPDATE payment SET PaymentMethod = '{paymentMethod}', PaymentDate = '{paymentDate:yyyy-MM-dd}', Amount = {subTotal}, InvoiceNumber = '{invoiceNumber}', ReceiptNumber = '{receiptNumber}', DiscountApplied = {discountApplied}, TaxAmount = {taxAmount}, TotalAmount = {totalAmount}, PaymentNotes = '{paymentNotes}', PaymentStatus = 'Paid' WHERE PaymentID = {paymentID}"
             readQuery(queryPayment)
 
@@ -126,7 +153,6 @@
                 Dim queryReservation As String = $"UPDATE reservation SET PaymentStatus = 'Paid' WHERE MemberID = {memberID}"
                 readQuery(queryReservation)
             End If
-
 
             ' Notify user of successful save
             MessageBox.Show("Payment completed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -169,4 +195,136 @@
         RaiseEvent PaymentCompleted(Me, EventArgs.Empty)
         Me.Hide()
     End Sub
+
+
+
+    Public Async Function InitiatePayment(amount As Decimal, currency As String, description As String, paymentMethod As String) As Task(Of String)
+        Dim apiKey As String = "sk_test_orK6MTNaBig29mb3WoQh2TQU" ' Replace with your actual secret key
+        Dim url As String = "https://api.paymongo.com/v1/payment_intents"
+        Dim postData As New Dictionary(Of String, Object) From {
+        {"data", New Dictionary(Of String, Object) From {
+            {"attributes", New Dictionary(Of String, Object) From {
+                {"amount", CInt(amount * 100)}, ' Amount in centavos
+                {"currency", currency},
+                {"payment_method_allowed", New String() {paymentMethod}},
+                {"description", description}
+            }}
+        }}
+    }
+
+        Dim json As String = JsonConvert.SerializeObject(postData)
+        Dim byteArray As Byte() = Encoding.UTF8.GetBytes(json)
+
+        Using client As New HttpClient()
+            client.DefaultRequestHeaders.Authorization = New System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(apiKey & ":")))
+            Dim content As New ByteArrayContent(byteArray)
+            content.Headers.ContentType = New System.Net.Http.Headers.MediaTypeHeaderValue("application/json")
+
+            Dim response As HttpResponseMessage = Await client.PostAsync(url, content)
+            Dim responseFromServer As String = Await response.Content.ReadAsStringAsync()
+
+            ' Debug: Log the response
+            Debug.WriteLine("Response from PayMongo: " & responseFromServer)
+
+            ' Parse the response to get the payment_intent_id
+            Dim responseData As JObject = JObject.Parse(responseFromServer)
+            Dim paymentIntentId As String = responseData("data")("id").ToString()
+            Return paymentIntentId
+        End Using
+    End Function
+
+    Public Async Function CreatePaymentMethod(paymentMethodType As String, billingDetails As Dictionary(Of String, String)) As Task(Of String)
+        Dim apiKey As String = "sk_test_orK6MTNaBig29mb3WoQh2TQU" ' Replace with your actual secret key
+        Dim url As String = "https://api.paymongo.com/v1/payment_methods"
+        Dim postData As New Dictionary(Of String, Object) From {
+        {"data", New Dictionary(Of String, Object) From {
+            {"attributes", New Dictionary(Of String, Object) From {
+                {"type", paymentMethodType},
+                {"billing", billingDetails}
+            }}
+        }}
+    }
+
+        Dim json As String = JsonConvert.SerializeObject(postData)
+        Dim byteArray As Byte() = Encoding.UTF8.GetBytes(json)
+
+        Using client As New HttpClient()
+            client.DefaultRequestHeaders.Authorization = New System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(apiKey & ":")))
+            Dim content As New ByteArrayContent(byteArray)
+            content.Headers.ContentType = New System.Net.Http.Headers.MediaTypeHeaderValue("application/json")
+
+            Dim response As HttpResponseMessage = Await client.PostAsync(url, content)
+            Dim responseFromServer As String = Await response.Content.ReadAsStringAsync()
+
+            ' Debug: Log the response
+            Debug.WriteLine("Response from PayMongo (Create Payment Method): " & responseFromServer)
+
+            ' Parse the response to get the payment_method_id
+            Dim responseData As JObject = JObject.Parse(responseFromServer)
+            Dim paymentMethodId As String = responseData("data")("id").ToString()
+            Return paymentMethodId
+        End Using
+    End Function
+
+    Public Async Function AttachPaymentMethod(paymentIntentId As String, paymentMethodId As String) As Task(Of String)
+        Dim apiKey As String = "sk_test_orK6MTNaBig29mb3WoQh2TQU" ' Replace with your actual secret key
+        Dim url As String = $"https://api.paymongo.com/v1/payment_intents/{paymentIntentId}/attach"
+        Dim postData As New Dictionary(Of String, Object) From {
+            {"data", New Dictionary(Of String, Object) From {
+                {"attributes", New Dictionary(Of String, Object) From {
+                    {"payment_method", paymentMethodId},
+                    {"return_url", "https://ochna001.github.io/VPHSwebsiteforIT105/return_url.html"} ' Replace with your actual return URL
+                }}
+            }}
+        }
+
+        Dim json As String = JsonConvert.SerializeObject(postData)
+        Dim byteArray As Byte() = Encoding.UTF8.GetBytes(json)
+
+        Using client As New HttpClient()
+            client.DefaultRequestHeaders.Authorization = New System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(apiKey & ":")))
+            Dim content As New ByteArrayContent(byteArray)
+            content.Headers.ContentType = New System.Net.Http.Headers.MediaTypeHeaderValue("application/json")
+
+            Dim response As HttpResponseMessage = Await client.PostAsync(url, content)
+            Dim responseFromServer As String = Await response.Content.ReadAsStringAsync()
+
+            ' Debug: Log the response
+            Debug.WriteLine("Response from PayMongo (Attach Payment Method): " & responseFromServer)
+
+            ' Parse the response to get the checkout_url
+            Dim responseData As JObject = JObject.Parse(responseFromServer)
+            Dim nextAction As JObject = CType(responseData("data")("attributes")("next_action"), JObject)
+            Dim redirect As JObject = CType(nextAction("redirect"), JObject)
+            Dim checkoutUrl As String = redirect("url")?.ToString()
+
+            If checkoutUrl Is Nothing Then
+                Throw New Exception("The checkout_url is not present in the response.")
+            End If
+
+            Return checkoutUrl
+        End Using
+    End Function
+
+
+    Public Function GetMemberDetails(memberID As Integer) As Dictionary(Of String, String)
+        Dim query As String = $"SELECT `FirstName`, `LastName`, `Email`, `PhoneNumber` FROM `members` WHERE `MemberID` = {memberID}"
+        Dim memberDetails As New Dictionary(Of String, String)
+
+        Using conn As New MySqlConnection(strConnection)
+            Using cmd As New MySqlCommand(query, conn)
+                conn.Open()
+                Using reader As MySqlDataReader = cmd.ExecuteReader()
+                    If reader.Read() Then
+                        memberDetails("name") = $"{reader("FirstName")} {reader("LastName")}"
+                        memberDetails("email") = reader("Email").ToString()
+                        memberDetails("phone") = reader("PhoneNumber").ToString()
+                    End If
+                End Using
+            End Using
+        End Using
+
+        Return memberDetails
+    End Function
+
 End Class

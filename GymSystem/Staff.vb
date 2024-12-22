@@ -226,7 +226,7 @@ Public Class Staff
                         ' ... set other fields as needed
 
                         ' Access the current logged user's details
-                        MsgBox("Welcome, Staff: " & staffID & " " & CurrentLoggedUser.name & "!")
+                        MsgBox("Welcome, Staff: " & staffID & " " & CurrentLoggedUser.name.ToUpper & "!")
 
                         Logs($"Staff user {user.Username} logged in", "Login")
 
