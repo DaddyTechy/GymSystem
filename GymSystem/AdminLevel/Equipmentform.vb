@@ -6,29 +6,7 @@ Imports System.Data.SqlClient
 
 Public Class Gym_Equipment
 
-    Private Sub nametxtbox_TextChanged(sender As Object, e As EventArgs) Handles nametxtbox.TextChanged
 
-    End Sub
-
-    Private Sub Brandtxtbox_TextChanged(sender As Object, e As EventArgs) Handles Brandtxtbox.TextChanged
-
-    End Sub
-
-    Private Sub Typetxtbox_TextChanged(sender As Object, e As EventArgs) Handles Typetxtbox.TextChanged
-
-    End Sub
-
-    Private Sub dtpDateofaPurchase_ValueChanged(sender As Object, e As EventArgs) Handles dtpDateofaPurchase.ValueChanged
-
-    End Sub
-
-    Private Sub MainetenanceCosttxtbox_TextChanged(sender As Object, e As EventArgs) Handles MainetenanceCosttxtbox.TextChanged
-
-    End Sub
-
-    Private Sub PurchasePlacetxtbox_TextChanged(sender As Object, e As EventArgs) Handles PurchasePlacetxtbox.TextChanged
-
-    End Sub
 
     Private Sub SubmitDetailstxtbox_Click(sender As Object, e As EventArgs) Handles SubmitDetailstxtbox.Click
         Try
@@ -69,30 +47,11 @@ Public Class Gym_Equipment
 
     End Sub
 
-    Private Sub Label4_Click(sender As Object, e As EventArgs) Handles Label4.Click
 
-    End Sub
-
-    Private Sub Statustxtbox_TextChanged(sender As Object, e As EventArgs) Handles Statustxtbox.TextChanged
-
-    End Sub
-
-    Private Sub MaintenanceScheduletxtbox_TextChanged(sender As Object, e As EventArgs) Handles MaintenanceScheduletxtbox.TextChanged
-
-    End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         Me.Hide()
     End Sub
 
-    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
-
-    End Sub
-
-    Private Sub Label8_Click(sender As Object, e As EventArgs) Handles Label8.Click
-
-    End Sub
-
-    ' Define the readQuery method
 
 End Class

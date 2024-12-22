@@ -37,7 +37,6 @@ Public Class BillingPaymentForm
 
         ' Add items to cmbPaymentMethod
         cmbPaymentMethod.Items.Add("Cash")
-        cmbPaymentMethod.Items.Add("Credit Card")
         cmbPaymentMethod.Items.Add("E-Wallet")
 
     End Sub
@@ -156,7 +155,7 @@ Public Class BillingPaymentForm
 
             ' Notify user of successful save
             MessageBox.Show("Payment completed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            MessageBox.Show($"Your MemberID is: {memberID}. Use it as your Username/UserId")
+
             OnPaymentCompleted()
             Me.Hide()
         Catch ex As Exception
