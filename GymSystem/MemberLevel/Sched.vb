@@ -151,9 +151,9 @@ Public Class Sched
         ' Add each event on a new line with wrapped text
         For Each ev In eventsForDay
             ' Format the event text to be more compact
-            Dim eventText = $"{Environment.NewLine}{TruncateText(ev.Title, 15)}"
+            Dim eventText = $"{Environment.NewLine}{ev.Title}"
             If Not String.IsNullOrEmpty(ev.Instructor) Then
-                eventText &= $"{Environment.NewLine}({TruncateText(ev.Instructor, 10)})"
+                eventText &= $"{Environment.NewLine}({ev.Instructor})"
             End If
             cellText &= eventText
         Next
@@ -163,13 +163,6 @@ Public Class Sched
         ' Set cell style for word wrapping
         cell.Style.WrapMode = DataGridViewTriState.True
     End Sub
-
-    ' Helper function to truncate text
-    Private Function TruncateText(text As String, maxLength As Integer) As String
-        If String.IsNullOrEmpty(text) Then Return String.Empty
-        If text.Length <= maxLength Then Return text
-        Return text.Substring(0, maxLength - 3) & "..."
-    End Function
 
     ' Update the AdjustRowHeights method to accommodate the wrapped text
     Private Sub AdjustRowHeights()

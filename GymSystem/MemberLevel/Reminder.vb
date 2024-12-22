@@ -131,4 +131,5 @@
         LoadNotesForMember(CurrentLoggedUser.id)
     End Sub
 
+
 End Class

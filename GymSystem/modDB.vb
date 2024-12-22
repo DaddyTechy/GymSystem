@@ -78,8 +78,27 @@ Module modDB
             End With
         Catch EX As Exception
             MsgBox(EX.Message, MsgBoxStyle.Critical)
+            Debug.WriteLine($"Error: {EX.Message}")
         End Try
     End Sub
+
+    Public Function executeSelectQuery(ByVal sql As String) As Object
+        Dim result As Object = Nothing
+        Try
+            openConn(db_name)
+            Using cmd As New MySqlCommand(sql, conn)
+                result = cmd.ExecuteScalar()
+            End Using
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical)
+            Debug.WriteLine($"Error: {ex.Message}")
+        Finally
+            If conn IsNot Nothing AndAlso conn.State = ConnectionState.Open Then
+                conn.Close()
+            End If
+        End Try
+        Return result
+    End Function
 
     Public Function isConnectedToLocalServer() As Boolean
         Dim result As Boolean = False

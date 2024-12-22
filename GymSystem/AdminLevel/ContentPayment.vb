@@ -8,6 +8,7 @@ Public Class ContentPayment
                           "JOIN members m ON p.MemberID = m.MemberID"
         LoadToDGV(query, dgvPayment)
         SetDGVProperties(dgvPayment)
+
     End Sub
 
     Private Sub SetDGVProperties(dgv As DataGridView)
@@ -351,7 +352,6 @@ Public Class DataGridViewDisableButtonColumn
     End Sub
 End Class
 
-
 Public Class DataGridViewDisableButtonCell
     Inherits DataGridViewButtonCell
 
@@ -385,44 +385,39 @@ Public Class DataGridViewDisableButtonCell
     Protected Overrides Sub Paint(graphics As Graphics, clipBounds As Rectangle, cellBounds As Rectangle, rowIndex As Integer, elementState As DataGridViewElementStates, value As Object, formattedValue As Object, errorText As String, cellStyle As DataGridViewCellStyle, advancedBorderStyle As DataGridViewAdvancedBorderStyle, paintParts As DataGridViewPaintParts)
         ' The button cell is disabled, so paint the border, background, and disabled button for the cell.
         If Not enabledValue Then
-            Dim currentContext As BufferedGraphicsContext = BufferedGraphicsManager.Current
+            ' Draw the cell background, if specified.
+            If (paintParts And DataGridViewPaintParts.Background) = DataGridViewPaintParts.Background Then
+                Using cellBackground As New SolidBrush(cellStyle.BackColor)
+                    graphics.FillRectangle(cellBackground, cellBounds)
+                End Using
+            End If
 
-            Using myBuffer As BufferedGraphics = currentContext.Allocate(graphics, cellBounds)
-                ' Draw the cell background, if specified.
-                If (paintParts And DataGridViewPaintParts.Background) = DataGridViewPaintParts.Background Then
-                    Using cellBackground As New SolidBrush(cellStyle.BackColor)
-                        myBuffer.Graphics.FillRectangle(cellBackground, cellBounds)
-                    End Using
-                End If
+            ' Draw the cell borders, if specified.
+            If (paintParts And DataGridViewPaintParts.Border) = DataGridViewPaintParts.Border Then
+                PaintBorder(graphics, clipBounds, cellBounds, cellStyle, advancedBorderStyle)
+            End If
 
-                ' Draw the cell borders, if specified.
-                If (paintParts And DataGridViewPaintParts.Border) = DataGridViewPaintParts.Border Then
-                    PaintBorder(myBuffer.Graphics, clipBounds, cellBounds, cellStyle, advancedBorderStyle)
-                End If
+            ' Calculate the area in which to draw the button.
+            Dim buttonArea As Rectangle = cellBounds
+            Dim buttonAdjustment As Rectangle = BorderWidths(advancedBorderStyle)
+            buttonArea.X += buttonAdjustment.X
+            buttonArea.Y += buttonAdjustment.Y
+            buttonArea.Height -= buttonAdjustment.Height
+            buttonArea.Width -= buttonAdjustment.Width
 
-                ' Calculate the area in which to draw the button.
-                Dim buttonArea As Rectangle = cellBounds
-                Dim buttonAdjustment As Rectangle = BorderWidths(advancedBorderStyle)
-                buttonArea.X += buttonAdjustment.X
-                buttonArea.Y += buttonAdjustment.Y
-                buttonArea.Height -= buttonAdjustment.Height
-                buttonArea.Width -= buttonAdjustment.Width
+            ' Draw the disabled button.
+            ButtonRenderer.DrawButton(graphics, buttonArea, PushButtonState.Disabled)
 
-                ' Draw the disabled button.
-                ButtonRenderer.DrawButton(myBuffer.Graphics, buttonArea, PushButtonState.Disabled)
-
-                ' Draw the disabled button text.
-                Dim formattedValueString As String = TryCast(formattedValue, String)
-                If formattedValueString IsNot Nothing Then
-                    TextRenderer.DrawText(myBuffer.Graphics, formattedValueString, DataGridView.Font, buttonArea, SystemColors.GrayText, TextFormatFlags.PreserveGraphicsTranslateTransform Or TextFormatFlags.HorizontalCenter Or TextFormatFlags.VerticalCenter)
-                End If
-
-                myBuffer.Render()
-            End Using
+            ' Draw the disabled button text.
+            Dim formattedValueString As String = TryCast(formattedValue, String)
+            If formattedValueString IsNot Nothing Then
+                TextRenderer.DrawText(graphics, formattedValueString, DataGridView.Font, buttonArea, SystemColors.GrayText, TextFormatFlags.HorizontalCenter Or TextFormatFlags.VerticalCenter)
+            End If
         Else
             ' The button cell is enabled, so let the base class handle the painting.
             MyBase.Paint(graphics, clipBounds, cellBounds, rowIndex, elementState, value, formattedValue, errorText, cellStyle, advancedBorderStyle, paintParts)
         End If
     End Sub
 End Class
+
 

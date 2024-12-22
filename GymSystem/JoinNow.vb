@@ -1,4 +1,5 @@
 ﻿Imports System.Data.SqlClient
+Imports System.Text.RegularExpressions
 Imports System.Transactions
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports MySql.Data.MySqlClient
@@ -328,12 +329,12 @@ Public Class JoinNow
 
     Private Sub HeightTxt_TextChanged(sender As Object, e As EventArgs) Handles HeightTxt.TextChanged
         Try
-            ' Check if the input is numeric
-            If IsNumeric(HeightTxt.Text) Then
+            ' Check if the input is numeric and in the correct format (e.g., 5.9)
+            If Regex.IsMatch(HeightTxt.Text, "^\d+(\.\d+)?$") Then
                 ' Additional code for height processing can be added here if needed
             ElseIf HeightTxt.Text <> "" Then
-                ' If the input is not a number and not empty, show a message
-                MessageBox.Show("Please enter a valid number for Height.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                ' If the input is not a valid number and not empty, show a message
+                MessageBox.Show("Please enter a valid number for Height in feet (e.g., 5.9).", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
         Catch ex As Exception
             MessageBox.Show("An error occurred: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -370,9 +371,9 @@ Public Class JoinNow
         End If
 
         ' Enforce a maximum length of 4 characters
-        If SexTxt.Text.Length >= 6 AndAlso Not Char.IsControl(e.KeyChar) Then
+        If SexTxt.Text.Length <= 4 AndAlso Not Char.IsControl(e.KeyChar) Then
             e.Handled = True ' Suppress the key press if the length is 4 or more
-            MessageBox.Show("The input must be 4 characters or less.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            MessageBox.Show("The input must be 4 characters (Male/Female) at least.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End If
     End Sub
 
@@ -405,15 +406,61 @@ Public Class JoinNow
         InsertMemberAndLogin()
     End Sub
 
-    ' Function to validate if all required fields are filled
+    Private Sub txtbx_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ContactTxt.KeyPress, KgTxt.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub HeightTxt_KeyPress(sender As Object, e As KeyPressEventArgs) Handles HeightTxt.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) AndAlso e.KeyChar <> "."c Then
+            e.Handled = True
+        End If
+
+        ' Only allow one decimal point
+        If e.KeyChar = "."c AndAlso HeightTxt.Text.Contains(".") Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Function ValidateInputs() As Boolean
+        ' Check if Contact number is numeric and 11 digits
+        If Not Regex.IsMatch(ContactTxt.Text, "^\d{11}$") Then
+            MessageBox.Show("Contact number must be 11 digits.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+
+        ' Check if Height is numeric and in the correct format (e.g., 5.9)
+        If Not Regex.IsMatch(HeightTxt.Text, "^\d+(\.\d+)?$") Then
+            MessageBox.Show("Height must be a valid number in feet (e.g., 5.9, 5.0).", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+
+        ' Check if Weight is numeric
+        Dim weight As Decimal
+        If Not Decimal.TryParse(KgTxt.Text, weight) Then
+            MessageBox.Show("Weight must be a valid number.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+        ' Check email format
+        If Not Regex.IsMatch(EmailTxt.Text, "^[^@\s]+@[^@\s]+\.[a-zA-Z]{2,}$") Then
+            MessageBox.Show("Email must be in a valid format (e.g., user@example.com).", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+
+        ' Check password length
+        If PassTxt.Text.Length < 5 Then
+            MessageBox.Show("Password must be at least 5 characters long.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+
+        Return True
+    End Function
+
     Private Function ValidateForm() As Boolean
         ' Check if required TextBox fields are empty
         If String.IsNullOrWhiteSpace(FirstTxt.Text) Then
             MessageBox.Show("First name is empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return False
-        End If
-        If String.IsNullOrWhiteSpace(MiddleTxt.Text) Then
-            MessageBox.Show("Middle name is empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return False
         End If
         If String.IsNullOrWhiteSpace(LastTxt.Text) Then
@@ -475,10 +522,17 @@ Public Class JoinNow
             Return False
         End If
 
+        ' Validate email format and password length
+        If Not ValidateInputs() Then
+            Return False
+        End If
+
         ' If all required fields are filled and selected, return True
         MessageBox.Show("All required fields are filled and selected.", "Validation Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Return True
     End Function
+
+
     Private Sub InsertMemberAndLogin()
         UpdateConnectionString()
         Try
@@ -600,9 +654,14 @@ Public Class JoinNow
         If result = DialogResult.Yes Then
             ' Handle immediate payment
             HandleImmediatePayment(memberID, fee, isMembership)
+
+            Dim accountDetails As String = $"Details added successfully.{Environment.NewLine}Username: {memberID}{Environment.NewLine}Use this as Your UserName/UserID for login."
+            Dim accountDetailsForm As New AccountDetailsForm(accountDetails)
+            accountDetailsForm.ShowDialog()
         Else
             ' Handle later payment
             HandleLaterPayment(memberID)
+            MessageBox.Show($"Your MemberID is: {memberID}. Use it as your Username/UserId")
             CloseForm() ' Separate method to close and return to admin login
         End If
 

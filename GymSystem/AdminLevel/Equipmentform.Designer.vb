@@ -77,8 +77,9 @@ Partial Class Gym_Equipment
         Panel1.Controls.Add(Label2)
         Panel1.Controls.Add(Label1)
         Panel1.Location = New Point(0, 0)
+        Panel1.Margin = New Padding(3, 2, 3, 2)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(768, 658)
+        Panel1.Size = New Size(672, 494)
         Panel1.TabIndex = 0
         ' 
         ' Label13
@@ -86,9 +87,9 @@ Partial Class Gym_Equipment
         Label13.AutoSize = True
         Label13.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
         Label13.ForeColor = Color.White
-        Label13.Location = New Point(50, 545)
+        Label13.Location = New Point(44, 344)
         Label13.Name = "Label13"
-        Label13.Size = New Size(50, 20)
+        Label13.Size = New Size(40, 15)
         Label13.TabIndex = 46
         Label13.Text = "Status"
         ' 
@@ -97,26 +98,28 @@ Partial Class Gym_Equipment
         Label4.AutoSize = True
         Label4.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
         Label4.ForeColor = Color.White
-        Label4.Location = New Point(49, 496)
+        Label4.Location = New Point(43, 302)
         Label4.Name = "Label4"
-        Label4.Size = New Size(164, 20)
+        Label4.Size = New Size(128, 15)
         Label4.TabIndex = 45
         Label4.Text = "Maintenance Schedule"
         ' 
         ' Statustxtbox
         ' 
         Statustxtbox.BackColor = Color.Gray
-        Statustxtbox.Location = New Point(180, 542)
+        Statustxtbox.Location = New Point(158, 341)
+        Statustxtbox.Margin = New Padding(3, 2, 3, 2)
         Statustxtbox.Name = "Statustxtbox"
-        Statustxtbox.Size = New Size(200, 27)
+        Statustxtbox.Size = New Size(176, 23)
         Statustxtbox.TabIndex = 44
         ' 
         ' MaintenanceScheduletxtbox
         ' 
         MaintenanceScheduletxtbox.BackColor = Color.Gray
-        MaintenanceScheduletxtbox.Location = New Point(223, 493)
+        MaintenanceScheduletxtbox.Location = New Point(195, 300)
+        MaintenanceScheduletxtbox.Margin = New Padding(3, 2, 3, 2)
         MaintenanceScheduletxtbox.Name = "MaintenanceScheduletxtbox"
-        MaintenanceScheduletxtbox.Size = New Size(157, 27)
+        MaintenanceScheduletxtbox.Size = New Size(138, 23)
         MaintenanceScheduletxtbox.TabIndex = 43
         ' 
         ' Button2
@@ -125,9 +128,10 @@ Partial Class Gym_Equipment
         Button2.FlatStyle = FlatStyle.Popup
         Button2.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         Button2.ForeColor = Color.White
-        Button2.Location = New Point(49, 36)
+        Button2.Location = New Point(43, 27)
+        Button2.Margin = New Padding(3, 2, 3, 2)
         Button2.Name = "Button2"
-        Button2.Size = New Size(86, 31)
+        Button2.Size = New Size(75, 23)
         Button2.TabIndex = 41
         Button2.Text = "Back"
         Button2.UseVisualStyleBackColor = False
@@ -135,12 +139,13 @@ Partial Class Gym_Equipment
         ' Label12
         ' 
         Label12.AutoSize = True
+        Label12.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label12.ForeColor = Color.White
         Label12.Image = CType(resources.GetObject("Label12.Image"), Image)
         Label12.ImageAlign = ContentAlignment.MiddleLeft
-        Label12.Location = New Point(412, 423)
+        Label12.Location = New Point(374, 126)
         Label12.Name = "Label12"
-        Label12.Size = New Size(122, 20)
+        Label12.Size = New Size(127, 21)
         Label12.TabIndex = 40
         Label12.Text = "       Maintenance"
         Label12.TextAlign = ContentAlignment.MiddleLeft
@@ -149,12 +154,13 @@ Partial Class Gym_Equipment
         ' Label11
         ' 
         Label11.AutoSize = True
+        Label11.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label11.ForeColor = Color.White
         Label11.Image = CType(resources.GetObject("Label11.Image"), Image)
         Label11.ImageAlign = ContentAlignment.MiddleLeft
-        Label11.Location = New Point(49, 277)
+        Label11.Location = New Point(44, 126)
         Label11.Name = "Label11"
-        Label11.Size = New Size(141, 20)
+        Label11.Size = New Size(146, 21)
         Label11.TabIndex = 39
         Label11.Text = "       Equipment-Info"
         Label11.TextAlign = ContentAlignment.MiddleRight
@@ -163,7 +169,7 @@ Partial Class Gym_Equipment
         ' 
         Label10.Location = New Point(0, 0)
         Label10.Name = "Label10"
-        Label10.Size = New Size(100, 23)
+        Label10.Size = New Size(88, 17)
         Label10.TabIndex = 42
         ' 
         ' Label9
@@ -171,9 +177,9 @@ Partial Class Gym_Equipment
         Label9.AutoSize = True
         Label9.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
         Label9.ForeColor = Color.White
-        Label9.Location = New Point(452, 462)
+        Label9.Location = New Point(374, 167)
         Label9.Name = "Label9"
-        Label9.Size = New Size(42, 20)
+        Label9.Size = New Size(33, 15)
         Label9.TabIndex = 37
         Label9.Text = "Cost:"
         ' 
@@ -182,9 +188,9 @@ Partial Class Gym_Equipment
         Label8.AutoSize = True
         Label8.Font = New Font("Segoe UI", 22.2F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label8.ForeColor = Color.White
-        Label8.Location = New Point(33, 190)
+        Label8.Location = New Point(43, 70)
         Label8.Name = "Label8"
-        Label8.Size = New Size(414, 50)
+        Label8.Size = New Size(336, 41)
         Label8.TabIndex = 36
         Label8.Text = "Equipment Entry Form"
         ' 
@@ -192,9 +198,9 @@ Partial Class Gym_Equipment
         ' 
         Label7.AutoSize = True
         Label7.ForeColor = Color.Yellow
-        Label7.Location = New Point(139, 123)
+        Label7.Location = New Point(124, 31)
         Label7.Name = "Label7"
-        Label7.Size = New Size(119, 20)
+        Label7.Size = New Size(95, 15)
         Label7.TabIndex = 35
         Label7.Text = "Add Equipments"
         ' 
@@ -202,9 +208,10 @@ Partial Class Gym_Equipment
         ' 
         SubmitDetailstxtbox.BackColor = Color.Gold
         SubmitDetailstxtbox.ForeColor = Color.Black
-        SubmitDetailstxtbox.Location = New Point(554, 510)
+        SubmitDetailstxtbox.Location = New Point(477, 213)
+        SubmitDetailstxtbox.Margin = New Padding(3, 2, 3, 2)
         SubmitDetailstxtbox.Name = "SubmitDetailstxtbox"
-        SubmitDetailstxtbox.Size = New Size(115, 29)
+        SubmitDetailstxtbox.Size = New Size(101, 22)
         SubmitDetailstxtbox.TabIndex = 34
         SubmitDetailstxtbox.Text = "Submit Details"
         SubmitDetailstxtbox.UseVisualStyleBackColor = False
@@ -213,54 +220,60 @@ Partial Class Gym_Equipment
         ' 
         MainetenanceCosttxtbox.BackColor = Color.Gray
         MainetenanceCosttxtbox.ForeColor = Color.White
-        MainetenanceCosttxtbox.Location = New Point(529, 459)
+        MainetenanceCosttxtbox.Location = New Point(452, 161)
+        MainetenanceCosttxtbox.Margin = New Padding(3, 2, 3, 2)
         MainetenanceCosttxtbox.Name = "MainetenanceCosttxtbox"
-        MainetenanceCosttxtbox.Size = New Size(200, 27)
+        MainetenanceCosttxtbox.Size = New Size(176, 23)
         MainetenanceCosttxtbox.TabIndex = 33
         ' 
         ' PurchasePlacetxtbox
         ' 
         PurchasePlacetxtbox.BackColor = Color.Gray
         PurchasePlacetxtbox.ForeColor = Color.White
-        PurchasePlacetxtbox.Location = New Point(529, 361)
+        PurchasePlacetxtbox.Location = New Point(157, 416)
+        PurchasePlacetxtbox.Margin = New Padding(3, 2, 3, 2)
         PurchasePlacetxtbox.Name = "PurchasePlacetxtbox"
-        PurchasePlacetxtbox.Size = New Size(200, 27)
+        PurchasePlacetxtbox.Size = New Size(176, 23)
         PurchasePlacetxtbox.TabIndex = 32
         ' 
         ' Brandtxtbox
         ' 
         Brandtxtbox.BackColor = Color.Gray
         Brandtxtbox.ForeColor = Color.White
-        Brandtxtbox.Location = New Point(529, 315)
+        Brandtxtbox.Location = New Point(157, 381)
+        Brandtxtbox.Margin = New Padding(3, 2, 3, 2)
         Brandtxtbox.Name = "Brandtxtbox"
-        Brandtxtbox.Size = New Size(200, 27)
+        Brandtxtbox.Size = New Size(176, 23)
         Brandtxtbox.TabIndex = 31
         ' 
         ' dtpDateofaPurchase
         ' 
-        dtpDateofaPurchase.Location = New Point(180, 438)
+        dtpDateofaPurchase.Location = New Point(158, 258)
+        dtpDateofaPurchase.Margin = New Padding(3, 2, 3, 2)
         dtpDateofaPurchase.Name = "dtpDateofaPurchase"
-        dtpDateofaPurchase.Size = New Size(200, 27)
+        dtpDateofaPurchase.Size = New Size(176, 23)
         dtpDateofaPurchase.TabIndex = 29
         ' 
         ' Typetxtbox
         ' 
         Typetxtbox.BackColor = Color.Gray
         Typetxtbox.ForeColor = Color.White
-        Typetxtbox.Location = New Point(180, 378)
+        Typetxtbox.Location = New Point(158, 214)
+        Typetxtbox.Margin = New Padding(3, 2, 3, 2)
         Typetxtbox.Name = "Typetxtbox"
         Typetxtbox.PlaceholderText = "Ex.Strength"
-        Typetxtbox.Size = New Size(200, 27)
+        Typetxtbox.Size = New Size(176, 23)
         Typetxtbox.TabIndex = 28
         ' 
         ' nametxtbox
         ' 
         nametxtbox.BackColor = Color.DimGray
         nametxtbox.ForeColor = Color.White
-        nametxtbox.Location = New Point(180, 316)
+        nametxtbox.Location = New Point(158, 167)
+        nametxtbox.Margin = New Padding(3, 2, 3, 2)
         nametxtbox.Name = "nametxtbox"
         nametxtbox.PlaceholderText = "ex. Dumbell"
-        nametxtbox.Size = New Size(200, 27)
+        nametxtbox.Size = New Size(176, 23)
         nametxtbox.TabIndex = 27
         ' 
         ' Label6
@@ -268,9 +281,9 @@ Partial Class Gym_Equipment
         Label6.AutoSize = True
         Label6.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
         Label6.ForeColor = Color.White
-        Label6.Location = New Point(412, 364)
+        Label6.Location = New Point(44, 419)
         Label6.Name = "Label6"
-        Label6.Size = New Size(111, 20)
+        Label6.Size = New Size(86, 15)
         Label6.TabIndex = 26
         Label6.Text = "Purchase Place"
         ' 
@@ -279,9 +292,9 @@ Partial Class Gym_Equipment
         Label5.AutoSize = True
         Label5.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
         Label5.ForeColor = Color.White
-        Label5.Location = New Point(412, 318)
+        Label5.Location = New Point(43, 384)
         Label5.Name = "Label5"
-        Label5.Size = New Size(50, 20)
+        Label5.Size = New Size(38, 15)
         Label5.TabIndex = 25
         Label5.Text = "Brand"
         ' 
@@ -290,9 +303,9 @@ Partial Class Gym_Equipment
         Label3.AutoSize = True
         Label3.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold)
         Label3.ForeColor = Color.White
-        Label3.Location = New Point(49, 443)
+        Label3.Location = New Point(43, 262)
         Label3.Name = "Label3"
-        Label3.Size = New Size(125, 20)
+        Label3.Size = New Size(97, 15)
         Label3.TabIndex = 23
         Label3.Text = "Date of Purchase"
         ' 
@@ -301,9 +314,9 @@ Partial Class Gym_Equipment
         Label2.AutoSize = True
         Label2.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.White
-        Label2.Location = New Point(49, 381)
+        Label2.Location = New Point(43, 216)
         Label2.Name = "Label2"
-        Label2.Size = New Size(41, 20)
+        Label2.Size = New Size(32, 15)
         Label2.TabIndex = 22
         Label2.Text = "Type"
         ' 
@@ -312,22 +325,23 @@ Partial Class Gym_Equipment
         Label1.AutoSize = True
         Label1.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.White
-        Label1.Location = New Point(49, 319)
+        Label1.Location = New Point(43, 169)
         Label1.Name = "Label1"
-        Label1.Size = New Size(87, 20)
+        Label1.Size = New Size(68, 15)
         Label1.TabIndex = 21
         Label1.Text = "Equipment:"
         ' 
         ' Gym_Equipment
         ' 
-        AutoScaleDimensions = New SizeF(8F, 20F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         Controls.Add(Panel1)
         ForeColor = Color.Aqua
-        MinimumSize = New Size(771, 661)
+        Margin = New Padding(3, 2, 3, 2)
+        MinimumSize = New Size(675, 496)
         Name = "Gym_Equipment"
-        Size = New Size(771, 661)
+        Size = New Size(675, 496)
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
         ResumeLayout(False)

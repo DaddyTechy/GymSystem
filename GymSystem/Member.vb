@@ -295,6 +295,7 @@ Public Class Member
 
     Private Sub RegisterBtn_Click(sender As Object, e As EventArgs) Handles RegisterBtn.Click
         Dim registerform As New JoinNow
+        registerform.WindowState = FormWindowState.Maximized
         registerform.Show()
         Hide()
     End Sub
