@@ -121,8 +121,14 @@ Public Class JoinNow
         Dim Email As New CustomBorder(EmailTxt)
         Me.Controls.Add(Email)
 
-        Dim Sex As New CustomBorder(SexTxt)
-        Me.Controls.Add(Sex)
+        ' Remove the old Sex TextBox border
+        ' Dim Sex As New CustomBorder(SexTxt)
+        ' Me.Controls.Add(Sex)
+
+        ' Add items to Sex ComboBox
+        SexTxt.Items.Clear()
+        SexTxt.Items.Add("Male")
+        SexTxt.Items.Add("Female")
 
         Dim Height As New CustomBorder(HeightTxt)
         Me.Controls.Add(Height)
@@ -412,10 +418,7 @@ Public Class JoinNow
             MessageBox.Show("First name is empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return False
         End If
-        If String.IsNullOrWhiteSpace(MiddleTxt.Text) Then
-            MessageBox.Show("Middle name is empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return False
-        End If
+        ' Remove middle name validation since it's optional
         If String.IsNullOrWhiteSpace(LastTxt.Text) Then
             MessageBox.Show("Last name is empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return False
@@ -475,6 +478,18 @@ Public Class JoinNow
             Return False
         End If
 
+        ' Update the Sex validation
+        If SexTxt.SelectedItem Is Nothing Then
+            MessageBox.Show("Please select your sex.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+
+        ' Update the zip code validation to allow manual input or selection
+        If String.IsNullOrWhiteSpace(CustomComboZip.Text) Then
+            MessageBox.Show("Zip code is empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+
         ' If all required fields are filled and selected, return True
         MessageBox.Show("All required fields are filled and selected.", "Validation Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Return True
@@ -488,9 +503,9 @@ Public Class JoinNow
 
                 Using transaction As MySqlTransaction = conn.BeginTransaction()
                     Try
-                        ' Insert into members table
+                        ' Update the members insert query to use the selected Sex value
                         Dim insertMembersQuery As String = "INSERT INTO `members`(`FirstName`, `MiddleName`, `LastName`, `Sex`, `DOB`, `Weight`, `Height`, `Province`, `City`, `Street`, `ZipCode`, `PhoneNumber`, `DTCreated`, `Status`, `Email`) " &
-                                                       "VALUES ('" & FirstTxt.Text & "', '" & MiddleTxt.Text & "', '" & LastTxt.Text & "', '" & SexTxt.Text & "', '" & CustomCalendar1.Value.ToString("yyyy-MM-dd") & "', '" & KgTxt.Text & "', '" & HeightTxt.Text & "', '" & CustomComboProvince.SelectedItem.ToString() & "', '" & CustomComboCity.SelectedItem.ToString() & "', '" & CustomComboStreet.SelectedItem.ToString() & "', '" & CustomComboZip.SelectedItem.ToString() & "', '" & ContactTxt.Text & "', '" & DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") & "', 'Active', '" & EmailTxt.Text & "')"
+                                                       "VALUES ('" & FirstTxt.Text & "', '" & MiddleTxt.Text & "', '" & LastTxt.Text & "', '" & SexTxt.SelectedItem.ToString() & "', '" & CustomCalendar1.Value.ToString("yyyy-MM-dd") & "', '" & KgTxt.Text & "', '" & HeightTxt.Text & "', '" & CustomComboProvince.SelectedItem.ToString() & "', '" & CustomComboCity.SelectedItem.ToString() & "', '" & CustomComboStreet.SelectedItem.ToString() & "', '" & CustomComboZip.Text & "', '" & ContactTxt.Text & "', '" & DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") & "', 'Active', '" & EmailTxt.Text & "')"
                         Debug.WriteLine($"Executing query: {insertMembersQuery}")
                         Using insertMembersCommand As New MySqlCommand(insertMembersQuery, conn, transaction)
                             insertMembersCommand.ExecuteNonQuery()
@@ -742,12 +757,24 @@ Public Class JoinNow
         If Not Char.IsDigit(e.KeyChar) AndAlso e.KeyChar <> "+"c AndAlso Not Char.IsControl(e.KeyChar) Then
             e.Handled = True ' Suppress the key press if it's not allowed
             MessageBox.Show("Only numbers and '+' are allowed.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
         End If
 
         ' Allow only one '+' at the beginning of the text
         If e.KeyChar = "+"c AndAlso (ContactTxt.Text.Length > 0 OrElse ContactTxt.Text.Contains("+")) Then
             e.Handled = True ' Suppress the key press if '+' is not at the start or already exists
             MessageBox.Show("The '+' sign can only be at the beginning.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+
+        ' Check for maximum length (11 digits + optional '+' at start)
+        Dim currentLength = ContactTxt.Text.Length
+        Dim hasPlus = ContactTxt.Text.StartsWith("+")
+        Dim maxDigits = If(hasPlus, 12, 11) ' Allow 12 chars if there's a '+', otherwise 11
+
+        If currentLength >= maxDigits AndAlso Not Char.IsControl(e.KeyChar) Then
+            e.Handled = True
+            MessageBox.Show("Phone number cannot exceed 11 digits.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End If
     End Sub
 
@@ -762,5 +789,34 @@ Public Class JoinNow
 
     End Sub
 
+    Private Sub HeightTxt_KeyPress(sender As Object, e As KeyPressEventArgs) Handles HeightTxt.KeyPress
+        ' Allow only digits, decimal point, and control keys
+        If Not Char.IsDigit(e.KeyChar) AndAlso e.KeyChar <> "."c AndAlso Not Char.IsControl(e.KeyChar) Then
+            e.Handled = True
+            MessageBox.Show("Only numbers and decimal point are allowed.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+
+        ' Allow only one decimal point
+        If e.KeyChar = "."c AndAlso HeightTxt.Text.Contains(".") Then
+            e.Handled = True
+            MessageBox.Show("Only one decimal point is allowed.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End If
+    End Sub
+
+    Private Sub KgTxt_KeyPress(sender As Object, e As KeyPressEventArgs) Handles KgTxt.KeyPress
+        ' Allow only digits, decimal point, and control keys
+        If Not Char.IsDigit(e.KeyChar) AndAlso e.KeyChar <> "."c AndAlso Not Char.IsControl(e.KeyChar) Then
+            e.Handled = True
+            MessageBox.Show("Only numbers and decimal point are allowed.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+
+        ' Allow only one decimal point
+        If e.KeyChar = "."c AndAlso KgTxt.Text.Contains(".") Then
+            e.Handled = True
+            MessageBox.Show("Only one decimal point is allowed.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End If
+    End Sub
 
 End Class

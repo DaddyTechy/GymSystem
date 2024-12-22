@@ -44,7 +44,7 @@ Partial Class JoinNow
         ContactLbl = New Label()
         FirstLbl = New Label()
         HeightTxt = New TextBox()
-        SexTxt = New TextBox()
+        SexTxt = New CustomComboBox()
         CPassTxt = New TextBox()
         PassTxt = New TextBox()
         KgTxt = New TextBox()
@@ -329,14 +329,19 @@ Partial Class JoinNow
         ' 
         SexTxt.Anchor = AnchorStyles.None
         SexTxt.BackColor = Color.Gray
-        SexTxt.BorderStyle = BorderStyle.None
-        SexTxt.Font = New Font("Segoe UI", 12.0F)
+        SexTxt.BgColor = Color.Gray
+        SexTxt.BorderColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        SexTxt.CustomForeColor = Color.Black
+        SexTxt.DrawMode = DrawMode.OwnerDrawFixed
+        SexTxt.FlatStyle = FlatStyle.Flat
         SexTxt.ForeColor = Color.White
+        SexTxt.FormattingEnabled = True
         SexTxt.Location = New Point(691, 250)
         SexTxt.Margin = New Padding(3, 2, 3, 2)
         SexTxt.Name = "SexTxt"
-        SexTxt.Size = New Size(99, 22)
+        SexTxt.Size = New Size(99, 24)
         SexTxt.TabIndex = 10
+        SexTxt.DropDownStyle = ComboBoxStyle.DropDownList
         ' 
         ' CPassTxt
         ' 
@@ -620,7 +625,7 @@ Partial Class JoinNow
     Friend WithEvents ContactLbl As Label
     Friend WithEvents FirstLbl As Label
     Friend WithEvents HeightTxt As TextBox
-    Friend WithEvents SexTxt As TextBox
+    Friend WithEvents SexTxt As CustomComboBox
     Friend WithEvents CPassTxt As TextBox
     Friend WithEvents PassTxt As TextBox
     Friend WithEvents KgTxt As TextBox
