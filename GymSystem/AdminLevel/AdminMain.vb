@@ -39,7 +39,6 @@ Public Class Staffmain
         AddHandler ReportsBtn.Click, AddressOf ReportsBtn_Click
         AddHandler DashboardBtn.Click, AddressOf DashboardBtn_Click
         AddHandler PaymentsBtn.Click, AddressOf PaymentsBtn_Click
-        AddHandler StaffMngmtBtn.Click, AddressOf StaffMngmtBtn_Click
         AddHandler othersBtn.Click, AddressOf othersBtn_Click
 
         ' Attach click event handlers for submenu buttons
@@ -290,9 +289,6 @@ Public Class Staffmain
         ToggleSubMenu(DashboardBtn, Nothing)
     End Sub
 
-    Private Sub StaffMngmtBtn_Click(sender As Object, e As EventArgs)
-        ToggleSubMenu(DashboardBtn, Nothing)
-    End Sub
 
     Private Sub othersBtn_Click(sender As Object, e As EventArgs)
         ToggleSubMenu(DashboardBtn, Nothing)
@@ -348,10 +344,6 @@ Public Class Staffmain
         ShowUserControl(New ContentRepMemRep)
     End Sub
 
-    Private Sub StaffMngmtBtn_Click_1(sender As Object, e As EventArgs)
-        ShowUserControl(New ContentStaffManage)
-    End Sub
-
     Public Sub AttenChckNBtn_Click(sender As Object, e As EventArgs) Handles AttenChckNBtn.Click
         SetActiveSubMenuButton(AttenChckNBtn)
         ShowUserControl(New ContentAttendance())
@@ -392,5 +384,13 @@ Public Class Staffmain
 
     Private Sub btnAnnouncement_Click(sender As Object, e As EventArgs) Handles btnAnnouncement.Click
         ShowUserControl(New ContentAnnouncement)
+    End Sub
+
+    Private Sub ContentPnl_Paint(sender As Object, e As PaintEventArgs) Handles ContentPnl.Paint
+
+    End Sub
+
+    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
+
     End Sub
 End Class

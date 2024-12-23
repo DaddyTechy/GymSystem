@@ -5,10 +5,11 @@ Public Class ContentStaffManage
     Private Sub LoadstaffData()
         Dim query As String = $"SELECT StaffID, FirstName, MiddleName, LastName, Position, Email, PhoneNumber, DATE_FORMAT(HireDate, '%Y-%m-%d') AS HireDate, Salary, ShiftSchedule, Certification, PerformanceRating, Specialization, Experience, DATE_FORMAT(DTCreated, '%Y-%m-%d %H:%i:%s') AS DTCreated FROM staff LIMIT {batchSize} OFFSET {currentOffset}"
         LoadToDGV(query, dgvStafflist)
-        SetDGVPropertiesForStaff(dgvStafflist)
+        SetDGVPropertiesForEquipment(dgvStaffList)
         RenameColumns(dgvStafflist)
     End Sub
-    Private Sub SetDGVPropertiesForStaff(dgv As DataGridView)
+
+    Private Sub SetDGVPropertiesForEquipment(dgv As DataGridView)
         Dim parentBackgroundColor As Color = Color.FromArgb(40, 40, 40)
         dgv.BackgroundColor = Color.FromArgb(20, 20, 20)
         dgv.DefaultCellStyle.ForeColor = Color.White
@@ -18,7 +19,15 @@ Public Class ContentStaffManage
 
         dgv.AllowUserToAddRows = False
         dgv.AllowUserToDeleteRows = False
-        dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells
+
+        ' Set AutoSizeColumnsMode to None to prevent wrapping
+        dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None
+
+        ' Set column widths as needed or allow horizontal scroll
+        For Each column As DataGridViewColumn In dgv.Columns
+            column.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        Next
+
         dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
         dgv.BorderStyle = BorderStyle.None
         dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
@@ -26,7 +35,7 @@ Public Class ContentStaffManage
         Dim columnHeaderStyle As New DataGridViewCellStyle()
         columnHeaderStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
         columnHeaderStyle.BackColor = Color.FromArgb(40, 40, 40)
-        columnHeaderStyle.Font = New Font("Segoe UI", 10.0F)
+        columnHeaderStyle.Font = New Font("Segoe UI", 14.0F, FontStyle.Bold)
         columnHeaderStyle.ForeColor = Color.White
         columnHeaderStyle.SelectionBackColor = Color.FromArgb(40, 40, 40)
         columnHeaderStyle.SelectionForeColor = SystemColors.HighlightText
@@ -38,11 +47,13 @@ Public Class ContentStaffManage
         Dim cellStyle As New DataGridViewCellStyle()
         cellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
         cellStyle.BackColor = Color.FromArgb(40, 40, 40)
-        cellStyle.Font = New Font("Segoe UI", 9.0F)
+        cellStyle.Font = New Font("Segoe UI", 12.0F)
         cellStyle.ForeColor = Color.White
         cellStyle.SelectionBackColor = SystemColors.Highlight
         cellStyle.SelectionForeColor = SystemColors.HighlightText
-        cellStyle.WrapMode = DataGridViewTriState.True
+
+        ' Prevent cell wrapping
+        cellStyle.WrapMode = DataGridViewTriState.False
         dgv.DefaultCellStyle = cellStyle
 
         dgv.Dock = DockStyle.Fill
@@ -63,25 +74,27 @@ Public Class ContentStaffManage
         dgv.RowHeadersDefaultCellStyle = rowHeaderStyle
 
         dgv.RowHeadersVisible = False
-        dgv.RowHeadersWidth = 51
+        dgv.RowHeadersWidth = 50
 
         Dim rowsStyle As New DataGridViewCellStyle()
         rowsStyle.BackColor = Color.FromArgb(40, 40, 40)
-        rowsStyle.Font = New Font("Segoe UI", 9.0F, FontStyle.Regular, GraphicsUnit.Point, 0)
+        rowsStyle.Font = New Font("Segoe UI", 15.0F, FontStyle.Bold, GraphicsUnit.Point, 0)
         rowsStyle.ForeColor = Color.White
         dgv.RowsDefaultCellStyle = rowsStyle
 
         dgv.RowTemplate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
         dgv.RowTemplate.DefaultCellStyle.BackColor = Color.FromArgb(40, 40, 40)
-        dgv.RowTemplate.DefaultCellStyle.Font = New Font("Microsoft Sans Serif", 9.0F)
+        dgv.RowTemplate.DefaultCellStyle.Font = New Font("Microsoft Sans Serif", 12.0F)
         dgv.RowTemplate.DefaultCellStyle.ForeColor = Color.White
-        dgv.RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
+        dgv.RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.False
+        dgv.RowTemplate.Height = 50
         dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect
         dgv.ShowCellErrors = False
         dgv.ShowRowErrors = False
 
         RenameColumns(dgv)
     End Sub
+
 
     Private Sub RenameColumns(dgv As DataGridView)
         dgv.Columns("StaffID").HeaderText = "Staff ID"
@@ -103,12 +116,8 @@ Public Class ContentStaffManage
 
     Private Sub ContentStaffManage_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         UpdateConnectionString()
-        InitializeDGV()
-    End Sub
-
-    Private Sub InitializeDGV()
         LoadstaffData()
-        ' Additional initialization code if needed
+        RenameColumns(dgvStaffList)
     End Sub
 
     Private gymStaffControl As ContentStaffManageForm
@@ -142,12 +151,14 @@ Public Class ContentStaffManage
         Debug.WriteLine("Gym_Staff control is now visible.")
     End Sub
 
-    Private Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
+
+
+    Private Sub btnNext_Click_1(sender As Object, e As EventArgs) Handles btnNext.Click
         currentOffset += batchSize
         LoadstaffData()
     End Sub
 
-    Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
+    Private Sub btnBack_Click_1(sender As Object, e As EventArgs) Handles btnBack.Click
         If currentOffset >= batchSize Then
             currentOffset -= batchSize
         Else

@@ -12,6 +12,7 @@ Public Class Admin
     Private hoverDarkenAmount As Single = 0.7
 
     Private Sub Admin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        AdminRole.SelectedIndex = 1
         ' Create a main panel to hold all controls
         Dim mainPanel As New Panel()
         mainPanel.Size = New Size(925, 580)
@@ -322,4 +323,6 @@ Public Class Admin
         ShowUserControlInForm(AdminMain, "Admin Main")
         Me.Hide()
     End Sub
+
+
 End Class

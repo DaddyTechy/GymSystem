@@ -122,6 +122,7 @@ Public Class newAdminform
         InsertIntoAdminLogin(values)
 
         MessageBox.Show("New admin account created successfully.")
+        Me.Close()
     End Sub
 
     Private Sub btnSubmit_Click(sender As Object, e As EventArgs) Handles btnSubmit.Click

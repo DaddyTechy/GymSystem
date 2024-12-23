@@ -46,6 +46,7 @@ Partial Class ContentStaffManageForm
         txtbxSEFMname = New TextBox()
         txtbxSEFFname = New TextBox()
         Label3 = New Label()
+        btnBack = New Button()
         SuspendLayout()
         ' 
         ' btnSubmitSEF
@@ -317,12 +318,26 @@ Partial Class ContentStaffManageForm
         Label3.TabIndex = 32
         Label3.Text = "Full Name (FN*, MI/MN*, LN*)"
         ' 
+        ' btnBack
+        ' 
+        btnBack.BackColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        btnBack.FlatStyle = FlatStyle.Popup
+        btnBack.Font = New Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnBack.ForeColor = SystemColors.ActiveCaptionText
+        btnBack.Location = New Point(191, 45)
+        btnBack.Name = "btnBack"
+        btnBack.Size = New Size(74, 39)
+        btnBack.TabIndex = 99
+        btnBack.Text = "Back"
+        btnBack.UseVisualStyleBackColor = False
+        ' 
         ' ContentStaffManageForm
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(29), CByte(29), CByte(29))
         ClientSize = New Size(1037, 711)
+        Controls.Add(btnBack)
         Controls.Add(btnSubmitSEF)
         Controls.Add(DTPSEFhiredate)
         Controls.Add(Label2)
@@ -379,4 +394,5 @@ Partial Class ContentStaffManageForm
     Friend WithEvents txtbxSEFMname As TextBox
     Friend WithEvents txtbxSEFFname As TextBox
     Friend WithEvents Label3 As Label
+    Friend WithEvents btnBack As Button
 End Class

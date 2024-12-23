@@ -41,11 +41,11 @@ Partial Class Equipmentlist
         Label2.Dock = DockStyle.Top
         Label2.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.White
-        Label2.Location = New Point(20, 37)
-        Label2.Margin = New Padding(3, 0, 3, 10)
+        Label2.Location = New Point(23, 50)
+        Label2.Margin = New Padding(3, 0, 3, 13)
         Label2.Name = "Label2"
-        Label2.Padding = New Padding(0, 5, 0, 10)
-        Label2.Size = New Size(124, 36)
+        Label2.Padding = New Padding(0, 7, 0, 13)
+        Label2.Size = New Size(153, 48)
         Label2.TabIndex = 4
         Label2.Text = "Equipment List"
         Label2.TextAlign = ContentAlignment.MiddleCenter
@@ -56,10 +56,10 @@ Partial Class Equipmentlist
         Label1.Dock = DockStyle.Top
         Label1.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.Gold
-        Label1.Location = New Point(20, 20)
+        Label1.Location = New Point(23, 27)
         Label1.Name = "Label1"
         Label1.Padding = New Padding(2, 0, 0, 0)
-        Label1.Size = New Size(103, 17)
+        Label1.Size = New Size(133, 23)
         Label1.TabIndex = 5
         Label1.Text = "Equipment List"
         ' 
@@ -70,10 +70,9 @@ Partial Class Equipmentlist
         AddEquipment.FlatStyle = FlatStyle.Popup
         AddEquipment.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         AddEquipment.ForeColor = Color.White
-        AddEquipment.Location = New Point(639, 23)
-        AddEquipment.Margin = New Padding(3, 2, 3, 2)
+        AddEquipment.Location = New Point(730, 31)
         AddEquipment.Name = "AddEquipment"
-        AddEquipment.Size = New Size(110, 22)
+        AddEquipment.Size = New Size(126, 29)
         AddEquipment.TabIndex = 6
         AddEquipment.Text = "Add Equipment"
         AddEquipment.UseVisualStyleBackColor = False
@@ -83,9 +82,10 @@ Partial Class Equipmentlist
         Panel1.Controls.Add(dgvEquipmentList)
         Panel1.Controls.Add(Panel2)
         Panel1.Dock = DockStyle.Fill
-        Panel1.Location = New Point(20, 73)
+        Panel1.Location = New Point(23, 98)
+        Panel1.Margin = New Padding(3, 4, 3, 4)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(772, 318)
+        Panel1.Size = New Size(882, 423)
         Panel1.TabIndex = 7
         ' 
         ' dgvEquipmentList
@@ -93,9 +93,11 @@ Partial Class Equipmentlist
         dgvEquipmentList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         dgvEquipmentList.Dock = DockStyle.Fill
         dgvEquipmentList.Location = New Point(0, 0)
+        dgvEquipmentList.Margin = New Padding(3, 4, 3, 4)
         dgvEquipmentList.Name = "dgvEquipmentList"
         dgvEquipmentList.ReadOnly = True
-        dgvEquipmentList.Size = New Size(772, 296)
+        dgvEquipmentList.RowHeadersWidth = 51
+        dgvEquipmentList.Size = New Size(882, 394)
         dgvEquipmentList.TabIndex = 10
         ' 
         ' Panel2
@@ -103,9 +105,10 @@ Partial Class Equipmentlist
         Panel2.Controls.Add(btnBack)
         Panel2.Controls.Add(btnNext)
         Panel2.Dock = DockStyle.Bottom
-        Panel2.Location = New Point(0, 296)
+        Panel2.Location = New Point(0, 394)
+        Panel2.Margin = New Padding(3, 4, 3, 4)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(772, 22)
+        Panel2.Size = New Size(882, 29)
         Panel2.TabIndex = 9
         ' 
         ' btnBack
@@ -115,8 +118,9 @@ Partial Class Equipmentlist
         btnBack.FlatStyle = FlatStyle.Popup
         btnBack.ForeColor = SystemColors.ControlLightLight
         btnBack.Location = New Point(0, 0)
+        btnBack.Margin = New Padding(3, 4, 3, 4)
         btnBack.Name = "btnBack"
-        btnBack.Size = New Size(49, 22)
+        btnBack.Size = New Size(56, 29)
         btnBack.TabIndex = 10
         btnBack.Text = "Back"
         btnBack.UseVisualStyleBackColor = False
@@ -127,26 +131,26 @@ Partial Class Equipmentlist
         btnNext.Dock = DockStyle.Right
         btnNext.FlatStyle = FlatStyle.Popup
         btnNext.ForeColor = SystemColors.ControlLightLight
-        btnNext.Location = New Point(723, 0)
+        btnNext.Location = New Point(826, 0)
+        btnNext.Margin = New Padding(3, 4, 3, 4)
         btnNext.Name = "btnNext"
-        btnNext.Size = New Size(49, 22)
+        btnNext.Size = New Size(56, 29)
         btnNext.TabIndex = 9
         btnNext.Text = "Next"
         btnNext.UseVisualStyleBackColor = False
         ' 
         ' Equipmentlist
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         Controls.Add(Panel1)
         Controls.Add(AddEquipment)
         Controls.Add(Label2)
         Controls.Add(Label1)
-        Margin = New Padding(3, 2, 3, 2)
         Name = "Equipmentlist"
-        Padding = New Padding(20)
-        Size = New Size(812, 411)
+        Padding = New Padding(23, 27, 23, 27)
+        Size = New Size(928, 548)
         Panel1.ResumeLayout(False)
         CType(dgvEquipmentList, ComponentModel.ISupportInitialize).EndInit()
         Panel2.ResumeLayout(False)

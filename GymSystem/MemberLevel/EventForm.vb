@@ -105,8 +105,7 @@ Partial Class EventForm
         ' Raise the event for saving to database
         SaveEventToDatabase(newEventForDatabase)
 
-        ' Close the form
-        Parent.Controls.Remove(Me)
+
     End Sub
 
     Private Function IsDiamondMember(memberID As Integer) As Boolean
@@ -157,6 +156,7 @@ Partial Class EventForm
     Private Sub InitializeComponents()
         InitializeComboBoxes()
         InitializeDateTimePickers()
+        txtReservationNotes.ReadOnly = False
     End Sub
 
     Private Sub InitializeComboBoxes()
@@ -339,6 +339,8 @@ Partial Class EventForm
             MsgBox(ex.Message, MsgBoxStyle.Critical)
         End Try
     End Sub
+
+
 End Class
 
 

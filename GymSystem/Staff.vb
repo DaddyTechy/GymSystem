@@ -156,6 +156,7 @@ Public Class Staff
                 ' Show the main staff form
                 Dim staffMain As New Staffmain()
                 staffMain.ConfigureMenu("Staff")
+                staffMain.Label1.Text = "Welcome Staff"
                 ShowUserControlInForm(staffMain, "Staff Main")
                 Me.Hide()
                 Logs($"staff with ID: {CurrentLoggedUser.id} logged in", "stafflogin")

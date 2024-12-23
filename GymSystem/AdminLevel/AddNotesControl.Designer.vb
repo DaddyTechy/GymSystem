@@ -36,19 +36,20 @@ Partial Class AddNotesControl
         ' 
         txtNoteDetails.BackColor = Color.DarkGray
         txtNoteDetails.BorderStyle = BorderStyle.FixedSingle
-        txtNoteDetails.Location = New Point(101, 70)
+        txtNoteDetails.Location = New Point(115, 93)
+        txtNoteDetails.Margin = New Padding(3, 4, 3, 4)
         txtNoteDetails.Multiline = True
         txtNoteDetails.Name = "txtNoteDetails"
-        txtNoteDetails.Size = New Size(257, 64)
+        txtNoteDetails.Size = New Size(293, 85)
         txtNoteDetails.TabIndex = 0
         ' 
         ' Label1
         ' 
         Label1.AutoSize = True
         Label1.ForeColor = SystemColors.Control
-        Label1.Location = New Point(101, 52)
+        Label1.Location = New Point(115, 69)
         Label1.Name = "Label1"
-        Label1.Size = New Size(71, 15)
+        Label1.Size = New Size(92, 20)
         Label1.TabIndex = 1
         Label1.Text = "Note Details"
         ' 
@@ -56,9 +57,9 @@ Partial Class AddNotesControl
         ' 
         Label2.AutoSize = True
         Label2.ForeColor = SystemColors.Control
-        Label2.Location = New Point(101, 146)
+        Label2.Location = New Point(115, 195)
         Label2.Name = "Label2"
-        Label2.Size = New Size(44, 15)
+        Label2.Size = New Size(54, 20)
         Label2.TabIndex = 3
         Label2.Text = "Author"
         ' 
@@ -66,27 +67,29 @@ Partial Class AddNotesControl
         ' 
         txtAuthor.BackColor = Color.DarkGray
         txtAuthor.BorderStyle = BorderStyle.FixedSingle
-        txtAuthor.Location = New Point(101, 164)
+        txtAuthor.Location = New Point(115, 219)
+        txtAuthor.Margin = New Padding(3, 4, 3, 4)
         txtAuthor.Name = "txtAuthor"
         txtAuthor.PlaceholderText = "Current User"
         txtAuthor.ReadOnly = True
-        txtAuthor.Size = New Size(257, 23)
+        txtAuthor.Size = New Size(293, 27)
         txtAuthor.TabIndex = 2
         ' 
         ' dtpDateAdded
         ' 
-        dtpDateAdded.Location = New Point(101, 222)
+        dtpDateAdded.Location = New Point(115, 296)
+        dtpDateAdded.Margin = New Padding(3, 4, 3, 4)
         dtpDateAdded.Name = "dtpDateAdded"
-        dtpDateAdded.Size = New Size(200, 23)
+        dtpDateAdded.Size = New Size(228, 27)
         dtpDateAdded.TabIndex = 4
         ' 
         ' Label3
         ' 
         Label3.AutoSize = True
         Label3.ForeColor = SystemColors.Control
-        Label3.Location = New Point(101, 204)
+        Label3.Location = New Point(115, 272)
         Label3.Name = "Label3"
-        Label3.Size = New Size(31, 15)
+        Label3.Size = New Size(41, 20)
         Label3.TabIndex = 5
         Label3.Text = "Date"
         ' 
@@ -95,9 +98,10 @@ Partial Class AddNotesControl
         btnSaveNote.BackColor = Color.Gold
         btnSaveNote.FlatStyle = FlatStyle.Flat
         btnSaveNote.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnSaveNote.Location = New Point(101, 266)
+        btnSaveNote.Location = New Point(391, 19)
+        btnSaveNote.Margin = New Padding(3, 4, 3, 4)
         btnSaveNote.Name = "btnSaveNote"
-        btnSaveNote.Size = New Size(75, 23)
+        btnSaveNote.Size = New Size(86, 31)
         btnSaveNote.TabIndex = 6
         btnSaveNote.Text = "Save"
         btnSaveNote.UseVisualStyleBackColor = False
@@ -108,16 +112,17 @@ Partial Class AddNotesControl
         Button1.FlatStyle = FlatStyle.Popup
         Button1.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Button1.ForeColor = Color.White
-        Button1.Location = New Point(24, 14)
+        Button1.Location = New Point(27, 19)
+        Button1.Margin = New Padding(3, 4, 3, 4)
         Button1.Name = "Button1"
-        Button1.Size = New Size(75, 23)
+        Button1.Size = New Size(86, 31)
         Button1.TabIndex = 7
         Button1.Text = "Back"
         Button1.UseVisualStyleBackColor = False
         ' 
         ' AddNotesControl
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         Controls.Add(Button1)
@@ -128,8 +133,9 @@ Partial Class AddNotesControl
         Controls.Add(txtAuthor)
         Controls.Add(Label1)
         Controls.Add(txtNoteDetails)
+        Margin = New Padding(3, 4, 3, 4)
         Name = "AddNotesControl"
-        Size = New Size(470, 328)
+        Size = New Size(537, 437)
         ResumeLayout(False)
         PerformLayout()
     End Sub

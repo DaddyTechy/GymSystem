@@ -2,14 +2,22 @@
 Imports Org.BouncyCastle.Asn1.Cmp
 
 Public Class ContentPayment
-    Private Sub LoadPaymentData()
-        Dim query As String = "SELECT p.PaymentID, p.MemberID, p.ReservationFee, p.MembershipCost, p.PaymentDate, p.Amount, p.PaymentMethod, p.PaymentStatus, p.InvoiceNumber, p.PaymentDescription, p.DiscountApplied, p.TaxAmount, p.TotalAmount, p.ReceiptNumber, p.PaymentNotes, p.MembershipID " &
-                          "FROM payment p " &
-                          "JOIN members m ON p.MemberID = m.MemberID"
-        LoadToDGV(query, dgvPayment)
-        SetDGVProperties(dgvPayment)
+    Private currentOffset As Integer = 0
+    Private Const batchSize As Integer = 25
 
+    Private Sub LoadPaymentData()
+        ' Corrected query with proper LIMIT and OFFSET placement
+        Dim query As String = "SELECT p.PaymentID, p.MemberID, p.ReservationFee, p.MembershipCost, p.PaymentDate, p.Amount, p.PaymentMethod, p.PaymentStatus, p.InvoiceNumber, p.PaymentDescription, p.DiscountApplied, p.TaxAmount, p.TotalAmount, p.ReceiptNumber, p.PaymentNotes, p.MembershipID " &
+                      "FROM payment p " &
+                      "JOIN members m ON p.MemberID = m.MemberID " &
+                      $"LIMIT {batchSize} OFFSET {currentOffset}"
+
+        ' Load data to DataGridView
+        LoadToDGV(query, dgvPayment)
+        ' Set DataGridView properties
+        SetDGVProperties(dgvPayment)
     End Sub
+
 
     Private Sub SetDGVProperties(dgv As DataGridView)
         Dim parentBackgroundColor As Color = Color.FromArgb(40, 40, 40)
@@ -340,6 +348,20 @@ Public Class ContentPayment
 
     Private Sub Label2_Click(sender As Object, e As EventArgs) Handles Label2.Click
 
+    End Sub
+
+    Private Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
+        currentOffset += batchSize
+        LoadPaymentData()
+    End Sub
+
+    Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
+        If currentOffset >= batchSize Then
+            currentOffset -= batchSize
+        Else
+            currentOffset = 0
+        End If
+        LoadPaymentData()
     End Sub
 End Class
 

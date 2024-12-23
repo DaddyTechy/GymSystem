@@ -749,14 +749,14 @@ Public Class memberProfileControl
             Dim reservationStatus As String = row.Cells("ReservationStatus").Value.ToString().Trim()
             Dim purpose As String = row.Cells("Purpose").Value.ToString().Trim()
             Dim reservationNotes As String = row.Cells("ReservationNotes").Value.ToString().Trim()
-            Dim cancellation As Boolean
-            Dim reschedule As Boolean
+            Dim cancellation As String = row.Cells("Cancellation").Value.ToString().Trim().ToLower()
+            Dim reschedule As String = row.Cells("Reschedule").Value.ToString().Trim().ToLower()
             Dim paymentStatus As String = row.Cells("PaymentStatus").Value.ToString().Trim()
             Dim feedback As String = row.Cells("Feedback").Value.ToString().Trim()
             Dim reservationFee As Decimal
 
             ' Check for blank or space-only values
-            If String.IsNullOrWhiteSpace(equipmentName) OrElse String.IsNullOrWhiteSpace(staffName) OrElse String.IsNullOrWhiteSpace(reservationStatus) OrElse String.IsNullOrWhiteSpace(purpose) OrElse String.IsNullOrWhiteSpace(reservationNotes) OrElse String.IsNullOrWhiteSpace(paymentStatus) OrElse String.IsNullOrWhiteSpace(feedback) Then
+            If String.IsNullOrWhiteSpace(equipmentName) OrElse String.IsNullOrWhiteSpace(staffName) OrElse String.IsNullOrWhiteSpace(reservationStatus) OrElse String.IsNullOrWhiteSpace(purpose) OrElse String.IsNullOrWhiteSpace(paymentStatus) Then
                 MessageBox.Show("Fields cannot be blank or contain only spaces.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Return
             End If
@@ -781,16 +781,6 @@ Public Class memberProfileControl
                 Return
             End If
 
-            ' Validate boolean values
-            If Not Boolean.TryParse(row.Cells("Cancellation").Value.ToString(), cancellation) Then
-                MessageBox.Show("Invalid value for Cancellation.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Return
-            End If
-            If Not Boolean.TryParse(row.Cells("Reschedule").Value.ToString(), reschedule) Then
-                MessageBox.Show("Invalid value for Reschedule.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Return
-            End If
-
             ' Validate decimal format
             If Not Decimal.TryParse(row.Cells("ReservationFee").Value.ToString(), reservationFee) Then
                 MessageBox.Show("Invalid format for Reservation Fee.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -800,6 +790,10 @@ Public Class memberProfileControl
             ' Retrieve equipment and staff IDs
             Dim equipmentID As Integer = ValidateEquipmentID(equipmentName)
             Dim staffID As Integer = ValidateStaffID(staffName)
+
+            ' Convert string "yes"/"no" to boolean values
+            Dim cancellationBool As Boolean = (cancellation = "yes")
+            Dim rescheduleBool As Boolean = (reschedule = "yes")
 
             ' Update the reservation table with the edited values
             Dim updateQuery As String = $"UPDATE reservation SET " &
@@ -812,8 +806,8 @@ Public Class memberProfileControl
                                     $"ReservationStatus = '{reservationStatus}', " &
                                     $"Purpose = '{purpose}', " &
                                     $"ReservationNotes = '{reservationNotes}', " &
-                                    $"Cancellation = {cancellation}, " &
-                                    $"Reschedule = {reschedule}, " &
+                                    $"Cancellation = {cancellationBool}, " &
+                                    $"Reschedule = {rescheduleBool}, " &
                                     $"PaymentStatus = '{paymentStatus}', " &
                                     $"Feedback = '{feedback}', " &
                                     $"ReservationFee = {reservationFee} " &
@@ -823,6 +817,7 @@ Public Class memberProfileControl
             MessageBox.Show($"Error saving reservation: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
 
     Private Function ValidateInteger(value As Object, fieldName As String) As Integer
         Dim result As Integer
@@ -973,6 +968,7 @@ Public Class memberProfileControl
 
         Return newPaymentID
     End Function
+
 
 End Class
 

@@ -155,7 +155,7 @@ Public Class ContentAnnouncement
         addNotesControl.Location = New Point(centerX, centerY)
 
         ' Set the size of the AddNotesControl
-        addNotesControl.Size = New Size(400, 400) ' Set the desired size
+        addNotesControl.Size = New Size(400, 550) ' Set the desired size
 
         ' Add the AddNotesControl to the form
         Controls.Add(addNotesControl)

@@ -30,19 +30,21 @@ Partial Class ContentMemEntryForm
         panelContainer.BackColor = Color.Transparent
         panelContainer.Dock = DockStyle.Fill
         panelContainer.Location = New Point(0, 0)
+        panelContainer.Margin = New Padding(3, 4, 3, 4)
         panelContainer.Name = "panelContainer"
-        panelContainer.Size = New Size(675, 496)
+        panelContainer.Size = New Size(771, 661)
         panelContainer.TabIndex = 0
         ' 
         ' ContentMemEntryForm
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.Transparent
         Controls.Add(panelContainer)
-        MinimumSize = New Size(675, 496)
+        Margin = New Padding(3, 4, 3, 4)
+        MinimumSize = New Size(771, 661)
         Name = "ContentMemEntryForm"
-        Size = New Size(675, 496)
+        Size = New Size(771, 661)
         ResumeLayout(False)
     End Sub
 

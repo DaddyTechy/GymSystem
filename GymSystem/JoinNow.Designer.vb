@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class JoinNow
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -44,7 +44,7 @@ Partial Class JoinNow
         ContactLbl = New Label()
         FirstLbl = New Label()
         HeightTxt = New TextBox()
-        SexTxt = New TextBox()
+        SexTxt = New CustomComboBox()
         CPassTxt = New TextBox()
         PassTxt = New TextBox()
         KgTxt = New TextBox()
@@ -317,7 +317,7 @@ Partial Class JoinNow
         HeightTxt.Anchor = AnchorStyles.None
         HeightTxt.BackColor = Color.Gray
         HeightTxt.BorderStyle = BorderStyle.None
-        HeightTxt.Font = New Font("Segoe UI", 12F)
+        HeightTxt.Font = New Font("Segoe UI", 12.0F)
         HeightTxt.ForeColor = Color.White
         HeightTxt.Location = New Point(691, 302)
         HeightTxt.Margin = New Padding(3, 2, 3, 2)
@@ -329,21 +329,26 @@ Partial Class JoinNow
         ' 
         SexTxt.Anchor = AnchorStyles.None
         SexTxt.BackColor = Color.Gray
-        SexTxt.BorderStyle = BorderStyle.None
-        SexTxt.Font = New Font("Segoe UI", 12F)
+        SexTxt.BgColor = Color.Gray
+        SexTxt.BorderColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        SexTxt.CustomForeColor = Color.Black
+        SexTxt.DrawMode = DrawMode.OwnerDrawFixed
+        SexTxt.FlatStyle = FlatStyle.Flat
         SexTxt.ForeColor = Color.White
+        SexTxt.FormattingEnabled = True
         SexTxt.Location = New Point(691, 250)
         SexTxt.Margin = New Padding(3, 2, 3, 2)
         SexTxt.Name = "SexTxt"
-        SexTxt.Size = New Size(99, 22)
+        SexTxt.Size = New Size(99, 24)
         SexTxt.TabIndex = 10
+        SexTxt.DropDownStyle = ComboBoxStyle.DropDownList
         ' 
         ' CPassTxt
         ' 
         CPassTxt.Anchor = AnchorStyles.None
         CPassTxt.BackColor = Color.Gray
         CPassTxt.BorderStyle = BorderStyle.None
-        CPassTxt.Font = New Font("Segoe UI", 12F)
+        CPassTxt.Font = New Font("Segoe UI", 12.0F)
         CPassTxt.ForeColor = Color.White
         CPassTxt.Location = New Point(331, 352)
         CPassTxt.Margin = New Padding(3, 2, 3, 2)
@@ -356,7 +361,7 @@ Partial Class JoinNow
         PassTxt.Anchor = AnchorStyles.None
         PassTxt.BackColor = Color.Gray
         PassTxt.BorderStyle = BorderStyle.None
-        PassTxt.Font = New Font("Segoe UI", 12F)
+        PassTxt.Font = New Font("Segoe UI", 12.0F)
         PassTxt.ForeColor = Color.White
         PassTxt.Location = New Point(90, 352)
         PassTxt.Margin = New Padding(3, 2, 3, 2)
@@ -369,7 +374,7 @@ Partial Class JoinNow
         KgTxt.Anchor = AnchorStyles.None
         KgTxt.BackColor = Color.Gray
         KgTxt.BorderStyle = BorderStyle.None
-        KgTxt.Font = New Font("Segoe UI", 12F)
+        KgTxt.Font = New Font("Segoe UI", 12.0F)
         KgTxt.ForeColor = Color.White
         KgTxt.Location = New Point(571, 302)
         KgTxt.Margin = New Padding(3, 2, 3, 2)
@@ -382,7 +387,7 @@ Partial Class JoinNow
         ContactTxt.Anchor = AnchorStyles.None
         ContactTxt.BackColor = Color.Gray
         ContactTxt.BorderStyle = BorderStyle.None
-        ContactTxt.Font = New Font("Segoe UI", 12F)
+        ContactTxt.Font = New Font("Segoe UI", 12.0F)
         ContactTxt.ForeColor = Color.White
         ContactTxt.Location = New Point(90, 202)
         ContactTxt.Margin = New Padding(3, 2, 3, 2)
@@ -395,7 +400,7 @@ Partial Class JoinNow
         EmailTxt.Anchor = AnchorStyles.None
         EmailTxt.BackColor = Color.Gray
         EmailTxt.BorderStyle = BorderStyle.None
-        EmailTxt.Font = New Font("Segoe UI", 12F)
+        EmailTxt.Font = New Font("Segoe UI", 12.0F)
         EmailTxt.ForeColor = Color.White
         EmailTxt.Location = New Point(331, 202)
         EmailTxt.Margin = New Padding(3, 2, 3, 2)
@@ -408,7 +413,7 @@ Partial Class JoinNow
         FirstTxt.Anchor = AnchorStyles.None
         FirstTxt.BackColor = Color.Gray
         FirstTxt.BorderStyle = BorderStyle.None
-        FirstTxt.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        FirstTxt.Font = New Font("Segoe UI", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         FirstTxt.ForeColor = Color.White
         FirstTxt.Location = New Point(90, 152)
         FirstTxt.Margin = New Padding(3, 2, 3, 2)
@@ -421,7 +426,7 @@ Partial Class JoinNow
         MiddleTxt.Anchor = AnchorStyles.None
         MiddleTxt.BackColor = Color.Gray
         MiddleTxt.BorderStyle = BorderStyle.None
-        MiddleTxt.Font = New Font("Segoe UI", 12F)
+        MiddleTxt.Font = New Font("Segoe UI", 12.0F)
         MiddleTxt.ForeColor = Color.White
         MiddleTxt.Location = New Point(331, 152)
         MiddleTxt.Margin = New Padding(3, 2, 3, 2)
@@ -434,7 +439,7 @@ Partial Class JoinNow
         LastTxt.Anchor = AnchorStyles.None
         LastTxt.BackColor = Color.Gray
         LastTxt.BorderStyle = BorderStyle.None
-        LastTxt.Font = New Font("Segoe UI", 12F)
+        LastTxt.Font = New Font("Segoe UI", 12.0F)
         LastTxt.ForeColor = Color.White
         LastTxt.Location = New Point(571, 152)
         LastTxt.Margin = New Padding(3, 2, 3, 2)
@@ -550,7 +555,7 @@ Partial Class JoinNow
         ' 
         ' JoinNow
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(28), CByte(28), CByte(28))
         ClientSize = New Size(880, 541)
@@ -620,7 +625,7 @@ Partial Class JoinNow
     Friend WithEvents ContactLbl As Label
     Friend WithEvents FirstLbl As Label
     Friend WithEvents HeightTxt As TextBox
-    Friend WithEvents SexTxt As TextBox
+    Friend WithEvents SexTxt As CustomComboBox
     Friend WithEvents CPassTxt As TextBox
     Friend WithEvents PassTxt As TextBox
     Friend WithEvents KgTxt As TextBox

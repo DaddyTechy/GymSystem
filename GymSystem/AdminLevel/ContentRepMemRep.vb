@@ -13,6 +13,8 @@ Public Class ContentRepMemRep
         btnApplyBatchSize.Visible = False
         txtBatchSize.Visible = False
         Label4.Visible = False
+        btnBack.Visible = False
+        btnNext.Visible = False
         FormatDataGridView()
     End Sub
 
@@ -162,9 +164,13 @@ Public Class ContentRepMemRep
 
     Private Sub ReloadData(query As String, reportPath As String)
         DateTimePicker1.Visible = False
+        DateTimePicker2.Visible = False
+        DateTimePicker3.Visible = False
         btnApplyBatchSize.Visible = True
         txtBatchSize.Visible = True
         Label4.Visible = True
+        btnBack.Visible = True
+        btnNext.Visible = True
         LoadData(query)
 
         Dim adminID As String = CurrentLoggedUser.id
@@ -187,21 +193,7 @@ Public Class ContentRepMemRep
         BindReport(reportPath)
     End Sub
 
-    Private Sub btnNext_Click(sender As Object, e As EventArgs)
-        batchSize += 25 ' Increase the limit by 25
-        If lastClickedButton IsNot Nothing Then
-            lastClickedButton.PerformClick
-        End If
-    End Sub
 
-    Private Sub btnBack_Click(sender As Object, e As EventArgs)
-        If batchSize > 25 Then
-            batchSize -= 25 ' Decrease the limit by 25
-        End If
-        If lastClickedButton IsNot Nothing Then
-            lastClickedButton.PerformClick
-        End If
-    End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click, Button1.Click
         lastClickedButton = Button1
@@ -223,19 +215,7 @@ Public Class ContentRepMemRep
         ReloadData($"SELECT MembershipID, MemberID, MemberShipName, Duration, Cost, Benefits, StartDate, EndDate, DiscountAvailable, CancelationPolicy, RenewalPolicy, TrainingSession, LockerAccess, MembershipType FROM membership LIMIT {batchSize} OFFSET 0", "..\..\..\AdminLevel\Reports\Report4.rdlc")
     End Sub
 
-    Private Sub btnApplyBatchSize_Click(sender As Object, e As EventArgs)
-        Dim userInput = txtBatchSize.Text
-        Dim newBatchSize As Integer
-        If Integer.TryParse(userInput, newBatchSize) AndAlso newBatchSize > 0 Then
-            batchSize = newBatchSize
-            currentOffset = 0 ' Reset the offset when batch size changes
-            If lastClickedButton IsNot Nothing Then
-                lastClickedButton.PerformClick
-            End If
-        Else
-            MessageBox.Show("Please enter a valid positive number for batch size.")
-        End If
-    End Sub
+
 
     Private Sub FormatDataGridView()
         ' Set the background color to match the form's background color
@@ -251,5 +231,35 @@ Public Class ContentRepMemRep
         ' Auto size columns and rows
         DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         DataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
+    End Sub
+
+    Private Sub btnBack_Click_1(sender As Object, e As EventArgs) Handles btnBack.Click
+        If batchSize > 25 Then
+            batchSize -= 25 ' Decrease the limit by 25
+        End If
+        If lastClickedButton IsNot Nothing Then
+            lastClickedButton.PerformClick()
+        End If
+    End Sub
+
+    Private Sub btnNext_Click_1(sender As Object, e As EventArgs) Handles btnNext.Click
+        batchSize += 25 ' Increase the limit by 25
+        If lastClickedButton IsNot Nothing Then
+            lastClickedButton.PerformClick()
+        End If
+    End Sub
+
+    Private Sub btnApplyBatchSize_Click_1(sender As Object, e As EventArgs) Handles btnApplyBatchSize.Click
+        Dim userInput = txtBatchSize.Text
+        Dim newBatchSize As Integer
+        If Integer.TryParse(userInput, newBatchSize) AndAlso newBatchSize > 0 Then
+            batchSize = newBatchSize
+            currentOffset = 0 ' Reset the offset when batch size changes
+            If lastClickedButton IsNot Nothing Then
+                lastClickedButton.PerformClick()
+            End If
+        Else
+            MessageBox.Show("Please enter a valid positive number for batch size.")
+        End If
     End Sub
 End Class
