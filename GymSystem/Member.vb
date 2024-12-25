@@ -351,15 +351,6 @@ Public Class Member
         End Using
     End Function
 
-
-    Private Sub UpdateMembershipStatus()
-        Using conn As New MySqlConnection(strConnection)
-            conn.Open()
-            Dim cmd As New MySqlCommand("CALL UpdateMembershipStatus()", conn)
-            cmd.ExecuteNonQuery()
-        End Using
-    End Sub
-
     Private Function AuthenticateMember(memberID As Integer, password As String) As MemberUser
         UpdateConnectionString()
         Try

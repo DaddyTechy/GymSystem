@@ -49,7 +49,7 @@ Public Class Staffmain
         ' Reports
         AddHandler MemRepBtn.Click, AddressOf SubMenu_Click
 
-        If CurrentLoggedUser.position = "Super Admin" Or CurrentLoggedUser.position = "Normal Admin" Then
+        If CurrentLoggedUser.position = "Super Admin" Or CurrentLoggedUser.position = "Admin" Then
             Label1.Text = "Welcome Admin"
         Else
             Label1.Text = "Welcome Staff"
@@ -390,7 +390,5 @@ Public Class Staffmain
 
     End Sub
 
-    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
 
-    End Sub
 End Class

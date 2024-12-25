@@ -189,12 +189,15 @@ Public Class Admin
             ' Authenticate user
             Dim user = AuthenticateUser(adminIDInt, password, role)
             If user IsNot Nothing Then
-                ' Update membership status
-                UpdateMembershipStatus()
+                ' Update membership status if the user is a Super Admin
+                If user.Role = "Super Admin" Then
+                    UpdateMembershipStatus()
+                End If
 
                 ' Show the main admin form
                 Dim adminMain As New Staffmain()
                 adminMain.ConfigureMenu(user.Role)
+                adminMain.Label1.Text = "Admin"
                 ShowUserControlInForm(adminMain, "Admin Main")
                 Me.Hide()
             Else
