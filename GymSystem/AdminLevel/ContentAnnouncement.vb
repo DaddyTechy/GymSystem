@@ -128,7 +128,7 @@ Public Class ContentAnnouncement
         UpdateConnectionString()
         Try
             ' Insert the new note into the notes table
-            Dim query As String = $"INSERT INTO `announcement`(`Title`, `Content`, `DatePosted`, `PostedBy`) VALUES ('{annTitle}', '{annDetails}', '{dateAdded.ToString("yyyy-MM-dd")}', '{author}-ID: {CurrentLoggedUser.id}')"
+            Dim query As String = $"INSERT INTO `announcement`(`Title`, `Content`, `DatePosted`, `PostedBy`) VALUES ('{annTitle}', '{annDetails}', '{dateAdded.ToString("yyyy-MM-dd")}', '{author}|ID: {CurrentLoggedUser.id}')"
             readQuery(query)
 
             ' Refresh the DataGridView

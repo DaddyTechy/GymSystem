@@ -12,8 +12,25 @@ Public Class ContentMemberManagement1
     Private batchSize As Integer = 100
     Private isLoading As Boolean = False
 
+    Private filterControl As FilterControl
+    Private activeFilters As New List(Of String)
+    Private activeGenderFilter As String = ""
+
+    Private WithEvents FilterBtn As Button
+
     Private Sub ContentMemberManagement1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        InitializeFilterButton()
         LoadData()
+    End Sub
+
+    Private Sub InitializeFilterButton()
+        FilterBtn = New Button()
+        FilterBtn.Text = "Filter"
+        FilterBtn.BackColor = Color.FromArgb(245, 203, 92)
+        FilterBtn.FlatStyle = FlatStyle.Flat
+        FilterBtn.Location = New Point(286, 8)
+        FilterBtn.Size = New Size(80, 29)
+        Panel1.Controls.Add(FilterBtn)
     End Sub
 
     Private Sub LoadData()
@@ -25,9 +42,19 @@ Public Class ContentMemberManagement1
         Try
             conn.Open()
 
-            ' Retrieve data from members table
-            Dim queryMembers As String = $"SELECT MemberID, FirstName, MiddleName, LastName, Sex, PhoneNumber, DTCreated, Province, City, Street, ZipCode, Status FROM members LIMIT {batchSize} OFFSET {currentOffset}"
-            Dim adapterMembers As New MySqlDataAdapter(queryMembers, conn)
+            ' Base query with filters
+            Dim baseQuery As String = "SELECT m.MemberID, m.FirstName, m.MiddleName, m.LastName, " &
+                                    "m.Sex, m.PhoneNumber, m.DTCreated, m.Province, m.City, m.Street, " &
+                                    "m.ZipCode, m.Status FROM members m WHERE 1=1"
+
+            ' Add gender filter if active
+            If Not String.IsNullOrEmpty(activeGenderFilter) Then
+                baseQuery &= $" AND m.Sex = '{activeGenderFilter}'"
+            End If
+
+            baseQuery &= $" LIMIT {batchSize} OFFSET {currentOffset}"
+
+            Dim adapterMembers As New MySqlDataAdapter(baseQuery, conn)
             Dim dtMembers As New DataTable()
             adapterMembers.Fill(dtMembers)
 
@@ -125,6 +152,7 @@ Public Class ContentMemberManagement1
             End If
 
             MembersTable.DataSource = dtMember
+            AddButtonColumnsIfNeeded()
 
             ' Customize DataGridView appearance
             MembersTable.BackgroundColor = Color.LightBlue
@@ -164,7 +192,7 @@ Public Class ContentMemberManagement1
             MembersTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells
 
         Catch ex As Exception
-            MsgBox(ex.Message)
+            MessageBox.Show("Error loading data: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
             conn.Close()
             isLoading = False
@@ -650,58 +678,13 @@ Public Class ContentMemberManagement1
     End Sub
 
     'Search
-    Private Sub FilterMembersTable(searchText As String)
-        If String.IsNullOrWhiteSpace(searchText) Then
-            LoadData()
-            Return
-        End If
 
-        Dim query As String
-        query = $"
-        SELECT 
-            m.MemberID, 
-            m.FirstName, 
-            m.MiddleName, 
-            m.LastName, 
-            ml.Username, 
-            m.Sex, 
-            m.PhoneNumber, 
-            m.DTCreated, 
-            CONCAT(m.Province, ', ', m.City, ', ', m.Street, ', ', m.ZipCode) AS Address, 
-            mm.Cost, 
-            mm.MembershipType, 
-            mm.Duration, 
-            m.Status
-        FROM 
-            members m
-        LEFT JOIN 
-            memberlogin ml ON m.MemberID = ml.MemberID
-        LEFT JOIN 
-            membership mm ON m.MemberID = mm.MemberID
-        WHERE 
-            m.FirstName LIKE '%{searchText}%' OR 
-            m.LastName LIKE '%{searchText}%' OR 
-            m.MemberID LIKE '%{searchText}%' OR 
-            m.MiddleName LIKE '%{searchText}%' OR 
-            m.Sex LIKE '%{searchText}%' OR 
-            m.PhoneNumber LIKE '%{searchText}%' OR 
-            m.Province LIKE '%{searchText}%' OR 
-            m.City LIKE '%{searchText}%' OR 
-            m.Street LIKE '%{searchText}%' OR 
-            m.ZipCode LIKE '%{searchText}%' OR 
-            m.Status LIKE '%{searchText}%' OR 
-            ml.Username LIKE '%{searchText}%' OR 
-            mm.MembershipType LIKE '%{searchText}%'
-    "
 
-        Dim adapter As New MySqlDataAdapter(query, conn)
-        Dim dt As New DataTable()
-        adapter.Fill(dt)
+    ' Add the WHERE clause based on the selected filter
 
-        ' Bind DataTable to DataGridView
-        MembersTable.DataSource = dt
 
-        ' Add Edit, Delete, and View buttons
+    ' Helper method to add button columns
+    Private Sub AddButtonColumnsIfNeeded()
         If MembersTable.Columns("Edit") Is Nothing Then
             Dim editButtonColumn As New DataGridViewButtonColumn()
             editButtonColumn.HeaderText = "Edit"
@@ -734,8 +717,7 @@ Public Class ContentMemberManagement1
     End Sub
 
     Private Sub btnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
-        Dim searchText As String = txtBoxSearchInput.Text
-        FilterMembersTable(searchText)
+        ApplyFilters(txtBoxSearchInput.Text)
     End Sub
 
     Private Sub txtBoxSearchInput_KeyDown(sender As Object, e As KeyEventArgs) Handles txtBoxSearchInput.KeyDown
@@ -788,7 +770,113 @@ Public Class ContentMemberManagement1
         Debug.WriteLine("status: " & memberData.PaymentStatus)
     End Function
 
-    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+    Private Sub FilterBtn_Click(sender As Object, e As EventArgs) Handles FilterBtn.Click
+        filterControl = New FilterControl()
+        filterControl.Location = New Point(FilterBtn.Location.X, FilterBtn.Location.Y + FilterBtn.Height)
 
+        ' Set the initial state with current filters
+        filterControl.SetInitialState(activeFilters, activeGenderFilter)
+
+        AddHandler filterControl.FilterApplied, AddressOf OnFilterApplied
+        AddHandler filterControl.FilterCancelled, AddressOf OnFilterCancelled
+        Panel1.Controls.Add(filterControl)
+        filterControl.BringToFront()
     End Sub
+
+    Private Sub OnFilterApplied(selectedFilters As List(Of String), genderFilter As String)
+        activeFilters = New List(Of String)(selectedFilters) ' Create a new list to store the filters
+        activeGenderFilter = genderFilter
+        Panel1.Controls.Remove(filterControl)
+
+        ' Clear the search box
+        txtBoxSearchInput.Clear()
+
+        ' Reset the display to show all data with new filters
+        LoadData()
+    End Sub
+
+    Private Sub OnFilterCancelled()
+        Panel1.Controls.Remove(filterControl)
+
+        ' Clear filters
+        activeFilters.Clear()
+        activeGenderFilter = ""
+
+        ' Clear the search box
+        txtBoxSearchInput.Clear()
+
+        ' Reset the display to show all data
+        LoadData()
+    End Sub
+
+    Private Sub ApplyFilters(searchText As String)
+        If String.IsNullOrWhiteSpace(searchText) AndAlso activeFilters.Count = 0 AndAlso String.IsNullOrEmpty(activeGenderFilter) Then
+            LoadData()
+            Return
+        End If
+
+        Dim searchTerms As String() = searchText.Split(","c).Select(Function(term) term.Trim()).Where(Function(term) term <> "").ToArray()
+
+        Dim query As String = "SELECT m.MemberID, m.FirstName, m.MiddleName, m.LastName, " &
+                             "ml.Username, m.Sex, m.PhoneNumber, m.DTCreated, " &
+                             "CONCAT(m.Province, ', ', m.City, ', ', m.Street, ', ', m.ZipCode) AS Address, " &
+                             "mm.Cost, mm.MembershipType, mm.Duration, m.Status " &
+                             "FROM members m " &
+                             "LEFT JOIN memberlogin ml ON m.MemberID = ml.MemberID " &
+                             "LEFT JOIN membership mm ON m.MemberID = mm.MemberID " &
+                             "WHERE 1=1"
+
+        ' Add gender filter if active
+        If Not String.IsNullOrEmpty(activeGenderFilter) Then
+            query &= $" AND m.Sex = '{activeGenderFilter}'"
+        End If
+
+        ' Add search terms
+        If searchTerms.Length > 0 Then
+            Dim searchConditions As New List(Of String)
+            For Each term In searchTerms
+                Dim conditions As New List(Of String)
+
+                If activeFilters.Contains("ID") Then
+                    conditions.Add($"m.MemberID LIKE '%{term}%'")
+                End If
+                If activeFilters.Contains("FirstName") Then
+                    conditions.Add($"m.FirstName LIKE '%{term}%'")
+                End If
+                If activeFilters.Contains("LastName") Then
+                    conditions.Add($"m.LastName LIKE '%{term}%'")
+                End If
+                If activeFilters.Contains("Address") Then
+                    conditions.Add($"(m.Province LIKE '%{term}%' OR m.City LIKE '%{term}%' OR m.Street LIKE '%{term}%')")
+                End If
+
+                If conditions.Count > 0 Then
+                    searchConditions.Add("(" & String.Join(" OR ", conditions) & ")")
+                End If
+            Next
+
+            If searchConditions.Count > 0 Then
+                query &= " AND " & String.Join(" AND ", searchConditions)
+            End If
+        End If
+
+        Try
+            Using conn As New MySqlConnection(strConnection)
+                conn.Open()
+                Dim adapter As New MySqlDataAdapter(query, conn)
+                Dim dt As New DataTable()
+                adapter.Fill(dt)
+                MembersTable.DataSource = dt
+                AddButtonColumnsIfNeeded()
+
+                If dt.Rows.Count = 0 Then
+                    MessageBox.Show("No records found.", "Search Result", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("Error while filtering data: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+
 End Class

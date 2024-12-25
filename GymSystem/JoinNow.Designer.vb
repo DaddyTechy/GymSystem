@@ -317,7 +317,7 @@ Partial Class JoinNow
         HeightTxt.Anchor = AnchorStyles.None
         HeightTxt.BackColor = Color.Gray
         HeightTxt.BorderStyle = BorderStyle.None
-        HeightTxt.Font = New Font("Segoe UI", 12.0F)
+        HeightTxt.Font = New Font("Segoe UI", 12F)
         HeightTxt.ForeColor = Color.White
         HeightTxt.Location = New Point(691, 302)
         HeightTxt.Margin = New Padding(3, 2, 3, 2)
@@ -333,6 +333,7 @@ Partial Class JoinNow
         SexTxt.BorderColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         SexTxt.CustomForeColor = Color.Black
         SexTxt.DrawMode = DrawMode.OwnerDrawFixed
+        SexTxt.DropDownStyle = ComboBoxStyle.DropDownList
         SexTxt.FlatStyle = FlatStyle.Flat
         SexTxt.ForeColor = Color.White
         SexTxt.FormattingEnabled = True
@@ -341,14 +342,13 @@ Partial Class JoinNow
         SexTxt.Name = "SexTxt"
         SexTxt.Size = New Size(99, 24)
         SexTxt.TabIndex = 10
-        SexTxt.DropDownStyle = ComboBoxStyle.DropDownList
         ' 
         ' CPassTxt
         ' 
         CPassTxt.Anchor = AnchorStyles.None
         CPassTxt.BackColor = Color.Gray
         CPassTxt.BorderStyle = BorderStyle.None
-        CPassTxt.Font = New Font("Segoe UI", 12.0F)
+        CPassTxt.Font = New Font("Segoe UI", 12F)
         CPassTxt.ForeColor = Color.White
         CPassTxt.Location = New Point(331, 352)
         CPassTxt.Margin = New Padding(3, 2, 3, 2)
@@ -361,7 +361,7 @@ Partial Class JoinNow
         PassTxt.Anchor = AnchorStyles.None
         PassTxt.BackColor = Color.Gray
         PassTxt.BorderStyle = BorderStyle.None
-        PassTxt.Font = New Font("Segoe UI", 12.0F)
+        PassTxt.Font = New Font("Segoe UI", 12F)
         PassTxt.ForeColor = Color.White
         PassTxt.Location = New Point(90, 352)
         PassTxt.Margin = New Padding(3, 2, 3, 2)
@@ -374,7 +374,7 @@ Partial Class JoinNow
         KgTxt.Anchor = AnchorStyles.None
         KgTxt.BackColor = Color.Gray
         KgTxt.BorderStyle = BorderStyle.None
-        KgTxt.Font = New Font("Segoe UI", 12.0F)
+        KgTxt.Font = New Font("Segoe UI", 12F)
         KgTxt.ForeColor = Color.White
         KgTxt.Location = New Point(571, 302)
         KgTxt.Margin = New Padding(3, 2, 3, 2)
@@ -387,7 +387,7 @@ Partial Class JoinNow
         ContactTxt.Anchor = AnchorStyles.None
         ContactTxt.BackColor = Color.Gray
         ContactTxt.BorderStyle = BorderStyle.None
-        ContactTxt.Font = New Font("Segoe UI", 12.0F)
+        ContactTxt.Font = New Font("Segoe UI", 12F)
         ContactTxt.ForeColor = Color.White
         ContactTxt.Location = New Point(90, 202)
         ContactTxt.Margin = New Padding(3, 2, 3, 2)
@@ -400,7 +400,7 @@ Partial Class JoinNow
         EmailTxt.Anchor = AnchorStyles.None
         EmailTxt.BackColor = Color.Gray
         EmailTxt.BorderStyle = BorderStyle.None
-        EmailTxt.Font = New Font("Segoe UI", 12.0F)
+        EmailTxt.Font = New Font("Segoe UI", 12F)
         EmailTxt.ForeColor = Color.White
         EmailTxt.Location = New Point(331, 202)
         EmailTxt.Margin = New Padding(3, 2, 3, 2)
@@ -413,7 +413,7 @@ Partial Class JoinNow
         FirstTxt.Anchor = AnchorStyles.None
         FirstTxt.BackColor = Color.Gray
         FirstTxt.BorderStyle = BorderStyle.None
-        FirstTxt.Font = New Font("Segoe UI", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        FirstTxt.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         FirstTxt.ForeColor = Color.White
         FirstTxt.Location = New Point(90, 152)
         FirstTxt.Margin = New Padding(3, 2, 3, 2)
@@ -426,7 +426,7 @@ Partial Class JoinNow
         MiddleTxt.Anchor = AnchorStyles.None
         MiddleTxt.BackColor = Color.Gray
         MiddleTxt.BorderStyle = BorderStyle.None
-        MiddleTxt.Font = New Font("Segoe UI", 12.0F)
+        MiddleTxt.Font = New Font("Segoe UI", 12F)
         MiddleTxt.ForeColor = Color.White
         MiddleTxt.Location = New Point(331, 152)
         MiddleTxt.Margin = New Padding(3, 2, 3, 2)
@@ -439,7 +439,7 @@ Partial Class JoinNow
         LastTxt.Anchor = AnchorStyles.None
         LastTxt.BackColor = Color.Gray
         LastTxt.BorderStyle = BorderStyle.None
-        LastTxt.Font = New Font("Segoe UI", 12.0F)
+        LastTxt.Font = New Font("Segoe UI", 12F)
         LastTxt.ForeColor = Color.White
         LastTxt.Location = New Point(571, 152)
         LastTxt.Margin = New Padding(3, 2, 3, 2)
@@ -555,7 +555,7 @@ Partial Class JoinNow
         ' 
         ' JoinNow
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(28), CByte(28), CByte(28))
         ClientSize = New Size(880, 541)

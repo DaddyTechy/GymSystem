@@ -48,10 +48,10 @@ Partial Class ContentPayment
         Label1.Dock = DockStyle.Top
         Label1.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.Gold
-        Label1.Location = New Point(17, 20)
+        Label1.Location = New Point(15, 15)
         Label1.Name = "Label1"
         Label1.Padding = New Padding(2, 0, 0, 0)
-        Label1.Size = New Size(89, 23)
+        Label1.Size = New Size(70, 17)
         Label1.TabIndex = 2
         Label1.Text = "Payments"
         ' 
@@ -61,11 +61,11 @@ Partial Class ContentPayment
         Label2.Dock = DockStyle.Top
         Label2.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.White
-        Label2.Location = New Point(23, 0)
-        Label2.Margin = New Padding(3, 0, 3, 13)
+        Label2.Location = New Point(20, 0)
+        Label2.Margin = New Padding(3, 0, 3, 10)
         Label2.Name = "Label2"
-        Label2.Padding = New Padding(0, 7, 0, 13)
-        Label2.Size = New Size(134, 48)
+        Label2.Padding = New Padding(0, 5, 0, 10)
+        Label2.Size = New Size(108, 36)
         Label2.TabIndex = 0
         Label2.Text = "Payment List"
         Label2.TextAlign = ContentAlignment.MiddleCenter
@@ -100,8 +100,7 @@ Partial Class ContentPayment
         dgvPayment.EditMode = DataGridViewEditMode.EditOnEnter
         dgvPayment.EnableHeadersVisualStyles = False
         dgvPayment.GridColor = Color.White
-        dgvPayment.Location = New Point(23, 48)
-        dgvPayment.Margin = New Padding(3, 4, 3, 4)
+        dgvPayment.Location = New Point(20, 36)
         dgvPayment.MultiSelect = False
         dgvPayment.Name = "dgvPayment"
         dgvPayment.ReadOnly = True
@@ -128,7 +127,7 @@ Partial Class ContentPayment
         dgvPayment.SelectionMode = DataGridViewSelectionMode.FullRowSelect
         dgvPayment.ShowCellErrors = False
         dgvPayment.ShowRowErrors = False
-        dgvPayment.Size = New Size(777, 597)
+        dgvPayment.Size = New Size(680, 448)
         dgvPayment.TabIndex = 0
         ' 
         ' cmbStatus
@@ -136,10 +135,9 @@ Partial Class ContentPayment
         cmbStatus.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         cmbStatus.DropDownStyle = ComboBoxStyle.DropDownList
         cmbStatus.FormattingEnabled = True
-        cmbStatus.Location = New Point(662, 4)
-        cmbStatus.Margin = New Padding(3, 4, 3, 4)
+        cmbStatus.Location = New Point(579, 3)
         cmbStatus.Name = "cmbStatus"
-        cmbStatus.Size = New Size(138, 28)
+        cmbStatus.Size = New Size(121, 23)
         cmbStatus.TabIndex = 5
         ' 
         ' cmbPaymentType
@@ -148,10 +146,9 @@ Partial Class ContentPayment
         cmbPaymentType.DropDownStyle = ComboBoxStyle.DropDownList
         cmbPaymentType.FormattingEnabled = True
         cmbPaymentType.Items.AddRange(New Object() {"All", "Membership", "Reservation"})
-        cmbPaymentType.Location = New Point(454, 4)
-        cmbPaymentType.Margin = New Padding(3, 4, 3, 4)
+        cmbPaymentType.Location = New Point(397, 3)
         cmbPaymentType.Name = "cmbPaymentType"
-        cmbPaymentType.Size = New Size(138, 28)
+        cmbPaymentType.Size = New Size(121, 23)
         cmbPaymentType.TabIndex = 6
         ' 
         ' Label3
@@ -160,9 +157,9 @@ Partial Class ContentPayment
         Label3.AutoSize = True
         Label3.BackColor = Color.Transparent
         Label3.ForeColor = Color.White
-        Label3.Location = New Point(610, 8)
+        Label3.Location = New Point(534, 6)
         Label3.Name = "Label3"
-        Label3.Size = New Size(52, 20)
+        Label3.Size = New Size(42, 15)
         Label3.TabIndex = 7
         Label3.Text = "Status:"
         ' 
@@ -172,9 +169,9 @@ Partial Class ContentPayment
         Label4.AutoSize = True
         Label4.BackColor = Color.Transparent
         Label4.ForeColor = Color.White
-        Label4.Location = New Point(402, 8)
+        Label4.Location = New Point(352, 6)
         Label4.Name = "Label4"
-        Label4.Size = New Size(43, 20)
+        Label4.Size = New Size(35, 15)
         Label4.TabIndex = 8
         Label4.Text = "Type:"
         ' 
@@ -189,22 +186,20 @@ Partial Class ContentPayment
         Panel1.Controls.Add(dgvPayment)
         Panel1.Controls.Add(Label2)
         Panel1.Dock = DockStyle.Fill
-        Panel1.Location = New Point(17, 43)
-        Panel1.Margin = New Padding(3, 4, 3, 4)
+        Panel1.Location = New Point(15, 32)
         Panel1.Name = "Panel1"
-        Panel1.Padding = New Padding(23, 0, 23, 0)
-        Panel1.Size = New Size(823, 645)
+        Panel1.Padding = New Padding(20, 0, 20, 0)
+        Panel1.Size = New Size(720, 484)
         Panel1.TabIndex = 3
         ' 
         ' Panel2
         ' 
+        Panel2.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         Panel2.Controls.Add(btnBack)
         Panel2.Controls.Add(btnNext)
-        Panel2.Dock = DockStyle.Top
-        Panel2.Location = New Point(23, 48)
-        Panel2.Margin = New Padding(3, 4, 3, 4)
+        Panel2.Location = New Point(579, 453)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(777, 25)
+        Panel2.Size = New Size(121, 28)
         Panel2.TabIndex = 10
         ' 
         ' btnBack
@@ -214,9 +209,8 @@ Partial Class ContentPayment
         btnBack.FlatStyle = FlatStyle.Popup
         btnBack.ForeColor = SystemColors.ControlLightLight
         btnBack.Location = New Point(0, 0)
-        btnBack.Margin = New Padding(3, 4, 3, 4)
         btnBack.Name = "btnBack"
-        btnBack.Size = New Size(56, 25)
+        btnBack.Size = New Size(49, 28)
         btnBack.TabIndex = 10
         btnBack.Text = "Back"
         btnBack.UseVisualStyleBackColor = False
@@ -227,25 +221,23 @@ Partial Class ContentPayment
         btnNext.Dock = DockStyle.Right
         btnNext.FlatStyle = FlatStyle.Popup
         btnNext.ForeColor = SystemColors.ControlLightLight
-        btnNext.Location = New Point(721, 0)
-        btnNext.Margin = New Padding(3, 4, 3, 4)
+        btnNext.Location = New Point(72, 0)
         btnNext.Name = "btnNext"
-        btnNext.Size = New Size(56, 25)
+        btnNext.Size = New Size(49, 28)
         btnNext.TabIndex = 9
         btnNext.Text = "Next"
         btnNext.UseVisualStyleBackColor = False
         ' 
         ' ContentPayment
         ' 
-        AutoScaleDimensions = New SizeF(8F, 20F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.Transparent
         Controls.Add(Panel1)
         Controls.Add(Label1)
-        Margin = New Padding(3, 4, 3, 4)
         Name = "ContentPayment"
-        Padding = New Padding(17, 20, 17, 20)
-        Size = New Size(857, 708)
+        Padding = New Padding(15)
+        Size = New Size(750, 531)
         CType(dgvPayment, ComponentModel.ISupportInitialize).EndInit()
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()

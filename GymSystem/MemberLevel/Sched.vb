@@ -39,16 +39,22 @@ Public Class Sched
     Private Sub LoadEventsFromDatabase()
         Using conn As New MySqlConnection(strConnection)
             conn.Open()
-            Dim query As String = $"SELECT r.ReservationDate AS EventDate, r.Purpose AS Title, CONCAT(s.FirstName, ' ', s.LastName) AS Instructor FROM reservation r JOIN staff s ON r.StaffID = s.StaffID WHERE s.Position = 'Trainer' AND r.MemberID = {CurrentLoggedUser.id}"
+            Dim query As String = $"SELECT r.ReservationDate AS EventDate, r.Purpose AS Title, CONCAT(s.FirstName, ' ', s.LastName) AS Instructor, r.ReservationStatus " &
+                              $"FROM reservation r " &
+                              $"JOIN staff s ON r.StaffID = s.StaffID " &
+                              $"WHERE s.Position = 'Trainer' AND r.MemberID = {CurrentLoggedUser.id}"
             Using cmd As New MySqlCommand(query, conn)
                 Using reader As MySqlDataReader = cmd.ExecuteReader()
                     While reader.Read()
-                        Dim newEvent As New CalendarEvent With {
-                        .EventDate = reader.GetDateTime("EventDate"),
-                        .Title = reader.GetString("Title"),
-                        .Instructor = reader.GetString("Instructor")
-                    }
-                        allEvents.Add(newEvent)
+                        ' Check if the reservation is not cancelled
+                        If reader.GetString("ReservationStatus") <> "Cancelled" Then
+                            Dim newEvent As New CalendarEvent With {
+                            .EventDate = reader.GetDateTime("EventDate"),
+                            .Title = reader.GetString("Title"),
+                            .Instructor = reader.GetString("Instructor")
+                        }
+                            allEvents.Add(newEvent)
+                        End If
                     End While
                 End Using
             End Using
@@ -247,6 +253,14 @@ Public Class Sched
     ' In your main form or a shared module
     ' In your main form or a shared module
     Private Sub ShowEventForm(selectedDate As DateTime)
+        ' Check if there are any events for the selected date
+        Dim eventsForDay = allEvents.Where(Function(ev) ev.EventDate.Date = selectedDate.Date).ToList()
+
+        If eventsForDay.Count > 0 Then
+            MessageBox.Show("There is already a reservation for this day.", "Reservation Exists", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Return
+        End If
+
         ' Remove existing event form if any
         If eventForm IsNot Nothing Then
             Controls.Remove(eventForm)
@@ -258,13 +272,14 @@ Public Class Sched
 
         ' Center the event form
         eventForm.Location = New Point(
-            (ClientSize.Width - eventForm.Width) \ 2,
-            (ClientSize.Height - eventForm.Height) \ 2
-        )
+        (ClientSize.Width - eventForm.Width) \ 2,
+        (ClientSize.Height - eventForm.Height) \ 2
+    )
 
         Controls.Add(eventForm)
         eventForm.BringToFront()
     End Sub
+
 
     ' Handle saved events
     Private Sub HandleEventSaved(newEvent As CalendarEvent)
@@ -280,6 +295,5 @@ Public Class Sched
         allEvents.Add(newEvent)
         LoadCalendar(viewMode, currentDate)
     End Sub
-
 
 End Class

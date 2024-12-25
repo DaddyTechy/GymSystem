@@ -48,9 +48,9 @@ Partial Class EventForm
         ' 
         Label10.AutoSize = True
         Label10.ForeColor = SystemColors.Control
-        Label10.Location = New Point(458, 240)
+        Label10.Location = New Point(401, 180)
         Label10.Name = "Label10"
-        Label10.Size = New Size(60, 20)
+        Label10.Size = New Size(48, 15)
         Label10.TabIndex = 52
         Label10.Text = "Trainer*"
         ' 
@@ -58,10 +58,9 @@ Partial Class EventForm
         ' 
         cmbTrainer.DropDownStyle = ComboBoxStyle.DropDownList
         cmbTrainer.FormattingEnabled = True
-        cmbTrainer.Location = New Point(458, 264)
-        cmbTrainer.Margin = New Padding(3, 4, 3, 4)
+        cmbTrainer.Location = New Point(401, 198)
         cmbTrainer.Name = "cmbTrainer"
-        cmbTrainer.Size = New Size(169, 28)
+        cmbTrainer.Size = New Size(148, 23)
         cmbTrainer.TabIndex = 51
         ' 
         ' lblTotalFee
@@ -70,18 +69,18 @@ Partial Class EventForm
         lblTotalFee.BackColor = Color.White
         lblTotalFee.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblTotalFee.ForeColor = Color.Black
-        lblTotalFee.Location = New Point(103, 519)
+        lblTotalFee.Location = New Point(90, 389)
         lblTotalFee.Name = "lblTotalFee"
-        lblTotalFee.Size = New Size(0, 32)
+        lblTotalFee.Size = New Size(0, 25)
         lblTotalFee.TabIndex = 50
         ' 
         ' Label9
         ' 
         Label9.AutoSize = True
         Label9.ForeColor = SystemColors.Control
-        Label9.Location = New Point(103, 485)
+        Label9.Location = New Point(90, 364)
         Label9.Name = "Label9"
-        Label9.Size = New Size(72, 20)
+        Label9.Size = New Size(57, 15)
         Label9.TabIndex = 49
         Label9.Text = "Total Fee:"
         ' 
@@ -89,9 +88,9 @@ Partial Class EventForm
         ' 
         Label8.AutoSize = True
         Label8.ForeColor = SystemColors.Control
-        Label8.Location = New Point(103, 341)
+        Label8.Location = New Point(90, 256)
         Label8.Name = "Label8"
-        Label8.Size = New Size(48, 20)
+        Label8.Size = New Size(38, 15)
         Label8.TabIndex = 48
         Label8.Text = "Notes"
         ' 
@@ -99,18 +98,18 @@ Partial Class EventForm
         ' 
         Label7.AutoSize = True
         Label7.ForeColor = SystemColors.Control
-        Label7.Location = New Point(489, 240)
+        Label7.Location = New Point(428, 180)
         Label7.Name = "Label7"
-        Label7.Size = New Size(0, 20)
+        Label7.Size = New Size(0, 15)
         Label7.TabIndex = 46
         ' 
         ' Label6
         ' 
         Label6.AutoSize = True
         Label6.ForeColor = SystemColors.Control
-        Label6.Location = New Point(281, 240)
+        Label6.Location = New Point(246, 180)
         Label6.Name = "Label6"
-        Label6.Size = New Size(122, 20)
+        Label6.Size = New Size(98, 15)
         Label6.TabIndex = 45
         Label6.Text = "Equipment Type*"
         ' 
@@ -118,19 +117,18 @@ Partial Class EventForm
         ' 
         cmbEquipmentType.DropDownStyle = ComboBoxStyle.DropDownList
         cmbEquipmentType.FormattingEnabled = True
-        cmbEquipmentType.Location = New Point(281, 264)
-        cmbEquipmentType.Margin = New Padding(3, 4, 3, 4)
+        cmbEquipmentType.Location = New Point(246, 198)
         cmbEquipmentType.Name = "cmbEquipmentType"
-        cmbEquipmentType.Size = New Size(138, 28)
+        cmbEquipmentType.Size = New Size(121, 23)
         cmbEquipmentType.TabIndex = 44
         ' 
         ' Label5
         ' 
         Label5.AutoSize = True
         Label5.ForeColor = SystemColors.Control
-        Label5.Location = New Point(103, 240)
+        Label5.Location = New Point(90, 180)
         Label5.Name = "Label5"
-        Label5.Size = New Size(103, 20)
+        Label5.Size = New Size(83, 15)
         Label5.TabIndex = 43
         Label5.Text = "Training Type*"
         ' 
@@ -139,19 +137,18 @@ Partial Class EventForm
         cmbTrainingType.DropDownStyle = ComboBoxStyle.DropDownList
         cmbTrainingType.FormattingEnabled = True
         cmbTrainingType.Items.AddRange(New Object() {"Strength", "Endurance", "Flexibility"})
-        cmbTrainingType.Location = New Point(103, 264)
-        cmbTrainingType.Margin = New Padding(3, 4, 3, 4)
+        cmbTrainingType.Location = New Point(90, 198)
         cmbTrainingType.Name = "cmbTrainingType"
-        cmbTrainingType.Size = New Size(138, 28)
+        cmbTrainingType.Size = New Size(121, 23)
         cmbTrainingType.TabIndex = 42
         ' 
         ' Label4
         ' 
         Label4.AutoSize = True
         Label4.ForeColor = SystemColors.Control
-        Label4.Location = New Point(510, 143)
+        Label4.Location = New Point(446, 107)
         Label4.Name = "Label4"
-        Label4.Size = New Size(71, 20)
+        Label4.Size = New Size(57, 15)
         Label4.TabIndex = 41
         Label4.Text = "End Time"
         ' 
@@ -160,12 +157,11 @@ Partial Class EventForm
         dtpEndTime.Checked = False
         dtpEndTime.CustomFormat = ""
         dtpEndTime.Format = DateTimePickerFormat.Time
-        dtpEndTime.Location = New Point(510, 167)
-        dtpEndTime.Margin = New Padding(3, 4, 3, 4)
+        dtpEndTime.Location = New Point(446, 125)
         dtpEndTime.MinDate = New Date(2024, 11, 28, 0, 0, 0, 0)
         dtpEndTime.Name = "dtpEndTime"
         dtpEndTime.ShowUpDown = True
-        dtpEndTime.Size = New Size(109, 27)
+        dtpEndTime.Size = New Size(96, 23)
         dtpEndTime.TabIndex = 40
         dtpEndTime.Value = New Date(2024, 12, 2, 0, 0, 0, 0)
         ' 
@@ -173,9 +169,9 @@ Partial Class EventForm
         ' 
         Label2.AutoSize = True
         Label2.ForeColor = SystemColors.Control
-        Label2.Location = New Point(365, 143)
+        Label2.Location = New Point(319, 107)
         Label2.Name = "Label2"
-        Label2.Size = New Size(77, 20)
+        Label2.Size = New Size(61, 15)
         Label2.TabIndex = 39
         Label2.Text = "Start Time"
         ' 
@@ -184,12 +180,11 @@ Partial Class EventForm
         dtpStartTime.Checked = False
         dtpStartTime.CustomFormat = ""
         dtpStartTime.Format = DateTimePickerFormat.Time
-        dtpStartTime.Location = New Point(365, 167)
-        dtpStartTime.Margin = New Padding(3, 4, 3, 4)
+        dtpStartTime.Location = New Point(319, 125)
         dtpStartTime.MinDate = New Date(2024, 11, 28, 0, 0, 0, 0)
         dtpStartTime.Name = "dtpStartTime"
         dtpStartTime.ShowUpDown = True
-        dtpStartTime.Size = New Size(109, 27)
+        dtpStartTime.Size = New Size(96, 23)
         dtpStartTime.TabIndex = 38
         ' 
         ' Label1
@@ -197,9 +192,9 @@ Partial Class EventForm
         Label1.AutoSize = True
         Label1.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = SystemColors.Control
-        Label1.Location = New Point(261, 44)
+        Label1.Location = New Point(228, 33)
         Label1.Name = "Label1"
-        Label1.Size = New Size(203, 32)
+        Label1.Size = New Size(159, 25)
         Label1.TabIndex = 37
         Label1.Text = "Add Reservation"
         ' 
@@ -209,10 +204,9 @@ Partial Class EventForm
         Button1.FlatStyle = FlatStyle.Popup
         Button1.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Button1.ForeColor = Color.White
-        Button1.Location = New Point(53, 47)
-        Button1.Margin = New Padding(3, 4, 3, 4)
+        Button1.Location = New Point(46, 35)
         Button1.Name = "Button1"
-        Button1.Size = New Size(86, 31)
+        Button1.Size = New Size(75, 23)
         Button1.TabIndex = 36
         Button1.Text = "Back"
         Button1.UseVisualStyleBackColor = False
@@ -222,10 +216,9 @@ Partial Class EventForm
         btnSaveReservation.BackColor = Color.Gold
         btnSaveReservation.FlatStyle = FlatStyle.Flat
         btnSaveReservation.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnSaveReservation.Location = New Point(103, 604)
-        btnSaveReservation.Margin = New Padding(3, 4, 3, 4)
+        btnSaveReservation.Location = New Point(90, 453)
         btnSaveReservation.Name = "btnSaveReservation"
-        btnSaveReservation.Size = New Size(86, 31)
+        btnSaveReservation.Size = New Size(75, 23)
         btnSaveReservation.TabIndex = 35
         btnSaveReservation.Text = "Save"
         btnSaveReservation.UseVisualStyleBackColor = False
@@ -234,34 +227,32 @@ Partial Class EventForm
         ' 
         Label3.AutoSize = True
         Label3.ForeColor = SystemColors.Control
-        Label3.Location = New Point(103, 143)
+        Label3.Location = New Point(90, 107)
         Label3.Name = "Label3"
-        Label3.Size = New Size(41, 20)
+        Label3.Size = New Size(31, 15)
         Label3.TabIndex = 34
         Label3.Text = "Date"
         ' 
         ' dtpReservationDate
         ' 
         dtpReservationDate.Enabled = False
-        dtpReservationDate.Location = New Point(103, 167)
-        dtpReservationDate.Margin = New Padding(3, 4, 3, 4)
+        dtpReservationDate.Location = New Point(90, 125)
         dtpReservationDate.MinDate = New Date(2024, 11, 28, 0, 0, 0, 0)
         dtpReservationDate.Name = "dtpReservationDate"
-        dtpReservationDate.Size = New Size(234, 27)
+        dtpReservationDate.Size = New Size(205, 23)
         dtpReservationDate.TabIndex = 33
         ' 
         ' txtReservationNotes
         ' 
-        txtReservationNotes.Location = New Point(103, 365)
-        txtReservationNotes.Margin = New Padding(3, 4, 3, 4)
+        txtReservationNotes.Location = New Point(90, 274)
         txtReservationNotes.Multiline = True
         txtReservationNotes.Name = "txtReservationNotes"
-        txtReservationNotes.Size = New Size(333, 103)
+        txtReservationNotes.Size = New Size(292, 78)
         txtReservationNotes.TabIndex = 53
         ' 
         ' EventForm
         ' 
-        AutoScaleDimensions = New SizeF(8F, 20F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.Transparent
         Controls.Add(txtReservationNotes)
@@ -284,8 +275,9 @@ Partial Class EventForm
         Controls.Add(btnSaveReservation)
         Controls.Add(Label3)
         Controls.Add(dtpReservationDate)
+        Margin = New Padding(3, 2, 3, 2)
         Name = "EventForm"
-        Size = New Size(679, 677)
+        Size = New Size(594, 508)
         ResumeLayout(False)
         PerformLayout()
     End Sub

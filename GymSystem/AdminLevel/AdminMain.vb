@@ -57,7 +57,7 @@ Public Class Staffmain
     End Sub
 
     Public Sub ConfigureMenu(role As String)
-        If role = "Normal Admin" Then
+        If role = "Admin" Then
             ' Hide the last menu button for normal admins
             othersBtn.Visible = False
         ElseIf role = "Super Admin" Then

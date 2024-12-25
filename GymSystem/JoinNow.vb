@@ -333,18 +333,18 @@ Public Class JoinNow
         End Select
     End Sub
 
-    Private Sub HeightTxt_TextChanged(sender As Object, e As EventArgs) Handles HeightTxt.TextChanged
-        Try
-            ' Check if the input is numeric and in the correct format (e.g., 5.9)
-            If Regex.IsMatch(HeightTxt.Text, "^\d+(\.\d+)?$") Then
-                ' Additional code for height processing can be added here if needed
-            ElseIf HeightTxt.Text <> "" Then
-                ' If the input is not a valid number and not empty, show a message
-                MessageBox.Show("Please enter a valid number for Height in feet (e.g., 5.9).", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        Catch ex As Exception
-            MessageBox.Show("An error occurred: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
+    Private Sub HeightTxt_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles HeightTxt.Validating
+        ' Validate the height input
+        Dim height As Decimal
+
+        If Decimal.TryParse(HeightTxt.Text, height) Then
+            ' Additional code for height processing can be added here if needed
+        ElseIf HeightTxt.Text <> "" Then
+            ' If the input is not a valid number and not empty, show a message
+            MessageBox.Show("Please enter a valid number for Height in feet (e.g., 5.9).", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            ' Cancel the event to keep the focus on the control
+            e.Cancel = True
+        End If
     End Sub
 
     Private Sub PassTxt_TextChanged(sender As Object, e As EventArgs) Handles PassTxt.TextChanged
@@ -375,12 +375,6 @@ Public Class JoinNow
             e.Handled = True ' Suppress the key press if it's not a letter or control key
             MessageBox.Show("Only letters are allowed.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End If
-
-        ' Enforce a maximum length of 4 characters
-        If SexTxt.Text.Length <= 4 AndAlso Not Char.IsControl(e.KeyChar) Then
-            e.Handled = True ' Suppress the key press if the length is 4 or more
-            MessageBox.Show("The input must be 4 characters (Male/Female) at least.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        End If
     End Sub
 
 
@@ -393,6 +387,19 @@ Public Class JoinNow
     Private Sub SubmitBtn_Click(sender As Object, e As EventArgs) Handles SubmitBtn.Click
         UpdateConnectionString()
         ' Call the validation function before proceeding
+
+        ' Check if the email has been used or if the information is 70% similar
+        Dim emailExists As Boolean = CEmailExists(EmailTxt.Text)
+        Dim similarInfoExists As Boolean = CSimilarInfoExists(FirstTxt.Text, LastTxt.Text, ContactTxt.Text)
+
+        If emailExists Then
+            MessageBox.Show("The email has already been used. Please use a different email.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return ' Exit the event if email exists
+        ElseIf similarInfoExists Then
+            MessageBox.Show("The information provided is too similar to an existing member. Please check your details.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return ' Exit the event if similar info exists
+        End If
+
         If Not ValidateForm() Then
             MessageBox.Show("Please fill up all the fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return ' Exit the event if any field is not filled
@@ -403,6 +410,7 @@ Public Class JoinNow
             MessageBox.Show("Passwords do not match! Please confirm your password.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             ' Optionally highlight the confirm password textbox
             CPassTxt.BackColor = Color.Gray
+            Return ' Exit the event if passwords do not match
         Else
             MessageBox.Show("Passwords match. You can proceed.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
             ' Clear any previous highlights
@@ -411,7 +419,42 @@ Public Class JoinNow
 
         InsertMemberAndLogin()
     End Sub
-
+    Private Function CSimilarInfoExists(firstName As String, lastName As String, phoneNumber As String) As Boolean
+        Dim exists As Boolean = False
+        Try
+            Using conn As New MySqlConnection(strConnection)
+                conn.Open()
+                Dim cmd As New MySqlCommand("SELECT COUNT(*) FROM members WHERE (FirstName = @FirstName AND LastName = @LastName) OR PhoneNumber = @PhoneNumber", conn)
+                cmd.Parameters.AddWithValue("@FirstName", firstName)
+                cmd.Parameters.AddWithValue("@LastName", lastName)
+                cmd.Parameters.AddWithValue("@PhoneNumber", phoneNumber)
+                Dim count As Integer = Convert.ToInt32(cmd.ExecuteScalar())
+                If count > 0 Then
+                    exists = True
+                End If
+            End Using
+        Catch ex As Exception
+            ErrorHandler.HandleError(ex)
+        End Try
+        Return exists
+    End Function
+    Private Function CEmailExists(email As String) As Boolean
+        Dim exists As Boolean = False
+        Try
+            Using conn As New MySqlConnection(strConnection)
+                conn.Open()
+                Dim cmd As New MySqlCommand("SELECT COUNT(*) FROM members WHERE Email = @Email", conn)
+                cmd.Parameters.AddWithValue("@Email", email)
+                Dim count As Integer = Convert.ToInt32(cmd.ExecuteScalar())
+                If count > 0 Then
+                    exists = True
+                End If
+            End Using
+        Catch ex As Exception
+            ErrorHandler.HandleError(ex)
+        End Try
+        Return exists
+    End Function
     Private Sub txtbx_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ContactTxt.KeyPress, KgTxt.KeyPress
         If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
             e.Handled = True
@@ -851,6 +894,16 @@ Public Class JoinNow
         End If
     End Sub
 
+    Private Sub HeightTxt_Leave(sender As Object, e As EventArgs) Handles HeightTxt.Leave
+        ' Check if the input is numeric and does not contain a decimal point
+        Dim height As Decimal
+        If Decimal.TryParse(HeightTxt.Text, height) AndAlso Not HeightTxt.Text.Contains(".") Then
+            ' Add a decimal point and a zero
+            HeightTxt.Text &= ".0"
+        End If
+    End Sub
+
+
     Private Sub KgTxt_KeyPress(sender As Object, e As KeyPressEventArgs) Handles KgTxt.KeyPress
         ' Allow only digits, decimal point, and control keys
         If Not Char.IsDigit(e.KeyChar) AndAlso e.KeyChar <> "."c AndAlso Not Char.IsControl(e.KeyChar) Then
@@ -865,5 +918,6 @@ Public Class JoinNow
             MessageBox.Show("Only one decimal point is allowed.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End If
     End Sub
+
 
 End Class

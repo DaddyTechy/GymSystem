@@ -41,7 +41,7 @@ Partial Class Staff
         ' 
         PictureBox1.Anchor = AnchorStyles.None
         PictureBox1.Image = _929005d9_38b9_4cc8_a97c_a1d57a1bbc1f_1_removebg_preview__1_
-        PictureBox1.Location = New Point(580, 120)
+        PictureBox1.Location = New Point(528, 120)
         PictureBox1.Margin = New Padding(3, 2, 3, 2)
         PictureBox1.Name = "PictureBox1"
         PictureBox1.Size = New Size(220, 270)

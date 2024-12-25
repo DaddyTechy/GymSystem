@@ -12,7 +12,7 @@ Public Class Admin
     Private hoverDarkenAmount As Single = 0.7
 
     Private Sub Admin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        AdminRole.SelectedIndex = 1
+        AdminRole.SelectedIndex = 0
         ' Create a main panel to hold all controls
         Dim mainPanel As New Panel()
         mainPanel.Size = New Size(925, 580)
@@ -96,20 +96,20 @@ Public Class Admin
             MessageBox.Show("ID cannot exceed 11 characters.")
         End If
 
-        ' Filter out invalid characters
-        Dim validText As String = New String(IDBox.Text.Where(Function(c) Char.IsDigit(c) OrElse c = "-"c).ToArray())
+        ' Filter out invalid characters and ensure the format is "SA-" followed by numbers
+        Dim validText As String
+        If IDBox.Text.StartsWith("SA-") Then
+            validText = "SA-" & New String(IDBox.Text.Substring(3).Where(Function(c) Char.IsDigit(c)).ToArray())
+        Else
+            validText = New String(IDBox.Text.Where(Function(c) Char.IsLetter(c) OrElse Char.IsDigit(c) OrElse c = "-"c).ToArray())
+        End If
+
         If validText <> IDBox.Text Then
             IDBox.Text = validText
             IDBox.SelectionStart = IDBox.Text.Length ' Move cursor to end
         End If
     End Sub
 
-    Private Sub IDBox_KeyPress(sender As Object, e As KeyPressEventArgs) Handles IDBox.KeyPress
-        ' Allow only numbers and hyphen
-        If Not Char.IsDigit(e.KeyChar) AndAlso e.KeyChar <> "-"c AndAlso Not Char.IsControl(e.KeyChar) Then
-            e.Handled = True
-        End If
-    End Sub
     Private Sub LoginBtn_MouseEnter(sender As Object, e As EventArgs) Handles LoginBtn.MouseEnter
         LoginBtn.BackColor = hoverButtonColor
         LoginBtn.ForeColor = Color.White
@@ -170,32 +170,51 @@ Public Class Admin
     End Sub
 
     Private Sub LoginBtn_Click(sender As Object, e As EventArgs) Handles LoginBtn.Click
-        Dim adminID As Integer
-        If Integer.TryParse(IDBox.Text, adminID) Then
-            Dim password As String = PassBox.Text
+        Dim adminID As String = IDBox.Text
+        Dim password As String = PassBox.Text
+        Dim role As String
 
-            ' Check if a role is selected
-            If AdminRole.SelectedItem IsNot Nothing Then
-                Dim role As String = AdminRole.SelectedItem.ToString()
+        ' Determine the role based on the AdminID
+        If adminID.StartsWith("SA-") Then
+            role = "Super Admin"
+            ' Remove the "SA-" prefix for authentication
+            adminID = adminID.Substring(3)
+        Else
+            role = "Admin"
+        End If
 
-                ' Authenticate user
-                Dim user = AuthenticateUser(adminID, password, role)
-                If user IsNot Nothing Then
-                    ' Show the main admin form
-                    Dim adminMain As New Staffmain()
-                    adminMain.ConfigureMenu(user.Role)
-                    ShowUserControlInForm(adminMain, "Admin Main")
-                    Me.Hide()
-                Else
-                    MessageBox.Show("Invalid AdminID, password, or role.")
-                End If
+        ' Convert adminID to integer
+        Dim adminIDInt As Integer
+        If Integer.TryParse(adminID, adminIDInt) Then
+            ' Authenticate user
+            Dim user = AuthenticateUser(adminIDInt, password, role)
+            If user IsNot Nothing Then
+                ' Update membership status
+                UpdateMembershipStatus()
+
+                ' Show the main admin form
+                Dim adminMain As New Staffmain()
+                adminMain.ConfigureMenu(user.Role)
+                ShowUserControlInForm(adminMain, "Admin Main")
+                Me.Hide()
             Else
-                MessageBox.Show("Please select a role.")
+                MessageBox.Show("Invalid AdminID, password, or role.")
             End If
         Else
             MessageBox.Show("Please enter a valid AdminID.")
         End If
     End Sub
+
+
+    Private Sub UpdateMembershipStatus()
+        Using conn As New MySqlConnection(strConnection)
+            conn.Open()
+            Dim cmd As New MySqlCommand("CALL UpdateMembershipStatus()", conn)
+            cmd.ExecuteNonQuery()
+        End Using
+    End Sub
+
+
     Private Function AuthenticateUser(adminID As Integer, password As String, role As String) As AdminUser
         UpdateConnectionString()
         Try

@@ -2,11 +2,16 @@
 Imports MySql.Data.MySqlClient
 
 Public Class ContentAttendance
+    Private currentOffset As Integer = 0
+    Private Const batchSize As Integer = 25
 
     Private Sub LoadAttendanceData()
         UpdateConnectionString()
-        Dim query As String = $"SELECT a.AttendanceID, a.StaffID, a.MemberID, a.Date, a.CheckInTime, a.CheckOutTime, a.SessionType, a.Status " &
-                          $"FROM attendance a"
+        Dim query As String = $"SELECT a.AttendanceID, a.StaffID, a.MemberID, CONCAT(m.FirstName, ' ', m.LastName) AS MemberFullName, a.Date, a.CheckInTime, a.CheckOutTime, a.SessionType, a.Status " &
+                          $"FROM attendance a " &
+                          $"JOIN members m ON a.MemberID = m.MemberID " &
+                          $"LIMIT {batchSize} OFFSET {currentOffset}"
+
         LoadToDGV(query, attendanceDGV)
 
         ' Set the properties for attendanceDGV
@@ -121,12 +126,14 @@ Public Class ContentAttendance
         attendanceDGV.Columns("AttendanceID").HeaderText = "Attendance #"
         attendanceDGV.Columns("StaffID").HeaderText = "Staff ID"
         attendanceDGV.Columns("MemberID").HeaderText = "Member ID"
+        attendanceDGV.Columns("MemberFullName").HeaderText = "Member Name"
         attendanceDGV.Columns("Date").HeaderText = "Date"
         attendanceDGV.Columns("CheckInTime").HeaderText = "Check-In Time"
         attendanceDGV.Columns("CheckOutTime").HeaderText = "Check-Out Time"
         attendanceDGV.Columns("SessionType").HeaderText = "Session Type"
         attendanceDGV.Columns("Status").HeaderText = "Status"
     End Sub
+
 
     Private isEditing As Boolean = False
 
@@ -252,22 +259,22 @@ Public Class ContentAttendance
         comboBox.Focus()
     End Sub
 
-   Private Sub EditAttendance(attendanceID As Integer, rowIndex As Integer)
-    isEditing = True ' Set the editing state to True
+    Private Sub EditAttendance(attendanceID As Integer, rowIndex As Integer)
+        isEditing = True ' Set the editing state to True
 
-    ' Enable editing for the entire row
-    For Each cell As DataGridViewCell In attendanceDGV.Rows(rowIndex).Cells
-        cell.ReadOnly = False
-        Debug.WriteLine($"Cell at column {cell.ColumnIndex}, row {rowIndex} ReadOnly status: {cell.ReadOnly}")
-    Next
-    Debug.WriteLine($"Enabled editing for row {rowIndex}")
+        ' Enable editing for the entire row
+        For Each cell As DataGridViewCell In attendanceDGV.Rows(rowIndex).Cells
+            cell.ReadOnly = False
+            Debug.WriteLine($"Cell at column {cell.ColumnIndex}, row {rowIndex} ReadOnly status: {cell.ReadOnly}")
+        Next
+        Debug.WriteLine($"Enabled editing for row {rowIndex}")
 
-    MessageBox.Show("You can now edit the selected row.")
+        MessageBox.Show("You can now edit the selected row.")
 
-    ' Attach event handlers
-    AddHandler attendanceDGV.CellBeginEdit, AddressOf attendanceDGV_CellBeginEdit
-    AddHandler attendanceDGV.CellEndEdit, AddressOf attendanceDGV_CellEndEdit
-End Sub
+        ' Attach event handlers
+        AddHandler attendanceDGV.CellBeginEdit, AddressOf attendanceDGV_CellBeginEdit
+        AddHandler attendanceDGV.CellEndEdit, AddressOf attendanceDGV_CellEndEdit
+    End Sub
 
 
     Private Sub attendanceDGV_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs) Handles attendanceDGV.CellBeginEdit
@@ -464,7 +471,8 @@ End Sub
         Dim queryAttendance As String = $"SELECT a.AttendanceID, a.MemberID, CONCAT(m.FirstName, ' ', m.LastName) AS MemberFullName, a.CheckInTime, a.CheckOutTime, a.SessionType, a.Date AS currDate, a.StaffID, a.Status " &
                                     $"FROM attendance a " &
                                     $"JOIN members m ON a.MemberID = m.MemberID " &
-                                    $"WHERE m.FirstName LIKE '%{searchText}%' OR m.LastName LIKE '%{searchText}%' OR a.MemberID LIKE '%{searchText}%'"
+                                    $"WHERE m.FirstName LIKE '%{searchText}%' OR m.LastName LIKE '%{searchText}%' OR a.MemberID LIKE '%{searchText}%'" &
+                                    $"LIMIT {batchSize} OFFSET {currentOffset}"
         Dim adapterAttendance As New MySqlDataAdapter(queryAttendance, conn)
         Dim dtAttendance As New DataTable()
         adapterAttendance.Fill(dtAttendance)
@@ -495,20 +503,20 @@ End Sub
     Private addAttendanceControl As AddAttendanceControl
 
     Public Sub New()
-            ' This call is required by the designer.
-            InitializeComponent()
+        ' This call is required by the designer.
+        InitializeComponent()
 
-            ' Initialize the AddAttendanceControl
-            addAttendanceControl = New AddAttendanceControl()
-            addAttendanceControl.AttendanceDataGridView = attendanceDGV ' Set the reference to the DataGridView
+        ' Initialize the AddAttendanceControl
+        addAttendanceControl = New AddAttendanceControl()
+        addAttendanceControl.AttendanceDataGridView = attendanceDGV ' Set the reference to the DataGridView
 
-            ' Add the AddAttendanceControl to the form
-            Me.Controls.Add(addAttendanceControl)
-            addAttendanceControl.Visible = False
+        ' Add the AddAttendanceControl to the form
+        Me.Controls.Add(addAttendanceControl)
+        addAttendanceControl.Visible = False
 
-            ' Add any initialization after the InitializeComponent() call.
-            AddHandler addAttendanceControl.SaveAttendance, AddressOf OnSaveAttendance
-        End Sub
+        ' Add any initialization after the InitializeComponent() call.
+        AddHandler addAttendanceControl.SaveAttendance, AddressOf OnSaveAttendance
+    End Sub
 
 
     ' Button click event to show the AddAttendanceControl
@@ -567,12 +575,24 @@ End Sub
 
     ' Method to show the attendance DataGridView
     Private Sub ShowAttendanceList()
-            ' Implement the logic to display the attendance DataGridView
-            ' For example, you can make the attendance DataGridView visible
-            attendanceDGV.Visible = True
-            ' Optionally, you can bring the DataGridView to the front
-            attendanceDGV.BringToFront()
-        End Sub
+        ' Implement the logic to display the attendance DataGridView
+        ' For example, you can make the attendance DataGridView visible
+        attendanceDGV.Visible = True
+        ' Optionally, you can bring the DataGridView to the front
+        attendanceDGV.BringToFront()
+    End Sub
 
+    Private Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
+        currentOffset += batchSize
+        LoadAttendanceData()
+    End Sub
 
-    End Class
+    Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
+        If currentOffset >= batchSize Then
+            currentOffset -= batchSize
+        Else
+            currentOffset = 0
+        End If
+        LoadAttendanceData()
+    End Sub
+End Class

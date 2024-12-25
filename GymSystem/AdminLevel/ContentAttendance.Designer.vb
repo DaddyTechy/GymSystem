@@ -27,6 +27,9 @@ Partial Class ContentAttendance
         Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Panel1 = New Panel()
+        Panel2 = New Panel()
+        btnBack = New Button()
+        btnNext = New Button()
         btnAddAttendance = New Button()
         btnSearch2 = New Button()
         txtUserInput = New TextBox()
@@ -34,24 +37,62 @@ Partial Class ContentAttendance
         Label2 = New Label()
         Label1 = New Label()
         Panel1.SuspendLayout()
+        Panel2.SuspendLayout()
         CType(attendanceDGV, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' Panel1
         ' 
         Panel1.BackColor = Color.Transparent
+        Panel1.Controls.Add(Panel2)
         Panel1.Controls.Add(btnAddAttendance)
         Panel1.Controls.Add(btnSearch2)
         Panel1.Controls.Add(txtUserInput)
         Panel1.Controls.Add(attendanceDGV)
         Panel1.Controls.Add(Label2)
         Panel1.Dock = DockStyle.Fill
-        Panel1.Location = New Point(13, 28)
+        Panel1.Location = New Point(11, 25)
         Panel1.Margin = New Padding(3, 2, 3, 2)
         Panel1.Name = "Panel1"
-        Panel1.Padding = New Padding(18, 0, 18, 0)
-        Panel1.Size = New Size(565, 333)
+        Panel1.Padding = New Padding(16, 0, 16, 0)
+        Panel1.Size = New Size(559, 395)
         Panel1.TabIndex = 3
+        ' 
+        ' Panel2
+        ' 
+        Panel2.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        Panel2.Controls.Add(btnBack)
+        Panel2.Controls.Add(btnNext)
+        Panel2.Location = New Point(422, 364)
+        Panel2.Name = "Panel2"
+        Panel2.Size = New Size(121, 28)
+        Panel2.TabIndex = 14
+        ' 
+        ' btnBack
+        ' 
+        btnBack.BackColor = Color.Gray
+        btnBack.Dock = DockStyle.Left
+        btnBack.FlatStyle = FlatStyle.Popup
+        btnBack.ForeColor = SystemColors.ControlLightLight
+        btnBack.Location = New Point(0, 0)
+        btnBack.Name = "btnBack"
+        btnBack.Size = New Size(49, 28)
+        btnBack.TabIndex = 10
+        btnBack.Text = "Back"
+        btnBack.UseVisualStyleBackColor = False
+        ' 
+        ' btnNext
+        ' 
+        btnNext.BackColor = Color.Gray
+        btnNext.Dock = DockStyle.Right
+        btnNext.FlatStyle = FlatStyle.Popup
+        btnNext.ForeColor = SystemColors.ControlLightLight
+        btnNext.Location = New Point(72, 0)
+        btnNext.Name = "btnNext"
+        btnNext.Size = New Size(49, 28)
+        btnNext.TabIndex = 9
+        btnNext.Text = "Next"
+        btnNext.UseVisualStyleBackColor = False
         ' 
         ' btnAddAttendance
         ' 
@@ -60,10 +101,10 @@ Partial Class ContentAttendance
         btnAddAttendance.ForeColor = Color.White
         btnAddAttendance.Image = edit
         btnAddAttendance.ImageAlign = ContentAlignment.MiddleRight
-        btnAddAttendance.Location = New Point(262, 0)
+        btnAddAttendance.Location = New Point(294, 0)
         btnAddAttendance.Margin = New Padding(3, 2, 3, 2)
         btnAddAttendance.Name = "btnAddAttendance"
-        btnAddAttendance.Size = New Size(66, 29)
+        btnAddAttendance.Size = New Size(58, 30)
         btnAddAttendance.TabIndex = 13
         btnAddAttendance.Text = "Add"
         btnAddAttendance.TextImageRelation = TextImageRelation.ImageBeforeText
@@ -76,10 +117,10 @@ Partial Class ContentAttendance
         btnSearch2.ForeColor = Color.White
         btnSearch2.Image = search1
         btnSearch2.ImageAlign = ContentAlignment.MiddleLeft
-        btnSearch2.Location = New Point(474, 4)
+        btnSearch2.Location = New Point(480, 3)
         btnSearch2.Margin = New Padding(3, 2, 3, 2)
         btnSearch2.Name = "btnSearch2"
-        btnSearch2.Size = New Size(73, 25)
+        btnSearch2.Size = New Size(76, 27)
         btnSearch2.TabIndex = 6
         btnSearch2.Text = "Search"
         btnSearch2.TextAlign = ContentAlignment.BottomCenter
@@ -92,14 +133,11 @@ Partial Class ContentAttendance
         txtUserInput.BackColor = Color.Silver
         txtUserInput.BorderStyle = BorderStyle.FixedSingle
         txtUserInput.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        txtUserInput.Location = New Point(333, 4)
+        txtUserInput.Location = New Point(356, 3)
         txtUserInput.Margin = New Padding(3, 2, 3, 2)
         txtUserInput.Name = "txtUserInput"
-        txtUserInput.Size = New Size(141, 25)
+        txtUserInput.Size = New Size(124, 25)
         txtUserInput.TabIndex = 5
-        ' 
-        ' btnSearch
-        ' 
         ' 
         ' attendanceDGV
         ' 
@@ -112,7 +150,7 @@ Partial Class ContentAttendance
         attendanceDGV.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
         DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        DataGridViewCellStyle1.Font = New Font("Segoe UI", 10.0F)
+        DataGridViewCellStyle1.Font = New Font("Segoe UI", 10F)
         DataGridViewCellStyle1.ForeColor = Color.White
         DataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
@@ -121,7 +159,7 @@ Partial Class ContentAttendance
         attendanceDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle2.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9.0F)
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
         DataGridViewCellStyle2.ForeColor = Color.White
         DataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight
         DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
@@ -131,7 +169,7 @@ Partial Class ContentAttendance
         attendanceDGV.EditMode = DataGridViewEditMode.EditOnEnter
         attendanceDGV.EnableHeadersVisualStyles = False
         attendanceDGV.GridColor = Color.White
-        attendanceDGV.Location = New Point(18, 33)
+        attendanceDGV.Location = New Point(16, 30)
         attendanceDGV.Margin = New Padding(3, 2, 3, 2)
         attendanceDGV.MultiSelect = False
         attendanceDGV.Name = "attendanceDGV"
@@ -147,34 +185,31 @@ Partial Class ContentAttendance
         attendanceDGV.RowHeadersVisible = False
         attendanceDGV.RowHeadersWidth = 51
         DataGridViewCellStyle4.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        DataGridViewCellStyle4.Font = New Font("Segoe UI", 9.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        DataGridViewCellStyle4.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         DataGridViewCellStyle4.ForeColor = Color.White
         attendanceDGV.RowsDefaultCellStyle = DataGridViewCellStyle4
         attendanceDGV.RowTemplate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
         attendanceDGV.RowTemplate.DefaultCellStyle.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        attendanceDGV.RowTemplate.DefaultCellStyle.Font = New Font("Microsoft Sans Serif", 9.0F)
+        attendanceDGV.RowTemplate.DefaultCellStyle.Font = New Font("Microsoft Sans Serif", 9F)
         attendanceDGV.RowTemplate.DefaultCellStyle.ForeColor = Color.White
         attendanceDGV.RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
         attendanceDGV.SelectionMode = DataGridViewSelectionMode.FullRowSelect
         attendanceDGV.ShowCellErrors = False
         attendanceDGV.ShowRowErrors = False
-        attendanceDGV.Size = New Size(529, 300)
+        attendanceDGV.Size = New Size(527, 365)
         attendanceDGV.TabIndex = 0
-        ' 
-        ' txtBoxSearchInput
-        ' 
         ' 
         ' Label2
         ' 
         Label2.AutoSize = True
         Label2.Dock = DockStyle.Top
-        Label2.Font = New Font("Segoe UI", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label2.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.White
-        Label2.Location = New Point(18, 0)
-        Label2.Margin = New Padding(3, 0, 3, 8)
+        Label2.Location = New Point(16, 0)
+        Label2.Margin = New Padding(3, 0, 3, 6)
         Label2.Name = "Label2"
-        Label2.Padding = New Padding(0, 4, 0, 8)
-        Label2.Size = New Size(143, 33)
+        Label2.Padding = New Padding(0, 3, 0, 6)
+        Label2.Size = New Size(143, 30)
         Label2.TabIndex = 0
         Label2.Text = "Attendance Table"
         Label2.TextAlign = ContentAlignment.MiddleCenter
@@ -185,7 +220,7 @@ Partial Class ContentAttendance
         Label1.Dock = DockStyle.Top
         Label1.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.Gold
-        Label1.Location = New Point(13, 11)
+        Label1.Location = New Point(11, 8)
         Label1.Name = "Label1"
         Label1.Padding = New Padding(2, 0, 0, 0)
         Label1.Size = New Size(159, 17)
@@ -194,18 +229,19 @@ Partial Class ContentAttendance
         ' 
         ' ContentAttendance
         ' 
-        AutoScaleDimensions = New SizeF(8.0F, 20.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.Transparent
         Controls.Add(Panel1)
         Controls.Add(Label1)
         Margin = New Padding(3, 2, 3, 2)
-        MinimumSize = New Size(591, 372)
+        MinimumSize = New Size(517, 279)
         Name = "ContentAttendance"
-        Padding = New Padding(13, 11, 13, 11)
-        Size = New Size(591, 372)
+        Padding = New Padding(11, 8, 11, 8)
+        Size = New Size(581, 428)
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
+        Panel2.ResumeLayout(False)
         CType(attendanceDGV, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
@@ -218,5 +254,8 @@ Partial Class ContentAttendance
     Friend WithEvents btnSearch2 As Button
     Friend WithEvents txtUserInput As TextBox
     Friend WithEvents btnAddAttendance As Button
+    Friend WithEvents Panel2 As Panel
+    Friend WithEvents btnBack As Button
+    Friend WithEvents btnNext As Button
 
 End Class

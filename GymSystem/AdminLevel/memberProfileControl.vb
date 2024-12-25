@@ -1,5 +1,6 @@
 ﻿Imports System.Windows.Forms.DataVisualization.Charting
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel
+Imports GymSystem.Payment
 Imports MySql.Data.MySqlClient
 Imports Org.BouncyCastle.Crypto
 
@@ -184,7 +185,47 @@ Public Class memberProfileControl
         notesDGV.Columns("NoteDetails").HeaderText = "Note Details"
         notesDGV.Columns("Author").HeaderText = "Author"
         notesDGV.Columns("DateAdded").HeaderText = "Date Added"
+
+        ' Check if the delete button column already exists
+        If notesDGV.Columns("DeleteButton") Is Nothing Then
+            ' Add delete button column
+            Dim deleteButtonColumn As New DataGridViewButtonColumn()
+            deleteButtonColumn.Name = "DeleteButton"
+            deleteButtonColumn.HeaderText = "Delete"
+            deleteButtonColumn.Text = "Delete"
+            deleteButtonColumn.UseColumnTextForButtonValue = True
+            notesDGV.Columns.Add(deleteButtonColumn)
+        End If
+
+        ' Handle the delete button click event
+        AddHandler notesDGV.CellClick, AddressOf notesDGV_CellClick
     End Sub
+
+    Private Sub notesDGV_CellClick(sender As Object, e As DataGridViewCellEventArgs)
+        If e.ColumnIndex = notesDGV.Columns("DeleteButton").Index AndAlso e.RowIndex >= 0 Then
+            Dim noteID As Integer = Convert.ToInt32(notesDGV.Rows(e.RowIndex).Cells("NoteID").Value)
+            Dim result As DialogResult = MessageBox.Show("Are you sure you want to delete this note?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+            If result = DialogResult.Yes Then
+                ' Delete the note from the database
+                DeleteNoteFromDatabase(noteID)
+                ' Refresh the DataGridView
+                LoadNotesForMember(selectedMember.MemberID)
+            End If
+        End If
+    End Sub
+
+    Private Sub DeleteNoteFromDatabase(noteID As Integer)
+        ' Implement the logic to delete the note from the database
+        ' Example:
+        Using conn As New MySqlConnection(strConnection)
+            conn.Open()
+            Dim cmd As New MySqlCommand("DELETE FROM notes WHERE NoteID = @NoteID", conn)
+            cmd.Parameters.AddWithValue("@NoteID", noteID)
+            cmd.ExecuteNonQuery()
+        End Using
+    End Sub
+
+
 
 
     ' Define the LoadMemberData method
@@ -362,7 +403,7 @@ Public Class memberProfileControl
         Try
             ' Insert the new reservation into the reservations table
             Dim query As String = $"INSERT INTO reservation (MemberID, EquipmentID, StaffID, ReservationDate, StartTime, EndTime, ReservationFee, ReservationNotes, ReservationStatus, Cancellation, Reschedule, PaymentStatus, Feedback, Purpose) " &
-                              $"VALUES ({memberID}, {equipmentID}, {staffID}, '{reservationDate:yyyy-MM-dd}', '{startTime:HH:mm:ss}', '{endTime:HH:mm:ss}', {reservationFee}, '{reservationNotes}', 'Pending', False, False, 'Unpaid', '', '{purpose}')"
+                              $"VALUES ({memberID}, {equipmentID}, {staffID}, '{reservationDate:yyyy-MM-dd}', '{startTime:HH:mm:ss}', '{endTime:HH:mm:ss}', {reservationFee}, '{reservationNotes}', 'Ongoing', 'No', 'No', 'Unpaid', '', '{purpose}')"
             ExecuteQuery(query)
             MessageBox.Show($"Debug: inserted MemberID = {memberID}")
 
@@ -529,6 +570,19 @@ Public Class memberProfileControl
         reservationsDGV.ShowCellErrors = False
         reservationsDGV.ShowRowErrors = False
 
+        If reservationsDGV.Columns("Cancel") Is Nothing Then
+            ' Add Cancel button
+            Dim cancelButtonColumn As New DataGridViewButtonColumn()
+            cancelButtonColumn.Name = "Cancel"
+            cancelButtonColumn.HeaderText = "Cancel"
+            cancelButtonColumn.Text = "Cancel"
+            cancelButtonColumn.UseColumnTextForButtonValue = True
+            cancelButtonColumn.FlatStyle = FlatStyle.Standard
+            cancelButtonColumn.DefaultCellStyle.BackColor = Color.Red
+            cancelButtonColumn.MinimumWidth = 50
+            reservationsDGV.Columns.Insert(0, cancelButtonColumn) ' Insert at the desired position
+        End If
+
         ' Check if Edit and Delete columns already exist
         If reservationsDGV.Columns("Edit") Is Nothing Then
             ' Add Edit button
@@ -540,7 +594,7 @@ Public Class memberProfileControl
             editButtonColumn.FlatStyle = FlatStyle.Standard
             editButtonColumn.DefaultCellStyle.BackColor = Color.Gold
             editButtonColumn.MinimumWidth = 50
-            reservationsDGV.Columns.Insert(0, editButtonColumn)
+            reservationsDGV.Columns.Insert(1, editButtonColumn)
         End If
 
         If reservationsDGV.Columns("Delete") Is Nothing Then
@@ -553,7 +607,7 @@ Public Class memberProfileControl
             deleteButtonColumn.FlatStyle = FlatStyle.Standard
             deleteButtonColumn.DefaultCellStyle.BackColor = Color.Gold
             deleteButtonColumn.MinimumWidth = 52
-            reservationsDGV.Columns.Insert(1, deleteButtonColumn)
+            reservationsDGV.Columns.Insert(2, deleteButtonColumn)
         End If
 
         ' Add columns to the DataGridView
@@ -572,7 +626,21 @@ Public Class memberProfileControl
         reservationsDGV.Columns("PaymentStatus").HeaderText = "Payment Status"
         reservationsDGV.Columns("Feedback").HeaderText = "Feedback"
         reservationsDGV.Columns("ReservationFee").HeaderText = "Fee"
+
+        reservationsDGV.Columns("ReservationStatus").DisplayIndex = 3
+        reservationsDGV.Columns("Cancellation").DisplayIndex = 16
+        reservationsDGV.Columns("Reschedule").DisplayIndex = 17
     End Sub
+
+    Private Sub reservationsDGV_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles reservationsDGV.CellFormatting
+        If reservationsDGV.Columns(e.ColumnIndex).Name = "ReservationStatus" Then
+            Dim status As String = e.Value.ToString()
+            If status = "Cancelled" Then
+                e.CellStyle.BackColor = Color.Red
+            End If
+        End If
+    End Sub
+
 
     Private isEditMode As Boolean = False
     Private originalValues As New Dictionary(Of Integer, Dictionary(Of String, String))
@@ -608,6 +676,18 @@ Public Class memberProfileControl
                 Else
                     MessageBox.Show("This row is locked and cannot be edited.")
                 End If
+            ElseIf e.ColumnIndex = reservationsDGV.Columns("Cancel").Index Then
+                ' Handle Cancel button click
+                Dim resultCancel As DialogResult = MessageBox.Show("Do you want to cancel this reservation? There will be NO REFUND!", "Cancel Reservation", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If resultCancel = DialogResult.Yes Then
+                    ' Update reservation status to Cancelled and cancellation to True
+                    Dim query As String = $"UPDATE reservation SET ReservationStatus = 'Cancelled', Cancellation = True WHERE ReservationID = {reservationID}"
+                    readQuery(query)
+                    ' Refresh the DataGridView
+                    LoadReservationsForMember(reservationsDGV.Rows(0).Cells("MemberID").Value)
+                    MessageBox.Show("Reservation cancelled successfully for ReservationID: " & reservationID)
+                    Exit Sub
+                End If
             ElseIf e.ColumnIndex = reservationsDGV.Columns("Delete").Index Then
                 ' Handle Delete button click
                 Dim resultDelete As DialogResult = MessageBox.Show("Do you want to delete the entire row?", "Delete Row", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
@@ -617,8 +697,10 @@ Public Class memberProfileControl
                     If reservationsDGV.Rows.Contains(selectedRow) Then
                         reservationsDGV.Rows.Remove(selectedRow)
                         MessageBox.Show("Record deleted successfully for ReservationID: " & reservationID)
+                        Exit Sub
                     Else
                         MessageBox.Show("Row does not belong to this DataGridView.")
+                        Exit Sub
                     End If
                 End If
             Else
@@ -791,9 +873,9 @@ Public Class memberProfileControl
             Dim equipmentID As Integer = ValidateEquipmentID(equipmentName)
             Dim staffID As Integer = ValidateStaffID(staffName)
 
-            ' Convert string "yes"/"no" to boolean values
-            Dim cancellationBool As Boolean = (cancellation = "yes")
-            Dim rescheduleBool As Boolean = (reschedule = "yes")
+            ' Convert string "yes"/"no" to "Yes"/"No" values
+            Dim cancellationStr As String = If(cancellation = "yes", "Yes", "No")
+            Dim rescheduleStr As String = If(reschedule = "yes", "Yes", "No")
 
             ' Update the reservation table with the edited values
             Dim updateQuery As String = $"UPDATE reservation SET " &
@@ -806,8 +888,8 @@ Public Class memberProfileControl
                                     $"ReservationStatus = '{reservationStatus}', " &
                                     $"Purpose = '{purpose}', " &
                                     $"ReservationNotes = '{reservationNotes}', " &
-                                    $"Cancellation = {cancellationBool}, " &
-                                    $"Reschedule = {rescheduleBool}, " &
+                                    $"Cancellation = '{cancellationStr}', " &
+                                    $"Reschedule = '{rescheduleStr}', " &
                                     $"PaymentStatus = '{paymentStatus}', " &
                                     $"Feedback = '{feedback}', " &
                                     $"ReservationFee = {reservationFee} " &

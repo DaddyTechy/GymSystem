@@ -65,6 +65,23 @@ Public Class BillingPaymentForm
         CalculateTotalAmount()
     End Sub
 
+    Private Sub txtDiscountAmount_TextChanged(sender As Object, e As EventArgs) Handles txtDiscountAmount.TextChanged
+        ' Validate the discount amount
+        Dim discountAmount As Decimal
+        Dim totalAmount As Decimal
+
+        If Decimal.TryParse(txtDiscountAmount.Text, discountAmount) AndAlso Decimal.TryParse(txtTotalAmount.Text, totalAmount) Then
+            Dim maxDiscount As Decimal = totalAmount * 0.3D
+            If discountAmount > maxDiscount Then
+                MessageBox.Show($"Discount amount cannot exceed 30% of the total amount. Maximum allowed discount is {maxDiscount:C}.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                txtDiscountAmount.Text = maxDiscount.ToString("F2")
+            End If
+        End If
+
+        CalculateTotalAmount()
+    End Sub
+
+
     Private Sub txtDiscountAmount_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtDiscountAmount.KeyPress
         ' Allow only digits, the decimal point, and control characters
         If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) AndAlso e.KeyChar <> "."c Then
@@ -135,7 +152,7 @@ Public Class BillingPaymentForm
                 Process.Start(New ProcessStartInfo(checkoutUrl) With {.UseShellExecute = True})
             End If
 
-            Dim queryPayment As String = $"UPDATE payment SET PaymentMethod = '{paymentMethod}', PaymentDate = '{paymentDate:yyyy-MM-dd}', Amount = {subTotal}, InvoiceNumber = '{invoiceNumber}', ReceiptNumber = '{receiptNumber}', DiscountApplied = {discountApplied}, TaxAmount = {taxAmount}, TotalAmount = {totalAmount}, PaymentNotes = '{paymentNotes}', PaymentStatus = 'Paid' WHERE PaymentID = {paymentID}"
+            Dim queryPayment As String = $"UPDATE payment SET PaymentMethod = '{paymentMethod}', PaymentDate = '{paymentDate:yyyy-MM-dd HH:mm:ss}', Amount = {subTotal}, InvoiceNumber = '{invoiceNumber}', ReceiptNumber = '{receiptNumber}', DiscountApplied = {discountApplied}, TaxAmount = {taxAmount}, TotalAmount = {totalAmount}, PaymentNotes = '{paymentNotes}', PaymentStatus = 'Paid' WHERE PaymentID = {paymentID}"
             readQuery(queryPayment)
 
             ' Update status in the relevant table
@@ -153,15 +170,39 @@ Public Class BillingPaymentForm
                 readQuery(queryReservation)
             End If
 
+            ' Retrieve member name
+            Dim memberName As String = GetMemberName(memberID)
+
             ' Notify user of successful save
             MessageBox.Show("Payment completed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
+            ' Show the receipt form
+            Dim receiptForm As New PaymentReceipt(paymentMethod, paymentDate, subTotal, invoiceNumber, receiptNumber, discountApplied, taxAmount, totalAmount, paymentNotes, memberID, memberName)
+            receiptForm.ShowDialog()
+
+
             OnPaymentCompleted()
-            Me.Hide()
         Catch ex As Exception
             MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+
+    Private Function GetMemberName(memberID As Integer) As String
+        Dim memberName As String = String.Empty
+        Dim query As String = $"SELECT CONCAT(FirstName, ' ', LastName) AS MemberName FROM members WHERE MemberID = {memberID}"
+        Using conn As New MySqlConnection(strConnection)
+            conn.Open()
+            Using cmd As New MySqlCommand(query, conn)
+                Using reader As MySqlDataReader = cmd.ExecuteReader()
+                    If reader.Read() Then
+                        memberName = reader("MemberName").ToString()
+                    End If
+                End Using
+            End Using
+        End Using
+        Return memberName
+    End Function
 
 
     Private Function GenerateInvoiceNumber() As String
@@ -194,8 +235,6 @@ Public Class BillingPaymentForm
         RaiseEvent PaymentCompleted(Me, EventArgs.Empty)
         Me.Hide()
     End Sub
-
-
 
     Public Async Function InitiatePayment(amount As Decimal, currency As String, description As String, paymentMethod As String) As Task(Of String)
         Dim apiKey As String = "sk_test_orK6MTNaBig29mb3WoQh2TQU" ' Replace with your actual secret key

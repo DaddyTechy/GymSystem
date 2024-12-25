@@ -67,9 +67,9 @@ Partial Class Report
         Label1.ForeColor = Color.FromArgb(CByte(245), CByte(203), CByte(45))
         Label1.Location = New Point(54, 33)
         Label1.Name = "Label1"
-        Label1.Size = New Size(153, 30)
+        Label1.Size = New Size(152, 30)
         Label1.TabIndex = 1
-        Label1.Text = "JJ Firness GYM"
+        Label1.Text = "JJ Fitness GYM"
         ' 
         ' lblLastPaymentDone
         ' 
@@ -138,7 +138,7 @@ Partial Class Report
         lblMembershipStatus.AutoSize = True
         lblMembershipStatus.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         lblMembershipStatus.ForeColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
-        lblMembershipStatus.Location = New Point(278, 383)
+        lblMembershipStatus.Location = New Point(282, 383)
         lblMembershipStatus.Name = "lblMembershipStatus"
         lblMembershipStatus.Size = New Size(57, 21)
         lblMembershipStatus.TabIndex = 2

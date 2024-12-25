@@ -4,50 +4,50 @@ Imports MySql.Data.MySqlClient
 Public Class Report
 
     Private Sub FetchMembershipData()
-            Using conn As New MySqlConnection(strConnection)
-                conn.Open()
-                Dim query As String = $"SELECT MembershipID, MembershipType, Duration, Cost, StartDate FROM membership WHERE MemberID = {CurrentLoggedUser.id}"
-                Using cmd As New MySqlCommand(query, conn)
-                    Using reader As MySqlDataReader = cmd.ExecuteReader()
-                        If reader.Read() Then
-                            lblMembershipID.Text = reader("MembershipID").ToString()
-                            lblServiceTaken.Text = reader("MembershipType").ToString()
-                            lblPlanDuration.Text = reader("Duration").ToString()
-                            lblPlanCost.Text = reader("Cost").ToString()
-                            lblMemberSince.Text = "Member Since: " & Convert.ToDateTime(reader("StartDate")).ToString("yyyy-MM-dd")
+        Using conn As New MySqlConnection(strConnection)
+            conn.Open()
+            Dim query As String = $"SELECT MembershipID, MembershipType, Duration, Cost, StartDate FROM membership WHERE MemberID = {CurrentLoggedUser.id}"
+            Using cmd As New MySqlCommand(query, conn)
+                Using reader As MySqlDataReader = cmd.ExecuteReader()
+                    If reader.Read() Then
+                        lblMembershipID.Text = reader("MembershipID").ToString()
+                        lblServiceTaken.Text = reader("MembershipType").ToString()
+                        lblPlanDuration.Text = reader("Duration").ToString()
+                        lblPlanCost.Text = reader("Cost").ToString()
+                        lblMemberSince.Text = "Member Since: " & Convert.ToDateTime(reader("StartDate")).ToString("yyyy-MM-dd")
                         lblLastPaymentDone.Text = $"Last Payment Done: Php {reader("Cost").ToString()}"
                     End If
-                    End Using
                 End Using
             End Using
-        End Sub
+        End Using
+    End Sub
 
-        ' Fetch attendance count from the attendance table and update label
-        Private Sub FetchAttendanceCount()
-            Using conn As New MySqlConnection(strConnection)
-                conn.Open()
-                Dim query As String = $"SELECT COUNT(*) AS AttendanceCount FROM attendance WHERE MemberID = {CurrentLoggedUser.id}"
-                Using cmd As New MySqlCommand(query, conn)
+    ' Fetch attendance count from the attendance table and update label
+    Private Sub FetchAttendanceCount()
+        Using conn As New MySqlConnection(strConnection)
+            conn.Open()
+            Dim query As String = $"SELECT COUNT(*) AS AttendanceCount FROM attendance WHERE MemberID = {CurrentLoggedUser.id}"
+            Using cmd As New MySqlCommand(query, conn)
                 lblAttendanceCount.Text = cmd.ExecuteScalar().ToString() & " day/s"
             End Using
-            End Using
-        End Sub
+        End Using
+    End Sub
 
-        ' Fetch membership status from the members table and update label
-        Private Sub FetchMembershipStatus()
-            Using conn As New MySqlConnection(strConnection)
-                conn.Open()
-                Dim query As String = $"SELECT Status FROM members WHERE MemberID = {CurrentLoggedUser.id}"
-                Using cmd As New MySqlCommand(query, conn)
-                    Using reader As MySqlDataReader = cmd.ExecuteReader()
-                        If reader.Read() Then
-                            Dim status As Integer = Convert.ToInt32(reader("Status"))
-                            lblMembershipStatus.Text = If(status = 1, "Active", "Inactive")
-                        End If
-                    End Using
+    ' Fetch membership status from the members table and update label
+    Private Sub FetchMembershipStatus()
+        Using conn As New MySqlConnection(strConnection)
+            conn.Open()
+            Dim query As String = $"SELECT Status FROM members WHERE MemberID = {CurrentLoggedUser.id}"
+            Using cmd As New MySqlCommand(query, conn)
+                Using reader As MySqlDataReader = cmd.ExecuteReader()
+                    If reader.Read() Then
+                        Dim status As Integer = Convert.ToInt32(reader("Status"))
+                        lblMembershipStatus.Text = If(status = 1, "Active", "Inactive")
+                    End If
                 End Using
             End Using
-        End Sub
+        End Using
+    End Sub
 
 
     Private Sub Report_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -101,5 +101,6 @@ Public Class Report
         ' Draw the bitmap on the PrintPage event, scaled to fit within the margins
         e.Graphics.DrawImage(bmp, e.MarginBounds.Left, e.MarginBounds.Top, scaledWidth, scaledHeight)
     End Sub
+
 
 End Class

@@ -34,9 +34,9 @@ Partial Class ContentAnnouncement
         Label1.Dock = DockStyle.Top
         Label1.Font = New Font("Segoe UI", 21.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.Gold
-        Label1.Location = New Point(23, 27)
+        Label1.Location = New Point(20, 20)
         Label1.Name = "Label1"
-        Label1.Size = New Size(287, 50)
+        Label1.Size = New Size(229, 40)
         Label1.TabIndex = 0
         Label1.Text = "Announcement"
         ' 
@@ -44,11 +44,12 @@ Partial Class ContentAnnouncement
         ' 
         notesDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         notesDGV.Dock = DockStyle.Fill
-        notesDGV.Location = New Point(23, 77)
+        notesDGV.Location = New Point(20, 60)
+        notesDGV.Margin = New Padding(3, 2, 3, 2)
         notesDGV.Name = "notesDGV"
         notesDGV.ReadOnly = True
         notesDGV.RowHeadersWidth = 51
-        notesDGV.Size = New Size(900, 621)
+        notesDGV.Size = New Size(788, 464)
         notesDGV.TabIndex = 9
         ' 
         ' btnAddNotes
@@ -60,27 +61,26 @@ Partial Class ContentAnnouncement
         btnAddNotes.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnAddNotes.ForeColor = Color.Gold
         btnAddNotes.ImageAlign = ContentAlignment.MiddleLeft
-        btnAddNotes.Location = New Point(750, 47)
+        btnAddNotes.Location = New Point(656, 35)
         btnAddNotes.Margin = New Padding(3, 0, 0, 0)
         btnAddNotes.Name = "btnAddNotes"
         btnAddNotes.Padding = New Padding(1)
-        btnAddNotes.Size = New Size(194, 27)
+        btnAddNotes.Size = New Size(152, 22)
         btnAddNotes.TabIndex = 10
         btnAddNotes.Text = "Add Announcement"
         btnAddNotes.TextAlign = ContentAlignment.MiddleCenter
         ' 
         ' ContentAnnouncement
         ' 
-        AutoScaleDimensions = New SizeF(8F, 20F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.Transparent
         Controls.Add(btnAddNotes)
         Controls.Add(notesDGV)
         Controls.Add(Label1)
-        Margin = New Padding(3, 4, 3, 4)
         Name = "ContentAnnouncement"
-        Padding = New Padding(23, 27, 23, 27)
-        Size = New Size(946, 725)
+        Padding = New Padding(20)
+        Size = New Size(828, 544)
         CType(notesDGV, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()

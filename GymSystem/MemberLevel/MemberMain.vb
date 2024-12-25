@@ -94,7 +94,7 @@ Public Class MemberMain
                 memberData.Sex = readerMembers("Sex").ToString()
                 memberData.PhoneNumber = readerMembers("PhoneNumber").ToString()
                 memberData.DTCreated = DateTime.Parse(readerMembers("DTCreated").ToString())
-                memberData.Status = readerMembers("Status").ToString()
+                memberData.Status = If(readerMembers("Status").ToString() = "True", "Active", "Inactive")
                 memberData.Weight = Decimal.Parse(readerMembers("Weight").ToString())
                 memberData.Height = Decimal.Parse(readerMembers("Height").ToString())
                 memberData.Email = readerMembers("Email").ToString()
@@ -148,6 +148,7 @@ Public Class MemberMain
 
         Return memberData
     End Function
+
 
     Private Sub btnAnnouncement_Click(sender As Object, e As EventArgs) Handles btnAnnouncement.Click
         While Me.ContentPanel.Controls.Count > 0

@@ -37,7 +37,8 @@ Public Class ForgotPasswordForm
         End Select
 
         Try
-            Using conn As New MySqlConnection("server=192.168.163.204;userid=root;password='';database=gym_infosys;")
+            UpdateConnectionString()
+            Using conn As New MySqlConnection(strConnection)
                 conn.Open()
                 Dim cmd As New MySqlCommand("SELECT Password FROM " & tableName & " WHERE Email = @Input OR PhoneNumber = @Input", conn)
                 cmd.Parameters.AddWithValue("@Input", input)
@@ -53,6 +54,7 @@ Public Class ForgotPasswordForm
 
         Return password
     End Function
+
 
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
         Me.Close()

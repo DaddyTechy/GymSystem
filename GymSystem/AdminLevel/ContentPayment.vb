@@ -1,4 +1,5 @@
 ﻿Imports System.Windows.Forms.VisualStyles
+Imports MySql.Data.MySqlClient
 Imports Org.BouncyCastle.Asn1.Cmp
 
 Public Class ContentPayment
@@ -122,7 +123,20 @@ Public Class ContentPayment
             deleteButtonColumn.DefaultCellStyle.BackColor = Color.Gold
             dgv.Columns.Insert(1, deleteButtonColumn)
         End If
+
+        ' Add Receipt button
+        If dgv.Columns("Receipt") Is Nothing Then
+            Dim receiptButtonColumn As New DataGridViewDisableButtonColumn()
+            receiptButtonColumn.Name = "Receipt"
+            receiptButtonColumn.HeaderText = "Receipt"
+            receiptButtonColumn.Text = "Receipt"
+            receiptButtonColumn.UseColumnTextForButtonValue = True
+            receiptButtonColumn.FlatStyle = FlatStyle.Standard
+            receiptButtonColumn.DefaultCellStyle.BackColor = Color.Gold
+            dgv.Columns.Insert(2, receiptButtonColumn)
+        End If
     End Sub
+
 
 
     Private Sub dgvPayment_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles dgvPayment.CellFormatting
@@ -321,12 +335,53 @@ Public Class ContentPayment
                 Else
                     Debug.WriteLine("Debug: Deletion cancelled.")
                 End If
+            ElseIf e.ColumnIndex = dgvPayment.Columns("Receipt").Index AndAlso e.RowIndex >= 0 Then
+                Debug.WriteLine("Debug: Receipt button clicked.")
+                Dim selectedRow As DataGridViewRow = dgvPayment.Rows(e.RowIndex)
+                Dim paymentStatus As String = selectedRow.Cells("PaymentStatus").Value.ToString()
+
+                ' Check if the payment status is "Paid"
+                If paymentStatus = "Paid" Then
+                    Dim paymentMethod As String = selectedRow.Cells("PaymentMethod").Value.ToString()
+                    Dim paymentDate As DateTime = Convert.ToDateTime(selectedRow.Cells("PaymentDate").Value)
+                    Dim subTotal As Decimal = Convert.ToDecimal(selectedRow.Cells("Amount").Value)
+                    Dim invoiceNumber As String = selectedRow.Cells("InvoiceNumber").Value.ToString()
+                    Dim receiptNumber As String = selectedRow.Cells("ReceiptNumber").Value.ToString()
+                    Dim discountApplied As Decimal = Convert.ToDecimal(selectedRow.Cells("DiscountApplied").Value)
+                    Dim taxAmount As Decimal = Convert.ToDecimal(selectedRow.Cells("TaxAmount").Value)
+                    Dim totalAmount As Decimal = Convert.ToDecimal(selectedRow.Cells("TotalAmount").Value)
+                    Dim paymentNotes As String = selectedRow.Cells("PaymentNotes").Value.ToString()
+                    Dim memberID As Integer = Convert.ToInt32(selectedRow.Cells("MemberID").Value)
+                    Dim memberName As String = GetMemberName(memberID)
+
+                    ' Show the receipt form
+                    Dim receiptForm As New PaymentReceipt(paymentMethod, paymentDate, subTotal, invoiceNumber, receiptNumber, discountApplied, taxAmount, totalAmount, paymentNotes, memberID, memberName)
+                    receiptForm.ShowDialog()
+                Else
+                    MessageBox.Show("Receipt is only available for completed payments.", "Receipt Unavailable", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
             End If
         Catch ex As Exception
             Debug.WriteLine("An error occurred in dgvPayment_CellContentClick: " & ex.Message)
             MessageBox.Show("An error occurred: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+    Private Function GetMemberName(memberID As Integer) As String
+        Dim memberName As String = String.Empty
+        Dim query As String = $"SELECT CONCAT(FirstName, ' ', LastName) AS MemberName FROM members WHERE MemberID = {memberID}"
+        Using conn As New MySqlConnection(strConnection)
+            conn.Open()
+            Using cmd As New MySqlCommand(query, conn)
+                Using reader As MySqlDataReader = cmd.ExecuteReader()
+                    If reader.Read() Then
+                        memberName = reader("MemberName").ToString()
+                    End If
+                End Using
+            End Using
+        End Using
+        Return memberName
+    End Function
 
 
     Private Sub DeletePayment(paymentID As Integer)
@@ -363,6 +418,8 @@ Public Class ContentPayment
         End If
         LoadPaymentData()
     End Sub
+
+
 End Class
 
 Public Class DataGridViewDisableButtonColumn

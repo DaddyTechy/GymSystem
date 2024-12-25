@@ -276,44 +276,9 @@ Partial Class EventForm
             ' Ask if the user wants to make the payment now or later
             Dim result As DialogResult = MessageBox.Show("Do you want to make the payment now?", "Payment", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If result = DialogResult.Yes Then
-                ' Open the BillingPaymentForm
-                Dim paymentControl As New BillingPaymentForm(newEvent.ReservationFee, False, newEvent.MemberID, newEvent.MemberID)
-
-                ' Calculate the center point
-                Dim centerX As Integer = (ClientSize.Width - paymentControl.Width) / 2
-                Dim centerY As Integer = (ClientSize.Height - paymentControl.Height) / 2
-
-                ' Set the location of the BillingPaymentForm to the center
-                paymentControl.Location = New Point(centerX, centerY)
-
-                ' Add the BillingPaymentForm to the form
-                Controls.Add(paymentControl)
-                paymentControl.BringToFront()
-
-                AddHandler paymentControl.btnSave.Click, Sub(sender As Object, e As EventArgs)
-                                                             ' Insert payment data into the payment table
-                                                             Dim paymentMethod As String = paymentControl.cmbPaymentMethod.SelectedItem.ToString()
-                                                             Dim paymentDate As DateTime = paymentControl.dtpPaymentDate.Value
-                                                             Dim subTotal As Decimal = Convert.ToDecimal(paymentControl.txtSubTotal.Text)
-                                                             Dim invoiceNumber As String = paymentControl.txtInvoiceNumber.Text
-                                                             Dim receiptNumber As String = paymentControl.txtReceiptNumber.Text
-                                                             Dim discountApplied As Decimal = If(String.IsNullOrEmpty(paymentControl.txtDiscountAmount.Text), 0, Convert.ToDecimal(paymentControl.txtDiscountAmount.Text))
-                                                             Dim taxAmount As Decimal = Convert.ToDecimal(paymentControl.txtTaxAmount.Text)
-                                                             Dim totalAmount As Decimal = Convert.ToDecimal(paymentControl.txtTotalAmount.Text)
-                                                             Dim paymentNotes As String = paymentControl.txtPaymentNotes.Text
-
-                                                             Dim queryPayment As String = $"INSERT INTO payment (MemberID, ReservationFee, PaymentMethod, PaymentDate, Amount, InvoiceNumber, ReceiptNumber, DiscountApplied, TaxAmount, TotalAmount, PaymentNotes, PaymentStatus, MembershipID) " &
-                                                                                      $"VALUES ({newEvent.MemberID}, {newEvent.ReservationFee}, '{paymentMethod}', '{paymentDate:yyyy-MM-dd}', {subTotal}, '{invoiceNumber}', '{receiptNumber}', {discountApplied}, {taxAmount}, {totalAmount}, '{paymentNotes}', 'Paid', '{newEvent.MemberID}')"
-                                                             ExecuteQuery(queryPayment)
-
-                                                             ' Update status in the relevant table
-                                                             Dim queryReservation As String = $"UPDATE reservation SET PaymentStatus = 'Paid' WHERE MemberID = {newEvent.MemberID}"
-                                                             ExecuteQuery(queryReservation)
-
-                                                             ' Notify user of successful save
-                                                             MessageBox.Show("Payment saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                                                             paymentControl.Hide()
-                                                         End Sub
+                ' Open the PaymentForm
+                Dim paymentForm As New PaymentForm(newEvent)
+                paymentForm.ShowDialog()
             Else
                 ' Set payment status to Unpaid and set default values for other fields
                 Dim defaultPaymentDate As DateTime = DateTime.MinValue
@@ -325,6 +290,8 @@ Partial Class EventForm
             MessageBox.Show("An error occurred while adding the reservation: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+
 
 
     Private Sub ExecuteQuery(query As String)
