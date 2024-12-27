@@ -9,7 +9,7 @@ Public Class ContentMemberManagement1
     Private contentPanel As Panel
 
     Private currentOffset As Integer = 0
-    Private batchSize As Integer = 100
+    Private batchSize As Integer = 50
     Private isLoading As Boolean = False
 
     Private filterControl As FilterControl
@@ -20,8 +20,19 @@ Public Class ContentMemberManagement1
 
     Private Sub ContentMemberManagement1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         InitializeFilterButton()
-        LoadData()
+        Dim filterControl As New FilterControl()
+        filterControl.SetCheckBoxStates()
+        SimulateFilterApplied()
     End Sub
+
+    Public Sub SimulateFilterApplied()
+        ' Simulate the FilterApplied event
+        Dim selectedFilters As New List(Of String) From {"ID", "FirstName", "LastName", "Address"}
+        Dim genderFilter As String = "" ' Set the default gender filter
+
+        OnFilterApplied(selectedFilters, genderFilter)
+    End Sub
+
 
     Private Sub InitializeFilterButton()
         FilterBtn = New Button()
@@ -97,7 +108,7 @@ Public Class ContentMemberManagement1
                 Dim lastName As String = memberRow("LastName").ToString()
                 Dim username As String = dtLogin.AsEnumerable().FirstOrDefault(Function(r) r.Field(Of Integer)("MemberID") = memberID)?.Field(Of String)("Username")
                 Dim address As String = memberRow("Province") & ", " & memberRow("City") & ", " & memberRow("Street") & ", " & memberRow("ZipCode")
-                Dim status As String = If(memberRow("Status").ToString() = "True", "Active", "Inactive")
+                Dim status As String = If(memberRow("Status").ToString() = "Active", "Active", "Inactive")
                 Dim membershipRow As DataRow = dtMembership.AsEnumerable().FirstOrDefault(Function(r) r.Field(Of Integer)("MemberID") = memberID)
 
                 ' Check if membershipRow is not null
@@ -594,7 +605,8 @@ Public Class ContentMemberManagement1
                               "FROM members m " &
                               "JOIN membership ms ON m.MemberID = ms.MemberID " &
                               "JOIN payment p ON m.MemberID = p.MemberID " &
-                              "WHERE m.MemberID = @MemberID"
+                              "WHERE m.MemberID = @MemberID " &
+                              "ORDER BY p.PaymentID DESC LIMIT 1"
             Dim cmd As New MySqlCommand(query, conn)
             cmd.Parameters.AddWithValue("@MemberID", memberId)
             Dim reader As MySqlDataReader = cmd.ExecuteReader()
@@ -616,10 +628,10 @@ Public Class ContentMemberManagement1
         Finally
             conn.Close()
         End Try
-
+        Debug.WriteLine("12status: " & additionalData.PaymentStatus)
         Return additionalData
-        Debug.WriteLine("status: " & additionalData.PaymentStatus)
     End Function
+
 
 
     Private Sub LoadUserControlWithMemberData(memberId As Integer)
@@ -661,7 +673,7 @@ Public Class ContentMemberManagement1
             ' Load the data for the selected member into the user control
             memberProfileControl.LoadMemberData(memberData)
 
-            Debug.WriteLine("status: " & memberData.PaymentStatus)
+            Debug.WriteLine("122status: " & memberData.PaymentStatus)
 
             ' Show the user control using the provided function
             ShowUserControl(memberProfileControl)
@@ -716,18 +728,6 @@ Public Class ContentMemberManagement1
         End If
     End Sub
 
-    Private Sub btnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
-        ApplyFilters(txtBoxSearchInput.Text)
-    End Sub
-
-    Private Sub txtBoxSearchInput_KeyDown(sender As Object, e As KeyEventArgs) Handles txtBoxSearchInput.KeyDown
-        If e.KeyCode = Keys.Enter Then
-            btnSearch_Click(sender, e)
-            e.SuppressKeyPress = True ' Prevent the beep sound on Enter key press
-        End If
-    End Sub
-
-
     Private Sub btnLoadMore_Click(sender As Object, e As EventArgs) Handles btnLoadMore.Click
         currentOffset += batchSize
         LoadData()
@@ -770,6 +770,24 @@ Public Class ContentMemberManagement1
         Debug.WriteLine("status: " & memberData.PaymentStatus)
     End Function
 
+    Private Sub btnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
+        ' Apply the filters to the search input
+        Dim filterControl As New FilterControl()
+        Debug.WriteLine("btnSearch_Click: SaveBtn_Click is about to be called") ' Debugging line
+        filterControl.ApplyFiltersAndConnect()
+        ApplyFilters(txtBoxSearchInput.Text)
+    End Sub
+
+
+
+    Private Sub txtBoxSearchInput_KeyDown(sender As Object, e As KeyEventArgs) Handles txtBoxSearchInput.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            btnSearch_Click(sender, e)
+            e.SuppressKeyPress = True ' Prevent the beep sound on Enter key press
+        End If
+    End Sub
+
+
     Private Sub FilterBtn_Click(sender As Object, e As EventArgs) Handles FilterBtn.Click
         filterControl = New FilterControl()
         filterControl.Location = New Point(FilterBtn.Location.X, FilterBtn.Location.Y + FilterBtn.Height)
@@ -808,6 +826,14 @@ Public Class ContentMemberManagement1
         ' Reset the display to show all data
         LoadData()
     End Sub
+
+    Public Sub ApplyInitialFilters()
+        ' Apply the filters to the search input
+        Dim filterControl As New FilterControl()
+        filterControl.SaveBtn_Click(Nothing, Nothing)
+        ApplyFilters(txtBoxSearchInput.Text)
+    End Sub
+
 
     Private Sub ApplyFilters(searchText As String)
         If String.IsNullOrWhiteSpace(searchText) AndAlso activeFilters.Count = 0 AndAlso String.IsNullOrEmpty(activeGenderFilter) Then

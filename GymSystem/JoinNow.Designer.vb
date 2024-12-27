@@ -44,7 +44,6 @@ Partial Class JoinNow
         ContactLbl = New Label()
         FirstLbl = New Label()
         HeightTxt = New TextBox()
-        SexTxt = New CustomComboBox()
         CPassTxt = New TextBox()
         PassTxt = New TextBox()
         KgTxt = New TextBox()
@@ -60,6 +59,7 @@ Partial Class JoinNow
         CustomComboStreet = New CustomComboBox()
         CustomComboZip = New CustomComboBox()
         BLoginBtn = New Button()
+        SexTxt = New CustomComboBox()
         SuspendLayout()
         ' 
         ' SubmitBtn
@@ -186,7 +186,7 @@ Partial Class JoinNow
         SexLbl.AutoSize = True
         SexLbl.Font = New Font("Segoe UI Variable Small", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         SexLbl.ForeColor = Color.White
-        SexLbl.Location = New Point(691, 232)
+        SexLbl.Location = New Point(571, 232)
         SexLbl.Name = "SexLbl"
         SexLbl.Size = New Size(32, 19)
         SexLbl.TabIndex = 34
@@ -198,7 +198,7 @@ Partial Class JoinNow
         ZipCLbl.AutoSize = True
         ZipCLbl.Font = New Font("Segoe UI Variable Small", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         ZipCLbl.ForeColor = Color.White
-        ZipCLbl.Location = New Point(571, 232)
+        ZipCLbl.Location = New Point(331, 283)
         ZipCLbl.Name = "ZipCLbl"
         ZipCLbl.Size = New Size(69, 19)
         ZipCLbl.TabIndex = 35
@@ -324,24 +324,6 @@ Partial Class JoinNow
         HeightTxt.Name = "HeightTxt"
         HeightTxt.Size = New Size(99, 22)
         HeightTxt.TabIndex = 9
-        ' 
-        ' SexTxt
-        ' 
-        SexTxt.Anchor = AnchorStyles.None
-        SexTxt.BackColor = Color.Gray
-        SexTxt.BgColor = Color.Gray
-        SexTxt.BorderColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
-        SexTxt.CustomForeColor = Color.Black
-        SexTxt.DrawMode = DrawMode.OwnerDrawFixed
-        SexTxt.DropDownStyle = ComboBoxStyle.DropDownList
-        SexTxt.FlatStyle = FlatStyle.Flat
-        SexTxt.ForeColor = Color.White
-        SexTxt.FormattingEnabled = True
-        SexTxt.Location = New Point(691, 250)
-        SexTxt.Margin = New Padding(3, 2, 3, 2)
-        SexTxt.Name = "SexTxt"
-        SexTxt.Size = New Size(99, 24)
-        SexTxt.TabIndex = 10
         ' 
         ' CPassTxt
         ' 
@@ -533,7 +515,7 @@ Partial Class JoinNow
         CustomComboZip.FlatStyle = FlatStyle.Flat
         CustomComboZip.ForeColor = Color.White
         CustomComboZip.FormattingEnabled = True
-        CustomComboZip.Location = New Point(571, 250)
+        CustomComboZip.Location = New Point(330, 302)
         CustomComboZip.Margin = New Padding(3, 2, 3, 2)
         CustomComboZip.Name = "CustomComboZip"
         CustomComboZip.Size = New Size(99, 24)
@@ -553,12 +535,31 @@ Partial Class JoinNow
         BLoginBtn.UseVisualStyleBackColor = False
         BLoginBtn.Visible = False
         ' 
+        ' SexTxt
+        ' 
+        SexTxt.Anchor = AnchorStyles.None
+        SexTxt.BackColor = Color.Gray
+        SexTxt.BgColor = Color.Gray
+        SexTxt.BorderColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
+        SexTxt.CustomForeColor = Color.Black
+        SexTxt.DrawMode = DrawMode.OwnerDrawFixed
+        SexTxt.DropDownStyle = ComboBoxStyle.DropDownList
+        SexTxt.FlatStyle = FlatStyle.Flat
+        SexTxt.ForeColor = Color.White
+        SexTxt.FormattingEnabled = True
+        SexTxt.Location = New Point(571, 253)
+        SexTxt.Margin = New Padding(3, 2, 3, 2)
+        SexTxt.Name = "SexTxt"
+        SexTxt.Size = New Size(99, 24)
+        SexTxt.TabIndex = 50
+        ' 
         ' JoinNow
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(28), CByte(28), CByte(28))
         ClientSize = New Size(880, 541)
+        Controls.Add(SexTxt)
         Controls.Add(BLoginBtn)
         Controls.Add(CustomComboZip)
         Controls.Add(CustomComboStreet)
@@ -587,7 +588,6 @@ Partial Class JoinNow
         Controls.Add(ContactLbl)
         Controls.Add(FirstLbl)
         Controls.Add(HeightTxt)
-        Controls.Add(SexTxt)
         Controls.Add(CPassTxt)
         Controls.Add(PassTxt)
         Controls.Add(KgTxt)
@@ -625,7 +625,6 @@ Partial Class JoinNow
     Friend WithEvents ContactLbl As Label
     Friend WithEvents FirstLbl As Label
     Friend WithEvents HeightTxt As TextBox
-    Friend WithEvents SexTxt As CustomComboBox
     Friend WithEvents CPassTxt As TextBox
     Friend WithEvents PassTxt As TextBox
     Friend WithEvents KgTxt As TextBox
@@ -641,4 +640,5 @@ Partial Class JoinNow
     Friend WithEvents CustomComboStreet As CustomComboBox
     Friend WithEvents CustomComboZip As CustomComboBox
     Friend WithEvents BLoginBtn As Button
+    Friend WithEvents SexTxt As CustomComboBox
 End Class

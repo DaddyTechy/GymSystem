@@ -52,6 +52,7 @@ Public Class MemberMain
         reports.LoadMemberData(memberData) ' Load the fetched data into the control
         Me.ContentPanel.Controls.Add(reports)
         reports.Label1.Text = "Member: "
+        reports.lblPaymentStatus.Text = memberData.PaymentStatus
         reports.Show()
         Debug.WriteLine("Member profile control loaded with data.")
     End Sub
@@ -94,7 +95,7 @@ Public Class MemberMain
                 memberData.Sex = readerMembers("Sex").ToString()
                 memberData.PhoneNumber = readerMembers("PhoneNumber").ToString()
                 memberData.DTCreated = DateTime.Parse(readerMembers("DTCreated").ToString())
-                memberData.Status = If(readerMembers("Status").ToString() = "True", "Active", "Inactive")
+                memberData.Status = If(readerMembers("Status").ToString() = "Active", "Active", "Inactive")
                 memberData.Weight = Decimal.Parse(readerMembers("Weight").ToString())
                 memberData.Height = Decimal.Parse(readerMembers("Height").ToString())
                 memberData.Email = readerMembers("Email").ToString()
@@ -119,7 +120,7 @@ Public Class MemberMain
             readerLogin.Close()
 
             ' Retrieve data from membership table
-            Dim queryMembership As String = "SELECT Cost, MembershipType, Duration, StartDate, EndDate, RenewalPolicy, Benefits, MemberShipName FROM membership WHERE MemberID = @MemberID"
+            Dim queryMembership As String = "SELECT Cost, MembershipType, Duration, StartDate, EndDate, RenewalPolicy, Benefits, MemberShipName, Status FROM membership WHERE MemberID = @MemberID ORDER BY MembershipID DESC LIMIT 1"
             Dim cmdMembership As New MySqlCommand(queryMembership, conn)
             cmdMembership.Parameters.AddWithValue("@MemberID", memberId)
             Dim readerMembership As MySqlDataReader = cmdMembership.ExecuteReader()
@@ -132,11 +133,25 @@ Public Class MemberMain
                 memberData.RenewalPolicy = readerMembership("RenewalPolicy").ToString()
                 memberData.Benefits = readerMembership("Benefits").ToString()
                 memberData.MemberShipName = readerMembership("MemberShipName").ToString()
+                memberData.Status = readerMembership("Status").ToString()
                 Debug.WriteLine("Member data fetched successfully from membership table.")
             Else
                 Debug.WriteLine("No data found in membership table for MemberID: " & memberId)
             End If
             readerMembership.Close()
+
+            ' Retrieve data from payment table
+            Dim queryPayment As String = "SELECT PaymentStatus FROM payment WHERE MemberID = @MemberID ORDER BY PaymentID DESC LIMIT 1"
+            Dim cmdPayment As New MySqlCommand(queryPayment, conn)
+            cmdPayment.Parameters.AddWithValue("@MemberID", memberId)
+            Dim readerPayment As MySqlDataReader = cmdPayment.ExecuteReader()
+            If readerPayment.Read() Then
+                memberData.PaymentStatus = readerPayment("PaymentStatus").ToString()
+                Debug.WriteLine("Payment status fetched successfully from payment table.")
+            Else
+                Debug.WriteLine("No data found in payment table for MemberID: " & memberId)
+            End If
+            readerPayment.Close()
 
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical)

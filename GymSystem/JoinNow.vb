@@ -252,11 +252,11 @@ Public Class JoinNow
         caretHandler.HideCaret(EmailTxt)
     End Sub
 
-    Private Sub Sex_GotFocus(sender As Object, e As EventArgs) Handles SexTxt.GotFocus
+    Private Sub Sex_GotFocus(sender As Object, e As EventArgs)
         caretHandler.InitializeCaret(SexTxt, Color.FromArgb(245, 203, 92))
     End Sub
 
-    Private Sub Sex_LostFocus(sender As Object, e As EventArgs) Handles SexTxt.LostFocus
+    Private Sub Sex_LostFocus(sender As Object, e As EventArgs)
         caretHandler.HideCaret(SexTxt)
     End Sub
 
@@ -369,7 +369,7 @@ Public Class JoinNow
         End If
     End Sub
 
-    Private Sub SexTxt_KeyPress(sender As Object, e As KeyPressEventArgs) Handles SexTxt.KeyPress
+    Private Sub SexTxt_KeyPress(sender As Object, e As KeyPressEventArgs)
         ' Allow only letters and control keys (like backspace)
         If Not Char.IsLetter(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
             e.Handled = True ' Suppress the key press if it's not a letter or control key
@@ -578,7 +578,6 @@ Public Class JoinNow
         Return True
     End Function
 
-
     Private Sub InsertMemberAndLogin()
         UpdateConnectionString()
         Try
@@ -604,7 +603,7 @@ Public Class JoinNow
 
                         ' Insert into memberlogin table
                         Dim insertMemberLoginQuery As String = "INSERT INTO `memberlogin`(`MemberID`, `Username`, `Password`, `Email`, `PhoneNumber`, `IsEncrypted`, `EncryptedPassword`) " &
-                                                           "VALUES (" & memberId & ", '" & FirstTxt.Text & "', '" & PassTxt.Text & "', '" & EmailTxt.Text & "', '" & ContactTxt.Text & "', TRUE, '" & Encrypt(PassTxt.Text) & "')"
+                                                         "VALUES (" & memberId & ", '" & FirstTxt.Text & "', '" & PassTxt.Text & "', '" & EmailTxt.Text & "', '" & ContactTxt.Text & "', TRUE, '" & Encrypt(PassTxt.Text) & "')"
                         Debug.WriteLine($"Executing query: {insertMemberLoginQuery}")
                         Using insertMemberLoginCommand As New MySqlCommand(insertMemberLoginQuery, conn, transaction)
                             insertMemberLoginCommand.ExecuteNonQuery()
@@ -669,8 +668,8 @@ Public Class JoinNow
                         Debug.WriteLine($"Membership details - Name: {membershipName}, Duration: {duration}, Cost: {cost}, Benefits: {benefits}, StartDate: {startDate}, EndDate: {endDate}, DiscountAvailable: {discountAvailable}, CancelationPolicy: {cancelationPolicy}, RenewalPolicy: {renewalPolicy}, TrainingSession: {trainingSession}, LockerAccess: {lockerAccess}")
 
                         ' Insert into membership table
-                        Dim insertMembershipQuery As String = "INSERT INTO `membership`(`MemberID`, `MemberShipName`, `Duration`, `Cost`, `Benefits`, `StartDate`, `EndDate`, `DiscountAvailable`, `CancelationPolicy`, `RenewalPolicy`, `TrainingSession`, `LockerAccess`, `MembershipType`) " &
-                                                          "VALUES (" & memberId & ", '" & membershipName & "', '" & duration & "', " & cost & ", '" & benefits & "', '" & startDate.ToString("yyyy-MM-dd") & "', '" & endDate.ToString("yyyy-MM-dd") & "', '" & discountAvailable & "', '" & cancelationPolicy & "', '" & renewalPolicy & "', " & trainingSession & ", '" & lockerAccess & "', '" & ServiceCB.SelectedItem.ToString() & "')"
+                        Dim insertMembershipQuery As String = "INSERT INTO `membership`(`MemberID`, `MemberShipName`, `Duration`, `Cost`, `Benefits`, `StartDate`, `EndDate`, `DiscountAvailable`, `CancelationPolicy`, `RenewalPolicy`, `TrainingSession`, `LockerAccess`, `MembershipType`, `Status`) " &
+                                                      "VALUES (" & memberId & ", '" & membershipName & "', '" & duration & "', " & cost & ", '" & benefits & "', '" & startDate.ToString("yyyy-MM-dd") & "', '" & endDate.ToString("yyyy-MM-dd") & "', '" & discountAvailable & "', '" & cancelationPolicy & "', '" & renewalPolicy & "', " & trainingSession & ", '" & lockerAccess & "', '" & ServiceCB.SelectedItem.ToString() & "', 'Active')"
                         Debug.WriteLine($"Executing query: {insertMembershipQuery}")
                         Using insertMembershipCommand As New MySqlCommand(insertMembershipQuery, conn, transaction)
                             insertMembershipCommand.ExecuteNonQuery()
@@ -684,11 +683,13 @@ Public Class JoinNow
                         ' Rollback the transaction in case of an error
                         transaction.Rollback()
                         MessageBox.Show("An error occurred: " & ex.Message)
+                        Debug.WriteLine($"Transaction rolled back due to error: {ex.Message}")
                     End Try
                 End Using
             End Using
         Catch ex As Exception
             MessageBox.Show("An error occurred: " & ex.Message)
+            Debug.WriteLine($"Connection error: {ex.Message}")
         End Try
     End Sub
 
@@ -792,8 +793,8 @@ Public Class JoinNow
             End Using
 
             ' Insert a new payment record
-            Dim insertQuery As String = $"INSERT INTO payment (MemberID, Amount, PaymentStatus, PaymentMethod, PaymentDate, InvoiceNumber, ReceiptNumber, DiscountApplied, TaxAmount, TotalAmount, PaymentNotes, MembershipID) " &
-                                    $"VALUES ({memberID}, {fee}, 'Unpaid', 'N/A', '{DateTime.MinValue:yyyy-MM-dd}', 'N/A', 'N/A', 0, 0, 0, 'N/A', {memberID}); SELECT LAST_INSERT_ID();"
+            Dim insertQuery As String = $"INSERT INTO payment (MemberID, MembershipCost, Amount, PaymentStatus, PaymentMethod, PaymentDate, InvoiceNumber, ReceiptNumber, DiscountApplied, TaxAmount, TotalAmount, PaymentNotes, MembershipID) " &
+                                    $"VALUES ({memberID}, {fee}, {fee}, 'Unpaid', 'N/A', '{DateTime.MinValue:yyyy-MM-dd}', 'N/A', 'N/A', 0, 0, 0, 'N/A', {memberID}); SELECT LAST_INSERT_ID();"
             Using cmd As New MySqlCommand(insertQuery, conn)
                 newPaymentID = Convert.ToInt32(cmd.ExecuteScalar())
             End Using
@@ -804,8 +805,8 @@ Public Class JoinNow
 
     Private Sub HandleLaterPayment(memberID As Integer)
         ' Custom logic for handling later payment
+        CreateNewPayment(memberID)
         MessageBox.Show("You can pay later. Remember to complete your payment before the due date.", "Payment Deferred", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        ' Add any additional logic for deferred payment here
     End Sub
 
 

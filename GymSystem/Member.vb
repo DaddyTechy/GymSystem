@@ -211,14 +211,34 @@ Public Class Member
         Dim fee As Decimal = GetCurrentMembershipFee(memberID)
         Using conn As New MySqlConnection(strConnection)
             conn.Open()
-            Dim cmd As New MySqlCommand("UPDATE membership SET EndDate = DATE_ADD(CURDATE(), INTERVAL Duration MONTH), Status = 'Active' WHERE MemberID = @MemberID AND Status = 'Inactive'", conn)
-            cmd.Parameters.AddWithValue("@MemberID", memberID)
-            cmd.ExecuteNonQuery()
-        End Using
+            Using transaction As MySqlTransaction = conn.BeginTransaction()
+                Try
+                    ' Update membership table
+                    Dim updateMembershipQuery As String = "UPDATE membership SET EndDate = DATE_ADD(CURDATE(), INTERVAL Duration MONTH), Status = 'Active' WHERE MemberID = @MemberID AND Status = 'Inactive'"
+                    Dim cmdMembership As New MySqlCommand(updateMembershipQuery, conn, transaction)
+                    cmdMembership.Parameters.AddWithValue("@MemberID", memberID)
+                    cmdMembership.ExecuteNonQuery()
 
-        ' Trigger the payment process
-        AskPaymentOption(memberID, fee, True)
+                    ' Update members table
+                    Dim updateMembersQuery As String = "UPDATE members SET Status = 'Active' WHERE MemberID = @MemberID AND Status = 'Inactive'"
+                    Dim cmdMembers As New MySqlCommand(updateMembersQuery, conn, transaction)
+                    cmdMembers.Parameters.AddWithValue("@MemberID", memberID)
+                    cmdMembers.ExecuteNonQuery()
+
+                    ' Commit the transaction
+                    transaction.Commit()
+
+                    ' Trigger the payment process
+                    AskPaymentOption(memberID, fee, True)
+                Catch ex As Exception
+                    ' Rollback the transaction in case of an error
+                    transaction.Rollback()
+                    MessageBox.Show("An error occurred: " & ex.Message)
+                End Try
+            End Using
+        End Using
     End Sub
+
 
     Private paymentCompleted As Boolean = False
 
@@ -315,8 +335,8 @@ Public Class Member
             End Using
 
             ' Insert a new payment record
-            Dim insertQuery As String = $"INSERT INTO payment (MemberID, Amount, PaymentStatus, PaymentMethod, PaymentDate, InvoiceNumber, ReceiptNumber, DiscountApplied, TaxAmount, TotalAmount, PaymentNotes, MembershipID) " &
-                                    $"VALUES ({memberID}, {fee}, 'Unpaid', 'N/A', '{DateTime.MinValue:yyyy-MM-dd}', 'N/A', 'N/A', 0, 0, 0, 'N/A', {memberID}); SELECT LAST_INSERT_ID();"
+            Dim insertQuery As String = $"INSERT INTO payment (MemberID, MembershipCost, Amount, PaymentStatus, PaymentMethod, PaymentDate, InvoiceNumber, ReceiptNumber, DiscountApplied, TaxAmount, TotalAmount, PaymentNotes, MembershipID) " &
+                                    $"VALUES ({memberID}, {fee}, {fee}, 'Unpaid', 'N/A', '{DateTime.MinValue:yyyy-MM-dd}', 'N/A', 'N/A', 0, 0, 0, 'N/A', {memberID}); SELECT LAST_INSERT_ID();"
             Using cmd As New MySqlCommand(insertQuery, conn)
                 newPaymentID = Convert.ToInt32(cmd.ExecuteScalar())
             End Using
@@ -327,8 +347,8 @@ Public Class Member
 
     Private Sub HandleLaterPayment(memberID As Integer)
         ' Custom logic for handling later payment
+        CreateNewPayment(memberID)
         MessageBox.Show("You can pay later. Remember to complete your payment before the due date.", "Payment Deferred", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        ' Add any additional logic for deferred payment here
     End Sub
 
 
@@ -358,10 +378,12 @@ Public Class Member
                 conn.Open()
                 Debug.WriteLine("Connection opened successfully.")
 
+                ' Update the query to select the latest membership record
                 Dim query As String = "SELECT m.MemberID, m.Username, m.Password, m.IsEncrypted, ms.Status " &
                                   "FROM memberlogin m " &
                                   "JOIN membership ms ON m.MemberID = ms.MemberID " &
-                                  "WHERE m.MemberID = @MemberID"
+                                  "WHERE m.MemberID = @MemberID " &
+                                  "ORDER BY ms.MembershipID DESC LIMIT 1"
                 Dim cmd As New MySqlCommand(query, conn)
                 cmd.Parameters.AddWithValue("@MemberID", memberID)
                 Debug.WriteLine($"Executing query: {query} with MemberID: {memberID}")
@@ -437,7 +459,6 @@ Public Class Member
             Return Nothing
         End Try
     End Function
-
 
 
     Public Class MemberUser

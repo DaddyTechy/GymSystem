@@ -108,6 +108,7 @@ Public Class BillingPaymentForm
         ' Call the CalculateTotalAmount method
         CalculateTotalAmount()
     End Sub
+
     Private Async Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         Try
             ' Validate input
@@ -152,40 +153,84 @@ Public Class BillingPaymentForm
                 Process.Start(New ProcessStartInfo(checkoutUrl) With {.UseShellExecute = True})
             End If
 
-            Dim queryPayment As String = $"UPDATE payment SET PaymentMethod = '{paymentMethod}', PaymentDate = '{paymentDate:yyyy-MM-dd HH:mm:ss}', Amount = {subTotal}, InvoiceNumber = '{invoiceNumber}', ReceiptNumber = '{receiptNumber}', DiscountApplied = {discountApplied}, TaxAmount = {taxAmount}, TotalAmount = {totalAmount}, PaymentNotes = '{paymentNotes}', PaymentStatus = 'Paid' WHERE PaymentID = {paymentID}"
-            readQuery(queryPayment)
+            Using conn As New MySqlConnection(strConnection)
+                conn.Open()
+                Using transaction As MySqlTransaction = conn.BeginTransaction()
+                    Try
+                        ' Update payment table
+                        Dim queryPayment As String = $"UPDATE payment SET PaymentMethod = '{paymentMethod}', PaymentDate = '{paymentDate:yyyy-MM-dd HH:mm:ss}', Amount = {subTotal}, InvoiceNumber = '{invoiceNumber}', ReceiptNumber = '{receiptNumber}', DiscountApplied = {discountApplied}, TaxAmount = {taxAmount}, TotalAmount = {totalAmount}, PaymentNotes = '{paymentNotes}', PaymentStatus = 'Paid' WHERE PaymentID = {paymentID}"
+                        Using cmdPayment As New MySqlCommand(queryPayment, conn, transaction)
+                            cmdPayment.ExecuteNonQuery()
+                            Debug.WriteLine($"Payment table updated: {queryPayment}")
+                        End Using
 
-            ' Update status in the relevant table
-            If isMembership Then
-                ' Update the status in the members table
-                Dim queryMembership As String = $"UPDATE members SET Status = '1' WHERE MemberID = {memberID}"
-                readQuery(queryMembership)
+                        ' Update status in the relevant table
+                        If isMembership Then
+                            ' Update the status in the members table
+                            Dim queryMembers As String = $"UPDATE members SET Status = 'Active' WHERE MemberID = {memberID}"
+                            Using cmdMembers As New MySqlCommand(queryMembers, conn, transaction)
+                                cmdMembers.ExecuteNonQuery()
+                                Debug.WriteLine($"Members table updated: {queryMembers}")
+                            End Using
 
-                ' Update the MembershipCost in the payment table
-                Dim queryUpdateMembershipCost As String = $"UPDATE payment SET MembershipCost = {subTotal} WHERE MemberID = {memberID}"
-                readQuery(queryUpdateMembershipCost)
-            Else
-                ' Update the payment status in the reservation table
-                Dim queryReservation As String = $"UPDATE reservation SET PaymentStatus = 'Paid' WHERE MemberID = {memberID}"
-                readQuery(queryReservation)
-            End If
+                            ' Insert new membership record with Status
+                            Dim queryMembership As String = $"UPDATE membership SET Status = 'Active' WHERE MemberID = {memberID}"
+                            Using cmdMembership As New MySqlCommand(queryMembership, conn, transaction)
+                                cmdMembership.ExecuteNonQuery()
+                                Debug.WriteLine($"Membership table updated: {queryMembership}")
+                            End Using
 
-            ' Retrieve member name
-            Dim memberName As String = GetMemberName(memberID)
+                            ' Fetch the latest MembershipID
+                            Dim latestMembershipID As Integer = 0
+                            Dim queryFetchLatestMembershipID As String = $"SELECT MembershipID FROM membership WHERE MemberID = {memberID} ORDER BY MembershipID DESC LIMIT 1"
+                            Using cmdFetchLatestMembershipID As New MySqlCommand(queryFetchLatestMembershipID, conn, transaction)
+                                latestMembershipID = Convert.ToInt32(cmdFetchLatestMembershipID.ExecuteScalar())
+                                Debug.WriteLine($"Latest MembershipID fetched: {latestMembershipID}")
+                            End Using
 
-            ' Notify user of successful save
-            MessageBox.Show("Payment completed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            ' Update the MembershipCost in the payment table
+                            Dim queryUpdateMembershipCost As String = $"UPDATE payment SET MembershipCost = {subTotal}, MembershipID = {latestMembershipID} WHERE PaymentID = {paymentID}"
+                            Using cmdUpdateMembershipCost As New MySqlCommand(queryUpdateMembershipCost, conn, transaction)
+                                cmdUpdateMembershipCost.ExecuteNonQuery()
+                                Debug.WriteLine($"Payment table updated with MembershipCost: {queryUpdateMembershipCost}")
+                            End Using
+                        Else
+                            ' Update the payment status in the reservation table
+                            Dim queryReservation As String = $"UPDATE reservation SET PaymentStatus = 'Paid' WHERE MemberID = {memberID}"
+                            Using cmdReservation As New MySqlCommand(queryReservation, conn, transaction)
+                                cmdReservation.ExecuteNonQuery()
+                                Debug.WriteLine($"Reservation table updated: {queryReservation}")
+                            End Using
+                        End If
 
-            ' Show the receipt form
-            Dim receiptForm As New PaymentReceipt(paymentMethod, paymentDate, subTotal, invoiceNumber, receiptNumber, discountApplied, taxAmount, totalAmount, paymentNotes, memberID, memberName)
-            receiptForm.ShowDialog()
+                        ' Commit the transaction
+                        transaction.Commit()
+                        Debug.WriteLine("Transaction committed.")
 
+                        ' Retrieve member name
+                        Dim memberName As String = GetMemberName(memberID)
 
-            OnPaymentCompleted()
+                        ' Notify user of successful save
+                        MessageBox.Show("Payment completed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                        ' Show the receipt form
+                        Dim receiptForm As New PaymentReceipt(paymentMethod, paymentDate, subTotal, invoiceNumber, receiptNumber, discountApplied, taxAmount, totalAmount, paymentNotes, memberID, memberName)
+                        receiptForm.ShowDialog()
+
+                        OnPaymentCompleted()
+                    Catch ex As Exception
+                        ' Rollback the transaction in case of an error
+                        transaction.Rollback()
+                        Debug.WriteLine("Transaction rolled back due to an error.")
+                        MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    End Try
+                End Using
+            End Using
         Catch ex As Exception
             MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
 
 
     Private Function GetMemberName(memberID As Integer) As String

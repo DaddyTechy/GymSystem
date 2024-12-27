@@ -31,6 +31,7 @@ Public Class memberProfileControl
         Else
             MessageBox.Show("Member data is not available.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
+        lblPaymentStatus.Text = selectedMember.PaymentStatus
     End Sub
 
     Private Sub InitializeConnection()
@@ -291,14 +292,14 @@ Public Class memberProfileControl
         Finally
             conn.Close()
         End Try
-        Debug.WriteLine("status: " & paymentStatus)
+        Debug.WriteLine("3status: " & paymentStatus)
         Return paymentStatus
     End Function
 
     Private Sub UpdatePaymentStatusLabel(paymentID As Integer)
         Dim paymentStatus As String = GetPaymentStatus(paymentID)
         lblPaymentStatus.Text = paymentStatus
-        Debug.WriteLine("status: " & paymentStatus)
+        Debug.WriteLine("2status: " & paymentStatus)
     End Sub
 
     Private Function CalculateAge(dob As DateTime) As Integer
@@ -977,11 +978,18 @@ Public Class memberProfileControl
         ' Fetch data from the membership table in the database
         Using conn As New MySqlConnection(strConnection)
             conn.Open()
-            Dim query As String = $"SELECT m.MemberID, p.PaymentStatus, m.Cost FROM membership m LEFT JOIN payment p ON m.MemberID = p.MemberID WHERE m.MemberID = {CurrentLoggedUser.id}"
+            Dim memberIds As Integer = If(selectedMember IsNot Nothing, selectedMember.MemberID, CurrentLoggedUser.id)
+            Dim query As String = $"SELECT m.MemberID, p.PaymentID, p.PaymentStatus, m.Cost " &
+                      $"FROM membership m " &
+                      $"LEFT JOIN payment p ON m.MembershipID = p.MembershipID " &
+                      $"WHERE m.MemberID = {memberIds} " &
+                      $"ORDER BY p.PaymentID DESC, m.MembershipID DESC LIMIT 1"
+
             Using cmd As New MySqlCommand(query, conn)
                 Using reader As MySqlDataReader = cmd.ExecuteReader()
                     If reader.Read() Then
                         Dim memberID As Integer = Convert.ToInt32(reader("MemberID"))
+                        Dim paymentID As Integer = Convert.ToInt32(reader("PaymentID"))
                         Dim paymentStatus As String = reader("PaymentStatus").ToString()
 
                         ' Check if Cost is 0 or null
@@ -991,15 +999,15 @@ Public Class memberProfileControl
                             fee = Convert.ToDecimal(reader("Cost"))
                             isMembership = True
                         End If
-
+                        Debug.WriteLine("asdassasd: " & fee & memberID & paymentID)
                         ' Check if the fee is greater than 0 and payment status is "Unpaid" before opening the BillingPaymentForm
                         If fee >= 0 AndAlso paymentStatus = "Unpaid" Then
                             Debug.WriteLine("asdassasd: " & fee)
-                            ' Create a new payment record if it's a new payment
-                            Dim newPaymentID As Integer = CreateNewPayment(memberID)
+                            ' Use the existing PaymentID
+                            Dim existingPaymentID As Integer = paymentID
 
                             ' Create a new instance of the BillingPaymentForm with the necessary data
-                            Dim paymentForm As New BillingPaymentForm(fee, isMembership, newPaymentID, memberID)
+                            Dim paymentForm As New BillingPaymentForm(fee, isMembership, existingPaymentID, memberID)
 
                             ' Calculate the center point
                             Dim centerX As Integer = (ClientSize.Width - paymentForm.Width) / 2
@@ -1022,6 +1030,7 @@ Public Class memberProfileControl
             End Using
         End Using
     End Sub
+
 
     Private Function CreateNewPayment(memberID As Integer) As Integer
         Dim newPaymentID As Integer = 0
@@ -1050,8 +1059,6 @@ Public Class memberProfileControl
 
         Return newPaymentID
     End Function
-
-
 End Class
 
 Public Class MemberData

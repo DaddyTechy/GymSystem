@@ -91,6 +91,7 @@ Public Class NewMembershipForm
     Private Sub HandleImmediatePayment(memberID As Integer, fee As Decimal, isMembership As Boolean)
         ' Create a new payment record if it's a new payment
         Dim newPaymentID As Integer = CreateNewPayment(memberID)
+        Debug.WriteLine("Latest MembershipID11: " & newPaymentID)
 
         ' Create a new instance of the BillingPaymentForm with the necessary data
         Dim paymentForm As New BillingPaymentForm(fee, isMembership, newPaymentID, memberID)
@@ -123,35 +124,47 @@ Public Class NewMembershipForm
     Private Function CreateNewPayment(memberID As Integer) As Integer
         Dim newPaymentID As Integer = 0
         Dim fee As Decimal = 0
+        Dim latestMembershipID As Integer = 0
 
         Using conn As New MySqlConnection(strConnection)
             conn.Open()
-            ' Fetch the Cost from the membership table
-            Dim query As String = $"SELECT Cost FROM membership WHERE MemberID = {memberID}"
+            ' Fetch the Cost and latest MembershipID from the membership table
+            Dim query As String = $"SELECT Cost, MembershipID FROM membership WHERE MemberID = {memberID} ORDER BY MembershipID DESC LIMIT 1"
             Using cmd As New MySqlCommand(query, conn)
                 Dim reader As MySqlDataReader = cmd.ExecuteReader()
                 If reader.Read() Then
                     fee = Convert.ToDecimal(reader("Cost"))
+                    latestMembershipID = Convert.ToInt32(reader("MembershipID"))
                     Debug.WriteLine("Cost: " & fee)
+                    Debug.WriteLine("Latest MembershipID: " & latestMembershipID)
                 End If
                 reader.Close()
             End Using
 
             ' Insert a new payment record
-            Dim insertQuery As String = $"INSERT INTO payment (MemberID, Amount, PaymentStatus, PaymentMethod, PaymentDate, InvoiceNumber, ReceiptNumber, DiscountApplied, TaxAmount, TotalAmount, PaymentNotes, MembershipID) " &
-                                    $"VALUES ({memberID}, {fee}, 'Unpaid', 'N/A', '{DateTime.MinValue:yyyy-MM-dd}', 'N/A', 'N/A', 0, 0, 0, 'N/A', {memberID}); SELECT LAST_INSERT_ID();"
+            Dim insertQuery As String = $"INSERT INTO payment (MemberID, MembershipCost, Amount, PaymentStatus, PaymentMethod, PaymentDate, InvoiceNumber, ReceiptNumber, DiscountApplied, TaxAmount, TotalAmount, PaymentNotes, MembershipID) " &
+                                    $"VALUES ({memberID}, {fee}, {fee}, 'Unpaid', 'N/A', '{DateTime.MinValue:yyyy-MM-dd}', 'N/A', 'N/A', 0, 0, 0, 'N/A', {latestMembershipID})"
             Using cmd As New MySqlCommand(insertQuery, conn)
-                newPaymentID = Convert.ToInt32(cmd.ExecuteScalar())
+                cmd.ExecuteNonQuery()
+            End Using
+
+            ' Retrieve the last inserted PaymentID
+            Dim queryLastInsertID As String = "SELECT LAST_INSERT_ID()"
+            Using cmdLastInsertID As New MySqlCommand(queryLastInsertID, conn)
+                newPaymentID = Convert.ToInt32(cmdLastInsertID.ExecuteScalar())
+                Debug.WriteLine("New PaymentID: " & newPaymentID)
             End Using
         End Using
 
         Return newPaymentID
     End Function
 
+
+
     Private Sub HandleLaterPayment(memberID As Integer)
         ' Custom logic for handling later payment
+        CreateNewPayment(memberID)
         MessageBox.Show("You can pay later. Remember to complete your payment before the due date.", "Payment Deferred", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        ' Add any additional logic for deferred payment here
     End Sub
 
     Private Function GetNewPaymentID() As Integer
@@ -232,19 +245,35 @@ Public Class NewMembershipForm
             conn.Open()
 
             Using transaction = conn.BeginTransaction
-                Dim insertMembershipQuery = "INSERT INTO `membership`(`MemberID`, `MemberShipName`, `Duration`, `Cost`, `Benefits`, `StartDate`, `EndDate`, `DiscountAvailable`, `CancelationPolicy`, `RenewalPolicy`, `TrainingSession`, `LockerAccess`, `MembershipType`) " &
-                                                  "VALUES (" & memberID & ", '" & membershipName & "', '" & duration & "', " & cost & ", '" & benefits & "', '" & startDate.ToString("yyyy-MM-dd") & "', '" & endDate.ToString("yyyy-MM-dd") & "', '" & discountAvailable & "', '" & cancelationPolicy & "', '" & renewalPolicy & "', " & trainingSession & ", '" & lockerAccess & "', '" & ServiceCB.SelectedItem.ToString & "')"
-                Debug.WriteLine($"Executing query: {insertMembershipQuery}")
-                Using insertMembershipCommand As New MySqlCommand(insertMembershipQuery, conn, transaction)
-                    insertMembershipCommand.ExecuteNonQuery()
-                End Using
-                transaction.Commit()
+                Try
+                    ' Update members table
+                    Dim updateMembersQuery As String = "UPDATE members SET Status = 'Active' WHERE MemberID = @MemberID AND Status = 'Inactive'"
+                    Dim cmdMembers As New MySqlCommand(updateMembersQuery, conn, transaction)
+                    cmdMembers.Parameters.AddWithValue("@MemberID", memberID)
+                    cmdMembers.ExecuteNonQuery()
+
+                    ' Insert new membership record with Status
+                    Dim insertMembershipQuery = "INSERT INTO `membership`(`MemberID`, `MemberShipName`, `Duration`, `Cost`, `Benefits`, `StartDate`, `EndDate`, `DiscountAvailable`, `CancelationPolicy`, `RenewalPolicy`, `TrainingSession`, `LockerAccess`, `MembershipType`, `Status`) " &
+                                            "VALUES (" & memberID & ", '" & membershipName & "', '" & duration & "', " & cost & ", '" & benefits & "', '" & startDate.ToString("yyyy-MM-dd") & "', '" & endDate.ToString("yyyy-MM-dd") & "', '" & discountAvailable & "', '" & cancelationPolicy & "', '" & renewalPolicy & "', " & trainingSession & ", '" & lockerAccess & "', '" & ServiceCB.SelectedItem.ToString & "', 'Active')"
+                    Debug.WriteLine($"Executing query: {insertMembershipQuery}")
+                    Using insertMembershipCommand As New MySqlCommand(insertMembershipQuery, conn, transaction)
+                        insertMembershipCommand.ExecuteNonQuery()
+                    End Using
+
+                    ' Commit the transaction
+                    transaction.Commit()
+
+                    ' Trigger the payment process
+                    AskPaymentOption(memberID, cost, True)
+                Catch ex As Exception
+                    ' Rollback the transaction in case of an error
+                    transaction.Rollback()
+                    MessageBox.Show("An error occurred: " & ex.Message)
+                End Try
             End Using
         End Using
-
-        ' Trigger the payment process
-        AskPaymentOption(memberID, cost, True)
     End Sub
+
 
     Private Sub PlansCB_SelectedIndexChanged_1(sender As Object, e As EventArgs) Handles PlansCB.SelectedIndexChanged
         ' Clear any previous items in the services ComboBox

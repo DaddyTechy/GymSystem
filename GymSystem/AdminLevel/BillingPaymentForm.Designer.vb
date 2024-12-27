@@ -415,7 +415,7 @@ Partial Class BillingPaymentForm
         btnSave.Name = "btnSave"
         btnSave.Size = New Size(133, 34)
         btnSave.TabIndex = 2
-        btnSave.Text = "$ Make Payment"
+        btnSave.Text = "Make Payment"
         btnSave.UseVisualStyleBackColor = False
         ' 
         ' Panel2
@@ -452,7 +452,7 @@ Partial Class BillingPaymentForm
         Label1.ImageAlign = ContentAlignment.MiddleRight
         Label1.Location = New Point(559, 10)
         Label1.Name = "Label1"
-        Label1.Padding = New Padding(3, 3, 3, 3)
+        Label1.Padding = New Padding(3)
         Label1.Size = New Size(130, 27)
         Label1.TabIndex = 18
         Label1.Text = "Payments           "
@@ -465,7 +465,7 @@ Partial Class BillingPaymentForm
         BackColor = Color.FromArgb(CByte(20), CByte(20), CByte(20))
         Controls.Add(Panel1)
         Name = "BillingPaymentForm"
-        Padding = New Padding(20, 20, 20, 20)
+        Padding = New Padding(20)
         Size = New Size(843, 510)
         Panel1.ResumeLayout(False)
         Panel3.ResumeLayout(False)
