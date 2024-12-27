@@ -24,35 +24,49 @@ Module modDB
     End Structure
 
     Public Sub UpdateConnectionString()
-        Try
-            ' Specify the configuration file directly
-            Dim configFile As String = "config.txt" ' Change this to "config.txt" or "config2.txt" as needed
+        Dim configFiles As String() = {"config.txt", "config2.txt"}
+        Dim text As String = Nothing
+
+        For Each configFile In configFiles
             Dim configPath As String = System.IO.Directory.GetCurrentDirectory & "\" & configFile
-            Dim text As String = Nothing
 
-            ' Read the configuration file
-            If System.IO.File.Exists(configPath) Then
-                Using reader As System.IO.StreamReader = New System.IO.StreamReader(configPath)
-                    text = reader.ReadToEnd
-                End Using
-                Dim arr_text() As String = Split(text, vbCrLf)
+            Try
+                ' Read the configuration file
+                If System.IO.File.Exists(configPath) Then
+                    Using reader As System.IO.StreamReader = New System.IO.StreamReader(configPath)
+                        text = reader.ReadToEnd
+                    End Using
+                    Dim arr_text() As String = Split(text, vbCrLf)
 
-                ' Construct the connection string based on the file name
-                If configFile = "config.txt" Then
-                    strConnection = "server=" & Split(arr_text(0), "=")(1) & ";uid=" & Split(arr_text(1), "=")(1) & ";password=" & Split(arr_text(2), "=")(1) & ";database=" & Split(arr_text(3), "=")(1) & ";" & "allowuservariables='True';"
-                ElseIf configFile = "config2.txt" Then
-                    strConnection = "server=" & Split(arr_text(0), "=")(1) & ";uid=" & Split(arr_text(1), "=")(1) & ";password=" & Split(arr_text(2), "=")(1) & ";database=" & Split(arr_text(3), "=")(1) & ";port=" & Split(arr_text(4), "=")(1) & ";" & "allowuservariables='True';"
+                    ' Construct the connection string based on the file name
+                    If configFile = "config.txt" Then
+                        strConnection = "server=" & Split(arr_text(0), "=")(1) & ";uid=" & Split(arr_text(1), "=")(1) & ";password=" & Split(arr_text(2), "=")(1) & ";database=" & Split(arr_text(3), "=")(1) & ";" & "allowuservariables='True';"
+                    ElseIf configFile = "config2.txt" Then
+                        strConnection = "server=" & Split(arr_text(0), "=")(1) & ";uid=" & Split(arr_text(1), "=")(1) & ";password=" & Split(arr_text(2), "=")(1) & ";database=" & Split(arr_text(3), "=")(1) & ";port=" & Split(arr_text(4), "=")(1) & ";" & "allowuservariables='True';"
+                    End If
+
+                    ' Test the connection
+                    Using conn As New MySqlConnection(strConnection)
+                        conn.Open()
+                    End Using
+
+                    Return ' Exit the method if the connection is successful
                 Else
-                    MsgBox("Unsupported configuration file format")
-                    Exit Sub
+                    Throw New Exception($"Configuration file {configFile} from {configPath} does not exist")
                 End If
-            Else
-                MsgBox($"Configuration file {configFile} from {configPath} does not exist")
-            End If
-        Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical)
-        End Try
+            Catch ex As MySql.Data.MySqlClient.MySqlException
+                ' Log the error and try the next configuration file
+                Debug.WriteLine($"Error connecting with {configFile}: {ex.Message}")
+            Catch ex As Exception
+                ' Log the error and try the next configuration file
+                Debug.WriteLine($"Error loading {configFile}: {ex.Message}")
+            End Try
+        Next
+
+        ' If both configurations fail, show an error message
+        MsgBox("Both configuration files failed to connect to the database. Please check the configuration files and try again.", MsgBoxStyle.Critical)
     End Sub
+
 
 
     Public CurrentLoggedUser As LoggedUser = Nothing
