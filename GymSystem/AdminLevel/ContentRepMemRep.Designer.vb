@@ -47,6 +47,7 @@ Partial Class ContentRepMemRep
         Button1 = New Button()
         Panel2 = New Panel()
         DataGridView1 = New DataGridView()
+        btnExportPdf = New Button()
         Panel1.SuspendLayout()
         Panel3.SuspendLayout()
         Panel2.SuspendLayout()
@@ -72,9 +73,9 @@ Partial Class ContentRepMemRep
         Label1.AutoSize = True
         Label1.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = SystemColors.ControlLightLight
-        Label1.Location = New Point(19, 23)
+        Label1.Location = New Point(17, 17)
         Label1.Name = "Label1"
-        Label1.Size = New Size(162, 25)
+        Label1.Size = New Size(127, 20)
         Label1.TabIndex = 0
         Label1.Text = "Member Reports"
         ' 
@@ -84,9 +85,9 @@ Partial Class ContentRepMemRep
         Label2.AutoSize = True
         Label2.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = SystemColors.ControlLight
-        Label2.Location = New Point(19, 64)
+        Label2.Location = New Point(17, 48)
         Label2.Name = "Label2"
-        Label2.Size = New Size(205, 41)
+        Label2.Size = New Size(165, 32)
         Label2.TabIndex = 1
         Label2.Text = "View Reports"
         ' 
@@ -100,10 +101,9 @@ Partial Class ContentRepMemRep
         Panel1.Controls.Add(Label2)
         Panel1.Controls.Add(Label1)
         Panel1.Dock = DockStyle.Top
-        Panel1.Location = New Point(17, 20)
-        Panel1.Margin = New Padding(3, 4, 3, 4)
+        Panel1.Location = New Point(15, 15)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(1211, 129)
+        Panel1.Size = New Size(1059, 97)
         Panel1.TabIndex = 0
         ' 
         ' btnApplyBatchSize
@@ -111,10 +111,9 @@ Partial Class ContentRepMemRep
         btnApplyBatchSize.BackColor = Color.Gray
         btnApplyBatchSize.FlatStyle = FlatStyle.Popup
         btnApplyBatchSize.ForeColor = SystemColors.ControlLightLight
-        btnApplyBatchSize.Location = New Point(586, 95)
-        btnApplyBatchSize.Margin = New Padding(3, 4, 3, 4)
+        btnApplyBatchSize.Location = New Point(513, 71)
         btnApplyBatchSize.Name = "btnApplyBatchSize"
-        btnApplyBatchSize.Size = New Size(88, 29)
+        btnApplyBatchSize.Size = New Size(77, 22)
         btnApplyBatchSize.TabIndex = 21
         btnApplyBatchSize.Text = "Apply"
         btnApplyBatchSize.UseVisualStyleBackColor = False
@@ -123,18 +122,17 @@ Partial Class ContentRepMemRep
         ' 
         Label4.AutoSize = True
         Label4.ForeColor = SystemColors.ButtonFace
-        Label4.Location = New Point(377, 102)
+        Label4.Location = New Point(330, 76)
         Label4.Name = "Label4"
-        Label4.Size = New Size(120, 20)
+        Label4.Size = New Size(97, 15)
         Label4.TabIndex = 20
         Label4.Text = "Amount to Load:"
         ' 
         ' txtBatchSize
         ' 
-        txtBatchSize.Location = New Point(526, 92)
-        txtBatchSize.Margin = New Padding(3, 4, 3, 4)
+        txtBatchSize.Location = New Point(460, 69)
         txtBatchSize.Name = "txtBatchSize"
-        txtBatchSize.Size = New Size(53, 27)
+        txtBatchSize.Size = New Size(47, 23)
         txtBatchSize.TabIndex = 19
         ' 
         ' btnBack
@@ -142,10 +140,9 @@ Partial Class ContentRepMemRep
         btnBack.BackColor = Color.Gray
         btnBack.FlatStyle = FlatStyle.Popup
         btnBack.ForeColor = SystemColors.ControlLightLight
-        btnBack.Location = New Point(942, 91)
-        btnBack.Margin = New Padding(3, 4, 3, 4)
+        btnBack.Location = New Point(824, 68)
         btnBack.Name = "btnBack"
-        btnBack.Size = New Size(101, 29)
+        btnBack.Size = New Size(88, 22)
         btnBack.TabIndex = 18
         btnBack.Text = "Load Less"
         btnBack.UseVisualStyleBackColor = False
@@ -155,10 +152,9 @@ Partial Class ContentRepMemRep
         btnNext.BackColor = Color.Gray
         btnNext.FlatStyle = FlatStyle.Popup
         btnNext.ForeColor = SystemColors.ControlLightLight
-        btnNext.Location = New Point(1067, 93)
-        btnNext.Margin = New Padding(3, 4, 3, 4)
+        btnNext.Location = New Point(934, 70)
         btnNext.Name = "btnNext"
-        btnNext.Size = New Size(106, 29)
+        btnNext.Size = New Size(93, 22)
         btnNext.TabIndex = 17
         btnNext.Text = "Load More"
         btnNext.UseVisualStyleBackColor = False
@@ -168,16 +164,16 @@ Partial Class ContentRepMemRep
         DateTimePicker1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         DateTimePicker1.CustomFormat = ""
         DateTimePicker1.Format = DateTimePickerFormat.Short
-        DateTimePicker1.Location = New Point(1992, 28)
-        DateTimePicker1.Margin = New Padding(3, 4, 3, 4)
+        DateTimePicker1.Location = New Point(1742, 21)
         DateTimePicker1.Name = "DateTimePicker1"
-        DateTimePicker1.Size = New Size(101, 27)
+        DateTimePicker1.Size = New Size(89, 23)
         DateTimePicker1.TabIndex = 3
         DateTimePicker1.Value = New Date(2024, 12, 4, 0, 0, 0, 0)
         DateTimePicker1.Visible = False
         ' 
         ' Panel3
         ' 
+        Panel3.Controls.Add(btnExportPdf)
         Panel3.Controls.Add(Label5)
         Panel3.Controls.Add(Label3)
         Panel3.Controls.Add(DateTimePicker3)
@@ -188,19 +184,18 @@ Partial Class ContentRepMemRep
         Panel3.Controls.Add(btnEquipment)
         Panel3.Controls.Add(Button1)
         Panel3.Dock = DockStyle.Right
-        Panel3.Location = New Point(982, 0)
-        Panel3.Margin = New Padding(3, 4, 3, 4)
+        Panel3.Location = New Point(859, 0)
         Panel3.Name = "Panel3"
-        Panel3.Size = New Size(229, 492)
+        Panel3.Size = New Size(200, 369)
         Panel3.TabIndex = 4
         ' 
         ' Label5
         ' 
         Label5.AutoSize = True
         Label5.ForeColor = SystemColors.ButtonFace
-        Label5.Location = New Point(15, 407)
+        Label5.Location = New Point(13, 305)
         Label5.Name = "Label5"
-        Label5.Size = New Size(28, 20)
+        Label5.Size = New Size(23, 15)
         Label5.TabIndex = 25
         Label5.Text = "To:"
         Label5.Visible = False
@@ -209,28 +204,26 @@ Partial Class ContentRepMemRep
         ' 
         Label3.AutoSize = True
         Label3.ForeColor = SystemColors.ButtonFace
-        Label3.Location = New Point(15, 341)
+        Label3.Location = New Point(13, 256)
         Label3.Name = "Label3"
-        Label3.Size = New Size(46, 20)
+        Label3.Size = New Size(38, 15)
         Label3.TabIndex = 24
         Label3.Text = "From:"
         Label3.Visible = False
         ' 
         ' DateTimePicker3
         ' 
-        DateTimePicker3.Location = New Point(15, 431)
-        DateTimePicker3.Margin = New Padding(3, 4, 3, 4)
+        DateTimePicker3.Location = New Point(13, 323)
         DateTimePicker3.Name = "DateTimePicker3"
-        DateTimePicker3.Size = New Size(156, 27)
+        DateTimePicker3.Size = New Size(137, 23)
         DateTimePicker3.TabIndex = 23
         DateTimePicker3.Visible = False
         ' 
         ' DateTimePicker2
         ' 
-        DateTimePicker2.Location = New Point(15, 365)
-        DateTimePicker2.Margin = New Padding(3, 4, 3, 4)
+        DateTimePicker2.Location = New Point(13, 274)
         DateTimePicker2.Name = "DateTimePicker2"
-        DateTimePicker2.Size = New Size(156, 27)
+        DateTimePicker2.Size = New Size(137, 23)
         DateTimePicker2.TabIndex = 22
         DateTimePicker2.Visible = False
         ' 
@@ -239,10 +232,9 @@ Partial Class ContentRepMemRep
         btnRevenue.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnRevenue.BackColor = Color.Gold
         btnRevenue.FlatStyle = FlatStyle.Popup
-        btnRevenue.Location = New Point(22, 29)
-        btnRevenue.Margin = New Padding(3, 4, 3, 4)
+        btnRevenue.Location = New Point(19, 22)
         btnRevenue.Name = "btnRevenue"
-        btnRevenue.Size = New Size(186, 31)
+        btnRevenue.Size = New Size(163, 23)
         btnRevenue.TabIndex = 7
         btnRevenue.Text = "Revenue Report"
         btnRevenue.UseVisualStyleBackColor = False
@@ -252,10 +244,9 @@ Partial Class ContentRepMemRep
         Button2.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         Button2.BackColor = Color.Gold
         Button2.FlatStyle = FlatStyle.Popup
-        Button2.Location = New Point(22, 83)
-        Button2.Margin = New Padding(3, 4, 3, 4)
+        Button2.Location = New Point(19, 62)
         Button2.Name = "Button2"
-        Button2.Size = New Size(186, 31)
+        Button2.Size = New Size(163, 23)
         Button2.TabIndex = 3
         Button2.Text = "Print Member Reports"
         Button2.UseVisualStyleBackColor = False
@@ -265,10 +256,9 @@ Partial Class ContentRepMemRep
         btnMembership.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnMembership.BackColor = Color.Gold
         btnMembership.FlatStyle = FlatStyle.Popup
-        btnMembership.Location = New Point(22, 244)
-        btnMembership.Margin = New Padding(3, 4, 3, 4)
+        btnMembership.Location = New Point(19, 183)
         btnMembership.Name = "btnMembership"
-        btnMembership.Size = New Size(186, 31)
+        btnMembership.Size = New Size(163, 23)
         btnMembership.TabIndex = 6
         btnMembership.Text = "Membership Report"
         btnMembership.UseVisualStyleBackColor = False
@@ -278,10 +268,9 @@ Partial Class ContentRepMemRep
         btnEquipment.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnEquipment.BackColor = Color.Gold
         btnEquipment.FlatStyle = FlatStyle.Popup
-        btnEquipment.Location = New Point(22, 189)
-        btnEquipment.Margin = New Padding(3, 4, 3, 4)
+        btnEquipment.Location = New Point(19, 142)
         btnEquipment.Name = "btnEquipment"
-        btnEquipment.Size = New Size(186, 31)
+        btnEquipment.Size = New Size(163, 23)
         btnEquipment.TabIndex = 5
         btnEquipment.Text = "Equipment Report"
         btnEquipment.UseVisualStyleBackColor = False
@@ -291,10 +280,9 @@ Partial Class ContentRepMemRep
         Button1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         Button1.BackColor = Color.Gold
         Button1.FlatStyle = FlatStyle.Popup
-        Button1.Location = New Point(22, 136)
-        Button1.Margin = New Padding(3, 4, 3, 4)
+        Button1.Location = New Point(19, 102)
         Button1.Name = "Button1"
-        Button1.Size = New Size(186, 31)
+        Button1.Size = New Size(163, 23)
         Button1.TabIndex = 4
         Button1.Text = "Print Attendance Report"
         Button1.UseVisualStyleBackColor = False
@@ -306,10 +294,9 @@ Partial Class ContentRepMemRep
         Panel2.Controls.Add(DateTimePicker1)
         Panel2.Controls.Add(DataGridView1)
         Panel2.Dock = DockStyle.Fill
-        Panel2.Location = New Point(17, 149)
-        Panel2.Margin = New Padding(3, 4, 3, 4)
+        Panel2.Location = New Point(15, 112)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(1211, 492)
+        Panel2.Size = New Size(1059, 369)
         Panel2.TabIndex = 3
         ' 
         ' DataGridView1
@@ -319,26 +306,37 @@ Partial Class ContentRepMemRep
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridView1.Dock = DockStyle.Fill
         DataGridView1.Location = New Point(0, 0)
-        DataGridView1.Margin = New Padding(3, 4, 3, 4)
         DataGridView1.Name = "DataGridView1"
         DataGridView1.ReadOnly = True
         DataGridView1.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders
-        DataGridView1.Size = New Size(1211, 492)
+        DataGridView1.Size = New Size(1059, 369)
         DataGridView1.TabIndex = 2
+        ' 
+        ' btnExportPdf
+        ' 
+        btnExportPdf.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnExportPdf.BackColor = Color.FromArgb(CByte(0), CByte(0), CByte(192))
+        btnExportPdf.FlatStyle = FlatStyle.Flat
+        btnExportPdf.ForeColor = SystemColors.ButtonHighlight
+        btnExportPdf.Location = New Point(107, 221)
+        btnExportPdf.Name = "btnExportPdf"
+        btnExportPdf.Size = New Size(75, 23)
+        btnExportPdf.TabIndex = 26
+        btnExportPdf.Text = "Export Report"
+        btnExportPdf.UseVisualStyleBackColor = False
         ' 
         ' ContentRepMemRep
         ' 
-        AutoScaleDimensions = New SizeF(8F, 20F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(29), CByte(29), CByte(29))
         BackgroundImageLayout = ImageLayout.None
         Controls.Add(Panel2)
         Controls.Add(Panel1)
-        Margin = New Padding(3, 4, 3, 4)
-        MinimumSize = New Size(771, 661)
+        MinimumSize = New Size(675, 496)
         Name = "ContentRepMemRep"
-        Padding = New Padding(17, 20, 17, 20)
-        Size = New Size(1245, 661)
+        Padding = New Padding(15, 15, 15, 15)
+        Size = New Size(1089, 496)
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
         Panel3.ResumeLayout(False)
@@ -371,5 +369,6 @@ Partial Class ContentRepMemRep
     Friend WithEvents DateTimePicker2 As DateTimePicker
     Friend WithEvents Label5 As Label
     Friend WithEvents Label3 As Label
+    Friend WithEvents btnExportPdf As Button
 
 End Class

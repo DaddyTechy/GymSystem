@@ -1,4 +1,4 @@
-﻿Imports System.IO
+Imports System.IO
 Imports Microsoft.Reporting.WinForms
 Imports MySql.Data.MySqlClient
 Imports Mysqlx.Crud
@@ -6,6 +6,8 @@ Imports Mysqlx.Crud
 Public Class ContentRepMemRep
     Private currentOffset As Integer = 0
     Private batchSize As Integer = 25
+    ' Stores the RDLC path of the most recently loaded report
+    Private lastReportPath As String = Nothing
 
     Private Sub ContentRepMemRep_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Initial setup if needed
@@ -18,15 +20,17 @@ Public Class ContentRepMemRep
         FormatDataGridView()
     End Sub
 
-    Private Sub btnRevenue_Click(sender As Object, e As EventArgs) Handles btnRevenue.Click, btnRevenue.Click
+    Private Sub btnRevenue_Click(sender As Object, e As EventArgs) Handles btnRevenue.Click
         DateTimePicker1.Visible = True
         DateTimePicker2.Visible = True
         DateTimePicker3.Visible = True
         Label3.Visible = True
         Label5.Visible = True
-        Dim startDate As DateTime = DateTimePicker2.Value
-        Dim endDate As DateTime = DateTimePicker3.Value
-        LoadData($"SELECT MembershipCost, ReservationFee, PaymentDate FROM payment WHERE PaymentStatus = 'Paid' AND PaymentDate BETWEEN '{startDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'")
+        Dim startDate As DateTime = DateTimePicker2.Value.Date
+        Dim endDate As DateTime = DateTimePicker3.Value.Date
+
+        ' Use parameterized query for revenue data
+        LoadRevenueData(startDate, endDate)
 
         Dim adminID As String = CurrentLoggedUser.id ' Replace with actual value if admin is making the report
         Dim staffID As String = CurrentLoggedUser.id ' Assuming CurrentLoggedUser.id is the StaffID
@@ -47,9 +51,11 @@ Public Class ContentRepMemRep
 
         ' Execute the query
         readQuery(query)
-        ' Bind data to RDLC report and export to PDF
-        BindReport("..\..\..\AdminLevel\Reports\RevenueReport.rdlc")
+        ' Display in grid first; PDF export can be triggered separately
+        lastReportPath = "..\\..\\..\\AdminLevel\\Reports\\RevenueReport.rdlc"
+        BindReport(lastReportPath, False, False)
     End Sub
+
     Private Sub LoadDataWithFilter()
         Dim startDate As DateTime = DateTimePicker2.Value
         Dim endDate As DateTime = DateTimePicker3.Value
@@ -57,51 +63,59 @@ Public Class ContentRepMemRep
         LoadData(query)
     End Sub
 
-
     Private Sub LoadData(query As String)
         UpdateConnectionString()
-        conn = New MySqlConnection(strConnection)
-        Try
-            conn.Open()
-            Dim adapter As New MySqlDataAdapter(query, conn)
-            Dim dt As New DataTable()
-            adapter.Fill(dt)
-
-            ' Assign the DataTable as the DataSource for the DataGridView
-            DataGridView1.DataSource = dt
-
-            ' Debug: Check if DataGridView is populated
-            Debug.WriteLine("DataGridView populated with data:")
-            For Each row As DataRow In dt.Rows
-                Debug.WriteLine(String.Join(", ", row.ItemArray))
-            Next
-
-        Catch ex As Exception
-            ' Handle any errors that occur
-            Debug.WriteLine("An error occurred: " & ex.Message)
-        Finally
-            ' Ensure the connection is closed
-            If conn IsNot Nothing AndAlso conn.State = ConnectionState.Open Then
-                conn.Close()
-            End If
-        End Try
+        ' Use Using blocks and parameterless command for simpler queries
+        Using conn As New MySqlConnection(strConnection)
+            Try
+                conn.Open()
+                Using adapter As New MySqlDataAdapter(query, conn)
+                    Dim dt As New DataTable()
+                    adapter.Fill(dt)
+                    DataGridView1.DataSource = dt
+                End Using
+            Catch ex As Exception
+                Debug.WriteLine("An error occurred: " & ex.Message)
+            End Try
+        End Using
     End Sub
 
-    Private Sub BindReport(reportPath As String)
+    ' Parameterised loader specifically for revenue data (startDate inclusive, endDate exclusive)
+    Private Sub LoadRevenueData(startDate As DateTime, endDate As DateTime)
+        UpdateConnectionString()
+        Dim query As String = $"SELECT MembershipCost, ReservationFee, PaymentDate FROM payment WHERE PaymentStatus = 'Paid' AND PaymentDate >= @StartDate AND PaymentDate < @EndDate LIMIT {batchSize}"
+        Using conn As New MySqlConnection(strConnection)
+            Using cmd As New MySqlCommand(query, conn)
+                cmd.Parameters.AddWithValue("@StartDate", startDate)
+                cmd.Parameters.AddWithValue("@EndDate", endDate.AddDays(1)) ' make end date exclusive
+                Using adapter As New MySqlDataAdapter(cmd)
+                    Dim dt As New DataTable()
+                    adapter.Fill(dt)
+                    DataGridView1.DataSource = dt
+                End Using
+            End Using
+        End Using
+    End Sub
+
+    Private Sub BindReport(reportPath As String, Optional exportPdf As Boolean = False, Optional showPreview As Boolean = True)
         Dim dt As DataTable = CType(DataGridView1.DataSource, DataTable)
 
+        #If DEBUG Then
         ' Debug: Check if DataTable is populated
         Debug.WriteLine("DataTable populated with data:")
         For Each row As DataRow In dt.Rows
             Debug.WriteLine(String.Join(", ", row.ItemArray))
         Next
+        #End If
 
         Dim report As New LocalReport()
         Dim baseDirectory As String = AppDomain.CurrentDomain.BaseDirectory
         Dim fullReportPath As String = Path.Combine(baseDirectory, reportPath)
 
+        #If DEBUG Then
         ' Debug: Check the constructed report path
         Debug.WriteLine("Constructed report path: " & fullReportPath)
+        #End If
 
         report.ReportPath = fullReportPath
 
@@ -110,32 +124,38 @@ Public Class ContentRepMemRep
         report.DataSources.Clear()
         report.DataSources.Add(dataSource)
 
+        #If DEBUG Then
         ' Debug: Check if data source is added to the report
         Debug.WriteLine("Data source added to the report.")
+        #End If
 
-        pdfBytes = ExportToPDF(report)
+        If exportPdf Then
+            pdfBytes = ExportToPDF(report)
 
-        ' Debug: Check if PDF bytes are generated
-        If pdfBytes IsNot Nothing AndAlso pdfBytes.Length > 0 Then
-            Debug.WriteLine("PDF bytes generated successfully.")
-        Else
-            Debug.WriteLine("Failed to generate PDF bytes.")
+            #If DEBUG Then
+            If pdfBytes IsNot Nothing AndAlso pdfBytes.Length > 0 Then
+                Debug.WriteLine("PDF bytes generated successfully.")
+            Else
+                Debug.WriteLine("Failed to generate PDF bytes.")
+            End If
+            #End If
         End If
 
-        ' Show the report preview
-        Dim reportViewer As New ReportViewer()
-        reportViewer.LocalReport.ReportPath = fullReportPath
-        reportViewer.LocalReport.DataSources.Clear()
-        reportViewer.LocalReport.DataSources.Add(New ReportDataSource("DataSet1", dt))
-        reportViewer.SetDisplayMode(DisplayMode.PrintLayout)
-        reportViewer.RefreshReport()
+        If showPreview Then
+            Dim reportViewer As New ReportViewer()
+            reportViewer.LocalReport.ReportPath = fullReportPath
+            reportViewer.LocalReport.DataSources.Clear()
+            reportViewer.LocalReport.DataSources.Add(New ReportDataSource("DataSet1", dt))
+            reportViewer.SetDisplayMode(DisplayMode.PrintLayout)
+            reportViewer.RefreshReport()
 
-        Dim previewForm As New Form()
-        previewForm.Controls.Add(reportViewer)
-        previewForm.Text = "Report Preview"
-        reportViewer.Dock = DockStyle.Fill
-        previewForm.WindowState = FormWindowState.Maximized
-        previewForm.ShowDialog()
+            Dim previewForm As New Form()
+            previewForm.Controls.Add(reportViewer)
+            previewForm.Text = "Report Preview"
+            reportViewer.Dock = DockStyle.Fill
+            previewForm.WindowState = FormWindowState.Maximized
+            previewForm.ShowDialog()
+        End If
     End Sub
 
     Private Function ExportToPDF(report As LocalReport) As Byte()
@@ -147,6 +167,7 @@ Public Class ContentRepMemRep
 
         Dim bytes As Byte() = report.Render("PDF", Nothing, mimeType, encoding, extension, streamIds, warnings)
 
+        #If DEBUG Then
         ' Debug: Check if PDF rendering warnings are generated
         If warnings IsNot Nothing AndAlso warnings.Length > 0 Then
             Debug.WriteLine("PDF rendering warnings:")
@@ -154,6 +175,7 @@ Public Class ContentRepMemRep
                 Debug.WriteLine(warning.Message)
             Next
         End If
+        #End If
 
         Return bytes
     End Function
@@ -190,32 +212,29 @@ Public Class ContentRepMemRep
         End If
 
         readQuery(insertQuery)
-        BindReport(reportPath)
+        lastReportPath = reportPath
+        BindReport(lastReportPath, False, False)
     End Sub
 
-
-
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click, Button1.Click
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         lastClickedButton = Button1
         ReloadData($"SELECT AttendanceID, StaffID, MemberID, Date, CheckInTime, CheckOutTime, SessionType FROM attendance LIMIT {batchSize} OFFSET 0", "..\..\..\AdminLevel\Reports\Report2.rdlc")
     End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click, Button2.Click
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         lastClickedButton = Button2
         ReloadData($"SELECT MemberID, FirstName, MiddleName, LastName, Sex, PhoneNumber, Province, City, Street, ZipCode FROM members LIMIT {batchSize} OFFSET 0", "..\..\..\AdminLevel\Reports\Report1.rdlc")
     End Sub
 
-    Private Sub btnEquipment_Click(sender As Object, e As EventArgs) Handles btnEquipment.Click, btnEquipment.Click
+    Private Sub btnEquipment_Click(sender As Object, e As EventArgs) Handles btnEquipment.Click
         lastClickedButton = btnEquipment
         ReloadData($"SELECT EquipmentID, Name, Type, Brand, PurchaseDate, Status, PurchasePlace, MaintenanceCost FROM equipment LIMIT {batchSize} OFFSET 0", "..\..\..\AdminLevel\Reports\Report3.rdlc")
     End Sub
 
-    Private Sub btnMembership_Click(sender As Object, e As EventArgs) Handles btnMembership.Click, btnMembership.Click
+    Private Sub btnMembership_Click(sender As Object, e As EventArgs) Handles btnMembership.Click
         lastClickedButton = btnMembership
         ReloadData($"SELECT MembershipID, MemberID, MemberShipName, Duration, Cost, Benefits, StartDate, EndDate, DiscountAvailable, CancelationPolicy, RenewalPolicy, TrainingSession, LockerAccess, MembershipType FROM membership LIMIT {batchSize} OFFSET 0", "..\..\..\AdminLevel\Reports\Report4.rdlc")
     End Sub
-
-
 
     Private Sub FormatDataGridView()
         ' Set the background color to match the form's background color
@@ -261,5 +280,19 @@ Public Class ContentRepMemRep
         Else
             MessageBox.Show("Please enter a valid positive number for batch size.")
         End If
+    End Sub
+
+    ' Universal export button handler
+    Private Sub btnExportPdf_Click(sender As Object, e As EventArgs) Handles btnExportPdf.Click
+        If String.IsNullOrEmpty(lastReportPath) Then
+            MessageBox.Show("Load a report first before exporting.")
+            Return
+        End If
+        ' Ensure DataGridView has data
+        If DataGridView1.DataSource Is Nothing Then
+            MessageBox.Show("No data to export.")
+            Return
+        End If
+        BindReport(lastReportPath, True)
     End Sub
 End Class
