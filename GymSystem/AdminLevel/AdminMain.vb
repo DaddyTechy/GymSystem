@@ -1,9 +1,11 @@
-﻿Imports Mysqlx.Session
-
+Imports Mysqlx.Session
+Imports MySql.Data.MySqlClient
 Public Class Staffmain
     Inherits UserControl
 
     Private activeButton As Button = Nothing
+    Private NotifTimer As Timer
+    Private NotifCount As Integer = 0
 
     Private Sub AdminMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Initialize buttons using the reusable function
@@ -16,6 +18,23 @@ Public Class Staffmain
         InitializeButton(ReportsBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkreps, My.Resources.Vector3, activeButton)
         InitializeButton(othersBtn, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.Cog, My.Resources.Cog1, activeButton)
         InitializeButton(btnAnnouncement, Color.Yellow, Color.Yellow, Color.White, Color.Black, My.Resources.blkan, My.Resources.Vector_5, activeButton)
+
+        ' Initialize notification timer
+        NotifTimer = New Timer()
+        NotifTimer.Interval = 60000 ' Check every minute
+        AddHandler NotifTimer.Tick, AddressOf CheckNotifications
+        NotifTimer.Start()
+
+        ' Initialize submenu buttons
+        InitializeSubMenuButton(ListAllMembersBtn, Color.Yellow, Color.White, activeSubMenuButton)
+        InitializeSubMenuButton(MemEntryFormBtn, Color.Yellow, Color.White, activeSubMenuButton)
+        InitializeSubMenuButton(AttenChckNBtn, Color.Yellow, Color.White, activeSubMenuButton)
+
+        ' Add click handler for notification button
+        AddHandler NotifBtn.Click, AddressOf NotifBtn_Click
+
+        ' Initialize notification counter
+        CheckNotifications(Me, EventArgs.Empty)
 
         ' Initialize submenu buttons
         InitializeSubMenuButton(ListAllMembersBtn, Color.Yellow, Color.White, activeSubMenuButton)
@@ -54,6 +73,38 @@ Public Class Staffmain
         Else
             Label1.Text = "Welcome Staff"
         End If
+    End Sub
+
+    Private Sub CheckNotifications(sender As Object, e As EventArgs)
+        Try
+            Using newConn As New MySqlConnection(modDB.strConnection)
+                Using cmd As New MySqlCommand()
+                    cmd.Connection = newConn
+                    cmd.CommandText = "SELECT COUNT(*) as count FROM reservation 
+                                      WHERE StaffID = @StaffID 
+                                      AND ReservationStatus = 'Scheduled'
+                                      AND ReservationDate >= CURDATE()"
+                    cmd.Parameters.AddWithValue("@StaffID", CurrentLoggedUser.id)
+
+                    newConn.Open()
+                    Dim count As Integer = Convert.ToInt32(cmd.ExecuteScalar())
+                    NotifCount = count
+
+                    ' Update button text with notification count
+                    If count > 0 Then
+                        NotifBtn.Text = $"({count})"
+                    Else
+                        NotifBtn.Text = "0"
+                    End If
+                End Using
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("Error checking notifications: " & ex.Message)
+        End Try
+    End Sub
+
+    Private Sub NotifBtn_Click(sender As Object, e As EventArgs)
+        ShowUserControl(New StaffNotification())
     End Sub
 
     Public Sub ConfigureMenu(role As String)

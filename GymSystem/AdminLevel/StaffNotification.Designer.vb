@@ -1,5 +1,5 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class ContentMemEntryForm
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class StaffNotification
     Inherits System.Windows.Forms.UserControl
 
     'UserControl overrides dispose to clean up the component list.
@@ -22,30 +22,16 @@ Partial Class ContentMemEntryForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        panelContainer = New Panel()
         SuspendLayout()
         ' 
-        ' panelContainer
-        ' 
-        panelContainer.BackColor = Color.Transparent
-        panelContainer.Dock = DockStyle.Fill
-        panelContainer.Location = New Point(0, 0)
-        panelContainer.Name = "panelContainer"
-        panelContainer.Size = New Size(675, 496)
-        panelContainer.TabIndex = 0
-        ' 
-        ' ContentMemEntryForm
+        ' StaffNotification
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        BackColor = Color.Transparent
-        Controls.Add(panelContainer)
-        MinimumSize = New Size(675, 496)
-        Name = "ContentMemEntryForm"
-        Size = New Size(675, 496)
+        BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        Name = "StaffNotification"
+        Size = New Size(468, 492)
         ResumeLayout(False)
     End Sub
-
-    Friend WithEvents panelContainer As Panel
 
 End Class

@@ -1,4 +1,4 @@
-﻿Imports System.Data.SqlClient
+Imports System.Data.SqlClient
 Imports System.Text.RegularExpressions
 Imports System.Transactions
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
@@ -778,24 +778,38 @@ Public Class JoinNow
     Private Function CreateNewPayment(memberID As Integer) As Integer
         Dim newPaymentID As Integer = 0
         Dim fee As Decimal = 0
+        Dim latestMembershipID As Integer = 0
 
         Using conn As New MySqlConnection(strConnection)
             conn.Open()
-            ' Fetch the Cost from the membership table
-            Dim query As String = $"SELECT Cost FROM membership WHERE MemberID = {memberID}"
+
+            ' Fetch the latest membership for this member so we can pick up its cost and ID
+            Dim query As String = $"SELECT Cost, MembershipID FROM membership WHERE MemberID = {memberID} ORDER BY MembershipID DESC LIMIT 1"
             Using cmd As New MySqlCommand(query, conn)
-                Dim reader As MySqlDataReader = cmd.ExecuteReader()
-                If reader.Read() Then
-                    fee = Convert.ToDecimal(reader("Cost"))
-                    Debug.WriteLine("Cost: " & fee)
-                End If
-                reader.Close()
+                Using reader As MySqlDataReader = cmd.ExecuteReader()
+                    If reader.Read() Then
+                        fee = Convert.ToDecimal(reader("Cost"))
+                        latestMembershipID = Convert.ToInt32(reader("MembershipID"))
+                        Debug.WriteLine($"Cost: {fee}, LatestMembershipID: {latestMembershipID}")
+                    End If
+                End Using
             End Using
 
-            ' Insert a new payment record
-            Dim insertQuery As String = $"INSERT INTO payment (MemberID, MembershipCost, Amount, PaymentStatus, PaymentMethod, PaymentDate, InvoiceNumber, ReceiptNumber, DiscountApplied, TaxAmount, TotalAmount, PaymentNotes, MembershipID) " &
-                                    $"VALUES ({memberID}, {fee}, {fee}, 'Unpaid', 'N/A', '{DateTime.MinValue:yyyy-MM-dd}', 'N/A', 'N/A', 0, 0, 0, 'N/A', {memberID}); SELECT LAST_INSERT_ID();"
+            If latestMembershipID = 0 Then
+                Throw New ApplicationException($"No membership record found for MemberID {memberID} when creating payment.")
+            End If
+
+            ' Insert a new payment row using parameters
+            Dim insertQuery As String = "INSERT INTO payment (MemberID, MembershipCost, Amount, PaymentStatus, PaymentMethod, PaymentDate, InvoiceNumber, ReceiptNumber, DiscountApplied, TaxAmount, TotalAmount, PaymentNotes, MembershipID) " &
+                                        "VALUES (@MemberID, @MembershipCost, @Amount, 'Unpaid', 'N/A', @PaymentDate, 'N/A', 'N/A', 0, 0, 0, 'N/A', @MembershipID); SELECT LAST_INSERT_ID();"
+
             Using cmd As New MySqlCommand(insertQuery, conn)
+                cmd.Parameters.AddWithValue("@MemberID", memberID)
+                cmd.Parameters.AddWithValue("@MembershipCost", fee)
+                cmd.Parameters.AddWithValue("@Amount", fee)
+                cmd.Parameters.AddWithValue("@PaymentDate", DateTime.MinValue.ToString("yyyy-MM-dd"))
+                cmd.Parameters.AddWithValue("@MembershipID", latestMembershipID)
+
                 newPaymentID = Convert.ToInt32(cmd.ExecuteScalar())
             End Using
         End Using

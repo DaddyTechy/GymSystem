@@ -53,6 +53,7 @@ Partial Class Staffmain
         PictureBox1 = New PictureBox()
         ContentPnl = New Panel()
         PictureBox2 = New PictureBox()
+        NotifBtn = New Button()
         CType(LogoPicBox, ComponentModel.ISupportInitialize).BeginInit()
         Panel1.SuspendLayout()
         Menu2Pnl.SuspendLayout()
@@ -466,6 +467,7 @@ Partial Class Staffmain
         ' UserPnl
         ' 
         UserPnl.BackColor = Color.FromArgb(CByte(26), CByte(26), CByte(26))
+        UserPnl.Controls.Add(NotifBtn)
         UserPnl.Controls.Add(Panel2)
         UserPnl.Dock = DockStyle.Top
         UserPnl.Location = New Point(303, 0)
@@ -509,7 +511,7 @@ Partial Class Staffmain
         ' 
         Label1.Anchor = AnchorStyles.Left
         Label1.AutoSize = True
-        Label1.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label1.Font = New Font("Segoe UI", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = SystemColors.ButtonHighlight
         Label1.Location = New Point(58, 39)
         Label1.Name = "Label1"
@@ -551,9 +553,28 @@ Partial Class Staffmain
         PictureBox2.TabIndex = 1
         PictureBox2.TabStop = False
         ' 
+        ' NotifBtn
+        ' 
+        NotifBtn.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Right
+        NotifBtn.BackColor = Color.Transparent
+        NotifBtn.FlatAppearance.BorderSize = 0
+        NotifBtn.FlatStyle = FlatStyle.Flat
+        NotifBtn.Font = New Font("Segoe UI", 9.5F, FontStyle.Bold)
+        NotifBtn.ForeColor = SystemColors.ButtonHighlight
+        NotifBtn.Image = notif1
+        NotifBtn.ImageAlign = ContentAlignment.MiddleLeft
+        NotifBtn.Location = New Point(544, 18)
+        NotifBtn.Name = "NotifBtn"
+        NotifBtn.Size = New Size(48, 66)
+        NotifBtn.TabIndex = 6
+        NotifBtn.Text = "0"
+        NotifBtn.TextAlign = ContentAlignment.MiddleLeft
+        NotifBtn.TextImageRelation = TextImageRelation.ImageBeforeText
+        NotifBtn.UseVisualStyleBackColor = False
+        ' 
         ' Staffmain
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
         AutoSize = True
         Controls.Add(ContentPnl)
@@ -612,5 +633,6 @@ Partial Class Staffmain
     Friend WithEvents LogoutBtn As Button
     Friend WithEvents othersBtn As Button
     Friend WithEvents btnAnnouncement As Button
+    Friend WithEvents NotifBtn As Button
 
 End Class

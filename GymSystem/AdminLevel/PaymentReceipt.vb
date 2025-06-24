@@ -1,4 +1,4 @@
-﻿Imports System.Drawing.Printing
+Imports System.Drawing.Printing
 
 Public Class PaymentReceipt
     Private paymentMethod As String
@@ -106,29 +106,27 @@ Public Class PaymentReceipt
                                                    End Function
 
         ' Generate the receipt details
-        Dim receiptDetails As String = New String("-"c, receiptWidth) & Environment.NewLine &
-                                   "|" & CenterAlign(companyName) & "|" & Environment.NewLine &
-                                   New String("-"c, receiptWidth) & Environment.NewLine &
-                                   "|" & CenterAlign(receiptTitle) & "|" & Environment.NewLine &
-                                   New String("-"c, receiptWidth) & Environment.NewLine &
-                                   "|" & LeftAlign(dateStr) & "|" & Environment.NewLine &
-                                   "|" & LeftAlign(timeStr) & "|" & Environment.NewLine &
-                                   "|" & LeftAlign(invoiceStr) & "|" & Environment.NewLine &
-                                   "|" & LeftAlign(receiptStr) & "|" & Environment.NewLine &
-                                   New String("-"c, receiptWidth) & Environment.NewLine &
-                                   "|" & LeftAlign(memberIDStr) & "|" & Environment.NewLine &
-                                   "|" & LeftAlign(memberNameStr) & "|" & Environment.NewLine &
-                                   New String("-"c, receiptWidth) & Environment.NewLine &
-                                   "|" & LeftAlign(paymentMethodStr) & "|" & Environment.NewLine &
-                                   "|" & LeftAlign(subTotalStr) & "|" & Environment.NewLine &
-                                   "|" & LeftAlign(discountStr) & "|" & Environment.NewLine &
-                                   "|" & LeftAlign(taxStr) & "|" & Environment.NewLine &
-                                   "|" & LeftAlign(totalAmountStr) & "|" & Environment.NewLine &
-                                   New String("-"c, receiptWidth) & Environment.NewLine &
-                                   "|" & LeftAlign(paymentNotesStr) & "|" & Environment.NewLine &
-                                   New String("-"c, receiptWidth) & Environment.NewLine &
-                                   "|" & CenterAlign(thankYouStr) & "|" & Environment.NewLine &
-                                   New String("-"c, receiptWidth)
+        Dim receiptDetails As String = CenterAlign(companyName) & Environment.NewLine &
+                                   Environment.NewLine &
+                                   CenterAlign(receiptTitle) & Environment.NewLine &
+                                   Environment.NewLine &
+                                   LeftAlign(dateStr) & Environment.NewLine &
+                                   LeftAlign(timeStr) & Environment.NewLine &
+                                   LeftAlign(invoiceStr) & Environment.NewLine &
+                                   LeftAlign(receiptStr) & Environment.NewLine &
+                                   Environment.NewLine &
+                                   LeftAlign(memberIDStr) & Environment.NewLine &
+                                   LeftAlign(memberNameStr) & Environment.NewLine &
+                                   Environment.NewLine &
+                                   LeftAlign(paymentMethodStr) & Environment.NewLine &
+                                   LeftAlign(subTotalStr) & Environment.NewLine &
+                                   LeftAlign(discountStr) & Environment.NewLine &
+                                   LeftAlign(taxStr) & Environment.NewLine &
+                                   LeftAlign(totalAmountStr) & Environment.NewLine &
+                                   Environment.NewLine &
+                                   LeftAlign(paymentNotesStr) & Environment.NewLine &
+                                   Environment.NewLine &
+                                   CenterAlign(thankYouStr)
 
         Return receiptDetails
     End Function

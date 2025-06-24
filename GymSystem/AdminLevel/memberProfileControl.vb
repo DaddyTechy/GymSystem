@@ -352,7 +352,7 @@ Public Class memberProfileControl
 
         ' Add the AddNotesControl to the form
         Controls.Add(addNotesControl)
-        addNotesControl.BringToFront
+        addNotesControl.BringToFront()
     End Sub
 
     Private Sub OnNoteAdded(noteDetails As String, author As String, dateAdded As DateTime)

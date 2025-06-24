@@ -1,4 +1,4 @@
-﻿Imports MySql.Data.MySqlClient
+Imports MySql.Data.MySqlClient
 
 Partial Class EventForm
     ' Event declaration for when an event is saved
@@ -272,6 +272,33 @@ Partial Class EventForm
             Dim query As String = $"INSERT INTO reservation (MemberID, EquipmentID, StaffID, ReservationDate, StartTime, EndTime, ReservationFee, ReservationNotes, ReservationStatus, Cancellation, Reschedule, PaymentStatus, Feedback, Purpose) " &
                               $"VALUES ({newEvent.MemberID}, {newEvent.EquipmentID}, {newEvent.StaffID}, '{newEvent.EventDate:yyyy-MM-dd}', '{newEvent.StartTime:HH:mm:ss}', '{newEvent.EndTime:HH:mm:ss}', {newEvent.ReservationFee}, '{newEvent.Notes}', 'Pending', False, False, 'Unpaid', '', '{newEvent.Title}')"
             ExecuteQuery(query)
+
+            ' Get the newly created reservation ID
+            Dim reservationID As Integer
+            Using conn As New MySqlConnection(strConnection)
+                conn.Open()
+                Dim cmd As New MySqlCommand("SELECT LAST_INSERT_ID()", conn)
+                reservationID = Convert.ToInt32(cmd.ExecuteScalar())
+                Debug.WriteLine($"Reservation created with ID: {reservationID}")
+            End Using
+
+            ' Create assignment record for notification
+            Dim assignmentQuery As String = $"INSERT INTO assignment (MemberID, StaffID, Date, SessionSched, Session) " &
+                                         $"VALUES ({newEvent.MemberID}, {newEvent.StaffID}, '{newEvent.EventDate:yyyy-MM-dd}', '{newEvent.StartTime:HH:mm} - {newEvent.EndTime:HH:mm}', 'New Appointment Scheduled')"
+            Debug.WriteLine($"Creating assignment record: {assignmentQuery}")
+
+            Using conn As New MySqlConnection(strConnection)
+                conn.Open()
+                Using cmd As New MySqlCommand(assignmentQuery, conn)
+                    Try
+                        cmd.ExecuteNonQuery()
+                        Debug.WriteLine("Assignment record created successfully")
+                    Catch ex As Exception
+                        Debug.WriteLine($"Error creating assignment record: {ex.Message}")
+                        Throw
+                    End Try
+                End Using
+            End Using
 
             ' Ask if the user wants to make the payment now or later
             Dim result As DialogResult = MessageBox.Show("Do you want to make the payment now?", "Payment", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
