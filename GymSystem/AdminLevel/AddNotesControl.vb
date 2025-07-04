@@ -1,5 +1,9 @@
-﻿Public Class AddNotesControl
+Public Class AddNotesControl
     Public Event NoteAdded(noteDetails As String, author As String, dateAdded As DateTime)
+    Public Event NoteUpdated(noteID As Integer, noteDetails As String, dateAdded As DateTime)
+
+    Public Property NoteID As Integer
+    Public Property IsEditMode As Boolean = False
 
     Private Sub btnSaveNote_Click(sender As Object, e As EventArgs) Handles btnSaveNote.Click
         Try
@@ -18,12 +22,22 @@
                 Return
             End If
 
-            ' Raise the NoteAdded event
-            RaiseEvent NoteAdded(noteDetails, author, dateAdded)
+            If IsEditMode Then
+                RaiseEvent NoteUpdated(NoteID, noteDetails, dateAdded)
+            Else
+                RaiseEvent NoteAdded(noteDetails, author, dateAdded)
+            End If
             Me.Hide()
         Catch ex As Exception
             MessageBox.Show("An error occurred while saving the note: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+    End Sub
+
+    Public Sub SetNoteData(noteID As Integer, noteDetails As String, dateAdded As DateTime)
+        Me.NoteID = noteID
+        Me.IsEditMode = True
+        txtNoteDetails.Text = noteDetails
+        dtpDateAdded.Value = dateAdded
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click

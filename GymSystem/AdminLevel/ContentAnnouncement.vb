@@ -1,4 +1,4 @@
-﻿Imports MySql.Data.MySqlClient
+Imports MySql.Data.MySqlClient
 
 Public Class ContentAnnouncement
     Private Sub LoadNotesForMember(memberID As Integer)
@@ -95,71 +95,89 @@ Public Class ContentAnnouncement
         notesDGV.Columns("PostedBy").HeaderText = "Author"
     End Sub
 
-    Private Sub AddDeleteButtonColumn()
-        Dim deleteButtonColumn As New DataGridViewButtonColumn()
-        deleteButtonColumn.Name = "Delete"
-        deleteButtonColumn.HeaderText = "Delete"
-        deleteButtonColumn.Text = "Delete"
-        deleteButtonColumn.UseColumnTextForButtonValue = True
-        notesDGV.Columns.Add(deleteButtonColumn)
+    Private Sub notesDGV_CellMouseDown(sender As Object, e As DataGridViewCellMouseEventArgs) Handles notesDGV.CellMouseDown
+        If e.Button = MouseButtons.Right AndAlso e.RowIndex >= 0 Then
+            notesDGV.ClearSelection()
+            notesDGV.Rows(e.RowIndex).Selected = True
+            Dim pt = e.Location
+            rowContextMenuStrip.Show(notesDGV, pt.X, pt.Y)
+        End If
     End Sub
 
-    Private Sub notesDGV_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles notesDGV.CellContentClick
-        If e.ColumnIndex = notesDGV.Columns("Delete").Index AndAlso e.RowIndex >= 0 Then
-            ' Confirm deletion
-            Dim result As DialogResult = MessageBox.Show("Are you sure you want to delete this Announcement?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+    Private Sub editToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles editToolStripMenuItem.Click
+        If notesDGV.SelectedRows.Count > 0 Then
+            Dim selectedRow = notesDGV.SelectedRows(0)
+            Dim announcementID = Convert.ToInt32(selectedRow.Cells("AnnouncementID").Value)
+
+            Dim editAnnouncementControl As New AddAnnouncement(announcementID)
+            AddHandler editAnnouncementControl.AnnouncementSaved, AddressOf OnAnnouncementSaved
+
+            Dim hostForm As New Form With {
+                .Text = "Edit Announcement",
+                .StartPosition = FormStartPosition.CenterParent,
+                .Size = New System.Drawing.Size(292, 344),
+                .FormBorderStyle = FormBorderStyle.FixedDialog,
+                .MaximizeBox = False,
+                .MinimizeBox = False
+            }
+
+            hostForm.Controls.Add(editAnnouncementControl)
+            editAnnouncementControl.Dock = DockStyle.Fill
+            hostForm.ShowDialog()
+        End If
+    End Sub
+
+    Private Sub deleteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles deleteToolStripMenuItem.Click
+        If notesDGV.SelectedRows.Count > 0 Then
+            Dim result As DialogResult = MessageBox.Show("Are you sure you want to delete this announcement?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
             If result = DialogResult.Yes Then
-                Dim AnnouncementID As Integer = Convert.ToInt32(notesDGV.Rows(e.RowIndex).Cells("AnnouncementID").Value)
-                ' Delete the row from the DataGridView
-                notesDGV.Rows.RemoveAt(e.RowIndex)
-
-
-                DeleteNoteFromDatabase(AnnouncementID)
+                Dim announcementID = Convert.ToInt32(notesDGV.SelectedRows(0).Cells("AnnouncementID").Value)
+                DeleteNoteFromDatabase(announcementID)
+                LoadNotesForMember(CurrentLoggedUser.id) ' Refresh list
             End If
         End If
     End Sub
 
     Private Sub DeleteNoteFromDatabase(AnnouncementID As Integer)
-        Dim query As String = $"DELETE FROM announcement WHERE AnnouncementID = {AnnouncementID}"
-        readQuery(query)
-    End Sub
-
-    Private Sub AnnAdded(annTitle As String, annDetails As String, author As String, dateAdded As DateTime)
         UpdateConnectionString()
         Try
-            ' Insert the new note into the notes table
-            Dim query As String = $"INSERT INTO `announcement`(`Title`, `Content`, `DatePosted`, `PostedBy`) VALUES ('{annTitle}', '{annDetails}', '{dateAdded.ToString("yyyy-MM-dd")}', '{author}|ID: {CurrentLoggedUser.id}')"
-            readQuery(query)
-
-            ' Refresh the DataGridView
-            LoadNotesForMember(CurrentLoggedUser.id)
+            Using conn As New MySqlConnection(strConnection)
+                conn.Open()
+                Dim query As String = "DELETE FROM announcement WHERE AnnouncementID = @AnnouncementID"
+                Using cmd As New MySqlCommand(query, conn)
+                    cmd.Parameters.AddWithValue("@AnnouncementID", AnnouncementID)
+                    cmd.ExecuteNonQuery()
+                End Using
+            End Using
         Catch ex As Exception
-            MessageBox.Show("An error occurred while adding the note: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("An error occurred while deleting the announcement: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+    End Sub
+
+    Private Sub OnAnnouncementSaved()
+        LoadNotesForMember(CurrentLoggedUser.id)
     End Sub
 
     Private Sub ContentAnnouncement_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadNotesForMember(CurrentLoggedUser.id)
-        AddDeleteButtonColumn()
     End Sub
 
     Private Sub btnAddNotes_Click_1(sender As Object, e As EventArgs) Handles btnAddNotes.Click
-        Dim addNotesControl As New AddAnnouncement
-        AddHandler addNotesControl.AnnAdded, AddressOf AnnAdded
+        Dim addAnnouncementControl As New AddAnnouncement()
+        AddHandler addAnnouncementControl.AnnouncementSaved, AddressOf OnAnnouncementSaved
 
-        ' Calculate the center point
-        Dim centerX As Integer = (ClientSize.Width - addNotesControl.Width) / 2
-        Dim centerY As Integer = (ClientSize.Height - addNotesControl.Height) / 2
+        Dim hostForm As New Form With {
+            .Text = "Add Announcement",
+            .StartPosition = FormStartPosition.CenterParent,
+            .Size = New System.Drawing.Size(292, 344),
+            .FormBorderStyle = FormBorderStyle.FixedDialog,
+            .MaximizeBox = False,
+            .MinimizeBox = False
+        }
 
-        ' Set the location of the AddNotesControl to the center
-        addNotesControl.Location = New Point(centerX, centerY)
-
-        ' Set the size of the AddNotesControl
-        addNotesControl.Size = New Size(400, 550) ' Set the desired size
-
-        ' Add the AddNotesControl to the form
-        Controls.Add(addNotesControl)
-        addNotesControl.BringToFront()
+        hostForm.Controls.Add(addAnnouncementControl)
+        addAnnouncementControl.Dock = DockStyle.Fill
+        hostForm.ShowDialog()
     End Sub
 
 End Class

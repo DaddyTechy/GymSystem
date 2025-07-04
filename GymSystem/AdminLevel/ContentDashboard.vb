@@ -1,10 +1,15 @@
-﻿Imports System.Windows.Forms.DataVisualization.Charting
+Imports System.Drawing
+Imports System.Windows.Forms.DataVisualization.Charting
 Imports System.Data
 Imports MySql.Data.MySqlClient
 Imports System.Reflection.Metadata.Ecma335
 
 Public Class ContentDashboard
     Private conn As MySqlConnection
+    Private toolTip1 As New ToolTip()
+    Private WithEvents staffReservationsContextMenu As New ContextMenuStrip()
+    Private dgvStaffReservations As DataGridView
+    Private gbStaffReservations As GroupBox
     Private Sub ContentDashboard_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         InitializeConnection()
         CustomizeChartAxis()
@@ -12,50 +17,52 @@ Public Class ContentDashboard
             conn.Open()
             Debug.WriteLine("Connection opened successfully.")
 
-            ' Load initial data without date filtering
+            ' Load initial data for an 'all-time' range
             LoadInitialData()
+
+            ' Load announcements
+            LoadAnnouncements()
 
         Catch ex As Exception
             MsgBox(ex.Message)
             Debug.WriteLine($"Error: {ex.Message}")
         Finally
-            conn.Close()
-            Debug.WriteLine("Connection closed.")
+            If conn IsNot Nothing AndAlso conn.State = ConnectionState.Open Then
+                conn.Close()
+                Debug.WriteLine("Connection closed.")
+            End If
         End Try
-
-        'dashboard data right
-        ' Fetch total members count
-        Dim totalMembers As Integer = GetTotalMembers()
-        Debug.WriteLine($"Total members count: {totalMembers}")
-
-        ' Update the label with the total members count
-        dashbrdTMData.Text = totalMembers.ToString()
-        dashbrdSUdata.Text = readQuery("SELECT COUNT(*) FROM staff")
-        dashbrdAEdata.Text = readQuery("SELECT COUNT(*) FROM equipment WHERE Status = 'Operational'")
-        dashbrdACTdata.Text = readQuery("SELECT COUNT(*) FROM staff WHERE Position = 'Trainer'")
-        dashbrdPMdata.Text = readQuery("SELECT COUNT(*) FROM attendance WHERE Date = CURDATE()")
+        InitializeStaffReservationsControls()
+        InitializeAnnouncementsControls()
+        LoadStaffReservations()
     End Sub
 
     Private Sub LoadInitialData()
-        ' Load initial data without date filtering
-        Dim membershipData As DataTable = FetchMembershipData(DateTime.MinValue, DateTime.MaxValue)
+        ' Load initial data for an 'all-time' range
+        Dim allTimeStart As DateTime = DateTime.MinValue
+        Dim allTimeEnd As DateTime = DateTime.MaxValue
+
+        ' Load charts with all-time data
+        Dim membershipData As DataTable = FetchMembershipData(allTimeStart, allTimeEnd)
         LoadMembershipChartData(membershipData)
 
-        ' Load earnings and expenses chart
-        LoadEarningsAndExpensesChart(DateTime.MinValue, DateTime.MaxValue)
+        ' Fetch, calculate, and display Total Expenses for all-time
+        Dim allTimeExpensesData As DataTable = FetchExpensesData(allTimeStart, allTimeEnd)
+        Dim totalExpenses As Double = CalculateTotalExpenses(allTimeExpensesData)
+        toolTip1.SetToolTip(dashbrdTEdata, totalExpenses.ToString("N2"))
+        dashbrdTEdata.Text = FormatNumber(totalExpenses)
 
-        ' Load gender chart
+        LoadEarningsAndExpensesChart(allTimeStart, allTimeEnd)
+
+        ' Load non-date-filtered charts
         Dim genderData As DataTable = FetchGenderData()
         LoadGenderChartData(genderData)
-
-        ' Load staff specialization chart
         Dim staffSpecializationData As DataTable = FetchStaffSpecializationData()
         LoadStaffSpecializationChartData(staffSpecializationData)
 
-        ' Fetch total expenses
-        Dim expensesData As DataTable = FetchExpensesData(DateTime.MinValue, DateTime.MaxValue)
-        Dim totalExpenses As Double = CalculateTotalExpenses(expensesData)
-        dashbrdTEdata.Text = totalExpenses.ToString("F2")
+        ' Load summary data with all-time values
+        LoadDashboardSummaryData(allTimeStart, allTimeEnd)
+
     End Sub
 
 
@@ -69,18 +76,59 @@ Public Class ContentDashboard
     End Function
 
 
-    Private Function readQuery(query As String) As String
-        Dim result As String = ""
+    Private Sub LoadDashboardSummaryData(startDate As DateTime, endDate As DateTime)
+        Dim query As String = ""
+        ' Query for new memberships within the date range
+        query &= $"SELECT 'TotalMembers', COUNT(*) FROM membership WHERE StartDate BETWEEN '{startDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'; "
+        ' Query for total staff (not date-dependent)
+        query &= "SELECT 'StaffUsers', COUNT(*) FROM staff; "
+        ' Query for operational equipment (not date-dependent)
+        query &= "SELECT 'ActiveEquipment', COUNT(*) FROM equipment WHERE Status = 'Operational'; "
+        ' Query for active trainers (not date-dependent)
+        query &= "SELECT 'ActiveTrainers', COUNT(*) FROM staff WHERE Position = 'Trainer'; "
+        ' Query for attendance within the date range
+        query &= $"SELECT 'PresentMembers', COUNT(*) FROM attendance WHERE Date BETWEEN '{startDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'; "
+
         Using command As New MySqlCommand(query, conn)
-            conn.Open()
-            result = command.ExecuteScalar().ToString()
-            conn.Close()
+            Using reader As MySqlDataReader = command.ExecuteReader()
+                ' Read TotalMembers
+                If reader.HasRows Then
+                    reader.Read()
+                    dashbrdTMData.Text = If(reader.IsDBNull(1), "0", FormatNumber(Convert.ToDouble(reader.GetValue(1))))
+                End If
+
+                ' Read StaffUsers
+                reader.NextResult()
+                If reader.HasRows Then
+                    reader.Read()
+                    dashbrdSUdata.Text = If(reader.IsDBNull(1), "0", FormatNumber(Convert.ToDouble(reader.GetValue(1))))
+                End If
+
+                ' Read ActiveEquipment
+                reader.NextResult()
+                If reader.HasRows Then
+                    reader.Read()
+                    dashbrdAEdata.Text = If(reader.IsDBNull(1), "0", FormatNumber(Convert.ToDouble(reader.GetValue(1))))
+                End If
+
+                ' Read ActiveTrainers
+                reader.NextResult()
+                If reader.HasRows Then
+                    reader.Read()
+                    dashbrdACTdata.Text = If(reader.IsDBNull(1), "0", FormatNumber(Convert.ToDouble(reader.GetValue(1))))
+                End If
+
+                ' Read PresentMembers
+                reader.NextResult()
+                If reader.HasRows Then
+                    reader.Read()
+                    dashbrdPMdata.Text = If(reader.IsDBNull(1), "0", FormatNumber(Convert.ToDouble(reader.GetValue(1))))
+                End If
+            End Using
         End Using
-        Return result
-    End Function
+    End Sub
 
     Private Sub InitializeConnection()
-        conn = New MySqlConnection("server=ec2-54-152-32-19.compute-1.amazonaws.com;userid=remote_user;password=Aqua44.5;database=gym_infosys;port=3306;") '
         UpdateConnectionString()
         conn = New MySqlConnection(strConnection)
     End Sub
@@ -95,11 +143,20 @@ Public Class ContentDashboard
     Private Sub ValidateDateRange()
         If dtpEndFilter.Value < dtpStartFilter.Value Then
             MessageBox.Show("End date cannot be earlier than start date.", "Invalid Date Range", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            dtpEndFilter.Value = dtpStartFilter.Value
-            LoadInitialData()
+            dtpEndFilter.Value = dtpStartFilter.Value ' This will trigger the ValueChanged event and re-run this logic
         Else
             ' Call your methods to filter and load data based on the selected date range
-            FilterAndLoadData()
+            Try
+                conn.Open()
+                FilterAndLoadData()
+            Catch ex As Exception
+                MsgBox(ex.Message)
+                Debug.WriteLine($"Error in ValidateDateRange: {ex.Message}")
+            Finally
+                If conn IsNot Nothing AndAlso conn.State = ConnectionState.Open Then
+                    conn.Close()
+                End If
+            End Try
         End If
     End Sub
 
@@ -110,30 +167,18 @@ Public Class ContentDashboard
             Dim endDate As DateTime = dtpEndFilter.Value
             Debug.WriteLine($"Selected date range: {startDate} to {endDate}")
 
-            ' Fetch and load membership chart data
+            ' Fetch chart and summary data
             Dim membershipData As DataTable = FetchMembershipData(startDate, endDate)
-            Debug.WriteLine($"Fetched membership data: {membershipData.Rows.Count} rows")
-
-            ' Fetch and load earnings and expenses chart data
             Dim earningsData As DataTable = FetchEarningsData(startDate, endDate)
             Dim expensesData As DataTable = FetchExpensesData(startDate, endDate)
-            Debug.WriteLine($"Fetched earnings data: {earningsData.Rows.Count} rows")
-            Debug.WriteLine($"Fetched expenses data: {expensesData.Rows.Count} rows")
-
-            ' Check if any of the data tables are empty
-            If membershipData.Rows.Count = 0 Then
-                Debug.WriteLine("No data available in membershipData for the selected date range.")
-            End If
-            If earningsData.Rows.Count = 0 Then
-                Debug.WriteLine("No data available in earningsData for the selected date range.")
-            End If
-            If expensesData.Rows.Count = 0 Then
-                Debug.WriteLine("No data available in expensesData for the selected date range.")
-            End If
+            LoadDashboardSummaryData(startDate, endDate)
 
             If membershipData.Rows.Count = 0 AndAlso earningsData.Rows.Count = 0 AndAlso expensesData.Rows.Count = 0 Then
-                MessageBox.Show("Data is unavailable for the selected date range. Resetting to default date range.", "Data Unavailable", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                LoadInitialData()
+                MessageBox.Show("No data available for the selected date range.", "Data Unavailable", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                ' Clear the charts and totals since there is no data
+                servicesreportChart.Series.Clear()
+                chartEarnings.Series.Clear()
+                dashbrdTEdata.Text = "0.00"
             Else
                 ' Load the data into the charts
                 LoadMembershipChartData(membershipData)
@@ -141,16 +186,14 @@ Public Class ContentDashboard
 
                 ' Calculate and update total expenses
                 Dim totalExpenses As Double = CalculateTotalExpenses(expensesData)
-                Debug.WriteLine($"Total expenses calculated: {totalExpenses}")
-                dashbrdTEdata.Text = totalExpenses.ToString("F2")
+                toolTip1.SetToolTip(dashbrdTEdata, totalExpenses.ToString("N2")) ' Set full value in tooltip
+                dashbrdTEdata.Text = FormatNumber(totalExpenses) ' Set formatted value in label
             End If
         Catch ex As InvalidCastException
-            MessageBox.Show("Data is unavailable for the selected date range. Resetting to default date range.", "Data Unavailable", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            ResetDatePickers()
-            LoadInitialData()
+            MessageBox.Show("A data conversion error occurred. Please check the data for the selected range.", "Data Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         Catch ex As Exception
             MsgBox(ex.Message)
-            Debug.WriteLine($"Error: {ex.Message}")
+            Debug.WriteLine($"Error in FilterAndLoadData: {ex.Message}")
         End Try
     End Sub
 
@@ -237,12 +280,27 @@ Public Class ContentDashboard
 
 
     Private Sub LoadMembershipChartData(dt As DataTable)
-        ' Clear existing series
+        ' Clear existing series and annotations
         servicesreportChart.Series.Clear()
+        servicesreportChart.Annotations.Clear()
+        Dim chartArea As ChartArea = servicesreportChart.ChartAreas(0)
+
+        ' Check if there is data to display
+        If dt Is Nothing OrElse dt.Rows.Count = 0 Then
+            ' Set a default axis maximum so the chart area is still visible
+            chartArea.AxisY.Maximum = 40 ' Default value when no data
+
+            ' Refresh the chart and exit
+            servicesreportChart.Invalidate()
+            Return
+        End If
 
         ' Create and configure the Series
         Dim series As New Series("MembershipData")
         series.ChartType = SeriesChartType.Column
+        series.IsValueShownAsLabel = True
+        series.LabelForeColor = Color.White
+        series.LabelBackColor = Color.FromArgb(128, Color.Black)
 
         ' Define custom colors for the data points
         Dim colors As New List(Of Color) From {Color.Gold}
@@ -262,6 +320,7 @@ Public Class ContentDashboard
             Dim dp As New DataPoint()
             dp.SetValueXY(xValues(i), yValues(i))
             dp.AxisLabel = xLabels(i)
+            dp.Label = FormatNumber(yValues(i))
             dp.Color = colors(i Mod colors.Count)
             series.Points.Add(dp)
         Next
@@ -269,72 +328,87 @@ Public Class ContentDashboard
         ' Add Series to Chart
         servicesreportChart.Series.Add(series)
 
+        ' Dynamically adjust Y-axis to prevent labels from being cut off
+        Dim maxValue As Double = If(yValues.Count > 0, yValues.Max(), 0)
+        chartArea.AxisY.Maximum = If(maxValue > 0, maxValue * 1.2, 40) ' Add 20% padding, default to 40 if no data
+
         ' Refresh the chart to ensure it's updated
         servicesreportChart.Invalidate()
     End Sub
 
     Private Sub LoadChartData(earningsData As DataTable, expensesData As DataTable)
-        ' Clear existing series
-        chartEarnings.Series.Clear()
+        Try
+            chartEarnings.Series.Clear()
 
-        ' Create and configure the Series for Earnings
-        Dim earningsSeries As New Series("Earnings")
-        earningsSeries.ChartType = SeriesChartType.Bar
-        earningsSeries.SetCustomProperty("PointWidth", "2") ' Adjust the width of the bars
-        earningsSeries.IsValueShownAsLabel = True ' Show values as labels
-        earningsSeries.LabelForeColor = Color.White ' Set label font color to white
-        earningsSeries.LabelBackColor = Color.FromArgb(128, Color.Black) ' Set label background color to semi-transparent black
-        Dim earningsColors As New List(Of Color) From {Color.Gold}
-        earningsSeries.LabelAngle = 40
+            ' Calculate totals first to determine the appropriate scale
+            Dim totalEarnings As Double = 0
+            For Each row As DataRow In earningsData.Rows
+                If Not IsDBNull(row("Amount")) Then
+                    totalEarnings += Convert.ToDouble(row("Amount"))
+                End If
+            Next
 
-        ' Create and configure the Series for Expenses
-        Dim expensesSeries As New Series("Expenses")
-        expensesSeries.ChartType = SeriesChartType.Bar
-        expensesSeries.SetCustomProperty("PointWidth", "2") ' Adjust the width of the bars
-        expensesSeries.IsValueShownAsLabel = True ' Show values as labels
-        expensesSeries.LabelForeColor = Color.White ' Set label font color to white
-        expensesSeries.LabelBackColor = Color.FromArgb(128, Color.Black) ' Set label background color to semi-transparent black
-        Dim expensesColors As New List(Of Color) From {Color.Red}
-        expensesSeries.LabelAngle = 40
+            Dim totalExpenses As Double = 0
+            For Each row As DataRow In expensesData.Rows
+                If Not IsDBNull(row("Amount")) Then
+                    totalExpenses += Convert.ToDouble(row("Amount"))
+                End If
+            Next
 
-        ' Add data points to the Earnings Series with labels and values
-        Dim totalEarnings As Double = 0
-        For Each row As DataRow In earningsData.Rows
-            If Not IsDBNull(row("Amount")) Then
-                totalEarnings += Convert.ToDouble(row("Amount"))
+            ' Dynamically set the Y-axis scale to prevent crashes with zero or small values
+            Dim chartArea As ChartArea = chartEarnings.ChartAreas(0)
+            Dim maxValue = Math.Max(totalEarnings, totalExpenses)
+
+            If maxValue > 10000 Then
+                chartArea.AxisY.IsLogarithmic = True
+                chartArea.AxisY.Maximum = Double.NaN ' Let the chart auto-scale in log mode
             Else
-                Debug.WriteLine("Earnings Amount is DBNull")
+                chartArea.AxisY.IsLogarithmic = False
+                chartArea.AxisY.Maximum = If(maxValue > 0, maxValue * 1.2, 100) ' Dynamic max for linear scale
             End If
-        Next
-        Dim earningsPoint As New DataPoint()
-        earningsPoint.SetValueXY(2, Math.Round(totalEarnings, 2)) ' Format the value to 2 decimal places
-        earningsPoint.AxisLabel = "Earnings"
-        earningsPoint.Color = earningsColors(0)
-        earningsPoint.Label = totalEarnings.ToString("F2") ' Display the value with 2 decimal places
-        earningsSeries.Points.Add(earningsPoint)
 
-        ' Add data points to the Expenses Series with labels and values
-        Dim totalExpenses As Double = 0
-        For Each row As DataRow In expensesData.Rows
-            If Not IsDBNull(row("Amount")) Then
-                totalExpenses += Convert.ToDouble(row("Amount"))
-            Else
-                Debug.WriteLine("Expenses Amount is DBNull")
-            End If
-        Next
-        Dim expensesPoint As New DataPoint()
-        expensesPoint.SetValueXY(1, Math.Round(totalExpenses, 2)) ' Format the value to 2 decimal places
-        expensesPoint.AxisLabel = "Expenses"
-        expensesPoint.Color = expensesColors(0)
-        expensesPoint.Label = totalExpenses.ToString("F2") ' Display the value with 2 decimal places
-        expensesSeries.Points.Add(expensesPoint)
+            ' Configure and add Earnings series
+            Dim earningsSeries As New Series("Earnings") With {
+                .ChartType = SeriesChartType.Bar,
+                .IsValueShownAsLabel = True,
+                .LabelForeColor = Color.White,
+                .LabelBackColor = Color.FromArgb(128, Color.Black),
+                .LabelAngle = 40
+            }
+            earningsSeries.SetCustomProperty("PointWidth", "2")
+            Dim earningsPoint As New DataPoint()
+            earningsPoint.SetValueXY(2, totalEarnings)
+            earningsPoint.AxisLabel = "Earnings"
+            earningsPoint.Color = Color.YellowGreen
+            earningsPoint.Label = FormatNumber(totalEarnings)
+            earningsSeries.Points.Add(earningsPoint)
 
-        ' Add Series to Chart
-        chartEarnings.Series.Add(earningsSeries)
-        chartEarnings.Series.Add(expensesSeries)
+            ' Configure and add Expenses series
+            Dim expensesSeries As New Series("Expenses") With {
+                .ChartType = SeriesChartType.Bar,
+                .IsValueShownAsLabel = True,
+                .LabelForeColor = Color.White,
+                .LabelBackColor = Color.FromArgb(128, Color.Black),
+                .LabelAngle = 40
+            }
+            expensesSeries.SetCustomProperty("PointWidth", "2")
+            Dim expensesPoint As New DataPoint()
+            expensesPoint.SetValueXY(1, totalExpenses)
+            expensesPoint.AxisLabel = "Expenses"
+            expensesPoint.Color = Color.Red
+            expensesPoint.Label = FormatNumber(totalExpenses)
+            expensesSeries.Points.Add(expensesPoint)
 
-        ' Refresh the chart to ensure it's updated
-        chartEarnings.Invalidate()
+            ' Add series to the chart
+            chartEarnings.Series.Add(earningsSeries)
+            chartEarnings.Series.Add(expensesSeries)
+
+            chartEarnings.Invalidate()
+        Catch ex As Exception
+            ' Fallback error handler for any chart-related exceptions
+            MessageBox.Show($"An error occurred while rendering the financial chart: {ex.Message}", "Chart Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Debug.WriteLine($"Chart rendering error: {ex.Message}")
+        End Try
     End Sub
 
 
@@ -443,29 +517,15 @@ Public Class ContentDashboard
         ' Fetch announcements from the database
         Dim announcements As DataTable = FetchAnnouncements()
 
-        ' Clear existing text
-        richTextBoxAnnouncements.Clear()
+        ' Bind the DataTable to the DataGridView
+        dgvAnnouncements.DataSource = announcements
 
-        ' Append each announcement to the RichTextBox
-        For Each row As DataRow In announcements.Rows
-            Dim title As String = row("Title").ToString()
-            Dim content As String = row("Content").ToString()
 
-            ' Append the title with a larger font size
-            richTextBoxAnnouncements.SelectionFont = New Font("Segoe UI", 12, FontStyle.Bold)
-            richTextBoxAnnouncements.AppendText(title & Environment.NewLine)
-
-            ' Append the content with the default font size
-            richTextBoxAnnouncements.SelectionFont = New Font("Segoe UI", 9, FontStyle.Regular)
-            richTextBoxAnnouncements.AppendText(content & Environment.NewLine)
-            richTextBoxAnnouncements.AppendText(Environment.NewLine) ' Add a blank line for separation
-        Next
-
-        ' Scroll to the bottom to show the latest announcement
-        richTextBoxAnnouncements.SelectionStart = richTextBoxAnnouncements.Text.Length
-        richTextBoxAnnouncements.ScrollToCaret()
     End Sub
 
+    Private Sub btnRefreshAnnouncements_Click(sender As Object, e As EventArgs) Handles btnRefreshAnnouncements.Click
+        LoadAnnouncements()
+    End Sub
 
     Private Sub AnnouncementForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         InitializeConnection()
@@ -473,27 +533,292 @@ Public Class ContentDashboard
     End Sub
 
 
+    Private Sub InitializeAnnouncementsControls()
+        dgvAnnouncements.BackgroundColor = Color.FromArgb(20, 20, 20)
+        dgvAnnouncements.DefaultCellStyle.BackColor = Color.FromArgb(40, 40, 40)
+        dgvAnnouncements.DefaultCellStyle.ForeColor = Color.White
+        dgvAnnouncements.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(40, 40, 40)
+        dgvAnnouncements.ColumnHeadersDefaultCellStyle.ForeColor = Color.White
+        dgvAnnouncements.RowHeadersDefaultCellStyle.BackColor = Color.FromArgb(40, 40, 40)
+        dgvAnnouncements.RowHeadersVisible = False
+        dgvAnnouncements.AllowUserToAddRows = False
+        dgvAnnouncements.AllowUserToDeleteRows = False
+        dgvAnnouncements.ReadOnly = True
+        dgvAnnouncements.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+        dgvAnnouncements.BorderStyle = BorderStyle.None
+        dgvAnnouncements.EnableHeadersVisualStyles = False
+        dgvAnnouncements.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal
+        dgvAnnouncements.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
+        dgvAnnouncements.RowTemplate.Height = 25
+        dgvAnnouncements.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.FromArgb(60, 60, 60)
+        dgvAnnouncements.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.White
+        dgvAnnouncements.RowTemplate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+        dgvAnnouncements.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+        dgvAnnouncements.ColumnHeadersHeight = 30
+        dgvAnnouncements.ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 9, FontStyle.Bold)
+    End Sub
+
     Private Sub CustomizeChartAxis()
         Dim chartArea As ChartArea = servicesreportChart.ChartAreas(0)
         chartArea.AxisX.LabelStyle.ForeColor = Color.White ' Change to your preferred color
+
         Dim chartArea2 As ChartArea = chartEarnings.ChartAreas(0)
         chartArea2.AxisX.LabelStyle.ForeColor = Color.White ' Change to your preferred color
+        ' The Y-axis scale will now be set dynamically in LoadChartData
+        chartArea2.AxisY.LabelStyle.ForeColor = Color.White
     End Sub
 
-    Private Function GetTotalMembers() As Integer
-        Dim query As String = "SELECT COUNT(*) FROM membership"
-        Dim totalMembers As Integer = 0
 
-        Using command As New MySqlCommand(query, conn)
-            conn.Open()
-            totalMembers = Convert.ToInt32(command.ExecuteScalar())
-            conn.Close()
-        End Using
-
-        Return totalMembers
-    End Function
 
     Private Sub dashbrdTMData_Click(sender As Object, e As EventArgs) Handles dashbrdTMData.Click
 
     End Sub
+
+    Private Sub InitializeStaffReservationsControls()
+        gbStaffReservations = New GroupBox()
+        gbStaffReservations.Text = "Reservations"
+        If servicesreportChart.Parent IsNot Nothing Then
+            Dim leftMargin As Integer = servicesreportChart.Parent.Left
+            gbStaffReservations.Location = New Point(leftMargin, servicesreportChart.Parent.Bottom + 10)
+            gbStaffReservations.Size = New Size(Me.Width - (leftMargin * 2), 280)
+            gbStaffReservations.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        Else
+            ' Fallback to a default position and size if parent is not found
+            gbStaffReservations.Location = New Point(20, 420)
+            gbStaffReservations.Size = New Size(1200, 280) ' Wider fallback
+            gbStaffReservations.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        End If
+        gbStaffReservations.ForeColor = Color.White
+        gbStaffReservations.Font = New Font("Segoe UI", 10, FontStyle.Bold)
+        gbStaffReservations.Padding = New Padding(10, 25, 10, 10) ' Left, Top, Right, Bottom
+
+        dgvStaffReservations = New DataGridView()
+        dgvStaffReservations.Dock = DockStyle.Fill
+        dgvStaffReservations.BackgroundColor = Color.FromArgb(20, 20, 20)
+        dgvStaffReservations.DefaultCellStyle.BackColor = Color.FromArgb(40, 40, 40)
+        dgvStaffReservations.DefaultCellStyle.ForeColor = Color.White
+        dgvStaffReservations.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(40, 40, 40)
+        dgvStaffReservations.ColumnHeadersDefaultCellStyle.ForeColor = Color.White
+        dgvStaffReservations.RowHeadersDefaultCellStyle.BackColor = Color.FromArgb(40, 40, 40)
+        dgvStaffReservations.RowHeadersVisible = False ' Hide the row header column
+        dgvStaffReservations.AllowUserToAddRows = False
+        dgvStaffReservations.AllowUserToDeleteRows = False
+        dgvStaffReservations.ReadOnly = True ' Make table read-only
+        dgvStaffReservations.AutoGenerateColumns = False ' Disable auto-generation of columns
+        dgvStaffReservations.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+        dgvStaffReservations.BorderStyle = BorderStyle.None
+        dgvStaffReservations.EnableHeadersVisualStyles = False
+        dgvStaffReservations.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal
+        dgvStaffReservations.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
+        dgvStaffReservations.RowTemplate.Height = 25 ' Increase row height for better readability
+        dgvStaffReservations.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.FromArgb(60, 60, 60) ' Subtle selection color
+        dgvStaffReservations.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.White
+        dgvStaffReservations.RowTemplate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+        dgvStaffReservations.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+        dgvStaffReservations.ColumnHeadersHeight = 30 ' Increase header height
+        dgvStaffReservations.ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 9, FontStyle.Bold)
+
+        gbStaffReservations.Controls.Add(dgvStaffReservations)
+        Me.Controls.Add(gbStaffReservations)
+
+        ' Add essential columns
+        ' MemberName
+        If dgvStaffReservations.Columns("MemberName") Is Nothing Then
+            Dim memberNameColumn As New DataGridViewTextBoxColumn()
+            memberNameColumn.Name = "MemberName"
+            memberNameColumn.DataPropertyName = "MemberName"
+            memberNameColumn.HeaderText = "Member Name"
+            memberNameColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            memberNameColumn.FillWeight = 25 ' Set proportional width
+            dgvStaffReservations.Columns.Add(memberNameColumn)
+        End If
+
+        ' ReservationDate
+        If dgvStaffReservations.Columns("ReservationDate") Is Nothing Then
+            Dim dateColumn As New DataGridViewTextBoxColumn()
+            dateColumn.Name = "ReservationDate"
+            dateColumn.DataPropertyName = "ReservationDate"
+            dateColumn.HeaderText = "Date"
+            dateColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            dateColumn.FillWeight = 15 ' Set proportional width
+            dgvStaffReservations.Columns.Add(dateColumn)
+        End If
+
+        ' StartTime
+        If dgvStaffReservations.Columns("StartTime") Is Nothing Then
+            Dim startTimeColumn As New DataGridViewTextBoxColumn()
+            startTimeColumn.Name = "StartTime"
+            startTimeColumn.DataPropertyName = "StartTime"
+            startTimeColumn.HeaderText = "Start Time"
+            startTimeColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            startTimeColumn.FillWeight = 15 ' Set proportional width
+            dgvStaffReservations.Columns.Add(startTimeColumn)
+        End If
+
+        ' Purpose
+        If dgvStaffReservations.Columns("Purpose") Is Nothing Then
+            Dim purposeColumn As New DataGridViewTextBoxColumn()
+            purposeColumn.Name = "Purpose"
+            purposeColumn.DataPropertyName = "Purpose"
+            purposeColumn.HeaderText = "Purpose"
+            purposeColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            purposeColumn.FillWeight = 25 ' Set proportional width
+            dgvStaffReservations.Columns.Add(purposeColumn)
+        End If
+
+        ' Status
+        If dgvStaffReservations.Columns("Status") Is Nothing Then
+            Dim statusColumn As New DataGridViewTextBoxColumn()
+            statusColumn.Name = "Status"
+            statusColumn.DataPropertyName = "ReservationStatus"
+            statusColumn.HeaderText = "Status"
+            statusColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            statusColumn.FillWeight = 20 ' Set proportional width
+            dgvStaffReservations.Columns.Add(statusColumn)
+        End If
+
+        AddHandler dgvStaffReservations.CellClick, AddressOf dgvStaffReservations_CellClick
+        AddHandler dgvStaffReservations.MouseDown, AddressOf dgvStaffReservations_MouseDown
+
+        ' Setup Context Menu
+        staffReservationsContextMenu.Items.Add("Set to Ongoing")
+        staffReservationsContextMenu.Items.Add("Set to Completed")
+        staffReservationsContextMenu.Items.Add("Set to Cancelled")
+        dgvStaffReservations.ContextMenuStrip = staffReservationsContextMenu
+
+        AddHandler staffReservationsContextMenu.Opening, AddressOf staffReservationsContextMenu_Opening
+        For Each item As ToolStripMenuItem In staffReservationsContextMenu.Items
+            AddHandler item.Click, AddressOf StatusMenuItem_Click
+        Next
+    End Sub
+
+    Private Sub LoadStaffReservations()
+        Try
+            UpdateConnectionString()
+            Using tempConn As New MySqlConnection(strConnection)
+                tempConn.Open()
+                ' Fetch all reservations for the currently logged-in staff member, including status
+                Dim query As String = "SELECT r.ReservationID, CONCAT(mem.FirstName, ' ', mem.LastName) AS MemberName, r.ReservationDate, r.StartTime, r.EndTime, r.Purpose, r.ReservationStatus FROM reservation r JOIN members mem ON r.MemberID = mem.MemberID WHERE r.StaffID = @StaffID ORDER BY r.ReservationDate DESC, r.StartTime DESC"
+                Dim dt As New DataTable()
+                Using cmd As New MySqlCommand(query, tempConn)
+                    cmd.Parameters.AddWithValue("@StaffID", CurrentLoggedUser.id)
+                    Using adapter As New MySqlDataAdapter(cmd)
+                        adapter.Fill(dt)
+                    End Using
+                End Using
+                dgvStaffReservations.DataSource = dt
+            End Using
+        Catch ex As Exception
+            MessageBox.Show($"Error loading your reservations: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+
+
+    Private Sub dgvStaffReservations_CellClick(sender As Object, e As DataGridViewCellEventArgs)
+        Dim dgv = CType(sender, DataGridView)
+        If e.RowIndex >= 0 AndAlso dgv.Columns(e.ColumnIndex).Name = "Status" Then
+            Dim rowView As DataRowView = TryCast(dgv.Rows(e.RowIndex).DataBoundItem, DataRowView)
+            If rowView IsNot Nothing Then
+                Dim status As String = rowView("ReservationStatus").ToString()
+                If status = "Pending" Then
+                    Dim reservationID As Integer = Convert.ToInt32(rowView("ReservationID"))
+                    ConfirmReservation(reservationID)
+                End If
+            End If
+        End If
+    End Sub
+
+    Private Sub dgvStaffReservations_MouseDown(sender As Object, e As MouseEventArgs)
+        If e.Button = MouseButtons.Right Then
+            Dim hitTestInfo = dgvStaffReservations.HitTest(e.X, e.Y)
+            If hitTestInfo.RowIndex >= 0 Then
+                dgvStaffReservations.ClearSelection()
+                dgvStaffReservations.Rows(hitTestInfo.RowIndex).Selected = True
+            End If
+        End If
+    End Sub
+
+    Private Sub staffReservationsContextMenu_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs)
+        If dgvStaffReservations.SelectedRows.Count = 0 Then
+            e.Cancel = True
+            Return
+        End If
+
+        Dim selectedRow As DataGridViewRow = dgvStaffReservations.SelectedRows(0)
+        Dim rowView As DataRowView = TryCast(selectedRow.DataBoundItem, DataRowView)
+        If rowView Is Nothing Then
+            e.Cancel = True
+            Return
+        End If
+
+        Dim currentStatus As String = rowView("ReservationStatus").ToString()
+
+        staffReservationsContextMenu.Items(0).Enabled = (currentStatus = "Pending") ' Ongoing
+        staffReservationsContextMenu.Items(1).Enabled = (currentStatus = "Ongoing") ' Completed
+        staffReservationsContextMenu.Items(2).Enabled = (currentStatus = "Pending" OrElse currentStatus = "Ongoing") ' Cancelled
+    End Sub
+
+    Private Sub StatusMenuItem_Click(sender As Object, e As EventArgs)
+        If dgvStaffReservations.SelectedRows.Count = 0 Then Return
+
+        Dim selectedRow As DataGridViewRow = dgvStaffReservations.SelectedRows(0)
+        Dim rowView As DataRowView = TryCast(selectedRow.DataBoundItem, DataRowView)
+        If rowView Is Nothing Then Return
+
+        Dim reservationID As Integer = Convert.ToInt32(rowView("ReservationID"))
+        Dim menuItem = CType(sender, ToolStripMenuItem)
+        Dim newStatus As String = ""
+
+        Select Case menuItem.Text
+            Case "Set to Ongoing"
+                newStatus = "Ongoing"
+            Case "Set to Completed"
+                newStatus = "Completed"
+            Case "Set to Cancelled"
+                newStatus = "Cancelled"
+        End Select
+
+        If Not String.IsNullOrEmpty(newStatus) Then
+            UpdateReservationStatus(reservationID, newStatus)
+        End If
+    End Sub
+
+    Private Sub UpdateReservationStatus(reservationID As Integer, newStatus As String)
+        Dim success As Boolean = False
+        Try
+            UpdateConnectionString()
+            Using tempConn As New MySqlConnection(strConnection)
+                tempConn.Open()
+                Dim query As String = "UPDATE reservation SET ReservationStatus = @NewStatus WHERE ReservationID = @ReservationID"
+                Using cmd As New MySqlCommand(query, tempConn)
+                    cmd.Parameters.AddWithValue("@ReservationID", reservationID)
+                    cmd.Parameters.AddWithValue("@NewStatus", newStatus)
+                    cmd.ExecuteNonQuery()
+                End Using
+                MessageBox.Show($"Reservation status updated to '{newStatus}' successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                success = True
+            End Using
+        Catch ex As Exception
+            MessageBox.Show($"Error updating reservation status: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
+        If success Then
+            LoadStaffReservations()
+        End If
+    End Sub
+
+    Private Sub ConfirmReservation(reservationID As Integer)
+        UpdateReservationStatus(reservationID, "Ongoing")
+    End Sub
+
+    Private Function FormatNumber(number As Double) As String
+        If number >= 1000000 Then
+            Return (number / 1000000).ToString("0.##M")
+        ElseIf number >= 1000 Then
+            Return (number / 1000).ToString("0.##K")
+        Else
+            Return number.ToString("F2")
+        End If
+    End Function
 End Class

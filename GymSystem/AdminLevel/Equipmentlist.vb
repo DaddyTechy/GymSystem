@@ -1,9 +1,12 @@
-﻿Public Class Equipmentlist
+Imports MySql.Data.MySqlClient
+
+Public Class Equipmentlist
     Private currentOffset As Integer = 0
     Private Const batchSize As Integer = 25
 
     Private Sub Equipmentlist_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         UpdateConnectionString()
+        InitializeContextMenu()
         InitializeDGV()
         LoadEquipmentData()
     End Sub
@@ -11,84 +14,8 @@
     Private Sub LoadEquipmentData()
         Dim query As String = $"SELECT * FROM equipment LIMIT {batchSize} OFFSET {currentOffset}"
         LoadToDGV(query, dgvEquipmentlist)
-        SetDGVPropertiesForEquipment(dgvEquipmentlist)
+        UIUtils.FormatAndStyleDGV(dgvEquipmentlist)
         RenameColumns(dgvEquipmentlist)
-    End Sub
-
-    Private Sub SetDGVPropertiesForEquipment(dgv As DataGridView)
-        Dim parentBackgroundColor As Color = Color.FromArgb(40, 40, 40)
-        dgv.BackgroundColor = Color.FromArgb(20, 20, 20)
-        dgv.DefaultCellStyle.ForeColor = Color.White
-        dgv.DefaultCellStyle.BackColor = parentBackgroundColor
-        dgv.ColumnHeadersDefaultCellStyle.BackColor = parentBackgroundColor
-        dgv.RowHeadersDefaultCellStyle.BackColor = parentBackgroundColor
-
-        dgv.AllowUserToAddRows = False
-        dgv.AllowUserToDeleteRows = False
-        dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-        dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
-        dgv.BorderStyle = BorderStyle.None
-        dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
-
-        Dim columnHeaderStyle As New DataGridViewCellStyle()
-        columnHeaderStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
-        columnHeaderStyle.BackColor = Color.FromArgb(40, 40, 40)
-        columnHeaderStyle.Font = New Font("Segoe UI", 14.0F, FontStyle.Bold)
-        columnHeaderStyle.ForeColor = Color.White
-        columnHeaderStyle.SelectionBackColor = Color.FromArgb(40, 40, 40)
-        columnHeaderStyle.SelectionForeColor = SystemColors.HighlightText
-        columnHeaderStyle.WrapMode = DataGridViewTriState.True
-        dgv.ColumnHeadersDefaultCellStyle = columnHeaderStyle
-
-        dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-
-        Dim cellStyle As New DataGridViewCellStyle()
-        cellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
-        cellStyle.BackColor = Color.FromArgb(40, 40, 40)
-        cellStyle.Font = New Font("Segoe UI", 12.0F)
-        cellStyle.ForeColor = Color.White
-        cellStyle.SelectionBackColor = SystemColors.Highlight
-        cellStyle.SelectionForeColor = SystemColors.HighlightText
-        cellStyle.WrapMode = DataGridViewTriState.True
-        dgv.DefaultCellStyle = cellStyle
-
-        dgv.Dock = DockStyle.Fill
-        dgv.EditMode = DataGridViewEditMode.EditOnEnter
-        dgv.EnableHeadersVisualStyles = False
-        dgv.GridColor = Color.White
-        dgv.MultiSelect = False
-        dgv.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
-
-        Dim rowHeaderStyle As New DataGridViewCellStyle()
-        rowHeaderStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
-        rowHeaderStyle.BackColor = SystemColors.WindowFrame
-        rowHeaderStyle.Font = New Font("Segoe UI", 9.75F)
-        rowHeaderStyle.ForeColor = Color.White
-        rowHeaderStyle.SelectionBackColor = SystemColors.Highlight
-        rowHeaderStyle.SelectionForeColor = SystemColors.HighlightText
-        rowHeaderStyle.WrapMode = DataGridViewTriState.True
-        dgv.RowHeadersDefaultCellStyle = rowHeaderStyle
-
-        dgv.RowHeadersVisible = False
-        dgv.RowHeadersWidth = 50
-
-        Dim rowsStyle As New DataGridViewCellStyle()
-        rowsStyle.BackColor = Color.FromArgb(40, 40, 40)
-        rowsStyle.Font = New Font("Segoe UI", 15.0F, FontStyle.Bold, GraphicsUnit.Point, 0)
-        rowsStyle.ForeColor = Color.White
-        dgv.RowsDefaultCellStyle = rowsStyle
-
-        dgv.RowTemplate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
-        dgv.RowTemplate.DefaultCellStyle.BackColor = Color.FromArgb(40, 40, 40)
-        dgv.RowTemplate.DefaultCellStyle.Font = New Font("Microsoft Sans Serif", 12.0F)
-        dgv.RowTemplate.DefaultCellStyle.ForeColor = Color.White
-        dgv.RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
-        dgv.RowTemplate.Height = 50
-        dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgv.ShowCellErrors = False
-        dgv.ShowRowErrors = False
-
-        RenameColumns(dgv)
     End Sub
 
     Private Sub RenameColumns(dgv As DataGridView)
@@ -102,60 +29,6 @@
         dgv.Columns("PurchasePlace").HeaderText = "Supplier"
         dgv.Columns("MaintenanceCost").HeaderText = "Maintenance Cost"
     End Sub
-
-    Private Sub AddDeleteButtonColumnToEquipment()
-        Dim deleteButtonColumn As New DataGridViewButtonColumn()
-        deleteButtonColumn.Name = "Delete"
-        deleteButtonColumn.HeaderText = "Delete"
-        deleteButtonColumn.Text = "Delete"
-        deleteButtonColumn.UseColumnTextForButtonValue = True
-        dgvEquipmentList.Columns.Add(deleteButtonColumn)
-    End Sub
-
-
-    Private Sub dgvEquipmentList_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvEquipmentList.CellContentClick
-        If e.ColumnIndex = dgvEquipmentList.Columns("Delete").Index AndAlso e.RowIndex >= 0 Then
-            Dim EquipmentID As Integer = Convert.ToInt32(dgvEquipmentList.Rows(e.RowIndex).Cells("EquipmentID").Value)
-
-            ' Confirm deletion
-            Dim confirmDelete As DialogResult = MessageBox.Show("Are you sure you want to delete this equipment?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-            If confirmDelete = DialogResult.No Then
-                Return
-            End If
-
-            If IsEquipmentReferenced(EquipmentID) Then
-                ' Confirm deletion even if referenced
-                Dim result As DialogResult = MessageBox.Show("This equipment is referenced in reservations. Do you want to continue and update the references?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                If result = DialogResult.Yes Then
-                    ' Find similar equipment
-                    Dim similarEquipmentID As Integer = FindSimilarEquipmentID(EquipmentID)
-                    If similarEquipmentID <> -1 Then
-                        ' Update references
-                        UpdateEquipmentReferences(EquipmentID, similarEquipmentID)
-                        ' Delete the equipment
-                        DeleteEquipmentFromDatabase(EquipmentID)
-                        ' Remove the row from the DataGridView
-                        dgvEquipmentList.Rows.RemoveAt(e.RowIndex)
-                    Else
-                        MessageBox.Show("No similar equipment found to update references.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    End If
-                End If
-            Else
-                ' Delete the equipment
-                DeleteEquipmentFromDatabase(EquipmentID)
-                ' Remove the row from the DataGridView
-                dgvEquipmentList.Rows.RemoveAt(e.RowIndex)
-            End If
-        End If
-    End Sub
-
-
-    Private Function IsEquipmentReferenced(EquipmentID As Integer) As Boolean
-        Dim query As String = $"SELECT COUNT(*) FROM reservation WHERE EquipmentID = {EquipmentID}"
-        Dim count As Integer = Convert.ToInt32(executeSelectQuery(query))
-        Return count > 0
-    End Function
-
 
     Private Function FindSimilarEquipmentID(EquipmentID As Integer) As Integer
         Dim query As String = $"SELECT EquipmentID FROM equipment WHERE Name = (SELECT Name FROM equipment WHERE EquipmentID = {EquipmentID}) AND EquipmentID <> {EquipmentID} AND EquipmentID NOT IN (SELECT EquipmentID FROM reservation)"
@@ -184,8 +57,112 @@
 
     Private Sub InitializeDGV()
         LoadEquipmentData()
-        AddDeleteButtonColumnToEquipment()
         ' Additional initialization code if needed
+    End Sub
+
+    Private Sub InitializeContextMenu()
+        Dim contextMenu As New ContextMenuStrip()
+
+        Dim editItem As New ToolStripMenuItem("Edit")
+        Dim deleteItem As New ToolStripMenuItem("Delete")
+        Dim setStatusItem As New ToolStripMenuItem("Set Status")
+        Dim operationalItem As New ToolStripMenuItem("Operational")
+        Dim outOfOrderItem As New ToolStripMenuItem("Out of Order")
+
+        setStatusItem.DropDownItems.Add(operationalItem)
+        setStatusItem.DropDownItems.Add(outOfOrderItem)
+
+        contextMenu.Items.Add(editItem)
+        contextMenu.Items.Add(deleteItem)
+        contextMenu.Items.Add(New ToolStripSeparator())
+        contextMenu.Items.Add(setStatusItem)
+
+        AddHandler editItem.Click, AddressOf EditMenuItem_Click
+        AddHandler deleteItem.Click, AddressOf DeleteMenuItem_Click
+        AddHandler operationalItem.Click, AddressOf SetStatus_Click
+        AddHandler outOfOrderItem.Click, AddressOf SetStatus_Click
+
+        dgvEquipmentList.ContextMenuStrip = contextMenu
+    End Sub
+
+    Private Sub dgvEquipmentList_MouseDown(sender As Object, e As MouseEventArgs) Handles dgvEquipmentList.MouseDown
+        If e.Button = MouseButtons.Right Then
+            Dim hti As DataGridView.HitTestInfo = dgvEquipmentList.HitTest(e.X, e.Y)
+            If hti.RowIndex >= 0 Then
+                dgvEquipmentList.ClearSelection()
+                dgvEquipmentList.Rows(hti.RowIndex).Selected = True
+            End If
+        End If
+    End Sub
+
+    Private Sub EditMenuItem_Click(sender As Object, e As EventArgs)
+        If dgvEquipmentList.SelectedRows.Count > 0 Then
+            Dim selectedRow As DataGridViewRow = dgvEquipmentList.SelectedRows(0)
+            Dim equipmentId As Integer = Convert.ToInt32(selectedRow.Cells("EquipmentID").Value)
+
+            Using hostForm As New Form()
+                hostForm.Text = "Edit Equipment"
+                hostForm.StartPosition = FormStartPosition.CenterParent
+                hostForm.Size = New Size(420, 520) ' Adjust size to fit control
+
+                Dim editControl As New Gym_Equipment(equipmentId)
+                editControl.Dock = DockStyle.Fill
+
+                hostForm.Controls.Add(editControl)
+                hostForm.ShowDialog()
+            End Using
+
+            LoadEquipmentData() ' Refresh the data to show any changes
+        End If
+    End Sub
+
+    Private Function IsEquipmentReferenced(EquipmentID As Integer) As Boolean
+        Dim query As String = $"SELECT COUNT(*) FROM reservation WHERE EquipmentID = {EquipmentID}"
+        Dim count As Integer = Convert.ToInt32(executeSelectQuery(query))
+        Return count > 0
+    End Function
+
+    Private Sub DeleteMenuItem_Click(sender As Object, e As EventArgs)
+        If dgvEquipmentList.SelectedRows.Count > 0 Then
+            Dim selectedRow As DataGridViewRow = dgvEquipmentList.SelectedRows(0)
+            Dim equipmentID As Integer = Convert.ToInt32(selectedRow.Cells("EquipmentID").Value)
+
+            Dim confirmResult As DialogResult = MessageBox.Show("Are you sure you want to delete this equipment?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+            If confirmResult = DialogResult.No Then
+                Return
+            End If
+
+            If IsEquipmentReferenced(equipmentID) Then
+                MessageBox.Show("This equipment is currently reserved and cannot be deleted.", "Deletion Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Return
+            End If
+
+            DeleteEquipmentFromDatabase(equipmentID)
+            LoadEquipmentData() ' Refresh the grid
+        End If
+    End Sub
+
+    Private Sub SetStatus_Click(sender As Object, e As EventArgs)
+        If dgvEquipmentList.SelectedRows.Count > 0 Then
+            Dim status As String = CType(sender, ToolStripMenuItem).Text
+            Dim equipmentID As Integer = Convert.ToInt32(dgvEquipmentList.SelectedRows(0).Cells("EquipmentID").Value)
+
+            Try
+                UpdateConnectionString()
+                Using conn As New MySqlConnection(strConnection)
+                    conn.Open()
+                    Dim query As String = "UPDATE equipment SET Status = @Status WHERE EquipmentID = @EquipmentID"
+                    Using cmd As New MySqlCommand(query, conn)
+                        cmd.Parameters.AddWithValue("@Status", status)
+                        cmd.Parameters.AddWithValue("@EquipmentID", equipmentID)
+                        cmd.ExecuteNonQuery()
+                    End Using
+                End Using
+                LoadEquipmentData() ' Refresh data
+            Catch ex As Exception
+                MessageBox.Show("An error occurred while updating the status: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        End If
     End Sub
 
     Private gymEquipmentControl As Gym_Equipment

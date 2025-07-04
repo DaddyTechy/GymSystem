@@ -1,4 +1,4 @@
-﻿Imports MySql.Data.MySqlClient
+Imports MySql.Data.MySqlClient
 
 Public Class Sched
     ' Global variables for managing the calendar
@@ -14,7 +14,9 @@ Public Class Sched
         Public Property EventDate As DateTime
         Public Property Title As String
         Public Property Time As String
+        Public Property EndTime As String
         Public Property Instructor As String
+        Public Property Status As String
     End Class
 
     ' Form Load Event
@@ -37,24 +39,31 @@ Public Class Sched
 
     ' Load Events from Database
     Private Sub LoadEventsFromDatabase()
+        allEvents.Clear() ' Clear existing events before loading new ones
         Using conn As New MySqlConnection(strConnection)
             conn.Open()
-            Dim query As String = $"SELECT r.ReservationDate AS EventDate, r.Purpose AS Title, CONCAT(s.FirstName, ' ', s.LastName) AS Instructor, r.ReservationStatus " &
-                              $"FROM reservation r " &
-                              $"JOIN staff s ON r.StaffID = s.StaffID " &
-                              $"WHERE s.Position = 'Trainer' AND r.MemberID = {CurrentLoggedUser.id}"
+            ' Corrected query to fetch StartTime and EndTime
+            Dim query As String = "SELECT CAST(CONCAT(r.ReservationDate, ' ', r.StartTime) AS DATETIME) AS EventDateTime, " &
+                                  "r.StartTime, r.EndTime, r.Purpose AS Title, CONCAT(s.FirstName, ' ', s.LastName) AS Instructor, r.ReservationStatus AS Status " &
+                                  "FROM reservation r " &
+                                  "JOIN staff s ON r.StaffID = s.StaffID " &
+                                  $"WHERE s.Position = 'Trainer' AND r.MemberID = {CurrentLoggedUser.id}"
             Using cmd As New MySqlCommand(query, conn)
                 Using reader As MySqlDataReader = cmd.ExecuteReader()
                     While reader.Read()
-                        ' Check if the reservation is not cancelled
-                        If reader.GetString("ReservationStatus") <> "Cancelled" Then
-                            Dim newEvent As New CalendarEvent With {
-                            .EventDate = reader.GetDateTime("EventDate"),
+                        Dim eventDateTime As DateTime = reader.GetDateTime("EventDateTime")
+                        Dim startTime As TimeSpan = reader.GetTimeSpan("StartTime")
+                        Dim endTime As TimeSpan = reader.GetTimeSpan("EndTime")
+
+                        Dim newEvent As New CalendarEvent With {
+                            .EventDate = eventDateTime,
+                            .Time = DateTime.Today.Add(startTime).ToString("hh:mm tt"),
+                            .EndTime = DateTime.Today.Add(endTime).ToString("hh:mm tt"),
                             .Title = reader.GetString("Title"),
-                            .Instructor = reader.GetString("Instructor")
+                            .Instructor = reader.GetString("Instructor"),
+                            .Status = reader.GetString("Status")
                         }
-                            allEvents.Add(newEvent)
-                        End If
+                        allEvents.Add(newEvent)
                     End While
                 End Using
             End Using
@@ -64,12 +73,91 @@ Public Class Sched
 
     ' Event handler for CellMouseClick event
     Private Sub DataGridView1_CellMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs)
-        ' Check if the right mouse button was clicked
-        If e.Button = MouseButtons.Right Then
-            ' Get the value of the clicked cell
-            Dim cellValue As String = DataGridView1.Rows(e.RowIndex).Cells(e.ColumnIndex).Value.ToString()
-            ' Display the cell value in a message box
-            MessageBox.Show(cellValue, "Cell Data", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        If e.Button = MouseButtons.Right AndAlso e.RowIndex >= 0 AndAlso e.ColumnIndex >= 0 Then
+            Dim cellValue As String = DataGridView1.Rows(e.RowIndex).Cells(e.ColumnIndex).Value?.ToString()
+
+            If Not String.IsNullOrEmpty(cellValue) AndAlso Integer.TryParse(cellValue.Split(Environment.NewLine)(0), Nothing) Then
+                Dim day As Integer = Integer.Parse(cellValue.Split(Environment.NewLine)(0))
+                Dim selectedDate As DateTime = New Date(currentDate.Year, currentDate.Month, day)
+
+                Dim eventsForDay = allEvents.Where(Function(ev) ev.EventDate.Date = selectedDate.Date).ToList()
+
+                If eventsForDay.Any() Then
+                    Dim contextMenu = New ContextMenuStrip()
+
+                    ' --- View Details ---
+                    Dim viewDetailsItem = New ToolStripMenuItem("View Details")
+                    AddHandler viewDetailsItem.Click, Sub(s, args) ViewDetails_Click(selectedDate)
+                    contextMenu.Items.Add(viewDetailsItem)
+
+                    ' --- Cancel Reservation ---
+                    Dim cancellableEvents = eventsForDay.Where(Function(ev) (ev.EventDate - DateTime.Now).TotalHours > 24).ToList()
+
+                    If cancellableEvents.Any() Then
+                        Dim cancelMenuItem = New ToolStripMenuItem("Cancel Reservation")
+                        If cancellableEvents.Count = 1 Then
+                            ' If only one event, make it a direct click
+                            AddHandler cancelMenuItem.Click, Sub(s, args) CancelReservation_Click(cancellableEvents.First())
+                        Else
+                            ' If multiple events, create a sub-menu
+                            For Each ev In cancellableEvents
+                                Dim subMenuItem = New ToolStripMenuItem($"{ev.Title} at {ev.Time}")
+                                AddHandler subMenuItem.Click, Sub(s, args) CancelReservation_Click(ev)
+                                cancelMenuItem.DropDownItems.Add(subMenuItem)
+                            Next
+                        End If
+                        contextMenu.Items.Add(cancelMenuItem)
+                    End If
+
+                    contextMenu.Show(DataGridView1, e.Location)
+                End If
+            End If
+        End If
+    End Sub
+
+    Private Sub ViewDetails_Click(selectedDate As DateTime)
+        Dim eventsForDay = allEvents.Where(Function(ev) ev.EventDate.Date = selectedDate.Date).ToList()
+        Dim details As String = ""
+        For Each ev In eventsForDay
+            details &= $"Session: {ev.Title}{Environment.NewLine}"
+            details &= $"Time: {ev.Time}{Environment.NewLine}"
+            details &= $"Instructor: {ev.Instructor}{Environment.NewLine}{Environment.NewLine}"
+        Next
+        MessageBox.Show(details, "Reservation Details", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    End Sub
+
+    Private Sub CancelReservation_Click(eventToCancel As CalendarEvent)
+        Dim confirmationText As String = $"Are you sure you want to cancel the '{eventToCancel.Title}' session at {eventToCancel.Time}?"
+        Dim result = MessageBox.Show(confirmationText, "Confirm Cancellation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+
+        If result = DialogResult.Yes Then
+            Try
+                Using conn As New MySqlConnection(strConnection)
+                    conn.Open()
+                    ' Use the full EventDate (which includes time) to be specific
+                    Dim query As String = "UPDATE reservation SET ReservationStatus = 'Cancelled' WHERE MemberID = @MemberID AND ReservationDate = @ReservationDate"
+                    Using cmd As New MySqlCommand(query, conn)
+                        cmd.Parameters.AddWithValue("@MemberID", CurrentLoggedUser.id)
+                        cmd.Parameters.AddWithValue("@ReservationDate", eventToCancel.EventDate)
+
+                        Dim rowsAffected = cmd.ExecuteNonQuery()
+
+                        If rowsAffected > 0 Then
+                            ' Remove the specific event from the local list
+                            allEvents.Remove(eventToCancel)
+
+                            ' Refresh the calendar
+                            LoadCalendar(viewMode, currentDate)
+
+                            MessageBox.Show("Reservation successfully cancelled.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Else
+                            MessageBox.Show("Could not find the reservation to cancel. It might have been modified by another user.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        End If
+                    End Using
+                End Using
+            Catch ex As Exception
+                MessageBox.Show("An error occurred while cancelling the reservation: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
         End If
     End Sub
 
@@ -87,18 +175,9 @@ Public Class Sched
         End If
 
         lblCurrentDate.Text = selectedDate.ToString("MMMM yyyy")
-        SetCellBackgroundColor()
     End Sub
 
-    ' Method to apply background color to all cells
-    Private Sub SetCellBackgroundColor()
-        For Each row As DataGridViewRow In DataGridView1.Rows
-            For Each cell As DataGridViewCell In row.Cells
-                cell.Style.BackColor = Color.FromArgb(40, 40, 40)
-                cell.Style.ForeColor = Color.White
-            Next
-        Next
-    End Sub
+
 
     Private Sub LoadDayView(selectedDate As Date)
         ' TODO: Implement day view
@@ -132,11 +211,25 @@ Public Class Sched
             row = New DataGridViewRow()
             For i As Integer = 0 To 6
                 If (currentDay > daysInMonth OrElse (i < startDay AndAlso currentDay = 1)) Then
-                    row.Cells.Add(New DataGridViewTextBoxCell With {.Value = ""})
+                    Dim emptyCell = New DataGridViewTextBoxCell With {.Value = ""}
+                    emptyCell.Style.BackColor = Color.FromArgb(40, 40, 40)
+                    row.Cells.Add(emptyCell)
                 Else
                     Dim cellDate As Date = New Date(selectedDate.Year, selectedDate.Month, currentDay)
                     Dim cell = New DataGridViewTextBoxCell With {.Value = currentDay.ToString()}
+
+                    ' Set default style first
+                    cell.Style.BackColor = Color.FromArgb(40, 40, 40)
+                    cell.Style.ForeColor = Color.White
+
+                    ' Highlight the current day (overrides default)
+                    If cellDate.Date = Date.Today Then
+                        cell.Style.BackColor = Color.DodgerBlue
+                    End If
+
+                    ' Add events, which may override the color again for events
                     AddEventsToCell(cell, cellDate)
+
                     row.Cells.Add(cell)
                     currentDay += 1
                 End If
@@ -148,26 +241,44 @@ Public Class Sched
     End Sub
 
     ' Add Events to Calendar Cell
-    Private Sub AddEventsToCell(cell As DataGridViewCell, cellDate As DateTime)
-        Dim eventsForDay = allEvents.Where(Function(ev) ev.EventDate.Date = cellDate.Date).ToList()
+    Private Sub AddEventsToCell(cell As DataGridViewCell, cellDate As Date)
+        Dim eventsForDay = allEvents.Where(Function(ev) ev.EventDate.Date = cellDate.Date).OrderBy(Function(ev) ev.EventDate).ToList()
+        Dim cellText As String = cell.Value.ToString()
+        Dim tooltipParts As New List(Of String)()
 
-        ' Start with the day number
-        Dim cellText As String = cell.Value.ToString() ' Keep the day number
+        If eventsForDay.Any() Then
+            For Each ev In eventsForDay
+                ' Append event text with full time range and status
+                Dim eventText = $"{Environment.NewLine}{ev.Time} - {ev.EndTime} - {ev.Title} ({ev.Status})"
+                cellText &= eventText
+                ' Add tooltip part to list with full time range
+                tooltipParts.Add($"Session: {ev.Title}{Environment.NewLine}Time: {ev.Time} - {ev.EndTime}{Environment.NewLine}Status: {ev.Status}{Environment.NewLine}Instructor: {ev.Instructor}")
 
-        ' Add each event on a new line with wrapped text
-        For Each ev In eventsForDay
-            ' Format the event text to be more compact
-            Dim eventText = $"{Environment.NewLine}{ev.Title}"
-            If Not String.IsNullOrEmpty(ev.Instructor) Then
-                eventText &= $"{Environment.NewLine}({ev.Instructor})"
-            End If
-            cellText &= eventText
-        Next
+                ' Set background color based on status first, then event type
+                Dim isToday As Boolean = (cell.Style.BackColor = Color.DodgerBlue)
 
-        cell.Value = cellText
-
-        ' Set cell style for word wrapping
-        cell.Style.WrapMode = DataGridViewTriState.True
+                Select Case ev.Status.ToLower()
+                    Case "completed", "cancelled"
+                        cell.Style.BackColor = Color.Gray
+                    Case Else
+                        ' Only set event type color if not 'Today' or if status doesn't override
+                        If Not isToday Then
+                            Select Case ev.Title.ToLower()
+                                Case "strength"
+                                    cell.Style.BackColor = Color.FromArgb(219, 8, 32) ' Red
+                                Case "cardio"
+                                    cell.Style.BackColor = Color.FromArgb(3, 155, 229) ' Cyan
+                                Case "yoga"
+                                    cell.Style.BackColor = Color.FromArgb(76, 175, 80) ' Green
+                            End Select
+                        End If
+                End Select
+            Next
+            cell.Value = cellText
+            ' Join tooltip parts with a separator
+            cell.ToolTipText = String.Join($"{Environment.NewLine}--------------------{Environment.NewLine}", tooltipParts)
+            cell.Style.WrapMode = DataGridViewTriState.True
+        End If
     End Sub
 
     ' Update the AdjustRowHeights method to accommodate the wrapped text

@@ -34,6 +34,8 @@ Partial Class ContentPayment
         Label3 = New Label()
         Label4 = New Label()
         Panel1 = New Panel()
+        Label5 = New Label()
+        MemberFiltercmb = New ComboBox()
         Panel2 = New Panel()
         btnBack = New Button()
         btnNext = New Button()
@@ -178,6 +180,8 @@ Partial Class ContentPayment
         ' Panel1
         ' 
         Panel1.BackColor = Color.Transparent
+        Panel1.Controls.Add(Label5)
+        Panel1.Controls.Add(MemberFiltercmb)
         Panel1.Controls.Add(Panel2)
         Panel1.Controls.Add(Label4)
         Panel1.Controls.Add(Label3)
@@ -191,6 +195,29 @@ Partial Class ContentPayment
         Panel1.Padding = New Padding(20, 0, 20, 0)
         Panel1.Size = New Size(720, 484)
         Panel1.TabIndex = 3
+        ' 
+        ' Label5
+        ' 
+        Label5.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        Label5.AutoSize = True
+        Label5.BackColor = Color.Transparent
+        Label5.ForeColor = Color.White
+        Label5.Location = New Point(174, 6)
+        Label5.Name = "Label5"
+        Label5.Size = New Size(45, 15)
+        Label5.TabIndex = 12
+        Label5.Text = "Search:"
+        ' 
+        ' MemberFiltercmb
+        ' 
+        MemberFiltercmb.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        MemberFiltercmb.DropDownStyle = ComboBoxStyle.DropDownList
+        MemberFiltercmb.FormattingEnabled = True
+        MemberFiltercmb.Items.AddRange(New Object() {"All", "Membership", "Reservation"})
+        MemberFiltercmb.Location = New Point(225, 3)
+        MemberFiltercmb.Name = "MemberFiltercmb"
+        MemberFiltercmb.Size = New Size(121, 23)
+        MemberFiltercmb.TabIndex = 11
         ' 
         ' Panel2
         ' 
@@ -256,5 +283,7 @@ Partial Class ContentPayment
     Friend WithEvents Panel2 As Panel
     Friend WithEvents btnBack As Button
     Friend WithEvents btnNext As Button
+    Friend WithEvents MemberFiltercmb As ComboBox
+    Friend WithEvents Label5 As Label
 
 End Class

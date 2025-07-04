@@ -1,4 +1,4 @@
-﻿Imports MySql.Data.MySqlClient
+Imports MySql.Data.MySqlClient
 
 Public Class Staff
     Private originalColor As Color = Color.FromArgb(245, 203, 92)
@@ -175,7 +175,7 @@ Public Class Staff
                 conn.Open()
                 Debug.WriteLine("Connection opened successfully.")
 
-                Dim query As String = "SELECT * FROM stafflogin WHERE StaffID = @StaffID"
+                                Dim query As String = "SELECT sl.*, s.FirstName, s.LastName FROM stafflogin sl LEFT JOIN staff s ON sl.StaffID = s.StaffID WHERE sl.StaffID = @StaffID"
                 Dim cmd As New MySqlCommand(query, conn)
                 cmd.Parameters.AddWithValue("@StaffID", staffID)
                 Debug.WriteLine($"Executing query: {query} with StaffID: {staffID}")
@@ -184,11 +184,6 @@ Public Class Staff
 
                 If reader.Read() Then
                     Debug.WriteLine("User found in database.")
-
-                    ' List available columns in the result set
-                    For i As Integer = 0 To reader.FieldCount - 1
-                        Debug.WriteLine($"Column {i}: {reader.GetName(i)}")
-                    Next
 
                     ' Retrieve the encrypted password and IsEncrypted flag from the database
                     Dim storedPassword As String = reader("Password").ToString()
@@ -219,15 +214,21 @@ Public Class Staff
                         Dim user As New StaffUser()
                         user.StaffID = reader("StaffID")
                         user.Username = reader("Username")
-                        user.Role = "Staff" ' Corrected the role assignment
+                        user.Role = "Staff"
 
                         ' Set the current logged user after successful login
+                        Dim firstName As String = If(reader.IsDBNull(reader.GetOrdinal("FirstName")), "", reader("FirstName").ToString())
+                        Dim lastName As String = If(reader.IsDBNull(reader.GetOrdinal("LastName")), "", reader("LastName").ToString())
+
                         CurrentLoggedUser.id = user.StaffID
-                        CurrentLoggedUser.name = user.Username
-                        ' ... set other fields as needed
+                        CurrentLoggedUser.name = $"{firstName} {lastName}".Trim()
+                        If String.IsNullOrEmpty(CurrentLoggedUser.name) Then
+                            CurrentLoggedUser.name = user.Username ' Fallback to username if full name is not available
+                        End If
+                        CurrentLoggedUser.position = user.Role
 
                         ' Access the current logged user's details
-                        MsgBox("Welcome, Staff: " & staffID & " " & CurrentLoggedUser.name.ToUpper & "!")
+                        MsgBox("Welcome, " & CurrentLoggedUser.position & " " & CurrentLoggedUser.name & "!")
 
                         Logs($"Staff user {user.Username} logged in", "Login")
 

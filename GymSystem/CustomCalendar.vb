@@ -1,4 +1,4 @@
-﻿Public Class CustomCalendar
+Public Class CustomCalendar
     Inherits DateTimePicker
 
     Private calendarButton As Button
@@ -17,19 +17,22 @@
 
     Private Sub InitializeCalendarButton()
         calendarButton = New Button()
-        calendarButton.Size = New Size(20, 20)
-        calendarButton.Location = New Point(Me.Width - calendarButton.Width - -43, 2.8)
-        ' Resize the image
-        Dim originalImage As Image = My.Resources.calendar ' Your resource name
-        Dim resizedImage As New Bitmap(originalImage, New Size(calendarButton.Width, calendarButton.Height))
+        calendarButton.Size = New Size(SystemInformation.VerticalScrollBarWidth, Me.ClientSize.Height)
+        calendarButton.Location = New Point(Me.ClientSize.Width - calendarButton.Width, 0)
+        calendarButton.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+
+        ' Resize the image to a fixed icon size
+        Dim originalImage As Image = My.Resources.calendar
+        Dim resizedImage As New Bitmap(originalImage, New Size(18, 18))
         calendarButton.Image = resizedImage
+        calendarButton.ImageAlign = ContentAlignment.MiddleCenter
+
         calendarButton.Cursor = Cursors.Hand
-        calendarButton.BackColor = Color.Gray ' Match the background color
         calendarButton.FlatStyle = FlatStyle.Flat
         calendarButton.FlatAppearance.BorderSize = 0
-        ' Add the button to the parent control
+        calendarButton.BackColor = SystemColors.Control
+
         Me.Controls.Add(calendarButton)
-        ' Add a click event handler to show the calendar
         AddHandler calendarButton.Click, AddressOf CalendarButton_Click
     End Sub
 

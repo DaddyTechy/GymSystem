@@ -92,7 +92,7 @@ Partial Class JoinNow
         ' 
         ServiceCB.Anchor = AnchorStyles.None
         ServiceCB.FormattingEnabled = True
-        ServiceCB.Location = New Point(471, 408)
+        ServiceCB.Location = New Point(533, 408)
         ServiceCB.Margin = New Padding(3, 2, 3, 2)
         ServiceCB.Name = "ServiceCB"
         ServiceCB.Size = New Size(219, 23)
@@ -246,7 +246,7 @@ Partial Class JoinNow
         Label1.AutoSize = True
         Label1.Font = New Font("Segoe UI Variable Small", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.White
-        Label1.Location = New Point(471, 389)
+        Label1.Location = New Point(471, 408)
         Label1.Name = "Label1"
         Label1.Size = New Size(56, 19)
         Label1.TabIndex = 25

@@ -1,22 +1,37 @@
-﻿Imports System.Text
+Imports MySql.Data.MySqlClient
+Imports System.Text
 
 Public Class AddAttendanceControl
     ' Event to notify when the Save button is clicked
     Public Event SaveAttendance(memberID As Integer, staffID As Integer, checkInTime As TimeSpan, checkOutTime As TimeSpan, sessionType As String, dateValue As DateTime, status As String)
+    Public Event UpdateAttendance(attendanceID As Integer, staffID As Integer, checkInTime As TimeSpan, checkOutTime As TimeSpan, sessionType As String, dateValue As DateTime, status As String)
+
+    Private _attendanceID As Integer
+    Public Property IsEditMode As Boolean = False
 
     ' Reference to the DataGridView
     Public Property AttendanceDataGridView As DataGridView
 
     ' Button click event to save the attendance details
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
-        ' Ensure the AttendanceDataGridView is not null
-        If AttendanceDataGridView Is Nothing Then
-            MessageBox.Show("DataGridView reference is not set.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        ' Validate inputs before processing
+        Dim memberID As Integer
+        If Not Integer.TryParse(cmbMemberID.Text, memberID) Then
+            MessageBox.Show("Member ID cannot be empty and must be a valid number.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return
         End If
 
-        ' Get the input values
-        Dim memberID As Integer = Convert.ToInt32(cmbMemberID.Text)
+        If String.IsNullOrWhiteSpace(cmbSessionType.SelectedItem?.ToString()) Then
+            MessageBox.Show("Please select a Session Type.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return
+        End If
+
+        If String.IsNullOrWhiteSpace(cmbStatus.SelectedItem?.ToString()) Then
+            MessageBox.Show("Please select a Status.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return
+        End If
+
+        ' Get the input values now that they are validated
         Dim staffID As Integer = CurrentLoggedUser.id ' Use the current logged-in user's ID
         Dim checkInTime As TimeSpan = dtpCheckInTime.Value.TimeOfDay
         Dim checkOutTime As TimeSpan = dtpCheckOutTime.Value.TimeOfDay
@@ -24,24 +39,9 @@ Public Class AddAttendanceControl
         Dim dateValue As DateTime = dtpDate.Value
         Dim status As String = cmbStatus.SelectedItem.ToString()
 
-        ' Validate inputs
-        If String.IsNullOrWhiteSpace(cmbMemberID.Text) Then
-            MessageBox.Show("Member ID cannot be empty.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return
-        End If
-
-        If String.IsNullOrWhiteSpace(cmbSessionType.SelectedItem?.ToString()) Then
-            MessageBox.Show("Session Type cannot be empty.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return
-        End If
-
-        If String.IsNullOrWhiteSpace(cmbStatus.SelectedItem?.ToString()) Then
-            MessageBox.Show("Status cannot be empty.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return
-        End If
-
-        ' Show a confirmation dialog before saving
-        Dim confirmationMessage As String = $"Are you sure you want to save the following attendance record?{Environment.NewLine}" &
+        ' Confirm with the user
+        Dim action As String = If(IsEditMode, "update", "save")
+        Dim confirmationMessage As String = $"Are you sure you want to {action} the following attendance record?{Environment.NewLine}" &
                                             $"Member ID: {memberID}{Environment.NewLine}" &
                                             $"Staff ID: {staffID}{Environment.NewLine}" &
                                             $"Check-In Time: {checkInTime}{Environment.NewLine}" &
@@ -49,14 +49,16 @@ Public Class AddAttendanceControl
                                             $"Session Type: {sessionType}{Environment.NewLine}" &
                                             $"Date: {dateValue:yyyy-MM-dd}{Environment.NewLine}" &
                                             $"Status: {status}"
-        Dim result As DialogResult = MessageBox.Show(confirmationMessage, "Confirm Save", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        Dim result As DialogResult = MessageBox.Show(confirmationMessage, $"Confirm {If(IsEditMode, "Update", "Save")}", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
         If result = DialogResult.Yes Then
-            ' Raise the SaveAttendance event
-            RaiseEvent SaveAttendance(memberID, staffID, checkInTime, checkOutTime, sessionType, dateValue, status)
-
-            Logs("Added Atendance", "Attendance table Update")
-            ' Hide the control after saving
+            If IsEditMode Then
+                RaiseEvent UpdateAttendance(_attendanceID, staffID, checkInTime, checkOutTime, sessionType, dateValue, status)
+                Logs("Updated Attendance", "Attendance Table Update")
+            Else
+                RaiseEvent SaveAttendance(memberID, staffID, checkInTime, checkOutTime, sessionType, dateValue, status)
+                Logs("Added Attendance", "Attendance Table Update")
+            End If
             Me.Visible = False
         End If
     End Sub
@@ -80,21 +82,61 @@ Public Class AddAttendanceControl
 
     ' Method to check if the MemberID exists in the database
     Private Function CheckMemberIDExists(memberID As Integer) As Boolean
-        Dim sql As String = $"SELECT COUNT(*) FROM members WHERE MemberID = {memberID}"
         Dim memberExists As Boolean = False
-
         Try
-            readQuery(sql)
-            If cmdRead.Read() Then
-                memberExists = cmdRead.GetInt32(0) > 0
-            End If
-            cmdRead.Close()
+            UpdateConnectionString()
+            Using conn As New MySqlConnection(strConnection)
+                conn.Open()
+                Dim query As String = "SELECT COUNT(*) FROM members WHERE MemberID = @MemberID"
+                Using cmd As New MySqlCommand(query, conn)
+                    cmd.Parameters.AddWithValue("@MemberID", memberID)
+                    Dim result = cmd.ExecuteScalar()
+                    If result IsNot Nothing AndAlso Convert.ToInt32(result) > 0 Then
+                        memberExists = True
+                    End If
+                End Using
+            End Using
         Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical)
+            MessageBox.Show("An error occurred while verifying the member ID: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
-
         Return memberExists
     End Function
+
+    Public Sub LoadDataForEdit(attendanceID As Integer, memberID As Integer, staffID As Integer, checkInTime As TimeSpan, checkOutTime As TimeSpan, sessionType As String, dateValue As DateTime, status As String)
+        _attendanceID = attendanceID
+        cmbMemberID.Text = memberID.ToString()
+        ' staffID is not directly editable here, it's based on logged-in user
+        dtpCheckInTime.Value = DateTime.Today + checkInTime
+        dtpCheckOutTime.Value = DateTime.Today + checkOutTime
+        cmbSessionType.SelectedItem = sessionType
+        Try
+            dtpDate.Value = dateValue
+        Catch ex As ArgumentOutOfRangeException
+            MessageBox.Show($"The date for this record ({dateValue.ToShortDateString()}) is invalid or out of the allowed range. Please correct it manually.", "Invalid Date", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            ' Set a safe default to prevent crashing
+            dtpDate.Value = If(DateTime.Today <= dtpDate.MaxDate AndAlso DateTime.Today >= dtpDate.MinDate, DateTime.Today, dtpDate.MinDate)
+        End Try
+        cmbStatus.SelectedItem = status
+
+        IsEditMode = True
+        btnSave.Text = "Update"
+        cmbMemberID.Enabled = False
+        lblMemberStatus.Text = ""
+    End Sub
+
+    Public Sub ResetFields()
+        _attendanceID = 0
+        cmbMemberID.Text = ""
+        dtpCheckInTime.Value = DateTime.Now
+        dtpCheckOutTime.Value = DateTime.Now
+        cmbSessionType.SelectedIndex = -1
+        dtpDate.Value = DateTime.Today
+        cmbStatus.SelectedIndex = -1
+        IsEditMode = False
+        btnSave.Text = "Save"
+        cmbMemberID.Enabled = True
+        lblMemberStatus.Text = ""
+    End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Me.Hide()

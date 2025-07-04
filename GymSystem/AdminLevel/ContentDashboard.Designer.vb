@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class ContentDashboard
     Inherits System.Windows.Forms.UserControl
 
@@ -86,7 +86,8 @@ Partial Class ContentDashboard
         lblearningsreport = New Label()
         Panel8 = New Panel()
         Panel9 = New Panel()
-        richTextBoxAnnouncements = New RichTextBox()
+        dgvAnnouncements = New DataGridView()
+        btnRefreshAnnouncements = New Button()
         Label8 = New Label()
         TableLayoutPanel1.SuspendLayout()
         Panel12.SuspendLayout()
@@ -116,6 +117,7 @@ Partial Class ContentDashboard
         CType(chartEarnings, ComponentModel.ISupportInitialize).BeginInit()
         Panel8.SuspendLayout()
         Panel9.SuspendLayout()
+        CType(dgvAnnouncements, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' TableLayoutPanel1
@@ -609,9 +611,9 @@ Partial Class ContentDashboard
         Panel7.Controls.Add(Panel1)
         Panel7.Controls.Add(Panel8)
         Panel7.Dock = DockStyle.Bottom
-        Panel7.Location = New Point(0, 490)
+        Panel7.Location = New Point(0, 469)
         Panel7.Name = "Panel7"
-        Panel7.Size = New Size(675, 564)
+        Panel7.Size = New Size(675, 657)
         Panel7.TabIndex = 4
         ' 
         ' TableLayoutPanel3
@@ -627,7 +629,7 @@ Partial Class ContentDashboard
         TableLayoutPanel3.Padding = New Padding(20, 10, 20, 10)
         TableLayoutPanel3.RowCount = 1
         TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
-        TableLayoutPanel3.Size = New Size(675, 244)
+        TableLayoutPanel3.Size = New Size(675, 250)
         TableLayoutPanel3.TabIndex = 4
         ' 
         ' Panel11
@@ -640,7 +642,7 @@ Partial Class ContentDashboard
         Panel11.Margin = New Padding(10, 3, 3, 3)
         Panel11.Name = "Panel11"
         Panel11.Padding = New Padding(0, 4, 0, 0)
-        Panel11.Size = New Size(305, 218)
+        Panel11.Size = New Size(305, 224)
         Panel11.TabIndex = 2
         ' 
         ' chartStaffs
@@ -682,7 +684,7 @@ Partial Class ContentDashboard
         Series2.Name = "Series1"
         Series2.Palette = DataVisualization.Charting.ChartColorPalette.Fire
         chartStaffs.Series.Add(Series2)
-        chartStaffs.Size = New Size(305, 185)
+        chartStaffs.Size = New Size(305, 191)
         chartStaffs.TabIndex = 13
         chartStaffs.Text = "chartStaffs"
         Title2.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
@@ -717,7 +719,7 @@ Partial Class ContentDashboard
         pnlregistered.Margin = New Padding(3, 3, 10, 3)
         pnlregistered.Name = "pnlregistered"
         pnlregistered.Padding = New Padding(0, 4, 0, 0)
-        pnlregistered.Size = New Size(304, 218)
+        pnlregistered.Size = New Size(304, 224)
         pnlregistered.TabIndex = 1
         ' 
         ' pieGender
@@ -759,7 +761,7 @@ Partial Class ContentDashboard
         Series3.Name = "Series1"
         Series3.Palette = DataVisualization.Charting.ChartColorPalette.Fire
         pieGender.Series.Add(Series3)
-        pieGender.Size = New Size(304, 185)
+        pieGender.Size = New Size(304, 191)
         pieGender.TabIndex = 13
         pieGender.Text = "Chart1"
         Title3.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
@@ -879,10 +881,10 @@ Partial Class ContentDashboard
         Panel8.AutoScroll = True
         Panel8.Controls.Add(Panel9)
         Panel8.Dock = DockStyle.Bottom
-        Panel8.Location = New Point(0, 423)
+        Panel8.Location = New Point(0, 439)
         Panel8.Name = "Panel8"
         Panel8.Padding = New Padding(25, 10, 25, 10)
-        Panel8.Size = New Size(675, 141)
+        Panel8.Size = New Size(675, 218)
         Panel8.TabIndex = 2
         ' 
         ' Panel9
@@ -890,28 +892,34 @@ Partial Class ContentDashboard
         Panel9.AutoScroll = True
         Panel9.AutoSize = True
         Panel9.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        Panel9.Controls.Add(richTextBoxAnnouncements)
+        Panel9.Controls.Add(dgvAnnouncements)
+        Panel9.Controls.Add(btnRefreshAnnouncements)
         Panel9.Controls.Add(Label8)
         Panel9.Dock = DockStyle.Fill
         Panel9.Location = New Point(25, 10)
         Panel9.Name = "Panel9"
         Panel9.Padding = New Padding(20, 4, 20, 3)
-        Panel9.Size = New Size(625, 121)
+        Panel9.Size = New Size(625, 198)
         Panel9.TabIndex = 0
         ' 
-        ' richTextBoxAnnouncements
+        ' dgvAnnouncements
         ' 
-        richTextBoxAnnouncements.BackColor = Color.FromArgb(CByte(50), CByte(50), CByte(50))
-        richTextBoxAnnouncements.BorderStyle = BorderStyle.None
-        richTextBoxAnnouncements.Dock = DockStyle.Fill
-        richTextBoxAnnouncements.ForeColor = SystemColors.Window
-        richTextBoxAnnouncements.Location = New Point(20, 33)
-        richTextBoxAnnouncements.Name = "richTextBoxAnnouncements"
-        richTextBoxAnnouncements.ReadOnly = True
-        richTextBoxAnnouncements.ScrollBars = RichTextBoxScrollBars.Vertical
-        richTextBoxAnnouncements.Size = New Size(585, 85)
-        richTextBoxAnnouncements.TabIndex = 3
-        richTextBoxAnnouncements.Text = ""
+        dgvAnnouncements.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        dgvAnnouncements.Dock = DockStyle.Fill
+        dgvAnnouncements.Location = New Point(20, 33)
+        dgvAnnouncements.Name = "dgvAnnouncements"
+        dgvAnnouncements.Size = New Size(585, 162)
+        dgvAnnouncements.TabIndex = 3
+        ' 
+        ' btnRefreshAnnouncements
+        ' 
+        btnRefreshAnnouncements.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnRefreshAnnouncements.Location = New Point(530, 5)
+        btnRefreshAnnouncements.Name = "btnRefreshAnnouncements"
+        btnRefreshAnnouncements.Size = New Size(75, 23)
+        btnRefreshAnnouncements.TabIndex = 4
+        btnRefreshAnnouncements.Text = "Refresh"
+        btnRefreshAnnouncements.UseVisualStyleBackColor = True
         ' 
         ' Label8
         ' 
@@ -940,7 +948,7 @@ Partial Class ContentDashboard
         Controls.Add(TableLayoutPanel1)
         MinimumSize = New Size(675, 496)
         Name = "ContentDashboard"
-        Size = New Size(675, 1054)
+        Size = New Size(675, 1126)
         TableLayoutPanel1.ResumeLayout(False)
         Panel12.ResumeLayout(False)
         Panel12.PerformLayout()
@@ -982,6 +990,7 @@ Partial Class ContentDashboard
         Panel8.PerformLayout()
         Panel9.ResumeLayout(False)
         Panel9.PerformLayout()
+        CType(dgvAnnouncements, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -1030,7 +1039,8 @@ Partial Class ContentDashboard
     Friend WithEvents Panel11 As Panel
     Friend WithEvents chartStaffs As DataVisualization.Charting.Chart
     Friend WithEvents Label9 As Label
-    Friend WithEvents richTextBoxAnnouncements As RichTextBox
+    Friend WithEvents dgvAnnouncements As DataGridView
+    Friend WithEvents btnRefreshAnnouncements As Button
     Friend WithEvents Panel12 As Panel
     Friend WithEvents Label10 As Label
     Friend WithEvents Label11 As Label

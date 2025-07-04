@@ -1,12 +1,49 @@
-﻿' ContentStaffManage.vb
+' ContentStaffManage.vb
+Imports MySql.Data.MySqlClient
+
 Public Class ContentStaffManage
     Private currentOffset As Integer = 0
     Private Const batchSize As Integer = 25
-    Private Sub LoadstaffData()
-        Dim query As String = $"SELECT StaffID, FirstName, MiddleName, LastName, Position, Email, PhoneNumber, DATE_FORMAT(HireDate, '%Y-%m-%d') AS HireDate, Salary, ShiftSchedule, Certification, PerformanceRating, Specialization, Experience, DATE_FORMAT(DTCreated, '%Y-%m-%d %H:%i:%s') AS DTCreated FROM staff LIMIT {batchSize} OFFSET {currentOffset}"
-        LoadToDGV(query, dgvStafflist)
+    Private searchPlaceholder As String = "Search by Name..."
+
+    Private Sub LoadstaffData(Optional positionFilter As String = "All", Optional searchTerm As String = "")
+        Dim queryBuilder As New System.Text.StringBuilder("SELECT StaffID, FirstName, MiddleName, LastName, Position, Email, PhoneNumber, DATE_FORMAT(HireDate, '%Y-%m-%d') AS HireDate, Salary, ShiftSchedule, Certification, PerformanceRating, Specialization, Experience, DATE_FORMAT(DTCreated, '%Y-%m-%d %H:%i:%s') AS DTCreated FROM staff WHERE 1=1")
+
+        If Not String.IsNullOrWhiteSpace(searchTerm) Then
+            queryBuilder.Append(" AND (FirstName LIKE @searchTerm OR LastName LIKE @searchTerm OR MiddleName LIKE @searchTerm)")
+        End If
+
+        If Not String.IsNullOrEmpty(positionFilter) AndAlso positionFilter <> "All" Then
+            queryBuilder.Append(" AND Position = @position")
+        End If
+
+        queryBuilder.Append($" LIMIT {batchSize} OFFSET {currentOffset}")
+
+        Dim query As String = queryBuilder.ToString()
+
+        Using conn As New MySqlConnection(strConnection)
+            Using cmd As New MySqlCommand(query, conn)
+                If Not String.IsNullOrWhiteSpace(searchTerm) Then
+                    cmd.Parameters.AddWithValue("@searchTerm", "%" & searchTerm & "%")
+                End If
+                If Not String.IsNullOrEmpty(positionFilter) AndAlso positionFilter <> "All" Then
+                    cmd.Parameters.AddWithValue("@position", positionFilter)
+                End If
+
+                Try
+                    conn.Open()
+                    Dim adapter As New MySqlDataAdapter(cmd)
+                    Dim dt As New DataTable()
+                    adapter.Fill(dt)
+                    dgvStaffList.DataSource = dt
+                Catch ex As Exception
+                    MessageBox.Show("An error occurred while loading staff data: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            End Using
+        End Using
+
         SetDGVPropertiesForEquipment(dgvStaffList)
-        RenameColumns(dgvStafflist)
+        RenameColumns(dgvStaffList)
     End Sub
 
     Private Sub SetDGVPropertiesForEquipment(dgv As DataGridView)
@@ -116,8 +153,53 @@ Public Class ContentStaffManage
 
     Private Sub ContentStaffManage_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         UpdateConnectionString()
+        PopulatePositionFilter()
         LoadstaffData()
         RenameColumns(dgvStaffList)
+
+        ' Set placeholder for search box
+        txtSearch.Text = searchPlaceholder
+        txtSearch.ForeColor = Color.Gray
+
+        ' Add event handlers after initialization
+        AddHandler cmbPositionFilter.SelectedIndexChanged, AddressOf FilterOrSearchChanged
+        AddHandler txtSearch.TextChanged, AddressOf FilterOrSearchChanged
+    End Sub
+
+
+
+    Private Sub PopulatePositionFilter()
+        Try
+            UpdateConnectionString()
+            Using conn As New MySqlConnection(strConnection)
+                conn.Open()
+                Dim query As String = "SELECT DISTINCT Position FROM staff ORDER BY Position ASC"
+                Using cmd As New MySqlCommand(query, conn)
+                    Using reader As MySqlDataReader = cmd.ExecuteReader()
+                        cmbPositionFilter.Items.Clear()
+                        cmbPositionFilter.Items.Add("All")
+                        While reader.Read()
+                            cmbPositionFilter.Items.Add(reader("Position").ToString())
+                        End While
+                        cmbPositionFilter.SelectedIndex = 0
+                    End Using
+                End Using
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("An error occurred while populating positions: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub FilterOrSearchChanged(sender As Object, e As EventArgs)
+        currentOffset = 0
+        Dim positionFilter As String = If(cmbPositionFilter.SelectedItem IsNot Nothing, cmbPositionFilter.SelectedItem.ToString(), "All")
+        Dim searchTerm As String = txtSearch.Text
+
+        If txtSearch.ForeColor = Color.Gray Then
+            searchTerm = ""
+        End If
+
+        LoadstaffData(positionFilter, searchTerm)
     End Sub
 
     Private gymStaffControl As ContentStaffManageForm
@@ -155,7 +237,11 @@ Public Class ContentStaffManage
 
     Private Sub btnNext_Click_1(sender As Object, e As EventArgs) Handles btnNext.Click
         currentOffset += batchSize
-        LoadstaffData()
+        Dim searchTerm As String = txtSearch.Text
+        If txtSearch.ForeColor = Color.Gray Then
+            searchTerm = ""
+        End If
+        LoadstaffData(If(cmbPositionFilter.SelectedItem IsNot Nothing, cmbPositionFilter.SelectedItem.ToString(), "All"), searchTerm)
     End Sub
 
     Private Sub btnBack_Click_1(sender As Object, e As EventArgs) Handles btnBack.Click
@@ -164,6 +250,10 @@ Public Class ContentStaffManage
         Else
             currentOffset = 0
         End If
-        LoadstaffData()
+        Dim searchTerm As String = txtSearch.Text
+        If txtSearch.ForeColor = Color.Gray Then
+            searchTerm = ""
+        End If
+        LoadstaffData(If(cmbPositionFilter.SelectedItem IsNot Nothing, cmbPositionFilter.SelectedItem.ToString(), "All"), searchTerm)
     End Sub
 End Class

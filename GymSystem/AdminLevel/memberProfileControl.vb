@@ -1,13 +1,33 @@
-﻿Imports System.Windows.Forms.DataVisualization.Charting
+Imports System.Windows.Forms.DataVisualization.Charting
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel
 Imports GymSystem.Payment
 Imports MySql.Data.MySqlClient
+Imports System.Windows.Forms
+Imports System.Configuration
 Imports Org.BouncyCastle.Crypto
 
 Public Class memberProfileControl
     Public selectedMember As MemberData
+    Private reservationsContextMenu As ContextMenuStrip
+    Private editItem As ToolStripMenuItem
+    Private deleteItem As ToolStripMenuItem
+    Private cancelItem As ToolStripMenuItem
+
+    Private notesContextMenu As ContextMenuStrip
+    Private editNoteItem As ToolStripMenuItem
+    Private deleteNoteItem As ToolStripMenuItem
+    Private addNotesControl As AddNotesControl
+
+    Public Sub New()
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Enable double buffering to smooth out UI rendering and reduce flicker.
+        Me.DoubleBuffered = True
+    End Sub
 
     Private Sub memberProfileControl_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.SuspendLayout()
         ' Enable AutoScroll for the control
         Me.AutoScroll = True
 
@@ -22,8 +42,11 @@ Public Class memberProfileControl
 
             ' Load reservations for the selected member
             LoadReservationsForMember(selectedMember.MemberID)
+            InitializeReservationsContextMenu()
 
             LoadNotesForMember(selectedMember.MemberID)
+            InitializeNotesContextMenu()
+            AddHandler notesDGV.CellMouseClick, AddressOf notesDGV_CellMouseClick
 
             Dim dtAttendance As DataTable = FetchAttendanceData(selectedMember.MemberID)
 
@@ -32,7 +55,70 @@ Public Class memberProfileControl
             MessageBox.Show("Member data is not available.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
         lblPaymentStatus.Text = selectedMember.PaymentStatus
+        Me.ResumeLayout(True)
     End Sub
+
+    Private Sub btnEditProfile_Click(sender As Object, e As EventArgs) Handles btnEditProfile.Click
+        If selectedMember IsNot Nothing Then
+            Using editForm As New EditMemberProfileForm(selectedMember.MemberID, selectedMember.PhoneNumber, selectedMember.Email, selectedMember.Weight, selectedMember.Height)
+                If editForm.ShowDialog() = DialogResult.OK Then
+                    ' Refresh data if changes were saved
+                    ReloadMemberData()
+                End If
+            End Using
+        Else
+            MessageBox.Show("No member selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End If
+    End Sub
+
+    Private Sub btnViewMemberships_Click(sender As Object, e As EventArgs) Handles btnViewMemberships.Click
+        If selectedMember IsNot Nothing Then
+            Using historyForm As New MembershipHistoryForm(selectedMember.MemberID)
+                historyForm.ShowDialog()
+            End Using
+        Else
+            MessageBox.Show("No member selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End If
+    End Sub
+
+    Private Sub ReloadMemberData()
+        ' Re-fetch and reload the member's data
+        Dim memberData As MemberData = GetMemberData(selectedMember.MemberID)
+        LoadMemberData(memberData)
+    End Sub
+
+    Private Function GetMemberData(memberId As Integer) As MemberData
+        UpdateConnectionString()
+        Dim conn As New MySqlConnection(strConnection)
+        Dim memberData As New MemberData()
+        Try
+            conn.Open()
+            Dim queryMembers As String = "SELECT MemberID, FirstName, MiddleName, LastName, Sex, PhoneNumber, DTCreated, Status, Weight, Height, Email, DOB FROM members WHERE MemberID = @MemberID"
+            Dim cmdMembers As New MySqlCommand(queryMembers, conn)
+            cmdMembers.Parameters.AddWithValue("@MemberID", memberId)
+            Dim readerMembers As MySqlDataReader = cmdMembers.ExecuteReader()
+            If readerMembers.Read() Then
+                memberData.MemberID = CInt(readerMembers("MemberID"))
+                memberData.FirstName = readerMembers("FirstName").ToString()
+                memberData.MiddleName = readerMembers("MiddleName").ToString()
+                memberData.LastName = readerMembers("LastName").ToString()
+                memberData.Sex = readerMembers("Sex").ToString()
+                memberData.PhoneNumber = readerMembers("PhoneNumber").ToString()
+                memberData.DTCreated = DateTime.Parse(readerMembers("DTCreated").ToString())
+                memberData.Status = readerMembers("Status").ToString()
+                memberData.Weight = Decimal.Parse(readerMembers("Weight").ToString())
+                memberData.Height = Decimal.Parse(readerMembers("Height").ToString())
+                memberData.Email = readerMembers("Email").ToString()
+                memberData.DOB = DateTime.Parse(readerMembers("DOB").ToString())
+            End If
+            readerMembers.Close()
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical)
+        Finally
+            conn.Close()
+        End Try
+        Return memberData
+    End Function
 
     Private Sub InitializeConnection()
         UpdateConnectionString()
@@ -187,32 +273,103 @@ Public Class memberProfileControl
         notesDGV.Columns("Author").HeaderText = "Author"
         notesDGV.Columns("DateAdded").HeaderText = "Date Added"
 
-        ' Check if the delete button column already exists
-        If notesDGV.Columns("DeleteButton") Is Nothing Then
-            ' Add delete button column
-            Dim deleteButtonColumn As New DataGridViewButtonColumn()
-            deleteButtonColumn.Name = "DeleteButton"
-            deleteButtonColumn.HeaderText = "Delete"
-            deleteButtonColumn.Text = "Delete"
-            deleteButtonColumn.UseColumnTextForButtonValue = True
-            notesDGV.Columns.Add(deleteButtonColumn)
-        End If
 
-        ' Handle the delete button click event
-        AddHandler notesDGV.CellClick, AddressOf notesDGV_CellClick
     End Sub
 
-    Private Sub notesDGV_CellClick(sender As Object, e As DataGridViewCellEventArgs)
-        If e.ColumnIndex = notesDGV.Columns("DeleteButton").Index AndAlso e.RowIndex >= 0 Then
-            Dim noteID As Integer = Convert.ToInt32(notesDGV.Rows(e.RowIndex).Cells("NoteID").Value)
-            Dim result As DialogResult = MessageBox.Show("Are you sure you want to delete this note?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
-            If result = DialogResult.Yes Then
-                ' Delete the note from the database
-                DeleteNoteFromDatabase(noteID)
-                ' Refresh the DataGridView
-                LoadNotesForMember(selectedMember.MemberID)
-            End If
+
+
+    Private Sub notesDGV_CellMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs)
+        If e.Button = MouseButtons.Right AndAlso e.RowIndex >= 0 Then
+            ' Select the row that was right-clicked
+            notesDGV.ClearSelection()
+            notesDGV.Rows(e.RowIndex).Selected = True
+            ' Display the context menu at the mouse pointer's location
+            notesContextMenu.Show(Cursor.Position)
         End If
+    End Sub
+
+    Private Sub InitializeNotesContextMenu()
+        notesContextMenu = New ContextMenuStrip()
+        editNoteItem = New ToolStripMenuItem("Edit")
+        deleteNoteItem = New ToolStripMenuItem("Delete")
+
+        notesContextMenu.Items.Add(editNoteItem)
+        notesContextMenu.Items.Add(deleteNoteItem)
+
+        AddHandler editNoteItem.Click, AddressOf EditNote_Click
+        AddHandler deleteNoteItem.Click, AddressOf DeleteNote_Click
+    End Sub
+
+    Private Sub EditNote_Click(sender As Object, e As EventArgs)
+        Try
+            If notesDGV.SelectedRows.Count > 0 Then
+                Dim selectedRow As DataGridViewRow = notesDGV.SelectedRows(0)
+                Dim noteID As Integer = Convert.ToInt32(selectedRow.Cells("NoteID").Value)
+                Dim noteDetails As String = selectedRow.Cells("NoteDetails").Value.ToString()
+                Dim dateAdded As DateTime = Convert.ToDateTime(selectedRow.Cells("DateAdded").Value)
+
+                If addNotesControl Is Nothing Then
+                    addNotesControl = New AddNotesControl()
+                    Me.Controls.Add(addNotesControl)
+                    addNotesControl.Location = New Point((Me.Width - addNotesControl.Width) / 2, (Me.Height - addNotesControl.Height) / 2)
+                    addNotesControl.BringToFront()
+                    AddHandler addNotesControl.NoteUpdated, AddressOf Me.NoteUpdated_Handler
+                End If
+
+                addNotesControl.SetNoteData(noteID, noteDetails, dateAdded)
+                addNotesControl.Show()
+                addNotesControl.BringToFront()
+            Else
+                MessageBox.Show("Please select a note to edit.", "No Note Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
+        Catch ex As Exception
+            MessageBox.Show("An error occurred while preparing to edit the note: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub NoteUpdated_Handler(noteID As Integer, noteDetails As String, dateAdded As DateTime)
+        Try
+            UpdateNoteInDatabase(noteID, noteDetails, dateAdded)
+            LoadNotesForMember(selectedMember.MemberID)
+            MessageBox.Show("Note updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            MessageBox.Show("An error occurred while updating the note: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub UpdateNoteInDatabase(noteID As Integer, noteDetails As String, dateAdded As DateTime)
+        UpdateConnectionString()
+        Using conn As New MySqlConnection(strConnection)
+            conn.Open()
+            Dim query As String = "UPDATE notes SET NoteDetails = @NoteDetails, DateAdded = @DateAdded WHERE NoteID = @NoteID"
+            Using cmd As New MySqlCommand(query, conn)
+                cmd.Parameters.AddWithValue("@NoteDetails", noteDetails)
+                cmd.Parameters.AddWithValue("@DateAdded", dateAdded)
+                cmd.Parameters.AddWithValue("@NoteID", noteID)
+                cmd.ExecuteNonQuery()
+            End Using
+        End Using
+    End Sub
+
+    Private Sub DeleteNote_Click(sender As Object, e As EventArgs)
+        Try
+            If notesDGV.SelectedRows.Count > 0 Then
+                Dim selectedRow As DataGridViewRow = notesDGV.SelectedRows(0)
+                Dim noteID As Integer = Convert.ToInt32(selectedRow.Cells("NoteID").Value)
+
+                Dim result As DialogResult = MessageBox.Show("Are you sure you want to delete this note?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+
+                If result = DialogResult.Yes Then
+                    DeleteNoteFromDatabase(noteID)
+                    LoadNotesForMember(selectedMember.MemberID)
+                    MessageBox.Show("Note deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
+            Else
+                MessageBox.Show("Please select a note to delete.", "No Note Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
+        Catch ex As Exception
+            MessageBox.Show("An error occurred while deleting the note: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub DeleteNoteFromDatabase(noteID As Integer)
@@ -238,7 +395,7 @@ Public Class memberProfileControl
         lblEmail.Text = memberData.Email
         lblUserName.Text = memberData.FirstName & " " & memberData.LastName
         lblUserHandle.Text = "@" & memberData.Username
-        lblWeightHeight.Text = memberData.Weight & "kg  |  " & memberData.Height & "ft"
+        lblWeightAndHeight.Text = memberData.Weight & "kg  |  " & memberData.Height & "ft"
         lbldtcreated.Text = "Member Since: " & memberData.DTCreated
         lblStatus.Text = memberData.Status
 
@@ -404,9 +561,8 @@ Public Class memberProfileControl
         Try
             ' Insert the new reservation into the reservations table
             Dim query As String = $"INSERT INTO reservation (MemberID, EquipmentID, StaffID, ReservationDate, StartTime, EndTime, ReservationFee, ReservationNotes, ReservationStatus, Cancellation, Reschedule, PaymentStatus, Feedback, Purpose) " &
-                              $"VALUES ({memberID}, {equipmentID}, {staffID}, '{reservationDate:yyyy-MM-dd}', '{startTime:HH:mm:ss}', '{endTime:HH:mm:ss}', {reservationFee}, '{reservationNotes}', 'Ongoing', 'No', 'No', 'Unpaid', '', '{purpose}')"
+                              $"VALUES ({memberID}, {equipmentID}, {staffID}, '{reservationDate:yyyy-MM-dd}', '{startTime:HH:mm:ss}', '{endTime:HH:mm:ss}', {reservationFee}, '{reservationNotes}', 'Pending', False, False, 'Unpaid', '', '{purpose}')"
             ExecuteQuery(query)
-            MessageBox.Show($"Debug: inserted MemberID = {memberID}")
 
             ' Refresh the DataGridView
             LoadReservationsForMember(memberID)
@@ -481,7 +637,7 @@ Public Class memberProfileControl
 
 
     Private Sub LoadReservationsForMember(memberID As Integer)
-        Dim query As String = $"SELECT r.ReservationID, r.MemberID, e.Name AS Name, s.FirstName AS FirstName, r.ReservationDate, r.StartTime, r.EndTime, r.ReservationStatus, r.Purpose, r.ReservationNotes, r.Cancellation, r.Reschedule, r.PaymentStatus, r.Feedback, r.ReservationFee " &
+        Dim query As String = $"SELECT r.ReservationID, r.MemberID, e.Name AS Name, CONCAT(s.FirstName, ' ', s.LastName) AS StaffName, r.ReservationDate, r.StartTime, r.EndTime, r.ReservationStatus, r.Purpose, r.ReservationNotes, r.Cancellation, r.Reschedule, r.PaymentStatus, r.Feedback, r.ReservationFee " &
                           $"FROM reservation r " &
                           $"JOIN equipment e ON r.EquipmentID = e.EquipmentID " &
                           $"JOIN staff s ON r.StaffID = s.StaffID " &
@@ -509,7 +665,7 @@ Public Class memberProfileControl
         ' Additional properties copied from MembersTable
         reservationsDGV.AllowUserToAddRows = False
         reservationsDGV.AllowUserToDeleteRows = False
-        reservationsDGV.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells
+        reservationsDGV.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         reservationsDGV.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
         reservationsDGV.BorderStyle = BorderStyle.None
         reservationsDGV.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
@@ -571,51 +727,13 @@ Public Class memberProfileControl
         reservationsDGV.ShowCellErrors = False
         reservationsDGV.ShowRowErrors = False
 
-        If reservationsDGV.Columns("Cancel") Is Nothing Then
-            ' Add Cancel button
-            Dim cancelButtonColumn As New DataGridViewButtonColumn()
-            cancelButtonColumn.Name = "Cancel"
-            cancelButtonColumn.HeaderText = "Cancel"
-            cancelButtonColumn.Text = "Cancel"
-            cancelButtonColumn.UseColumnTextForButtonValue = True
-            cancelButtonColumn.FlatStyle = FlatStyle.Standard
-            cancelButtonColumn.DefaultCellStyle.BackColor = Color.Red
-            cancelButtonColumn.MinimumWidth = 50
-            reservationsDGV.Columns.Insert(0, cancelButtonColumn) ' Insert at the desired position
-        End If
 
-        ' Check if Edit and Delete columns already exist
-        If reservationsDGV.Columns("Edit") Is Nothing Then
-            ' Add Edit button
-            Dim editButtonColumn As New DataGridViewButtonColumn()
-            editButtonColumn.Name = "Edit"
-            editButtonColumn.HeaderText = "Edit"
-            editButtonColumn.Text = "Edit"
-            editButtonColumn.UseColumnTextForButtonValue = True
-            editButtonColumn.FlatStyle = FlatStyle.Standard
-            editButtonColumn.DefaultCellStyle.BackColor = Color.Gold
-            editButtonColumn.MinimumWidth = 50
-            reservationsDGV.Columns.Insert(1, editButtonColumn)
-        End If
-
-        If reservationsDGV.Columns("Delete") Is Nothing Then
-            ' Add Delete button
-            Dim deleteButtonColumn As New DataGridViewButtonColumn()
-            deleteButtonColumn.Name = "Delete"
-            deleteButtonColumn.HeaderText = "Delete"
-            deleteButtonColumn.Text = "Delete"
-            deleteButtonColumn.UseColumnTextForButtonValue = True
-            deleteButtonColumn.FlatStyle = FlatStyle.Standard
-            deleteButtonColumn.DefaultCellStyle.BackColor = Color.Gold
-            deleteButtonColumn.MinimumWidth = 52
-            reservationsDGV.Columns.Insert(2, deleteButtonColumn)
-        End If
 
         ' Add columns to the DataGridView
         reservationsDGV.Columns("ReservationID").HeaderText = "Reservation #"
         reservationsDGV.Columns("MemberID").HeaderText = "Member ID"
         reservationsDGV.Columns("Name").HeaderText = "Equipment Name"
-        reservationsDGV.Columns("FirstName").HeaderText = "Staff Name"
+        reservationsDGV.Columns("StaffName").HeaderText = "Staff Name"
         reservationsDGV.Columns("ReservationDate").HeaderText = "Reservation Date"
         reservationsDGV.Columns("StartTime").HeaderText = "Start Time"
         reservationsDGV.Columns("EndTime").HeaderText = "End Time"
@@ -628,9 +746,24 @@ Public Class memberProfileControl
         reservationsDGV.Columns("Feedback").HeaderText = "Feedback"
         reservationsDGV.Columns("ReservationFee").HeaderText = "Fee"
 
-        reservationsDGV.Columns("ReservationStatus").DisplayIndex = 3
-        reservationsDGV.Columns("Cancellation").DisplayIndex = 16
-        reservationsDGV.Columns("Reschedule").DisplayIndex = 17
+        ' Reorder columns for better readability
+        reservationsDGV.Columns("ReservationID").DisplayIndex = 0
+        reservationsDGV.Columns("Purpose").DisplayIndex = 1
+        reservationsDGV.Columns("ReservationDate").DisplayIndex = 2
+        reservationsDGV.Columns("StartTime").DisplayIndex = 3
+        reservationsDGV.Columns("EndTime").DisplayIndex = 4
+        reservationsDGV.Columns("ReservationStatus").DisplayIndex = 5
+        reservationsDGV.Columns("Name").DisplayIndex = 6 ' Equipment Name
+        reservationsDGV.Columns("StaffName").DisplayIndex = 7 ' Staff Name
+        reservationsDGV.Columns("ReservationFee").DisplayIndex = 8
+        reservationsDGV.Columns("PaymentStatus").DisplayIndex = 9
+
+        ' Hide non-essential columns for a cleaner UI
+        reservationsDGV.Columns("MemberID").Visible = False
+        reservationsDGV.Columns("ReservationNotes").Visible = False
+        reservationsDGV.Columns("Cancellation").Visible = False
+        reservationsDGV.Columns("Reschedule").Visible = False
+        reservationsDGV.Columns("Feedback").Visible = False
     End Sub
 
     Private Sub reservationsDGV_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles reservationsDGV.CellFormatting
@@ -643,272 +776,11 @@ Public Class memberProfileControl
     End Sub
 
 
-    Private isEditMode As Boolean = False
-    Private originalValues As New Dictionary(Of Integer, Dictionary(Of String, String))
-    Private selectedReservationID As Integer
-    Private selectedCell As DataGridViewCell
-    Private editedRows As New Dictionary(Of Integer, Boolean)
-
     Private Sub reservationsDGV_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles reservationsDGV.CellClick
-        If e.RowIndex >= 0 Then
-            Dim selectedRow As DataGridViewRow = reservationsDGV.Rows(e.RowIndex)
-            selectedCell = reservationsDGV.Rows(e.RowIndex).Cells(e.ColumnIndex)
-            Dim reservationID As Integer = selectedRow.Cells("ReservationID").Value
-
-            ' Debug: Log the ReadOnly status of each cell in the selected row
-            Debug.WriteLine($"Clicked row: {e.RowIndex}, ReservationID: {reservationID}")
-            For Each cell As DataGridViewCell In selectedRow.Cells
-                Debug.WriteLine($"Cell [{cell.ColumnIndex}] ReadOnly: {cell.ReadOnly}")
-            Next
-
-            If e.ColumnIndex = reservationsDGV.Columns("Edit").Index Then
-                ' Handle Edit button click
-                If Not editedRows.ContainsKey(reservationID) OrElse Not editedRows(reservationID) Then
-                    selectedReservationID = reservationID
-                    StoreOriginalValues(selectedRow)
-                    EnableRowEditing(selectedRow)
-                    isEditMode = True ' Start edit mode
-                    MessageBox.Show("Cells in Selected Row are now EDITABLE for ReservationID: " & reservationID)
-                    ' Debug: Log the state of the DataGridView
-                    Debug.WriteLine("Row is now editable for ReservationID: " & reservationID)
-                    For Each cell As DataGridViewCell In selectedRow.Cells
-                        Debug.WriteLine("Cell [" & cell.ColumnIndex & "]: ReadOnly = " & cell.ReadOnly)
-                    Next
-                Else
-                    MessageBox.Show("This row is locked and cannot be edited.")
-                End If
-            ElseIf e.ColumnIndex = reservationsDGV.Columns("Cancel").Index Then
-                ' Handle Cancel button click
-                Dim resultCancel As DialogResult = MessageBox.Show("Do you want to cancel this reservation? There will be NO REFUND!", "Cancel Reservation", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                If resultCancel = DialogResult.Yes Then
-                    ' Update reservation status to Cancelled and cancellation to True
-                    Dim query As String = $"UPDATE reservation SET ReservationStatus = 'Cancelled', Cancellation = True WHERE ReservationID = {reservationID}"
-                    readQuery(query)
-                    ' Refresh the DataGridView
-                    LoadReservationsForMember(reservationsDGV.Rows(0).Cells("MemberID").Value)
-                    MessageBox.Show("Reservation cancelled successfully for ReservationID: " & reservationID)
-                    Exit Sub
-                End If
-            ElseIf e.ColumnIndex = reservationsDGV.Columns("Delete").Index Then
-                ' Handle Delete button click
-                Dim resultDelete As DialogResult = MessageBox.Show("Do you want to delete the entire row?", "Delete Row", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                If resultDelete = DialogResult.Yes Then
-                    ' Delete entire row
-                    DeleteReservation(reservationID)
-                    If reservationsDGV.Rows.Contains(selectedRow) Then
-                        reservationsDGV.Rows.Remove(selectedRow)
-                        MessageBox.Show("Record deleted successfully for ReservationID: " & reservationID)
-                        Exit Sub
-                    Else
-                        MessageBox.Show("Row does not belong to this DataGridView.")
-                        Exit Sub
-                    End If
-                End If
-            Else
-                ' Ensure the row remains read-only if it has been locked
-                If isEditMode Then
-                    If reservationID = selectedReservationID Then
-                        If Not editedRows.ContainsKey(reservationID) OrElse Not editedRows(reservationID) Then
-                            For Each cell As DataGridViewCell In selectedRow.Cells
-                                cell.ReadOnly = False
-                            Next
-                            reservationsDGV.ReadOnly = False
-                        Else
-                            MessageBox.Show("This row is locked and cannot be edited.")
-                        End If
-                    Else
-                        LockDataGridView()
-                    End If
-                End If
-            End If
-        End If
+        ' This event handler is intentionally left blank.
+        ' The functionality was moved to the context menu's EditMenuItem_Click event handler
+        ' to provide a better user experience and avoid accidental edits on left-click.
     End Sub
-
-
-    Private Sub StoreOriginalValues(row As DataGridViewRow)
-        Dim reservationID As Integer = row.Cells("ReservationID").Value
-        If Not originalValues.ContainsKey(reservationID) Then
-            originalValues(reservationID) = row.Cells.Cast(Of DataGridViewCell).ToDictionary(Function(cell) cell.OwningColumn.Name, Function(cell) cell.Value.ToString())
-        End If
-    End Sub
-
-    Private Sub EnableRowEditing(row As DataGridViewRow)
-        Dim reservationID As Integer = row.Cells("ReservationID").Value
-        If Not editedRows.ContainsKey(reservationID) OrElse Not editedRows(reservationID) Then
-            For Each cell As DataGridViewCell In row.Cells
-                cell.ReadOnly = False
-                Debug.WriteLine("Cell [" & cell.ColumnIndex & "]: ReadOnly = " & cell.ReadOnly)
-            Next
-            reservationsDGV.ReadOnly = False
-            reservationsDGV.CurrentCell = row.Cells(0)
-            reservationsDGV.BeginEdit(True)
-            Debug.WriteLine("reservationsDGV.ReadOnly = " & reservationsDGV.ReadOnly)
-        Else
-            MessageBox.Show("This row is locked and cannot be edited.")
-        End If
-    End Sub
-
-    Private Sub LockDataGridView()
-        For Each row As DataGridViewRow In reservationsDGV.Rows
-            For Each cell As DataGridViewCell In row.Cells
-                cell.ReadOnly = True
-            Next
-        Next
-        reservationsDGV.ReadOnly = True
-        Debug.WriteLine("All cells in reservationsDGV are now ReadOnly.")
-    End Sub
-
-    Private Sub reservationsDGV_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs) Handles reservationsDGV.CellBeginEdit
-        ' Allow editing if the cell being edited is within the same row as the initially selected cell
-        If selectedCell IsNot Nothing AndAlso reservationsDGV.Rows(e.RowIndex).Cells("ReservationID").Value = selectedReservationID Then
-            e.Cancel = False
-        Else
-            e.Cancel = True
-        End If
-    End Sub
-
-    Private Sub reservationsDGV_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles reservationsDGV.CellEndEdit
-        Dim editedRow As DataGridViewRow = reservationsDGV.Rows(e.RowIndex)
-        Dim reservationID As Integer = editedRow.Cells("ReservationID").Value
-        Dim changes As New List(Of String)
-
-        If originalValues.ContainsKey(reservationID) Then
-            For Each cell As DataGridViewCell In editedRow.Cells
-                Dim columnName As String = reservationsDGV.Columns(cell.ColumnIndex).Name
-                If originalValues(reservationID)(columnName) <> cell.Value.ToString() Then
-                    changes.Add($"{columnName}: {originalValues(reservationID)(columnName)} -> {cell.Value}")
-                End If
-            Next
-
-            If changes.Count > 0 Then
-                Dim result As DialogResult = MessageBox.Show($"The following changes were made:{Environment.NewLine}{String.Join(Environment.NewLine, changes)}{Environment.NewLine}Do you want to save these changes?", "Confirm Save", MessageBoxButtons.YesNo)
-                If result = DialogResult.Yes Then
-                    SaveEditedRow(editedRow)
-                    MessageBox.Show("Changes Saved")
-                    ' Lock the edited row to prevent further editing
-                    For Each cell As DataGridViewCell In editedRow.Cells
-                        cell.ReadOnly = True
-                        Debug.WriteLine($"Cell [{cell.ColumnIndex}] for ReservationID: {reservationID} is now ReadOnly.")
-                    Next
-                    editedRows(reservationID) = True
-                Else
-                    ' Revert changes
-                    For Each cell As DataGridViewCell In editedRow.Cells
-                        Dim columnName As String = reservationsDGV.Columns(cell.ColumnIndex).Name
-                        cell.Value = originalValues(reservationID)(columnName)
-                    Next
-                End If
-            End If
-        Else
-            Debug.WriteLine($"Original values not found for ReservationID: {reservationID}")
-        End If
-
-        ' Prompt to end edit mode
-        Dim endEditModeResult As DialogResult = MessageBox.Show("Do you want to end the edit mode?", "End Edit Mode", MessageBoxButtons.YesNo)
-        If endEditModeResult = DialogResult.Yes Then
-            LockDataGridView()
-            isEditMode = False ' End edit mode
-            Debug.WriteLine("reservationsDGV is now ReadOnly.")
-
-            ' Debug: Log the ReadOnly status of each cell in the edited row
-            Debug.WriteLine($"Checking ReadOnly status of each cell in row for ReservationID: {reservationID} after ending edit mode:")
-            For Each cell As DataGridViewCell In editedRow.Cells
-                Debug.WriteLine($"Cell [{cell.ColumnIndex}] ReadOnly: {cell.ReadOnly}")
-            Next
-        Else
-            reservationsDGV.ReadOnly = False
-            Debug.WriteLine("reservationsDGV remains editable.")
-        End If
-    End Sub
-    Private Sub SaveEditedRow(row As DataGridViewRow)
-        Try
-            Dim reservationID As Integer = row.Cells("ReservationID").Value
-            Dim memberID As Integer = ValidateInteger(row.Cells("MemberID").Value, "MemberID")
-            Dim equipmentName As String = row.Cells("Name").Value.ToString().Trim()
-            Dim staffName As String = row.Cells("FirstName").Value.ToString().Trim()
-            Dim reservationDate As DateTime
-            Dim startTime As TimeSpan
-            Dim endTime As TimeSpan
-            Dim reservationStatus As String = row.Cells("ReservationStatus").Value.ToString().Trim()
-            Dim purpose As String = row.Cells("Purpose").Value.ToString().Trim()
-            Dim reservationNotes As String = row.Cells("ReservationNotes").Value.ToString().Trim()
-            Dim cancellation As String = row.Cells("Cancellation").Value.ToString().Trim().ToLower()
-            Dim reschedule As String = row.Cells("Reschedule").Value.ToString().Trim().ToLower()
-            Dim paymentStatus As String = row.Cells("PaymentStatus").Value.ToString().Trim()
-            Dim feedback As String = row.Cells("Feedback").Value.ToString().Trim()
-            Dim reservationFee As Decimal
-
-            ' Check for blank or space-only values
-            If String.IsNullOrWhiteSpace(equipmentName) OrElse String.IsNullOrWhiteSpace(staffName) OrElse String.IsNullOrWhiteSpace(reservationStatus) OrElse String.IsNullOrWhiteSpace(purpose) OrElse String.IsNullOrWhiteSpace(paymentStatus) Then
-                MessageBox.Show("Fields cannot be blank or contain only spaces.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Return
-            End If
-
-            ' Validate date format
-            If Not DateTime.TryParse(row.Cells("ReservationDate").Value.ToString(), reservationDate) Then
-                MessageBox.Show("Invalid date format for Reservation Date.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Return
-            End If
-
-            ' Validate time format
-            If Not TimeSpan.TryParse(row.Cells("StartTime").Value.ToString(), startTime) Then
-                MessageBox.Show("Invalid time format for Start Time.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Return
-            End If
-            If Not TimeSpan.TryParse(row.Cells("EndTime").Value.ToString(), endTime) Then
-                MessageBox.Show("Invalid time format for End Time.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Return
-            End If
-            If endTime <= startTime Then
-                MessageBox.Show("End Time must be after Start Time.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Return
-            End If
-
-            ' Validate decimal format
-            If Not Decimal.TryParse(row.Cells("ReservationFee").Value.ToString(), reservationFee) Then
-                MessageBox.Show("Invalid format for Reservation Fee.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Return
-            End If
-
-            ' Retrieve equipment and staff IDs
-            Dim equipmentID As Integer = ValidateEquipmentID(equipmentName)
-            Dim staffID As Integer = ValidateStaffID(staffName)
-
-            ' Convert string "yes"/"no" to "Yes"/"No" values
-            Dim cancellationStr As String = If(cancellation = "yes", "Yes", "No")
-            Dim rescheduleStr As String = If(reschedule = "yes", "Yes", "No")
-
-            ' Update the reservation table with the edited values
-            Dim updateQuery As String = $"UPDATE reservation SET " &
-                                    $"MemberID = {memberID}, " &
-                                    $"EquipmentID = {equipmentID}, " &
-                                    $"StaffID = {staffID}, " &
-                                    $"ReservationDate = '{reservationDate:yyyy-MM-dd}', " &
-                                    $"StartTime = '{startTime}', " &
-                                    $"EndTime = '{endTime}', " &
-                                    $"ReservationStatus = '{reservationStatus}', " &
-                                    $"Purpose = '{purpose}', " &
-                                    $"ReservationNotes = '{reservationNotes}', " &
-                                    $"Cancellation = '{cancellationStr}', " &
-                                    $"Reschedule = '{rescheduleStr}', " &
-                                    $"PaymentStatus = '{paymentStatus}', " &
-                                    $"Feedback = '{feedback}', " &
-                                    $"ReservationFee = {reservationFee} " &
-                                    $"WHERE ReservationID = {reservationID}"
-            readQuery(updateQuery)
-        Catch ex As Exception
-            MessageBox.Show($"Error saving reservation: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
-    End Sub
-
-
-    Private Function ValidateInteger(value As Object, fieldName As String) As Integer
-        Dim result As Integer
-        If Not Integer.TryParse(value.ToString(), result) Then
-            Throw New ArgumentException($"{fieldName} must be a valid integer.")
-        End If
-        Return result
-    End Function
 
     Private Function ValidateEquipmentID(name As String) As Integer
         If String.IsNullOrWhiteSpace(name) Then
@@ -957,6 +829,112 @@ Public Class memberProfileControl
             readQuery(query)
             ' Refresh the DataGridView
             LoadReservationsForMember(reservationsDGV.Rows(0).Cells("MemberID").Value)
+        End If
+    End Sub
+
+    Private Sub InitializeReservationsContextMenu()
+        reservationsContextMenu = New ContextMenuStrip()
+        editItem = New ToolStripMenuItem("Edit")
+        deleteItem = New ToolStripMenuItem("Delete")
+        cancelItem = New ToolStripMenuItem("Cancel")
+
+        reservationsContextMenu.Items.Add(editItem)
+        reservationsContextMenu.Items.Add(deleteItem)
+        reservationsContextMenu.Items.Add(cancelItem)
+
+        AddHandler editItem.Click, AddressOf EditMenuItem_Click
+        AddHandler deleteItem.Click, AddressOf DeleteMenuItem_Click
+        AddHandler cancelItem.Click, AddressOf CancelMenuItem_Click
+
+        reservationsDGV.ContextMenuStrip = reservationsContextMenu
+    End Sub
+
+    Private Sub EditMenuItem_Click(sender As Object, e As EventArgs)
+        If reservationsDGV.SelectedRows.Count > 0 Then
+            Dim selectedRow As DataGridViewRow = reservationsDGV.SelectedRows(0)
+            Dim reservationID As Integer = Convert.ToInt32(selectedRow.Cells("ReservationID").Value)
+            Dim status As String = selectedRow.Cells("ReservationStatus").Value.ToString()
+
+            If (status = "Confirmed" OrElse status = "Ongoing" OrElse status = "Cancelled") AndAlso CurrentLoggedUser.position = "Member" Then
+                MessageBox.Show("Confirmed, Ongoing, or Cancelled reservations cannot be edited.", "Action Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Return
+            End If
+
+            Try
+                UpdateConnectionString()
+                Dim connectionString As String = strConnection
+                Using editForm As New EditReservationForm(reservationID, connectionString, CurrentLoggedUser.position)
+                    If editForm.ShowDialog() = DialogResult.OK Then
+                        LoadReservationsForMember(selectedMember.MemberID)
+                    End If
+                End Using
+            Catch ex As Exception
+                MessageBox.Show("Error opening edit form: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        End If
+    End Sub
+
+    Private Sub DeleteMenuItem_Click(sender As Object, e As EventArgs)
+        If reservationsDGV.SelectedRows.Count > 0 Then
+            Dim selectedRow As DataGridViewRow = reservationsDGV.SelectedRows(0)
+            Dim reservationID As Integer = Convert.ToInt32(selectedRow.Cells("ReservationID").Value)
+            Dim status As String = selectedRow.Cells("ReservationStatus").Value.ToString()
+
+            If (status = "Confirmed" OrElse status = "Ongoing" OrElse status = "Cancelled") AndAlso CurrentLoggedUser.position = "Member" Then
+                MessageBox.Show("Confirmed, Ongoing, or Cancelled reservations cannot be deleted.", "Action Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Return
+            End If
+
+            If MessageBox.Show("Are you sure you want to delete this reservation?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) = DialogResult.Yes Then
+                DeleteReservation(reservationID)
+                LoadReservationsForMember(selectedMember.MemberID)
+            End If
+        End If
+    End Sub
+
+    Private Sub CancelMenuItem_Click(sender As Object, e As EventArgs)
+        If reservationsDGV.SelectedRows.Count > 0 Then
+            Dim selectedRow As DataGridViewRow = reservationsDGV.SelectedRows(0)
+            Dim reservationID As Integer = Convert.ToInt32(selectedRow.Cells("ReservationID").Value)
+            Dim memberID As Integer = Convert.ToInt32(selectedRow.Cells("MemberID").Value)
+            Dim status As String = selectedRow.Cells("ReservationStatus").Value.ToString()
+
+            If (status = "Confirmed" OrElse status = "Ongoing" OrElse status = "Cancelled") AndAlso CurrentLoggedUser.position = "Member" Then
+                MessageBox.Show("Confirmed, Ongoing, or Cancelled reservations cannot be cancelled.", "Action Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Return
+            End If
+
+            Dim resultCancel As DialogResult = MessageBox.Show("Do you want to cancel this reservation? There will be NO REFUND!", "Cancel Reservation", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If resultCancel = DialogResult.Yes Then
+                Dim query As String = $"UPDATE reservation SET ReservationStatus = 'Cancelled', Cancellation = 'Yes' WHERE ReservationID = {reservationID}"
+                readQuery(query)
+                LoadReservationsForMember(memberID)
+                MessageBox.Show("Reservation cancelled successfully for ReservationID: " & reservationID)
+            End If
+        End If
+    End Sub
+
+    Private Sub reservationsDGV_MouseClick(sender As Object, e As MouseEventArgs) Handles reservationsDGV.MouseClick
+        If e.Button = MouseButtons.Right Then
+            Dim hitTestInfo As DataGridView.HitTestInfo = reservationsDGV.HitTest(e.X, e.Y)
+            If hitTestInfo.RowIndex >= 0 AndAlso hitTestInfo.RowIndex < reservationsDGV.Rows.Count Then
+                reservationsDGV.ClearSelection()
+                Dim selectedRow As DataGridViewRow = reservationsDGV.Rows(hitTestInfo.RowIndex)
+                selectedRow.Selected = True
+
+                Dim status As String = selectedRow.Cells("ReservationStatus").Value.ToString()
+                Dim isMember As Boolean = (CurrentLoggedUser.position = "Member")
+
+
+                ' Disable menu items for members if reservation is Confirmed, Ongoing, or Cancelled
+                Dim isActionable As Boolean = Not (isMember AndAlso (status = "Confirmed" OrElse status = "Ongoing" OrElse status = "Cancelled"))
+
+                editItem.Enabled = isActionable
+                deleteItem.Enabled = isActionable
+                cancelItem.Enabled = isActionable
+
+                reservationsContextMenu.Show(reservationsDGV, e.Location)
+            End If
         End If
     End Sub
 
@@ -1071,6 +1049,10 @@ Public Class MemberData
     Public Property PhoneNumber As String
     Public Property DTCreated As DateTime
     Public Property Address As String
+    Public Property Province As String
+    Public Property City As String
+    Public Property Street As String
+    Public Property ZipCode As String
     Public Property Cost As Decimal
     Public Property MembershipType As String
     Public Property Duration As String

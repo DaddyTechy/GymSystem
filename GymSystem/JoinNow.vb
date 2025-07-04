@@ -6,7 +6,9 @@ Imports MySql.Data.MySqlClient
 
 Public Class JoinNow
     Inherits Form
+    Public IsAdminContext As Boolean = False
     Private caretHandler As New CaretHandler()
+    Private WithEvents BenefitsLabel As New Label()
 
     Private data As New Dictionary(Of String, Dictionary(Of String, Dictionary(Of String, String))) From {
         {"Camarines Norte", New Dictionary(Of String, Dictionary(Of String, String)) From {
@@ -122,6 +124,11 @@ Public Class JoinNow
         Dim Email As New CustomBorder(EmailTxt)
         Me.Controls.Add(Email)
 
+        Dim DateOfBirth As New CustomBorder(CustomCalendar1)
+        Me.Controls.Add(DateOfBirth)
+        DateOfBirth.BringToFront()
+
+
         ' Remove the old Sex TextBox border
         ' Dim Sex As New CustomBorder(SexTxt)
         ' Me.Controls.Add(Sex)
@@ -148,14 +155,25 @@ Public Class JoinNow
         CustomComboProvince.SetItems(provinces)
 
         ' Add the plans to the ComboBox during form load
+        PlansCB.DropDownStyle = ComboBoxStyle.DropDownList
         PlansCB.Items.Add("Bronze (3 months)")
         PlansCB.Items.Add("Silver (6 months)")
         PlansCB.Items.Add("Gold (9 months)")
         PlansCB.Items.Add("Diamond (12 months)")
 
-
         BLoginBtn.Visible = True
-        ServiceCB.Items.Clear()
+        ServiceCB.Visible = False
+        Label1.Visible = False ' Hide the service label
+
+        ' Initialize and add the new BenefitsLabel to display plan benefits
+        With BenefitsLabel
+            .Text = "Benefits:"
+            .Location = New Point(PlansCB.Right + 20, PlansCB.Top) ' Position it to the right of the plans dropdown
+            .AutoSize = True
+            .ForeColor = Color.White
+            .Font = New Font("Segoe UI", 10, FontStyle.Bold)
+        End With
+        Me.Controls.Add(BenefitsLabel)
     End Sub
 
     ' Handle province selection change (ComboBox1)
@@ -293,43 +311,21 @@ Public Class JoinNow
     End Sub
 
     Private Sub PlansCB_SelectedIndexChanged(sender As Object, e As EventArgs) Handles PlansCB.SelectedIndexChanged
-        ' Clear any previous items in the services ComboBox
-        ServiceCB.Items.Clear()
-
         ' Get the selected plan
         Dim selectedPlan As String = PlansCB.SelectedItem.ToString()
 
-        ' Based on the selected plan, populate the Services ComboBox
+        ' Based on the selected plan, update the BenefitsLabel to display the included services
         Select Case selectedPlan
             Case "Bronze (3 months)"
-                ' Add services for Bronze plan
-                ServiceCB.Items.Add("Fitness")
-                ServiceCB.Items.Add("Cardio")
-
+                BenefitsLabel.Text = "Included: Fitness & Cardio"
             Case "Silver (6 months)"
-                ' Add services for Silver plan
-                ServiceCB.Items.Add("Fitness")
-                ServiceCB.Items.Add("Cardio")
-                ServiceCB.Items.Add("Sauna")
-
+                BenefitsLabel.Text = "Included: Fitness, Cardio & Sauna"
             Case "Gold (9 months)"
-                ' Add services for Gold plan
-                ServiceCB.Items.Add("Fitness")
-                ServiceCB.Items.Add("Cardio")
-                ServiceCB.Items.Add("Sauna")
-                ServiceCB.Items.Add("Personal Training")
-
+                BenefitsLabel.Text = "Included: Fitness, Cardio, Sauna & Personal Training"
             Case "Diamond (12 months)"
-                ' Add all services for Diamond plan
-                ServiceCB.Items.Add("Fitness")
-                ServiceCB.Items.Add("Cardio")
-                ServiceCB.Items.Add("Sauna")
-                ServiceCB.Items.Add("Personal Training")
-                ServiceCB.Items.Add("All Services")
-
+                BenefitsLabel.Text = "Included: All Services"
             Case Else
-                ' If no valid plan is selected
-                MessageBox.Show("Please select a valid plan.")
+                BenefitsLabel.Text = "Please select a plan to see the benefits."
         End Select
     End Sub
 
@@ -401,7 +397,6 @@ Public Class JoinNow
         End If
 
         If Not ValidateForm() Then
-            MessageBox.Show("Please fill up all the fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return ' Exit the event if any field is not filled
         End If
 
@@ -412,7 +407,6 @@ Public Class JoinNow
             CPassTxt.BackColor = Color.Gray
             Return ' Exit the event if passwords do not match
         Else
-            MessageBox.Show("Passwords match. You can proceed.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
             ' Clear any previous highlights
             CPassTxt.BackColor = Color.Gray
         End If
@@ -555,26 +549,9 @@ Public Class JoinNow
         If PlansCB.SelectedItem Is Nothing Then
             MessageBox.Show("Plan is not selected.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return False
-            ' Update the Sex validation
-            If SexTxt.SelectedItem Is Nothing Then
-                MessageBox.Show("Please select your sex.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Return False
-            End If
-
-            ' Update the zip code validation to allow manual input or selection
-            If String.IsNullOrWhiteSpace(CustomComboZip.Text) Then
-                MessageBox.Show("Zip code is empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Return False
-            End If
-
-        End If
-        If ServiceCB.SelectedItem Is Nothing Then
-            MessageBox.Show("Service is not selected.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return False
         End If
 
         ' If all required fields are filled and selected, return True
-        MessageBox.Show("All required fields are filled and selected.", "Validation Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Return True
     End Function
 
@@ -589,9 +566,22 @@ Public Class JoinNow
                     Try
                         ' Update the members insert query to use the selected Sex value
                         Dim insertMembersQuery As String = "INSERT INTO `members`(`FirstName`, `MiddleName`, `LastName`, `Sex`, `DOB`, `Weight`, `Height`, `Province`, `City`, `Street`, `ZipCode`, `PhoneNumber`, `DTCreated`, `Status`, `Email`) " &
-                                                       "VALUES ('" & FirstTxt.Text & "', '" & MiddleTxt.Text & "', '" & LastTxt.Text & "', '" & SexTxt.SelectedItem.ToString() & "', '" & CustomCalendar1.Value.ToString("yyyy-MM-dd") & "', '" & KgTxt.Text & "', '" & HeightTxt.Text & "', '" & CustomComboProvince.SelectedItem.ToString() & "', '" & CustomComboCity.SelectedItem.ToString() & "', '" & CustomComboStreet.SelectedItem.ToString() & "', '" & CustomComboZip.Text & "', '" & ContactTxt.Text & "', '" & DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") & "', 'Active', '" & EmailTxt.Text & "')"
-                        Debug.WriteLine($"Executing query: {insertMembersQuery}")
+                                                       "VALUES (@FirstName, @MiddleName, @LastName, @Sex, @DOB, @Weight, @Height, @Province, @City, @Street, @ZipCode, @PhoneNumber, @DTCreated, 'Active', @Email)"
                         Using insertMembersCommand As New MySqlCommand(insertMembersQuery, conn, transaction)
+                            insertMembersCommand.Parameters.AddWithValue("@FirstName", FirstTxt.Text)
+                            insertMembersCommand.Parameters.AddWithValue("@MiddleName", MiddleTxt.Text)
+                            insertMembersCommand.Parameters.AddWithValue("@LastName", LastTxt.Text)
+                            insertMembersCommand.Parameters.AddWithValue("@Sex", SexTxt.SelectedItem.ToString())
+                            insertMembersCommand.Parameters.AddWithValue("@DOB", CustomCalendar1.Value.ToString("yyyy-MM-dd"))
+                            insertMembersCommand.Parameters.AddWithValue("@Weight", KgTxt.Text)
+                            insertMembersCommand.Parameters.AddWithValue("@Height", HeightTxt.Text)
+                            insertMembersCommand.Parameters.AddWithValue("@Province", CustomComboProvince.SelectedItem.ToString())
+                            insertMembersCommand.Parameters.AddWithValue("@City", CustomComboCity.SelectedItem.ToString())
+                            insertMembersCommand.Parameters.AddWithValue("@Street", CustomComboStreet.SelectedItem.ToString())
+                            insertMembersCommand.Parameters.AddWithValue("@ZipCode", CustomComboZip.Text)
+                            insertMembersCommand.Parameters.AddWithValue("@PhoneNumber", ContactTxt.Text)
+                            insertMembersCommand.Parameters.AddWithValue("@DTCreated", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
+                            insertMembersCommand.Parameters.AddWithValue("@Email", EmailTxt.Text)
                             insertMembersCommand.ExecuteNonQuery()
                         End Using
 
@@ -603,9 +593,14 @@ Public Class JoinNow
 
                         ' Insert into memberlogin table
                         Dim insertMemberLoginQuery As String = "INSERT INTO `memberlogin`(`MemberID`, `Username`, `Password`, `Email`, `PhoneNumber`, `IsEncrypted`, `EncryptedPassword`) " &
-                                                         "VALUES (" & memberId & ", '" & FirstTxt.Text & "', '" & PassTxt.Text & "', '" & EmailTxt.Text & "', '" & ContactTxt.Text & "', TRUE, '" & Encrypt(PassTxt.Text) & "')"
-                        Debug.WriteLine($"Executing query: {insertMemberLoginQuery}")
+                                                          "VALUES (@MemberID, @Username, @Password, @Email, @PhoneNumber, TRUE, @EncryptedPassword)"
                         Using insertMemberLoginCommand As New MySqlCommand(insertMemberLoginQuery, conn, transaction)
+                            insertMemberLoginCommand.Parameters.AddWithValue("@MemberID", memberId)
+                            insertMemberLoginCommand.Parameters.AddWithValue("@Username", FirstTxt.Text)
+                            insertMemberLoginCommand.Parameters.AddWithValue("@Password", PassTxt.Text)
+                            insertMemberLoginCommand.Parameters.AddWithValue("@Email", EmailTxt.Text)
+                            insertMemberLoginCommand.Parameters.AddWithValue("@PhoneNumber", ContactTxt.Text)
+                            insertMemberLoginCommand.Parameters.AddWithValue("@EncryptedPassword", Encrypt(PassTxt.Text))
                             insertMemberLoginCommand.ExecuteNonQuery()
                         End Using
 
@@ -621,6 +616,7 @@ Public Class JoinNow
                         Dim renewalPolicy As String
                         Dim trainingSession As Integer
                         Dim lockerAccess As String
+                        Dim membershipType As String
 
                         Select Case membershipName
                             Case "Diamond (12 months)"
@@ -633,6 +629,7 @@ Public Class JoinNow
                                 renewalPolicy = "Auto-renew"
                                 trainingSession = 1
                                 lockerAccess = "Yes"
+                                membershipType = "All"
                             Case "Gold (9 months)"
                                 duration = "9 months"
                                 cost = 600.0
@@ -643,6 +640,7 @@ Public Class JoinNow
                                 renewalPolicy = "Manual-renew"
                                 trainingSession = 1
                                 lockerAccess = "No"
+                                membershipType = "Sauna, Training"
                             Case "Silver (6 months)"
                                 duration = "6 months"
                                 cost = 300.0
@@ -653,7 +651,8 @@ Public Class JoinNow
                                 renewalPolicy = "Manual-renew"
                                 trainingSession = 0
                                 lockerAccess = "No"
-                            Case Else
+                                membershipType = "Sauna"
+                            Case Else ' Bronze
                                 duration = "3 month"
                                 cost = 100.0
                                 benefits = "Basic benefits"
@@ -663,22 +662,38 @@ Public Class JoinNow
                                 renewalPolicy = "Manual-renew"
                                 trainingSession = 0
                                 lockerAccess = "No"
+                                membershipType = "Fitness"
                         End Select
 
                         Debug.WriteLine($"Membership details - Name: {membershipName}, Duration: {duration}, Cost: {cost}, Benefits: {benefits}, StartDate: {startDate}, EndDate: {endDate}, DiscountAvailable: {discountAvailable}, CancelationPolicy: {cancelationPolicy}, RenewalPolicy: {renewalPolicy}, TrainingSession: {trainingSession}, LockerAccess: {lockerAccess}")
 
                         ' Insert into membership table
                         Dim insertMembershipQuery As String = "INSERT INTO `membership`(`MemberID`, `MemberShipName`, `Duration`, `Cost`, `Benefits`, `StartDate`, `EndDate`, `DiscountAvailable`, `CancelationPolicy`, `RenewalPolicy`, `TrainingSession`, `LockerAccess`, `MembershipType`, `Status`) " &
-                                                      "VALUES (" & memberId & ", '" & membershipName & "', '" & duration & "', " & cost & ", '" & benefits & "', '" & startDate.ToString("yyyy-MM-dd") & "', '" & endDate.ToString("yyyy-MM-dd") & "', '" & discountAvailable & "', '" & cancelationPolicy & "', '" & renewalPolicy & "', " & trainingSession & ", '" & lockerAccess & "', '" & ServiceCB.SelectedItem.ToString() & "', 'Active')"
-                        Debug.WriteLine($"Executing query: {insertMembershipQuery}")
+                                                      "VALUES (@MemberID, @MemberShipName, @Duration, @Cost, @Benefits, @StartDate, @EndDate, @DiscountAvailable, @CancelationPolicy, @RenewalPolicy, @TrainingSession, @LockerAccess, @MembershipType, 'Active')"
                         Using insertMembershipCommand As New MySqlCommand(insertMembershipQuery, conn, transaction)
+                            insertMembershipCommand.Parameters.AddWithValue("@MemberID", memberId)
+                            insertMembershipCommand.Parameters.AddWithValue("@MemberShipName", membershipName)
+                            insertMembershipCommand.Parameters.AddWithValue("@Duration", duration)
+                            insertMembershipCommand.Parameters.AddWithValue("@Cost", cost)
+                            insertMembershipCommand.Parameters.AddWithValue("@Benefits", benefits)
+                            insertMembershipCommand.Parameters.AddWithValue("@StartDate", startDate.ToString("yyyy-MM-dd"))
+                            insertMembershipCommand.Parameters.AddWithValue("@EndDate", endDate.ToString("yyyy-MM-dd"))
+                            insertMembershipCommand.Parameters.AddWithValue("@DiscountAvailable", discountAvailable)
+                            insertMembershipCommand.Parameters.AddWithValue("@CancelationPolicy", cancelationPolicy)
+                            insertMembershipCommand.Parameters.AddWithValue("@RenewalPolicy", renewalPolicy)
+                            insertMembershipCommand.Parameters.AddWithValue("@TrainingSession", trainingSession)
+                            insertMembershipCommand.Parameters.AddWithValue("@LockerAccess", lockerAccess)
+                            insertMembershipCommand.Parameters.AddWithValue("@MembershipType", membershipType)
                             insertMembershipCommand.ExecuteNonQuery()
                         End Using
 
                         ' Commit the transaction
                         transaction.Commit()
-                        AskPaymentOption(memberId, cost, True)
-                        'MessageBox.Show("Member, login, and membership details added successfully.")
+
+                        ' Show the new registration success form and hide the current one
+                        Dim successForm As New RegistrationSuccessForm(memberId, cost)
+                        successForm.Show()
+                        Me.Hide()
                     Catch ex As Exception
                         ' Rollback the transaction in case of an error
                         transaction.Rollback()
@@ -693,169 +708,7 @@ Public Class JoinNow
         End Try
     End Sub
 
-    Private paymentCompleted As Boolean = False
 
-    Private Sub AskPaymentOption(memberID As Integer, fee As Decimal, isMembership As Boolean)
-        Dim result As DialogResult = MessageBox.Show("Would you like to pay for the membership now?", "Payment Option", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-
-        If result = DialogResult.Yes Then
-            ' Handle immediate payment
-            HandleImmediatePayment(memberID, fee, isMembership)
-
-            Dim accountDetails As String = $"Details added successfully.{Environment.NewLine}Username: {memberID}{Environment.NewLine}Use this as Your UserName/UserID for login."
-            Dim accountDetailsForm As New AccountDetailsForm(accountDetails)
-            accountDetailsForm.ShowDialog()
-        Else
-            ' Handle later payment
-            HandleLaterPayment(memberID)
-            MessageBox.Show($"Your MemberID is: {memberID}. Use it as your Username/UserId")
-            CloseForm() ' Separate method to close and return to admin login
-        End If
-
-        ' Check the payment status and close the form if the payment is completed
-        If paymentCompleted Then
-            MessageBox.Show($"Your MemberID is: {memberID}. Use it as your Username/UserId")
-            CloseForm() ' Separate method to close and return to admin login
-        End If
-    End Sub
-
-    Private Sub CloseForm()
-        Me.Close()
-        Dim backtoAdminLogin As New Member
-        backtoAdminLogin.Show()
-    End Sub
-
-    Private Function CheckPaymentStatus(memberID As Integer) As Boolean
-        Dim paymentExists As Boolean = False
-
-        Using conn As New MySqlConnection(strConnection)
-            conn.Open()
-            Dim query As String = $"SELECT COUNT(*) FROM payment WHERE MemberID = {memberID} AND PaymentStatus = 'Paid'"
-            Using cmd As New MySqlCommand(query, conn)
-                Dim count As Integer = Convert.ToInt32(cmd.ExecuteScalar())
-                If count > 0 Then
-                    paymentExists = True
-                End If
-            End Using
-        End Using
-
-        MessageBox.Show($"Payment Made:{paymentExists}")
-        Return paymentExists
-    End Function
-
-    Private Sub HandleImmediatePayment(memberID As Integer, fee As Decimal, isMembership As Boolean)
-        ' Create a new payment record if it's a new payment
-        Dim newPaymentID As Integer = CreateNewPayment(memberID)
-
-        ' Create a new instance of the BillingPaymentForm with the necessary data
-        Dim paymentForm As New BillingPaymentForm(fee, isMembership, newPaymentID, memberID)
-
-        ' Subscribe to the PaymentCompleted event
-        AddHandler paymentForm.PaymentCompleted, AddressOf OnPaymentCompleted
-
-        ' Calculate the center point
-        Dim centerX As Integer = (ClientSize.Width - paymentForm.Width) / 2
-        Dim centerY As Integer = (ClientSize.Height - paymentForm.Height) / 2
-
-        ' Set the location of the BillingPaymentForm to the center
-        paymentForm.Location = New Point(centerX, centerY)
-
-        ' Add the BillingPaymentForm to the form
-        Controls.Add(paymentForm)
-        paymentForm.BringToFront()
-
-        Debug.WriteLine("Debug: BillingPaymentForm user control added.")
-        Debug.WriteLine($"Debug: Form Amount = {paymentForm.txtAmount.Text}, SubTotal = {paymentForm.txtSubTotal.Text}")
-    End Sub
-
-    Private Sub OnPaymentCompleted(sender As Object, e As EventArgs)
-        ' Set the paymentCompleted flag to True
-        paymentCompleted = True
-        ' Close the form and return to admin login
-        CloseForm()
-    End Sub
-
-    Private Function CreateNewPayment(memberID As Integer) As Integer
-        Dim newPaymentID As Integer = 0
-        Dim fee As Decimal = 0
-        Dim latestMembershipID As Integer = 0
-
-        Using conn As New MySqlConnection(strConnection)
-            conn.Open()
-
-            ' Fetch the latest membership for this member so we can pick up its cost and ID
-            Dim query As String = $"SELECT Cost, MembershipID FROM membership WHERE MemberID = {memberID} ORDER BY MembershipID DESC LIMIT 1"
-            Using cmd As New MySqlCommand(query, conn)
-                Using reader As MySqlDataReader = cmd.ExecuteReader()
-                    If reader.Read() Then
-                        fee = Convert.ToDecimal(reader("Cost"))
-                        latestMembershipID = Convert.ToInt32(reader("MembershipID"))
-                        Debug.WriteLine($"Cost: {fee}, LatestMembershipID: {latestMembershipID}")
-                    End If
-                End Using
-            End Using
-
-            If latestMembershipID = 0 Then
-                Throw New ApplicationException($"No membership record found for MemberID {memberID} when creating payment.")
-            End If
-
-            ' Insert a new payment row using parameters
-            Dim insertQuery As String = "INSERT INTO payment (MemberID, MembershipCost, Amount, PaymentStatus, PaymentMethod, PaymentDate, InvoiceNumber, ReceiptNumber, DiscountApplied, TaxAmount, TotalAmount, PaymentNotes, MembershipID) " &
-                                        "VALUES (@MemberID, @MembershipCost, @Amount, 'Unpaid', 'N/A', @PaymentDate, 'N/A', 'N/A', 0, 0, 0, 'N/A', @MembershipID); SELECT LAST_INSERT_ID();"
-
-            Using cmd As New MySqlCommand(insertQuery, conn)
-                cmd.Parameters.AddWithValue("@MemberID", memberID)
-                cmd.Parameters.AddWithValue("@MembershipCost", fee)
-                cmd.Parameters.AddWithValue("@Amount", fee)
-                cmd.Parameters.AddWithValue("@PaymentDate", DateTime.MinValue.ToString("yyyy-MM-dd"))
-                cmd.Parameters.AddWithValue("@MembershipID", latestMembershipID)
-
-                newPaymentID = Convert.ToInt32(cmd.ExecuteScalar())
-            End Using
-        End Using
-
-        Return newPaymentID
-    End Function
-
-    Private Sub HandleLaterPayment(memberID As Integer)
-        ' Custom logic for handling later payment
-        CreateNewPayment(memberID)
-        MessageBox.Show("You can pay later. Remember to complete your payment before the due date.", "Payment Deferred", MessageBoxButtons.OK, MessageBoxIcon.Information)
-    End Sub
-
-
-    Public Sub HandlePaymentOption()
-        UpdateConnectionString()
-        ' Fetch data from the membership table in the database
-        Using conn As New MySqlConnection(strConnection)
-            conn.Open()
-            Dim query As String = $"SELECT m.MemberID, p.PaymentStatus, m.Cost FROM membership m LEFT JOIN payment p ON m.MemberID = p.MemberID WHERE m.MemberID = {CurrentLoggedUser.id}"
-            Using cmd As New MySqlCommand(query, conn)
-                Using reader As MySqlDataReader = cmd.ExecuteReader()
-                    If reader.Read() Then
-                        Dim memberID As Integer = Convert.ToInt32(reader("MemberID"))
-                        Dim paymentStatus As String = reader("PaymentStatus").ToString()
-
-                        ' Check if Cost is 0 or null
-                        Dim isMembership As Boolean = False
-                        Dim fee As Decimal = 0
-                        If Not IsDBNull(reader("Cost")) Then
-                            fee = Convert.ToDecimal(reader("Cost"))
-                            isMembership = True
-                        End If
-
-                        ' Check if the fee is greater than 0 and payment status is "Unpaid" before opening the BillingPaymentForm
-                        If fee >= 0 AndAlso paymentStatus = "Unpaid" Then
-                            ' Ask if the user wants to pay now or later
-                            AskPaymentOption(memberID, fee, isMembership)
-                        Else
-                            MessageBox.Show("This payment cannot be made.", "Payment Disabled", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End If
-                    End If
-                End Using
-            End Using
-        End Using
-    End Sub
 
     Private Sub ContactTxt_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ContactTxt.KeyPress
         ' Allow only digits, the '+' sign, and control keys like backspace

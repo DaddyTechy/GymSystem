@@ -448,6 +448,7 @@ Public Class Member
                         ' Set the current logged user after successful login
                         CurrentLoggedUser.id = user.MemberID
                         CurrentLoggedUser.name = user.Username
+                        CurrentLoggedUser.position = user.Role
                         ' ... set other fields as needed
 
                         ' Access the current logged user's details

@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class ContentAnnouncement
     Inherits System.Windows.Forms.UserControl
 
@@ -22,6 +22,7 @@ Partial Class ContentAnnouncement
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Label1 = New Label()
         notesDGV = New DataGridView()
         btnAddNotes = New Label()
@@ -69,6 +70,28 @@ Partial Class ContentAnnouncement
         btnAddNotes.TabIndex = 10
         btnAddNotes.Text = "Add Announcement"
         btnAddNotes.TextAlign = ContentAlignment.MiddleCenter
+        '
+        'editToolStripMenuItem
+        '
+        Me.editToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.editToolStripMenuItem.Name = "editToolStripMenuItem"
+        Me.editToolStripMenuItem.Size = New System.Drawing.Size(120, 26)
+        Me.editToolStripMenuItem.Text = "Edit"
+        '
+        'deleteToolStripMenuItem
+        '
+        Me.deleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem"
+        Me.deleteToolStripMenuItem.Size = New System.Drawing.Size(120, 26)
+        Me.deleteToolStripMenuItem.Text = "Delete"
+        '
+        'rowContextMenuStrip
+        '
+        Me.rowContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.rowContextMenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
+        Me.rowContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.editToolStripMenuItem, Me.deleteToolStripMenuItem})
+        Me.rowContextMenuStrip.Name = "rowContextMenuStrip"
+        Me.rowContextMenuStrip.Size = New System.Drawing.Size(121, 56)
         ' 
         ' ContentAnnouncement
         ' 
@@ -89,5 +112,8 @@ Partial Class ContentAnnouncement
     Friend WithEvents Label1 As Label
     Friend WithEvents notesDGV As DataGridView
     Friend WithEvents btnAddNotes As Label
+    Private WithEvents rowContextMenuStrip As ContextMenuStrip
+    Private WithEvents editToolStripMenuItem As ToolStripMenuItem
+    Private WithEvents deleteToolStripMenuItem As ToolStripMenuItem
 
 End Class

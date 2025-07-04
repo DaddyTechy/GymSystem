@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class ContentAttendance
     Inherits System.Windows.Forms.UserControl
 
@@ -27,6 +27,7 @@ Partial Class ContentAttendance
         Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Panel1 = New Panel()
+        addAttendanceControl = New AddAttendanceControl()
         Panel2 = New Panel()
         btnBack = New Button()
         btnNext = New Button()
@@ -44,6 +45,7 @@ Partial Class ContentAttendance
         ' Panel1
         ' 
         Panel1.BackColor = Color.Transparent
+        Panel1.Controls.Add(addAttendanceControl)
         Panel1.Controls.Add(Panel2)
         Panel1.Controls.Add(btnAddAttendance)
         Panel1.Controls.Add(btnSearch2)
@@ -55,15 +57,28 @@ Partial Class ContentAttendance
         Panel1.Margin = New Padding(3, 2, 3, 2)
         Panel1.Name = "Panel1"
         Panel1.Padding = New Padding(16, 0, 16, 0)
-        Panel1.Size = New Size(559, 395)
+        Panel1.Size = New Size(559, 484)
         Panel1.TabIndex = 3
+        ' 
+        ' addAttendanceControl
+        ' 
+        addAttendanceControl.AttendanceDataGridView = Nothing
+        addAttendanceControl.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
+        addAttendanceControl.Dock = DockStyle.Fill
+        addAttendanceControl.IsEditMode = False
+        addAttendanceControl.Location = New Point(16, 30)
+        addAttendanceControl.MinimumSize = New Size(405, 486)
+        addAttendanceControl.Name = "addAttendanceControl"
+        addAttendanceControl.Size = New Size(527, 486)
+        addAttendanceControl.TabIndex = 15
+        addAttendanceControl.Visible = False
         ' 
         ' Panel2
         ' 
         Panel2.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         Panel2.Controls.Add(btnBack)
         Panel2.Controls.Add(btnNext)
-        Panel2.Location = New Point(422, 364)
+        Panel2.Location = New Point(422, 453)
         Panel2.Name = "Panel2"
         Panel2.Size = New Size(121, 28)
         Panel2.TabIndex = 14
@@ -173,6 +188,7 @@ Partial Class ContentAttendance
         attendanceDGV.Margin = New Padding(3, 2, 3, 2)
         attendanceDGV.MultiSelect = False
         attendanceDGV.Name = "attendanceDGV"
+        attendanceDGV.ReadOnly = True
         attendanceDGV.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
         DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle3.BackColor = SystemColors.WindowFrame
@@ -196,7 +212,7 @@ Partial Class ContentAttendance
         attendanceDGV.SelectionMode = DataGridViewSelectionMode.FullRowSelect
         attendanceDGV.ShowCellErrors = False
         attendanceDGV.ShowRowErrors = False
-        attendanceDGV.Size = New Size(527, 365)
+        attendanceDGV.Size = New Size(527, 454)
         attendanceDGV.TabIndex = 0
         ' 
         ' Label2
@@ -238,7 +254,7 @@ Partial Class ContentAttendance
         MinimumSize = New Size(517, 279)
         Name = "ContentAttendance"
         Padding = New Padding(11, 8, 11, 8)
-        Size = New Size(581, 428)
+        Size = New Size(581, 517)
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
         Panel2.ResumeLayout(False)
@@ -257,5 +273,6 @@ Partial Class ContentAttendance
     Friend WithEvents Panel2 As Panel
     Friend WithEvents btnBack As Button
     Friend WithEvents btnNext As Button
+    Friend WithEvents addAttendanceControl As AddAttendanceControl
 
 End Class

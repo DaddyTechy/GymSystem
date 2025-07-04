@@ -82,7 +82,7 @@ Public Class Staffmain
                     cmd.Connection = newConn
                     cmd.CommandText = "SELECT COUNT(*) as count FROM reservation 
                                       WHERE StaffID = @StaffID 
-                                      AND ReservationStatus = 'Scheduled'
+                                      AND ReservationStatus = 'Ongoing'
                                       AND ReservationDate >= CURDATE()"
                     cmd.Parameters.AddWithValue("@StaffID", CurrentLoggedUser.id)
 
@@ -92,7 +92,7 @@ Public Class Staffmain
 
                     ' Update button text with notification count
                     If count > 0 Then
-                        NotifBtn.Text = $"({count})"
+                        NotifBtn.Text = $"{count}"
                     Else
                         NotifBtn.Text = "0"
                     End If
@@ -104,7 +104,13 @@ Public Class Staffmain
     End Sub
 
     Private Sub NotifBtn_Click(sender As Object, e As EventArgs)
-        ShowUserControl(New StaffNotification())
+        Dim staffNotifControl As New StaffNotification()
+        AddHandler staffNotifControl.NotificationsUpdated, AddressOf HandleNotificationsUpdated
+        ShowUserControl(staffNotifControl)
+    End Sub
+
+    Private Sub HandleNotificationsUpdated(sender As Object, e As EventArgs)
+        CheckNotifications(Me, EventArgs.Empty)
     End Sub
 
     Public Sub ConfigureMenu(role As String)
@@ -204,7 +210,7 @@ Public Class Staffmain
             Case "ListAllMembersBtn"
                 ShowUserControl(New ContentMemberManagement1(ContentPnl)) ' Replace with the user control you want to show
             Case "MemEntryFormBtn"
-                ShowUserControl(New ContentMemEntryForm()) ' Replace with the user control you want to show
+                ShowUserControl(New ContentMemEntryForm())
             Case "ChartsBtn"
                 ShowUserControl(New ContentReports()) ' Replace with the user control you want to show
             Case "AttenChckNBtn"

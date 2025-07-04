@@ -1,6 +1,7 @@
 Public Class ContentMemEntryForm
     Private Sub ContentMemEntryForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim joinNowForm As New JoinNow()
+        joinNowForm.IsAdminContext = True
         LoadChildForm(joinNowForm)
         joinNowForm.BLoginBtn.Visible = False
     End Sub

@@ -1,4 +1,4 @@
-﻿Imports System.Windows.Forms.VisualStyles
+Imports System.Windows.Forms.VisualStyles
 Imports MySql.Data.MySqlClient
 Imports Org.BouncyCastle.Asn1.Cmp
 
@@ -6,204 +6,152 @@ Public Class ContentPayment
     Private currentOffset As Integer = 0
     Private Const batchSize As Integer = 25
 
-    Private Sub LoadPaymentData()
+    Private Sub LoadPaymentData(Optional memberId As Integer = 0)
+        Dim whereClause As String = "1=1"
+        If memberId > 0 Then
+            whereClause = $"p.MemberID = {memberId}"
+        End If
+
         ' Corrected query with proper LIMIT and OFFSET placement
-        Dim query As String = "SELECT p.PaymentID, p.MemberID, p.ReservationFee, p.MembershipCost, p.PaymentDate, p.Amount, p.PaymentMethod, p.PaymentStatus, p.InvoiceNumber, p.PaymentDescription, p.DiscountApplied, p.TaxAmount, p.TotalAmount, p.ReceiptNumber, p.PaymentNotes, p.MembershipID " &
-                      "FROM payment p " &
-                      "JOIN members m ON p.MemberID = m.MemberID " &
-                      $"LIMIT {batchSize} OFFSET {currentOffset}"
+        Dim query As String = $"SELECT p.PaymentID, p.MemberID, CONCAT(m.FirstName, ' ', m.LastName) AS MemberName, " &
+              "IF(p.MembershipCost > 0, IF(p.PaymentDescription IS NULL OR p.PaymentDescription = '', 'Membership Fee', p.PaymentDescription), 'Reservation Fee') AS Description, " &
+              "p.ReservationFee, p.MembershipCost, p.PaymentDate, p.Amount, p.PaymentMethod, p.PaymentStatus, p.InvoiceNumber, p.PaymentDescription, p.DiscountApplied, p.TaxAmount, p.TotalAmount, p.ReceiptNumber, p.PaymentNotes " &
+              "FROM payment p " &
+              "JOIN members m ON p.MemberID = m.MemberID " &
+              $"WHERE {whereClause} " &
+              $"LIMIT {batchSize} OFFSET {currentOffset}"
 
-        ' Load data to DataGridView
-        LoadToDGV(query, dgvPayment)
-        ' Set DataGridView properties
-        SetDGVProperties(dgvPayment)
-    End Sub
-
-
-    Private Sub SetDGVProperties(dgv As DataGridView)
-        Dim parentBackgroundColor As Color = Color.FromArgb(40, 40, 40)
-
-        dgv.BackgroundColor = Color.FromArgb(20, 20, 20)
-        dgv.DefaultCellStyle.ForeColor = Color.White
-        dgv.DefaultCellStyle.BackColor = parentBackgroundColor
-        dgv.ColumnHeadersDefaultCellStyle.BackColor = parentBackgroundColor
-        dgv.RowHeadersDefaultCellStyle.BackColor = parentBackgroundColor
-
-        dgv.AllowUserToAddRows = False
-        dgv.AllowUserToDeleteRows = False
-        dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells
-        dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
-        dgv.BorderStyle = BorderStyle.None
-        dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
-
-        Dim columnHeaderStyle As New DataGridViewCellStyle()
-        columnHeaderStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
-        columnHeaderStyle.BackColor = Color.FromArgb(40, 40, 40)
-        columnHeaderStyle.Font = New Font("Segoe UI", 10.0F)
-        columnHeaderStyle.ForeColor = Color.White
-        columnHeaderStyle.SelectionBackColor = Color.FromArgb(40, 40, 40)
-        columnHeaderStyle.SelectionForeColor = SystemColors.HighlightText
-        columnHeaderStyle.WrapMode = DataGridViewTriState.True
-        dgv.ColumnHeadersDefaultCellStyle = columnHeaderStyle
-
-        dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-
-        Dim cellStyle As New DataGridViewCellStyle()
-        cellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
-        cellStyle.BackColor = Color.FromArgb(40, 40, 40)
-        cellStyle.Font = New Font("Segoe UI", 9.0F)
-        cellStyle.ForeColor = Color.White
-        cellStyle.SelectionBackColor = SystemColors.Highlight
-        cellStyle.SelectionForeColor = SystemColors.HighlightText
-        cellStyle.WrapMode = DataGridViewTriState.True
-        dgv.DefaultCellStyle = cellStyle
-
-        dgv.Dock = DockStyle.Fill
-        dgv.EditMode = DataGridViewEditMode.EditOnEnter
-        dgv.EnableHeadersVisualStyles = False
-        dgv.GridColor = Color.White
-        dgv.MultiSelect = False
-        dgv.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
-
-        Dim rowHeaderStyle As New DataGridViewCellStyle()
-        rowHeaderStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
-        rowHeaderStyle.BackColor = SystemColors.WindowFrame
-        rowHeaderStyle.Font = New Font("Segoe UI", 9.75F)
-        rowHeaderStyle.ForeColor = Color.White
-        rowHeaderStyle.SelectionBackColor = SystemColors.Highlight
-        rowHeaderStyle.SelectionForeColor = SystemColors.HighlightText
-        rowHeaderStyle.WrapMode = DataGridViewTriState.True
-        dgv.RowHeadersDefaultCellStyle = rowHeaderStyle
-
-        dgv.RowHeadersVisible = False
-        dgv.RowHeadersWidth = 51
-
-        Dim rowsStyle As New DataGridViewCellStyle()
-        rowsStyle.BackColor = Color.FromArgb(40, 40, 40)
-        rowsStyle.Font = New Font("Segoe UI", 9.0F, FontStyle.Regular, GraphicsUnit.Point, 0)
-        rowsStyle.ForeColor = Color.White
-        dgv.RowsDefaultCellStyle = rowsStyle
-
-        dgv.RowTemplate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
-        dgv.RowTemplate.DefaultCellStyle.BackColor = Color.FromArgb(40, 40, 40)
-        dgv.RowTemplate.DefaultCellStyle.Font = New Font("Microsoft Sans Serif", 9.0F)
-        dgv.RowTemplate.DefaultCellStyle.ForeColor = Color.White
-        dgv.RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
-        dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgv.ShowCellErrors = False
-        dgv.ShowRowErrors = False
-
-        AddEditAndDeleteButtons(dgv)
-        RenameColumns(dgv)
-        ApplyConditionalDisplay(dgv)
-    End Sub
-
-
-    Private Sub AddEditAndDeleteButtons(dgv As DataGridView)
-        ' Add Make Payment button
-        If dgv.Columns("MakePayment") Is Nothing Then
-            Dim makePaymentButtonColumn As New DataGridViewDisableButtonColumn()
-            makePaymentButtonColumn.Name = "MakePayment"
-            makePaymentButtonColumn.HeaderText = "Make Payment"
-            makePaymentButtonColumn.Text = "Make Payment"
-            makePaymentButtonColumn.UseColumnTextForButtonValue = True
-            makePaymentButtonColumn.FlatStyle = FlatStyle.Standard
-            makePaymentButtonColumn.DefaultCellStyle.BackColor = Color.Gold
-            dgv.Columns.Insert(0, makePaymentButtonColumn)
-        End If
-
-        ' Add Delete button
-        If dgv.Columns("Delete") Is Nothing Then
-            Dim deleteButtonColumn As New DataGridViewDisableButtonColumn()
-            deleteButtonColumn.Name = "Delete"
-            deleteButtonColumn.HeaderText = "Delete"
-            deleteButtonColumn.Text = "Delete"
-            deleteButtonColumn.UseColumnTextForButtonValue = True
-            deleteButtonColumn.FlatStyle = FlatStyle.Standard
-            deleteButtonColumn.DefaultCellStyle.BackColor = Color.Gold
-            dgv.Columns.Insert(1, deleteButtonColumn)
-        End If
-
-        ' Add Receipt button
-        If dgv.Columns("Receipt") Is Nothing Then
-            Dim receiptButtonColumn As New DataGridViewDisableButtonColumn()
-            receiptButtonColumn.Name = "Receipt"
-            receiptButtonColumn.HeaderText = "Receipt"
-            receiptButtonColumn.Text = "Receipt"
-            receiptButtonColumn.UseColumnTextForButtonValue = True
-            receiptButtonColumn.FlatStyle = FlatStyle.Standard
-            receiptButtonColumn.DefaultCellStyle.BackColor = Color.Gold
-            dgv.Columns.Insert(2, receiptButtonColumn)
-        End If
-    End Sub
-
-
-
-    Private Sub dgvPayment_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles dgvPayment.CellFormatting
+        dgvPayment.SuspendLayout()
         Try
-            ' Format MakePayment button
-            If dgvPayment.Columns.Contains("MakePayment") Then
-                If e.ColumnIndex = dgvPayment.Columns("MakePayment").Index Then
-                    Dim paymentStatus As String = dgvPayment.Rows(e.RowIndex).Cells("PaymentStatus").Value.ToString()
-                    Dim membershipCost As String = dgvPayment.Rows(e.RowIndex).Cells("MembershipCost").Value.ToString()
-                    Dim buttonCell As DataGridViewDisableButtonCell = TryCast(dgvPayment.Rows(e.RowIndex).Cells("MakePayment"), DataGridViewDisableButtonCell)
-
-                    If buttonCell IsNot Nothing Then
-                        If paymentStatus = "Unpaid" OrElse membershipCost > "0" Then
-                            buttonCell.Enabled = True ' Enable the button
-                        Else
-                            buttonCell.Enabled = False ' Disable the button
-                        End If
-                        e.FormattingApplied = True
-                    End If
-                End If
-            Else
-                Debug.WriteLine("Debug: MakePayment column does not exist.")
-            End If
-        Catch ex As Exception
-            Debug.WriteLine("An error occurred in dgvPayment_CellFormatting: " & ex.Message)
+            ' Load data to DataGridView
+            LoadToDGV(query, dgvPayment)
+            ' Set DataGridView properties and formatting
+            UIUtils.FormatAndStyleDGV(dgvPayment)
+        Finally
+            dgvPayment.ResumeLayout()
         End Try
     End Sub
 
 
+    Private Sub dgvPayment_MouseDown(sender As Object, e As MouseEventArgs) Handles dgvPayment.MouseDown
+        If e.Button = MouseButtons.Right Then
+            Dim hti As DataGridView.HitTestInfo = dgvPayment.HitTest(e.X, e.Y)
+            If hti.RowIndex >= 0 Then
+                dgvPayment.ClearSelection()
+                dgvPayment.Rows(hti.RowIndex).Selected = True
+            End If
+        End If
+    End Sub
+
+    Private Sub ViewReceipt_Click(sender As Object, e As EventArgs)
+        If dgvPayment.SelectedRows.Count > 0 Then
+            Dim selectedRow As DataGridViewRow = dgvPayment.SelectedRows(0)
+            Dim paymentStatus As String = selectedRow.Cells("PaymentStatus").Value.ToString()
+
+            ' Check if the payment status is "Paid"
+            If paymentStatus = "Paid" Then
+                Dim paymentMethod As String = selectedRow.Cells("PaymentMethod").Value.ToString()
+                Dim paymentDate As DateTime = Convert.ToDateTime(selectedRow.Cells("PaymentDate").Value)
+                Dim subTotal As Decimal = Convert.ToDecimal(selectedRow.Cells("Amount").Value)
+                Dim invoiceNumber As String = selectedRow.Cells("InvoiceNumber").Value.ToString()
+                Dim receiptNumber As String = selectedRow.Cells("ReceiptNumber").Value.ToString()
+                Dim discountApplied As Decimal = Convert.ToDecimal(selectedRow.Cells("DiscountApplied").Value)
+                Dim taxAmount As Decimal = Convert.ToDecimal(selectedRow.Cells("TaxAmount").Value)
+                Dim totalAmount As Decimal = Convert.ToDecimal(selectedRow.Cells("TotalAmount").Value)
+                Dim paymentNotes As String = selectedRow.Cells("PaymentNotes").Value.ToString()
+                Dim memberID As Integer = Convert.ToInt32(selectedRow.Cells("MemberID").Value)
+                Dim memberName As String = selectedRow.Cells("MemberName").Value.ToString()
+
+                ' Show the receipt form
+                Dim receiptForm As New PaymentReceipt(paymentMethod, paymentDate, subTotal, invoiceNumber, receiptNumber, discountApplied, taxAmount, totalAmount, paymentNotes, memberID, memberName)
+                receiptForm.ShowDialog()
+            Else
+                MessageBox.Show("Receipt is only available for completed payments.", "Receipt Unavailable", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+        End If
+    End Sub
+
+    Private Sub MarkAsPaid_Click(sender As Object, e As EventArgs)
+        If dgvPayment.SelectedRows.Count > 0 Then
+            Dim paymentID As Integer = Convert.ToInt32(dgvPayment.SelectedRows(0).Cells("PaymentID").Value)
+            Dim paymentStatus As String = dgvPayment.SelectedRows(0).Cells("PaymentStatus").Value.ToString()
+
+            If paymentStatus <> "Paid" Then
+                Dim result As DialogResult = MessageBox.Show("Are you sure you want to mark this payment as paid?", "Confirm Action", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If result = DialogResult.Yes Then
+                    UpdateConnectionString()
+                    conn = New MySqlConnection(strConnection)
+                    Try
+                        conn.Open()
+                        Dim query As String = "UPDATE payment SET PaymentStatus = 'Paid' WHERE PaymentID = @PaymentID"
+                        Dim cmd As New MySqlCommand(query, conn)
+                        cmd.Parameters.AddWithValue("@PaymentID", paymentID)
+                        cmd.ExecuteNonQuery()
+                        LoadPaymentData() ' Refresh data
+                    Catch ex As Exception
+                        MessageBox.Show("An error occurred while updating the payment status: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Finally
+                        conn.Close()
+                    End Try
+                End If
+            Else
+                MessageBox.Show("This payment is already marked as paid.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+        End If
+    End Sub
+
+    Private Sub DeletePayment_Click(sender As Object, e As EventArgs)
+        If dgvPayment.SelectedRows.Count > 0 Then
+            Dim selectedRow As DataGridViewRow = dgvPayment.SelectedRows(0)
+            Dim paymentID As Integer = Convert.ToInt32(selectedRow.Cells("PaymentID").Value)
+
+            ' Confirm deletion
+            Dim result As DialogResult = MessageBox.Show("Are you sure you want to delete this payment?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If result = DialogResult.Yes Then
+                ' Delete the payment from the database
+                DeletePayment(paymentID)
+                ' Remove the row from the DataGridView
+                dgvPayment.Rows.Remove(selectedRow)
+            End If
+        End If
+    End Sub
+
+
     Private Sub RenameColumns(dgv As DataGridView)
-        dgv.Columns("PaymentID").HeaderText = "Payment #"
-        dgv.Columns("MemberID").HeaderText = "Member ID"
-        dgv.Columns("ReservationFee").HeaderText = "Reservation Fee"
-        dgv.Columns("MembershipCost").HeaderText = "Membership Cost"
-        dgv.Columns("PaymentDate").HeaderText = "Payment Date"
-        dgv.Columns("Amount").HeaderText = "Amount"
-        dgv.Columns("PaymentMethod").HeaderText = "Payment Method"
-        dgv.Columns("PaymentStatus").HeaderText = "Payment Status"
-        dgv.Columns("InvoiceNumber").HeaderText = "Invoice #"
-        dgv.Columns("PaymentDescription").HeaderText = "Description"
-        dgv.Columns("DiscountApplied").HeaderText = "Discount"
-        dgv.Columns("TaxAmount").HeaderText = "Tax"
-        dgv.Columns("TotalAmount").HeaderText = "Total"
-        dgv.Columns("ReceiptNumber").HeaderText = "Receipt #"
-        dgv.Columns("PaymentNotes").HeaderText = "Notes"
-        dgv.Columns("MembershipID").HeaderText = "Membership ID"
+        ' Rename columns for clarity
+        If dgv.Columns.Contains("MemberName") Then dgv.Columns("MemberName").HeaderText = "Member Name"
+        If dgv.Columns.Contains("PaymentDate") Then dgv.Columns("PaymentDate").HeaderText = "Date"
+        If dgv.Columns.Contains("TotalAmount") Then dgv.Columns("TotalAmount").HeaderText = "Total Amount"
+        If dgv.Columns.Contains("PaymentStatus") Then dgv.Columns("PaymentStatus").HeaderText = "Status"
+        If dgv.Columns.Contains("PaymentMethod") Then dgv.Columns("PaymentMethod").HeaderText = "Method"
+        If dgv.Columns.Contains("ReservationFee") Then dgv.Columns("ReservationFee").HeaderText = "Reservation Fee"
+        If dgv.Columns.Contains("MembershipCost") Then dgv.Columns("MembershipCost").HeaderText = "Membership Cost"
+
+        ' Hide columns that are not needed for the main view
+        Dim columnsToHide As New List(Of String) From {"PaymentID", "MemberID", "Amount", "InvoiceNumber", "PaymentDescription", "DiscountApplied", "TaxAmount", "ReceiptNumber", "PaymentNotes"}
+        For Each colName As String In columnsToHide
+            If dgv.Columns.Contains(colName) Then
+                dgv.Columns(colName).Visible = False
+            End If
+        Next
     End Sub
     Private Sub ApplyConditionalDisplay(dgv As DataGridView)
         If cmbPaymentType IsNot Nothing AndAlso cmbPaymentType.SelectedItem IsNot Nothing Then
             If cmbPaymentType.SelectedItem.ToString() = "Reservation" Then
                 dgv.Columns("ReservationFee").Visible = True
                 dgv.Columns("MembershipCost").Visible = False
-                dgv.Columns("MembershipID").Visible = False
                 cmbStatus.Items.Clear()
                 cmbStatus.Items.Add("Paid")
                 cmbStatus.Items.Add("Unpaid")
             ElseIf cmbPaymentType.SelectedItem.ToString() = "Membership" Then
                 dgv.Columns("ReservationFee").Visible = False
                 dgv.Columns("MembershipCost").Visible = True
-                dgv.Columns("MembershipID").Visible = True
                 cmbStatus.Items.Clear()
                 cmbStatus.Items.Add("Active")
                 cmbStatus.Items.Add("Inactive")
             ElseIf cmbPaymentType.SelectedItem.ToString() = "All" Then
                 dgv.Columns("ReservationFee").Visible = True
                 dgv.Columns("MembershipCost").Visible = True
-                dgv.Columns("MembershipID").Visible = True
                 cmbStatus.Items.Clear()
                 cmbStatus.Items.Add("Paid")
                 cmbStatus.Items.Add("Unpaid")
@@ -214,8 +162,121 @@ Public Class ContentPayment
     End Sub
 
 
-    Private Sub dgvPayment_CellPainting(sender As Object, e As DataGridViewCellPaintingEventArgs) Handles dgvPayment.CellPainting
+    Private Sub dgvPayment_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles dgvPayment.CellFormatting
+        If e.RowIndex >= 0 AndAlso e.ColumnIndex = dgvPayment.Columns("PaymentStatus").Index Then
+            If e.Value IsNot Nothing Then
+                Dim status As String = e.Value.ToString()
+                Select Case status
+                    Case "Paid", "Active"
+                        e.CellStyle.BackColor = Color.FromArgb(20, 80, 40) ' Dark Green
+                        e.CellStyle.ForeColor = Color.White
+                    Case "Unpaid", "Inactive"
+                        e.CellStyle.BackColor = Color.FromArgb(100, 20, 20) ' Dark Red
+                        e.CellStyle.ForeColor = Color.White
+                    Case Else
+                        e.CellStyle.BackColor = dgvPayment.DefaultCellStyle.BackColor
+                        e.CellStyle.ForeColor = dgvPayment.DefaultCellStyle.ForeColor
+                End Select
+            End If
+        End If
+    End Sub
 
+    Private Sub ContextMenuStrip_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs)
+        Dim contextMenu = CType(sender, ContextMenuStrip)
+        Dim dgv = CType(contextMenu.SourceControl, DataGridView)
+
+        If dgv.SelectedRows.Count = 0 Then
+            e.Cancel = True
+            Return
+        End If
+
+        Dim selectedRow = dgv.SelectedRows(0)
+        Dim paymentStatus = selectedRow.Cells("PaymentStatus").Value.ToString()
+        Dim paymentMethod = selectedRow.Cells("PaymentMethod").Value
+
+        Dim markAsPaidItem = contextMenu.Items.OfType(Of ToolStripMenuItem)().FirstOrDefault(Function(item) item.Text = "Mark as Paid")
+        Dim markAsUnpaidItem = contextMenu.Items.OfType(Of ToolStripMenuItem)().FirstOrDefault(Function(item) item.Text = "Mark as Unpaid")
+        Dim makePaymentItem = contextMenu.Items.OfType(Of ToolStripMenuItem)().FirstOrDefault(Function(item) item.Text = "Make Payment")
+
+        If markAsPaidItem IsNot Nothing Then markAsPaidItem.Enabled = (paymentStatus = "Unpaid")
+        If makePaymentItem IsNot Nothing Then makePaymentItem.Enabled = (paymentStatus = "Unpaid")
+        If markAsUnpaidItem IsNot Nothing Then
+            markAsUnpaidItem.Enabled = (paymentStatus = "Paid" AndAlso (paymentMethod Is DBNull.Value OrElse String.IsNullOrEmpty(paymentMethod.ToString())))
+        End If
+    End Sub
+
+    Private Sub MarkAsUnpaid_Click(sender As Object, e As EventArgs)
+        If dgvPayment.SelectedRows.Count > 0 Then
+            Dim paymentID As Integer = Convert.ToInt32(dgvPayment.SelectedRows(0).Cells("PaymentID").Value)
+
+            Dim result As DialogResult = MessageBox.Show("Are you sure you want to mark this payment as unpaid?", "Confirm Action", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If result = DialogResult.Yes Then
+                UpdateConnectionString()
+                conn = New MySqlConnection(strConnection)
+                Try
+                    conn.Open()
+                    Dim query As String = "UPDATE payment SET PaymentStatus = 'Unpaid' WHERE PaymentID = @PaymentID"
+                    Dim cmd As New MySqlCommand(query, conn)
+                    cmd.Parameters.AddWithValue("@PaymentID", paymentID)
+                    cmd.ExecuteNonQuery()
+                    LoadPaymentData() ' Refresh data
+                Catch ex As Exception
+                    MessageBox.Show("An error occurred while updating the payment status: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Finally
+                    conn.Close()
+                End Try
+            End If
+        End If
+    End Sub
+
+    Private Sub MakePayment_Click(sender As Object, e As EventArgs)
+        If dgvPayment.SelectedRows.Count > 0 Then
+            Dim selectedRow As DataGridViewRow = dgvPayment.SelectedRows(0)
+            Dim paymentStatus As String = selectedRow.Cells("PaymentStatus").Value.ToString()
+
+            If paymentStatus = "Unpaid" Then
+                Dim paymentID As Integer = Convert.ToInt32(selectedRow.Cells("PaymentID").Value)
+                Dim memberID As Integer = Convert.ToInt32(selectedRow.Cells("MemberID").Value)
+                Dim membershipCost As Decimal = If(Not IsDBNull(selectedRow.Cells("MembershipCost").Value), Convert.ToDecimal(selectedRow.Cells("MembershipCost").Value), 0D)
+                Dim reservationFee As Decimal = If(Not IsDBNull(selectedRow.Cells("ReservationFee").Value), Convert.ToDecimal(selectedRow.Cells("ReservationFee").Value), 0D)
+
+                Dim fee As Decimal = 0
+                Dim isMembership As Boolean = False
+
+                If membershipCost > 0 Then
+                    fee = membershipCost
+                    isMembership = True
+                Else
+                    fee = reservationFee
+                    isMembership = False
+                End If
+
+                ' Create a new form to host the BillingPaymentForm
+                Dim paymentHostForm As New Form With {
+                    .Text = "Make Payment",
+                    .StartPosition = FormStartPosition.CenterScreen,
+                    .ClientSize = New Size(500, 600) ' Adjust size as needed
+                }
+
+                ' Create the payment control
+                Dim paymentControl As New BillingPaymentForm(fee, isMembership, paymentID, memberID)
+                paymentControl.Dock = DockStyle.Fill
+
+                ' Add the control to the form
+                paymentHostForm.Controls.Add(paymentControl)
+
+                ' Handle the PaymentCompleted event to refresh data
+                AddHandler paymentControl.PaymentCompleted, Sub(s, args)
+                                                                paymentHostForm.Close()
+                                                                LoadPaymentData()
+                                                            End Sub
+
+                ' Show the form modally
+                paymentHostForm.ShowDialog()
+            Else
+                MessageBox.Show("This payment has already been paid.", "Payment Processed", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+        End If
     End Sub
 
 
@@ -262,126 +323,92 @@ Public Class ContentPayment
     End Sub
 
 
+
+
     Private Sub InitializeDGV()
-        LoadPaymentData()
+        LoadPaymentData() ' Load all data initially
         ' Additional initialization code if needed
     End Sub
 
     Private Sub ContentPayment_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         UpdateConnectionString()
+        InitializeContextMenu()
+        LoadMembers()
         InitializeDGV()
         ApplyConditionalDisplay(dgvPayment)
         cmbPaymentType.SelectedItem = "All"
-        FilterPayments()
+        cmbStatus.SelectedItem = "Paid"
+        MemberFiltercmb.SelectedIndex = -1 ' Clear initial selection
     End Sub
 
-    Private Sub dgvPayment_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvPayment.CellContentClick
+    Private Sub InitializeContextMenu()
+        Dim paymentContextMenu As New ContextMenuStrip()
+
+        ' Create menu items
+        Dim viewReceiptItem As New ToolStripMenuItem("View Receipt")
+        Dim makePaymentItem As New ToolStripMenuItem("Make Payment")
+        Dim markAsPaidItem As New ToolStripMenuItem("Mark as Paid")
+        Dim markAsUnpaidItem As New ToolStripMenuItem("Mark as Unpaid")
+        Dim deletePaymentItem As New ToolStripMenuItem("Delete")
+
+        ' Add items to the context menu
+        paymentContextMenu.Items.Add(viewReceiptItem)
+        paymentContextMenu.Items.Add(makePaymentItem)
+        paymentContextMenu.Items.Add(New ToolStripSeparator())
+        paymentContextMenu.Items.Add(markAsPaidItem)
+        paymentContextMenu.Items.Add(markAsUnpaidItem)
+        paymentContextMenu.Items.Add(New ToolStripSeparator())
+        paymentContextMenu.Items.Add(deletePaymentItem)
+
+        ' Add event handlers for the menu items
+        AddHandler viewReceiptItem.Click, AddressOf ViewReceipt_Click
+        AddHandler makePaymentItem.Click, AddressOf MakePayment_Click
+        AddHandler markAsPaidItem.Click, AddressOf MarkAsPaid_Click
+        AddHandler markAsUnpaidItem.Click, AddressOf MarkAsUnpaid_Click
+        AddHandler deletePaymentItem.Click, AddressOf DeletePayment_Click
+        AddHandler paymentContextMenu.Opening, AddressOf ContextMenuStrip_Opening
+
+        ' Assign the context menu to the DataGridView
+        dgvPayment.ContextMenuStrip = paymentContextMenu
+    End Sub
+
+    Private Sub LoadMembers()
         Try
-            Debug.WriteLine("Debug: CellContentClick event triggered.")
-            If e.ColumnIndex = dgvPayment.Columns("MakePayment").Index AndAlso e.RowIndex >= 0 Then
-                Debug.WriteLine("Debug: MakePayment button clicked.")
-                Dim selectedRow As DataGridViewRow = dgvPayment.Rows(e.RowIndex)
-                Dim paymentID As Integer = Convert.ToInt32(selectedRow.Cells("PaymentID").Value)
-                Dim memberID As Integer = Convert.ToInt32(selectedRow.Cells("MemberID").Value)
-                Dim paymentStatus As String = selectedRow.Cells("PaymentStatus").Value.ToString()
+            UpdateConnectionString()
+            Using conn As New MySqlConnection(strConnection)
+                conn.Open()
+                Dim query As String = "SELECT MIN(MemberID) as MemberID, CONCAT(FirstName, ' ', LastName) AS MemberName FROM members GROUP BY MemberName ORDER BY MemberName"
+                Dim adapter As New MySqlDataAdapter(query, conn)
+                Dim dt As New DataTable()
+                adapter.Fill(dt)
 
-                ' Check if MembershipCost is greater than 0
-                Dim isMembership As Boolean = False
-                Dim fee As Decimal = 0
-                If Not IsDBNull(selectedRow.Cells("MembershipCost").Value) AndAlso Convert.ToDecimal(selectedRow.Cells("MembershipCost").Value) > 0 Then
-                    isMembership = True
-                    fee = Convert.ToDecimal(selectedRow.Cells("MembershipCost").Value)
-                ElseIf Not IsDBNull(selectedRow.Cells("ReservationFee").Value) Then
-                    fee = Convert.ToDecimal(selectedRow.Cells("ReservationFee").Value)
-                End If
+                ' Add a 'Show All' row
+                Dim allRow As DataRow = dt.NewRow()
+                allRow("MemberID") = 0 ' Or -1, a value that won't exist as a real MemberID
+                allRow("MemberName") = "Show All"
+                dt.Rows.InsertAt(allRow, 0)
 
-                Debug.WriteLine($"Debug: PaymentID = {paymentID}, MemberID = {memberID}, Fee = {fee}, IsMembership = {isMembership}, PaymentStatus = {paymentStatus}")
+                MemberFiltercmb.DataSource = dt
+                MemberFiltercmb.DropDownStyle = ComboBoxStyle.DropDown ' Allow typing for AutoComplete
+                MemberFiltercmb.DisplayMember = "MemberName"
+                MemberFiltercmb.ValueMember = "MemberID"
 
-                ' Check if the fee is greater than zero and payment status is not "Paid" before opening the BillingPaymentForm
-                If fee > 0 AndAlso paymentStatus <> "Paid" Then
-                    ' Create a new instance of the BillingPaymentForm with the necessary data
-                    Dim paymentForm As New BillingPaymentForm(fee, isMembership, paymentID, memberID)
-
-                    ' Calculate the center point
-                    Dim centerX As Integer = (ClientSize.Width - paymentForm.Width) / 2
-                    Dim centerY As Integer = (ClientSize.Height - paymentForm.Height) / 2
-
-                    ' Set the location of the BillingPaymentForm to the center
-                    paymentForm.Location = New Point(centerX, centerY)
-
-                    ' Add the BillingPaymentForm to the form
-                    Controls.Add(paymentForm)
-                    paymentForm.BringToFront()
-                    InitializeDGV()
-                    Debug.WriteLine("Debug: BillingPaymentForm user control added.")
-                    Debug.WriteLine($"Debug: Form Amount = {paymentForm.txtAmount.Text}, SubTotal = {paymentForm.txtSubTotal.Text}")
-                Else
-                    Debug.WriteLine("Debug: Fee is zero or PaymentStatus is Paid, BillingPaymentForm not added.")
-                    MessageBox.Show("This payment cannot be made.", "Payment Disabled", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                End If
-            ElseIf e.ColumnIndex = dgvPayment.Columns("Delete").Index AndAlso e.RowIndex >= 0 Then
-                Debug.WriteLine("Debug: DeletePayment button clicked.")
-                Dim selectedRow As DataGridViewRow = dgvPayment.Rows(e.RowIndex)
-                Dim paymentID As Integer = Convert.ToInt32(selectedRow.Cells("PaymentID").Value)
-
-                ' Confirm deletion
-                Dim result As DialogResult = MessageBox.Show("Are you sure you want to delete this payment?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                If result = DialogResult.Yes Then
-                    ' Delete the payment from the database
-                    DeletePayment(paymentID)
-                    ' Remove the row from the DataGridView
-                    dgvPayment.Rows.Remove(selectedRow)
-                    Debug.WriteLine("Debug: Payment deleted.")
-                Else
-                    Debug.WriteLine("Debug: Deletion cancelled.")
-                End If
-            ElseIf e.ColumnIndex = dgvPayment.Columns("Receipt").Index AndAlso e.RowIndex >= 0 Then
-                Debug.WriteLine("Debug: Receipt button clicked.")
-                Dim selectedRow As DataGridViewRow = dgvPayment.Rows(e.RowIndex)
-                Dim paymentStatus As String = selectedRow.Cells("PaymentStatus").Value.ToString()
-
-                ' Check if the payment status is "Paid"
-                If paymentStatus = "Paid" Then
-                    Dim paymentMethod As String = selectedRow.Cells("PaymentMethod").Value.ToString()
-                    Dim paymentDate As DateTime = Convert.ToDateTime(selectedRow.Cells("PaymentDate").Value)
-                    Dim subTotal As Decimal = Convert.ToDecimal(selectedRow.Cells("Amount").Value)
-                    Dim invoiceNumber As String = selectedRow.Cells("InvoiceNumber").Value.ToString()
-                    Dim receiptNumber As String = selectedRow.Cells("ReceiptNumber").Value.ToString()
-                    Dim discountApplied As Decimal = Convert.ToDecimal(selectedRow.Cells("DiscountApplied").Value)
-                    Dim taxAmount As Decimal = Convert.ToDecimal(selectedRow.Cells("TaxAmount").Value)
-                    Dim totalAmount As Decimal = Convert.ToDecimal(selectedRow.Cells("TotalAmount").Value)
-                    Dim paymentNotes As String = selectedRow.Cells("PaymentNotes").Value.ToString()
-                    Dim memberID As Integer = Convert.ToInt32(selectedRow.Cells("MemberID").Value)
-                    Dim memberName As String = GetMemberName(memberID)
-
-                    ' Show the receipt form
-                    Dim receiptForm As New PaymentReceipt(paymentMethod, paymentDate, subTotal, invoiceNumber, receiptNumber, discountApplied, taxAmount, totalAmount, paymentNotes, memberID, memberName)
-                    receiptForm.ShowDialog()
-                Else
-                    MessageBox.Show("Receipt is only available for completed payments.", "Receipt Unavailable", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                End If
-            End If
+                ' Configure AutoComplete
+                MemberFiltercmb.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+                MemberFiltercmb.AutoCompleteSource = AutoCompleteSource.ListItems
+            End Using
         Catch ex As Exception
-            Debug.WriteLine("An error occurred in dgvPayment_CellContentClick: " & ex.Message)
-            MessageBox.Show("An error occurred: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("An error occurred while loading members: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
-    Private Function GetMemberName(memberID As Integer) As String
-        Dim memberName As String = String.Empty
-        Dim query As String = $"SELECT CONCAT(FirstName, ' ', LastName) AS MemberName FROM members WHERE MemberID = {memberID}"
-        Using conn As New MySqlConnection(strConnection)
-            conn.Open()
-            Using cmd As New MySqlCommand(query, conn)
-                Using reader As MySqlDataReader = cmd.ExecuteReader()
-                    If reader.Read() Then
-                        memberName = reader("MemberName").ToString()
-                    End If
-                End Using
-            End Using
-        End Using
-        Return memberName
-    End Function
+
+
+    Private Sub dgvPayment_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvPayment.CellContentClick
+        ' This event handler is deprecated as button columns have been replaced by a context menu.
+    End Sub
+
+
 
 
     Private Sub DeletePayment(paymentID As Integer)
@@ -407,7 +434,11 @@ Public Class ContentPayment
 
     Private Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
         currentOffset += batchSize
-        LoadPaymentData()
+        Dim selectedMemberId As Integer = 0
+        If MemberFiltercmb.SelectedValue IsNot Nothing AndAlso Integer.TryParse(MemberFiltercmb.SelectedValue.ToString(), selectedMemberId) Then
+            ' A member is selected, use their ID
+        End If
+        LoadPaymentData(selectedMemberId)
     End Sub
 
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
@@ -416,7 +447,37 @@ Public Class ContentPayment
         Else
             currentOffset = 0
         End If
-        LoadPaymentData()
+        Dim selectedMemberId As Integer = 0
+        If MemberFiltercmb.SelectedValue IsNot Nothing AndAlso Integer.TryParse(MemberFiltercmb.SelectedValue.ToString(), selectedMemberId) Then
+            ' A member is selected, use their ID
+        End If
+        LoadPaymentData(selectedMemberId)
+    End Sub
+
+    Private Sub dgvPayment_SortCompare(sender As Object, e As DataGridViewSortCompareEventArgs) Handles dgvPayment.SortCompare
+        ' Check if we are sorting a numeric column that should be treated as such.
+        If e.Column.Name = "ReservationFee" Or e.Column.Name = "MembershipCost" Or e.Column.Name = "TotalAmount" Then
+            Dim val1 As Decimal
+            Dim val2 As Decimal
+
+            ' Safely parse the values to decimals for comparison.
+            Decimal.TryParse(If(e.CellValue1 IsNot Nothing, e.CellValue1.ToString(), "0"), val1)
+            Decimal.TryParse(If(e.CellValue2 IsNot Nothing, e.CellValue2.ToString(), "0"), val2)
+
+            ' Compare the numeric values.
+            e.SortResult = val1.CompareTo(val2)
+
+            ' Indicate that the sorting for this column has been handled.
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub MemberFiltercmb_SelectedIndexChanged(sender As Object, e As EventArgs) Handles MemberFiltercmb.SelectedIndexChanged
+        Dim selectedMemberId As Integer = 0
+        If MemberFiltercmb.SelectedValue IsNot Nothing AndAlso Integer.TryParse(MemberFiltercmb.SelectedValue.ToString(), selectedMemberId) Then
+            currentOffset = 0 ' Reset pagination
+            LoadPaymentData(selectedMemberId)
+        End If
     End Sub
 
 

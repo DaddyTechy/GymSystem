@@ -1,4 +1,4 @@
-﻿Imports System.Net
+Imports System.Net
 Imports System.IO
 Imports System.Text
 Imports Newtonsoft.Json
@@ -24,9 +24,10 @@ Public Class BillingPaymentForm
     End Sub
 
     Private Sub BillingPaymentForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' Auto-generate InvoiceNumber and ReceiptNumber
+        ' Auto-generate InvoiceNumber
         txtInvoiceNumber.Text = GenerateInvoiceNumber()
-        txtReceiptNumber.Text = GenerateReceiptNumber()
+        txtReceiptNumber.Text = ""
+        txtReceiptNumber.ReadOnly = True
 
         ' Auto-generate PaymentDate and make it read-only
         dtpPaymentDate.Value = DateTime.Now
@@ -128,7 +129,6 @@ Public Class BillingPaymentForm
             Dim paymentDate As DateTime = dtpPaymentDate.Value
             Dim subTotal As Decimal = Convert.ToDecimal(txtSubTotal.Text)
             Dim invoiceNumber As String = txtInvoiceNumber.Text
-            Dim receiptNumber As String = txtReceiptNumber.Text
             Dim discountApplied As Decimal = If(String.IsNullOrEmpty(txtDiscountAmount.Text), 0, Convert.ToDecimal(txtDiscountAmount.Text))
             Dim taxAmount As Decimal = Convert.ToDecimal(txtTaxAmount.Text)
             Dim totalAmount As Decimal = Convert.ToDecimal(txtTotalAmount.Text)
@@ -157,6 +157,10 @@ Public Class BillingPaymentForm
                 conn.Open()
                 Using transaction As MySqlTransaction = conn.BeginTransaction()
                     Try
+                        ' Generate the receipt number just before saving
+                        Dim receiptNumber As String = GenerateReceiptNumber()
+                        txtReceiptNumber.Text = receiptNumber
+
                         ' Update payment table
                         Dim queryPayment As String = $"UPDATE payment SET PaymentMethod = '{paymentMethod}', PaymentDate = '{paymentDate:yyyy-MM-dd HH:mm:ss}', Amount = {subTotal}, InvoiceNumber = '{invoiceNumber}', ReceiptNumber = '{receiptNumber}', DiscountApplied = {discountApplied}, TaxAmount = {taxAmount}, TotalAmount = {totalAmount}, PaymentNotes = '{paymentNotes}', PaymentStatus = 'Paid' WHERE PaymentID = {paymentID}"
                         Using cmdPayment As New MySqlCommand(queryPayment, conn, transaction)
@@ -263,7 +267,7 @@ Public Class BillingPaymentForm
     Private Sub btnbck_Click(sender As Object, e As EventArgs) Handles btnbck.Click
         ' Ask for confirmation before going back if there are inputs in the form
         If Not String.IsNullOrEmpty(txtSubTotal.Text) OrElse Not String.IsNullOrEmpty(txtDiscountAmount.Text) OrElse Not String.IsNullOrEmpty(txtPaymentNotes.Text) Then
-            Dim result As DialogResult = MessageBox.Show("There are unsaved changes. Are you sure you want to go back?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+            Dim result As DialogResult = MessageBox.Show("Are you sure you want to go back?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
             If result = DialogResult.No Then
                 Return
             End If

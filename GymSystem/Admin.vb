@@ -1,4 +1,4 @@
-﻿
+
 
 Imports System.IO
 Imports System.Security.Cryptography
@@ -225,7 +225,7 @@ Public Class Admin
                 conn.Open()
                 Debug.WriteLine("Connection opened successfully.")
 
-                Dim query As String = "SELECT * FROM adminlogin WHERE AdminID = @AdminID AND Role = @Role"
+                Dim query As String = "SELECT a.*, ad.FirstName, ad.LastName FROM adminlogin a LEFT JOIN admin ad ON a.AdminID = ad.AdminID WHERE a.AdminID = @AdminID AND a.Role = @Role"
                 Dim cmd As New MySqlCommand(query, conn)
                 cmd.Parameters.AddWithValue("@AdminID", adminID)
                 cmd.Parameters.AddWithValue("@Role", role)
@@ -268,10 +268,15 @@ Public Class Admin
                         user.Role = reader("Role")
 
                         ' Set the current logged user after successful login
+                        Dim firstName As String = If(reader.IsDBNull(reader.GetOrdinal("FirstName")), "", reader("FirstName").ToString())
+                        Dim lastName As String = If(reader.IsDBNull(reader.GetOrdinal("LastName")), "", reader("LastName").ToString())
+
                         CurrentLoggedUser.id = user.AdminID
-                        CurrentLoggedUser.name = user.Username
+                        CurrentLoggedUser.name = $"{firstName} {lastName}".Trim()
+                        If String.IsNullOrEmpty(CurrentLoggedUser.name) Then
+                            CurrentLoggedUser.name = user.Username ' Fallback to username if full name is not available
+                        End If
                         CurrentLoggedUser.position = user.Role
-                        ' ... set other fields as needed
 
                         ' Access the current logged user's details
                         MsgBox("Welcome, " & CurrentLoggedUser.position & " " & CurrentLoggedUser.name & "!")
@@ -342,7 +347,7 @@ Public Class Admin
 
     Private Sub templogin_Click(sender As Object, e As EventArgs) Handles templogin.Click
         Dim adminMain As New Staffmain()
-        ShowUserControlInForm(AdminMain, "Admin Main")
+        ShowUserControlInForm(adminMain, "Admin Main")
         Me.Hide()
     End Sub
 

@@ -1,56 +1,107 @@
-﻿Imports System.Windows.Forms
+Imports System.Windows.Forms
 Imports MySql.Data.MySqlClient
 Imports ZstdSharp.Unsafe
 
 Imports System.Data.SqlClient
 
 Public Class Gym_Equipment
+    Private isEditMode As Boolean = False
+    Private currentEquipmentId As Integer = 0
+
+    Public Sub New()
+        InitializeComponent()
+        isEditMode = False
+        SubmitDetailstxtbox.Text = "Submit"
+    End Sub
 
 
+
+    Public Sub New(ByVal equipmentId As Integer)
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        Me.isEditMode = True
+        Me.currentEquipmentId = equipmentId
+        SubmitDetailstxtbox.Text = "Update"
+        LoadEquipmentDetails()
+    End Sub
+
+    Private Sub LoadEquipmentDetails()
+        Try
+            UpdateConnectionString()
+            Using conn As New MySqlConnection(strConnection)
+                conn.Open()
+                Dim query As String = "SELECT * FROM equipment WHERE EquipmentID = @EquipmentID"
+                Using cmd As New MySqlCommand(query, conn)
+                    cmd.Parameters.AddWithValue("@EquipmentID", currentEquipmentId)
+                    Using reader As MySqlDataReader = cmd.ExecuteReader()
+                        If reader.Read() Then
+                            nametxtbox.Text = reader("Name").ToString()
+                            Brandtxtbox.Text = reader("Brand").ToString()
+                            Typetxtbox.Text = reader("Type").ToString()
+                            dtpDateofaPurchase.Value = Convert.ToDateTime(reader("PurchaseDate"))
+                            MainetenanceCosttxtbox.Text = reader("MaintenanceCost").ToString()
+                            PurchasePlacetxtbox.Text = reader("PurchasePlace").ToString()
+                            MaintenanceScheduletxtbox.Text = reader("MaintenanceSchedule").ToString()
+                            Statustxtbox.Text = reader("Status").ToString()
+                        End If
+                    End Using
+                End Using
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("An error occurred while loading equipment details: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
 
     Private Sub SubmitDetailstxtbox_Click(sender As Object, e As EventArgs) Handles SubmitDetailstxtbox.Click
         Try
-            ' Step 2: Retrieve input values from text boxes
-            Dim Name As String = nametxtbox.Text
-            Dim brand As String = Brandtxtbox.Text
-            Dim Type As String = Typetxtbox.Text
-            Dim dateOfPurchase As Date = dtpDateofaPurchase.Value
-            Dim maintenanceCost As Decimal = 0
-            Dim purchasePlace As String = PurchasePlacetxtbox.Text
-            Dim maintenanceSchedule As String = MaintenanceScheduletxtbox.Text
-            Dim status As String = Statustxtbox.Text
-
-            ' Check if any required text boxes are empty
-            If String.IsNullOrWhiteSpace(Name) OrElse String.IsNullOrWhiteSpace(brand) OrElse String.IsNullOrWhiteSpace(Type) OrElse String.IsNullOrWhiteSpace(MainetenanceCosttxtbox.Text) OrElse String.IsNullOrWhiteSpace(purchasePlace) OrElse String.IsNullOrWhiteSpace(maintenanceSchedule) OrElse String.IsNullOrWhiteSpace(status) Then
+            If String.IsNullOrWhiteSpace(nametxtbox.Text) OrElse String.IsNullOrWhiteSpace(Brandtxtbox.Text) OrElse String.IsNullOrWhiteSpace(Typetxtbox.Text) OrElse String.IsNullOrWhiteSpace(MainetenanceCosttxtbox.Text) OrElse String.IsNullOrWhiteSpace(PurchasePlacetxtbox.Text) OrElse String.IsNullOrWhiteSpace(MaintenanceScheduletxtbox.Text) OrElse String.IsNullOrWhiteSpace(Statustxtbox.Text) Then
                 MessageBox.Show("Please fill in all required fields.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Exit Sub
+                Return
             End If
 
-            ' Parse maintenance cost
-            maintenanceCost = Decimal.Parse(MainetenanceCosttxtbox.Text)
+            UpdateConnectionString()
+            Using conn As New MySqlConnection(strConnection)
+                conn.Open()
+                Dim query As String
+                If isEditMode Then
+                    query = "UPDATE equipment SET Name = @Name, Brand = @Brand, Type = @Type, PurchaseDate = @PurchaseDate, MaintenanceSchedule = @MaintenanceSchedule, Status = @Status, MaintenanceCost = @MaintenanceCost, PurchasePlace = @PurchasePlace WHERE EquipmentID = @EquipmentID"
+                Else
+                    query = "INSERT INTO equipment (Name, Brand, Type, PurchaseDate, MaintenanceSchedule, Status, MaintenanceCost, PurchasePlace) VALUES (@Name, @Brand, @Type, @PurchaseDate, @MaintenanceSchedule, @Status, @MaintenanceCost, @PurchasePlace)"
+                End If
 
-            ' Step 3: Create SQL INSERT statement
-            Dim query As String = $"INSERT INTO equipment (Name, Brand, Type, PurchaseDate, MaintenanceSchedule, Status, MaintenanceCost, PurchasePlace) " &
-                                  $"VALUES ('{Name}', '{brand}', '{Type}', '{dateOfPurchase:yyyy-MM-dd}', '{maintenanceSchedule}', '{status}', {maintenanceCost}, '{purchasePlace}')"
+                Using cmd As New MySqlCommand(query, conn)
+                    cmd.Parameters.AddWithValue("@Name", nametxtbox.Text)
+                    cmd.Parameters.AddWithValue("@Brand", Brandtxtbox.Text)
+                    cmd.Parameters.AddWithValue("@Type", Typetxtbox.Text)
+                    cmd.Parameters.AddWithValue("@PurchaseDate", dtpDateofaPurchase.Value)
+                    cmd.Parameters.AddWithValue("@MaintenanceSchedule", MaintenanceScheduletxtbox.Text)
+                    cmd.Parameters.AddWithValue("@Status", Statustxtbox.Text)
+                    cmd.Parameters.AddWithValue("@MaintenanceCost", Decimal.Parse(MainetenanceCosttxtbox.Text))
+                    cmd.Parameters.AddWithValue("@PurchasePlace", PurchasePlacetxtbox.Text)
+                    If isEditMode Then
+                        cmd.Parameters.AddWithValue("@EquipmentID", currentEquipmentId)
+                    End If
+                    cmd.ExecuteNonQuery()
+                End Using
 
-            ' Step 4: Execute the SQL statement using readQuery
-            readQuery(query)
-
-            ' Show success message
-            MessageBox.Show("Equipment details added successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Dim successMessage As String = If(isEditMode, "Equipment details updated successfully.", "Equipment details added successfully.")
+                MessageBox.Show(successMessage, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                If Me.ParentForm IsNot Nothing Then
+                    Me.ParentForm.Close()
+                End If
+            End Using
         Catch ex As Exception
-            MessageBox.Show("An error occurred while adding the equipment details: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("An error occurred: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
-
-        Me.Hide()
-
-
     End Sub
 
 
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        Me.Hide()
+        If Me.ParentForm IsNot Nothing Then
+            Me.ParentForm.Close()
+        End If
     End Sub
 
 
