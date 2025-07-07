@@ -62,6 +62,9 @@ Public Class ContentPayment
                 Dim memberID As Integer = Convert.ToInt32(selectedRow.Cells("MemberID").Value)
                 Dim memberName As String = selectedRow.Cells("MemberName").Value.ToString()
 
+                ' Get member credentials
+        
+
                 ' Show the receipt form
                 Dim receiptForm As New PaymentReceipt(paymentMethod, paymentDate, subTotal, invoiceNumber, receiptNumber, discountApplied, taxAmount, totalAmount, paymentNotes, memberID, memberName)
                 receiptForm.ShowDialog()
@@ -115,7 +118,6 @@ Public Class ContentPayment
             End If
         End If
     End Sub
-
 
     Private Sub RenameColumns(dgv As DataGridView)
         ' Rename columns for clarity

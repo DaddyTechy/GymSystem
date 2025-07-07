@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class JoinNow
     Inherits System.Windows.Forms.Form
 
@@ -24,7 +24,6 @@ Partial Class JoinNow
     Private Sub InitializeComponent()
         SubmitBtn = New Button()
         ShowLL = New LinkLabel()
-        ServiceCB = New ComboBox()
         PlansCB = New ComboBox()
         LastLbl = New Label()
         MiddleLbl = New Label()
@@ -37,7 +36,7 @@ Partial Class JoinNow
         CityLbl = New Label()
         PassLbl = New Label()
         CPassLbl = New Label()
-        Label1 = New Label()
+        servicesLBL = New Label()
         PlansLbl = New Label()
         StreetLbl = New Label()
         ProvinceLbl = New Label()
@@ -88,19 +87,10 @@ Partial Class JoinNow
         ShowLL.Text = "Show"
         ShowLL.VisitedLinkColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         ' 
-        ' ServiceCB
-        ' 
-        ServiceCB.Anchor = AnchorStyles.None
-        ServiceCB.FormattingEnabled = True
-        ServiceCB.Location = New Point(533, 408)
-        ServiceCB.Margin = New Padding(3, 2, 3, 2)
-        ServiceCB.Name = "ServiceCB"
-        ServiceCB.Size = New Size(219, 23)
-        ServiceCB.TabIndex = 39
-        ' 
         ' PlansCB
         ' 
         PlansCB.Anchor = AnchorStyles.None
+        PlansCB.DropDownStyle = ComboBoxStyle.DropDownList
         PlansCB.FormattingEnabled = True
         PlansCB.Location = New Point(202, 408)
         PlansCB.Margin = New Padding(3, 2, 3, 2)
@@ -240,17 +230,17 @@ Partial Class JoinNow
         CPassLbl.TabIndex = 29
         CPassLbl.Text = "Confirm Password"
         ' 
-        ' Label1
+        ' servicesLBL
         ' 
-        Label1.Anchor = AnchorStyles.None
-        Label1.AutoSize = True
-        Label1.Font = New Font("Segoe UI Variable Small", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label1.ForeColor = Color.White
-        Label1.Location = New Point(471, 408)
-        Label1.Name = "Label1"
-        Label1.Size = New Size(56, 19)
-        Label1.TabIndex = 25
-        Label1.Text = "Service"
+        servicesLBL.Anchor = AnchorStyles.None
+        servicesLBL.AutoSize = True
+        servicesLBL.Font = New Font("Segoe UI Variable Small", 10.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        servicesLBL.ForeColor = Color.White
+        servicesLBL.Location = New Point(438, 408)
+        servicesLBL.Name = "servicesLBL"
+        servicesLBL.Size = New Size(65, 19)
+        servicesLBL.TabIndex = 25
+        servicesLBL.Text = "Services:"
         ' 
         ' PlansLbl
         ' 
@@ -461,6 +451,7 @@ Partial Class JoinNow
         CustomComboProvince.BorderColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         CustomComboProvince.CustomForeColor = Color.Black
         CustomComboProvince.DrawMode = DrawMode.OwnerDrawFixed
+        CustomComboProvince.DropDownStyle = ComboBoxStyle.DropDownList
         CustomComboProvince.FlatStyle = FlatStyle.Flat
         CustomComboProvince.ForeColor = Color.White
         CustomComboProvince.FormattingEnabled = True
@@ -478,6 +469,7 @@ Partial Class JoinNow
         CustomComboCity.BorderColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         CustomComboCity.CustomForeColor = Color.Black
         CustomComboCity.DrawMode = DrawMode.OwnerDrawFixed
+        CustomComboCity.DropDownStyle = ComboBoxStyle.DropDownList
         CustomComboCity.FlatStyle = FlatStyle.Flat
         CustomComboCity.ForeColor = Color.White
         CustomComboCity.FormattingEnabled = True
@@ -495,6 +487,7 @@ Partial Class JoinNow
         CustomComboStreet.BorderColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         CustomComboStreet.CustomForeColor = Color.Black
         CustomComboStreet.DrawMode = DrawMode.OwnerDrawFixed
+        CustomComboStreet.DropDownStyle = ComboBoxStyle.DropDownList
         CustomComboStreet.FlatStyle = FlatStyle.Flat
         CustomComboStreet.ForeColor = Color.White
         CustomComboStreet.FormattingEnabled = True
@@ -512,6 +505,7 @@ Partial Class JoinNow
         CustomComboZip.BorderColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
         CustomComboZip.CustomForeColor = Color.Black
         CustomComboZip.DrawMode = DrawMode.OwnerDrawFixed
+        CustomComboZip.DropDownStyle = ComboBoxStyle.DropDownList
         CustomComboZip.FlatStyle = FlatStyle.Flat
         CustomComboZip.ForeColor = Color.White
         CustomComboZip.FormattingEnabled = True
@@ -568,7 +562,6 @@ Partial Class JoinNow
         Controls.Add(CustomCalendar1)
         Controls.Add(SubmitBtn)
         Controls.Add(ShowLL)
-        Controls.Add(ServiceCB)
         Controls.Add(PlansCB)
         Controls.Add(LastLbl)
         Controls.Add(MiddleLbl)
@@ -581,7 +574,7 @@ Partial Class JoinNow
         Controls.Add(CityLbl)
         Controls.Add(PassLbl)
         Controls.Add(CPassLbl)
-        Controls.Add(Label1)
+        Controls.Add(servicesLBL)
         Controls.Add(PlansLbl)
         Controls.Add(StreetLbl)
         Controls.Add(ProvinceLbl)
@@ -618,7 +611,7 @@ Partial Class JoinNow
     Friend WithEvents CityLbl As Label
     Friend WithEvents PassLbl As Label
     Friend WithEvents CPassLbl As Label
-    Friend WithEvents Label1 As Label
+    Friend WithEvents servicesLBL As Label
     Friend WithEvents PlansLbl As Label
     Friend WithEvents StreetLbl As Label
     Friend WithEvents ProvinceLbl As Label

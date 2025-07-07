@@ -1,6 +1,10 @@
-﻿Imports MySql.Data.MySqlClient
+Imports MySql.Data.MySqlClient
 
 Public Class MemberMain
+    Private Sub MemberMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ' Automatically load the dashboard view by default
+        btnDash.PerformClick()
+    End Sub
     Private Sub SchedBtn_Click(sender As Object, e As EventArgs) Handles SchedBtn.Click
         While Me.ContentPanel.Controls.Count > 0
             Me.ContentPanel.Controls(0).Dispose()

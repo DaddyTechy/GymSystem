@@ -6,21 +6,49 @@ Imports System.Net.Http
 Imports MySql.Data.MySqlClient
 Imports Newtonsoft.Json.Linq
 
+Public Structure ReservationDetails
+    Public MemberID As Integer
+    Public EquipmentID As Integer
+    Public StaffID As Integer
+    Public ReservationDate As DateTime
+    Public StartTime As DateTime
+    Public EndTime As DateTime
+    Public ReservationFee As Decimal
+    Public ReservationNotes As String
+    Public Purpose As String
+End Structure
 
 Public Class BillingPaymentForm
     Public Property isMembership As Boolean
     Public Property paymentID As Integer
     Public Property memberID As Integer
+    Private _conn As MySqlConnection
+    Private _transaction As MySqlTransaction
+    Private _reservationDetails As ReservationDetails?
 
     ' Constructor that accepts necessary data
     Public Sub New(fee As Decimal, isMembership As Boolean, paymentID As Integer, memberID As Integer)
         InitializeComponent()
         txtAmount.Text = fee.ToString("F2")
-        Debug.WriteLine("asdasd " & fee)
         txtSubTotal.Text = fee.ToString("F2")
         Me.isMembership = isMembership
         Me.paymentID = paymentID
         Me.memberID = memberID
+    End Sub
+
+    ' New constructor for transactional registration
+    Public Sub New(conn As MySqlConnection, transaction As MySqlTransaction, fee As Decimal, isMembership As Boolean, paymentID As Integer, memberID As Integer)
+        Me.New(fee, isMembership, paymentID, memberID) ' Call the original constructor
+        _conn = conn
+        _transaction = transaction
+    End Sub
+
+    ' New constructor for transactional reservation
+    Public Sub New(conn As MySqlConnection, transaction As MySqlTransaction, details As ReservationDetails)
+        Me.New(details.ReservationFee, False, 0, details.MemberID) ' Call the original constructor
+        _conn = conn
+        _transaction = transaction
+        _reservationDetails = details
     End Sub
 
     Private Sub BillingPaymentForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -153,89 +181,177 @@ Public Class BillingPaymentForm
                 Process.Start(New ProcessStartInfo(checkoutUrl) With {.UseShellExecute = True})
             End If
 
-            Using conn As New MySqlConnection(strConnection)
-                conn.Open()
-                Using transaction As MySqlTransaction = conn.BeginTransaction()
-                    Try
-                        ' Generate the receipt number just before saving
-                        Dim receiptNumber As String = GenerateReceiptNumber()
-                        txtReceiptNumber.Text = receiptNumber
-
-                        ' Update payment table
-                        Dim queryPayment As String = $"UPDATE payment SET PaymentMethod = '{paymentMethod}', PaymentDate = '{paymentDate:yyyy-MM-dd HH:mm:ss}', Amount = {subTotal}, InvoiceNumber = '{invoiceNumber}', ReceiptNumber = '{receiptNumber}', DiscountApplied = {discountApplied}, TaxAmount = {taxAmount}, TotalAmount = {totalAmount}, PaymentNotes = '{paymentNotes}', PaymentStatus = 'Paid' WHERE PaymentID = {paymentID}"
-                        Using cmdPayment As New MySqlCommand(queryPayment, conn, transaction)
-                            cmdPayment.ExecuteNonQuery()
-                            Debug.WriteLine($"Payment table updated: {queryPayment}")
-                        End Using
-
-                        ' Update status in the relevant table
-                        If isMembership Then
-                            ' Update the status in the members table
-                            Dim queryMembers As String = $"UPDATE members SET Status = 'Active' WHERE MemberID = {memberID}"
-                            Using cmdMembers As New MySqlCommand(queryMembers, conn, transaction)
-                                cmdMembers.ExecuteNonQuery()
-                                Debug.WriteLine($"Members table updated: {queryMembers}")
-                            End Using
-
-                            ' Insert new membership record with Status
-                            Dim queryMembership As String = $"UPDATE membership SET Status = 'Active' WHERE MemberID = {memberID}"
-                            Using cmdMembership As New MySqlCommand(queryMembership, conn, transaction)
-                                cmdMembership.ExecuteNonQuery()
-                                Debug.WriteLine($"Membership table updated: {queryMembership}")
-                            End Using
-
-                            ' Fetch the latest MembershipID
-                            Dim latestMembershipID As Integer = 0
-                            Dim queryFetchLatestMembershipID As String = $"SELECT MembershipID FROM membership WHERE MemberID = {memberID} ORDER BY MembershipID DESC LIMIT 1"
-                            Using cmdFetchLatestMembershipID As New MySqlCommand(queryFetchLatestMembershipID, conn, transaction)
-                                latestMembershipID = Convert.ToInt32(cmdFetchLatestMembershipID.ExecuteScalar())
-                                Debug.WriteLine($"Latest MembershipID fetched: {latestMembershipID}")
-                            End Using
-
-                            ' Update the MembershipCost in the payment table
-                            Dim queryUpdateMembershipCost As String = $"UPDATE payment SET MembershipCost = {subTotal}, MembershipID = {latestMembershipID} WHERE PaymentID = {paymentID}"
-                            Using cmdUpdateMembershipCost As New MySqlCommand(queryUpdateMembershipCost, conn, transaction)
-                                cmdUpdateMembershipCost.ExecuteNonQuery()
-                                Debug.WriteLine($"Payment table updated with MembershipCost: {queryUpdateMembershipCost}")
-                            End Using
-                        Else
-                            ' Update the payment status in the reservation table
-                            Dim queryReservation As String = $"UPDATE reservation SET PaymentStatus = 'Paid' WHERE MemberID = {memberID}"
-                            Using cmdReservation As New MySqlCommand(queryReservation, conn, transaction)
-                                cmdReservation.ExecuteNonQuery()
-                                Debug.WriteLine($"Reservation table updated: {queryReservation}")
-                            End Using
-                        End If
-
-                        ' Commit the transaction
-                        transaction.Commit()
-                        Debug.WriteLine("Transaction committed.")
-
-                        ' Retrieve member name
-                        Dim memberName As String = GetMemberName(memberID)
-
-                        ' Notify user of successful save
-                        MessageBox.Show("Payment completed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
-                        ' Show the receipt form
-                        Dim receiptForm As New PaymentReceipt(paymentMethod, paymentDate, subTotal, invoiceNumber, receiptNumber, discountApplied, taxAmount, totalAmount, paymentNotes, memberID, memberName)
-                        receiptForm.ShowDialog()
-
-                        OnPaymentCompleted()
-                    Catch ex As Exception
-                        ' Rollback the transaction in case of an error
-                        transaction.Rollback()
-                        Debug.WriteLine("Transaction rolled back due to an error.")
-                        MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    End Try
+            If _transaction IsNot Nothing Then
+                ' Use the existing transaction from registration
+                ExecutePaymentLogic(_conn, _transaction, paymentMethod, paymentDate, subTotal, invoiceNumber, discountApplied, taxAmount, totalAmount, paymentNotes)
+                ' DO NOT COMMIT. Let JoinNow handle it.
+            Else
+                ' Create a new transaction for standalone payments
+                Using conn As New MySqlConnection(strConnection)
+                    conn.Open()
+                    Using transaction As MySqlTransaction = conn.BeginTransaction()
+                        Try
+                            ExecutePaymentLogic(conn, transaction, paymentMethod, paymentDate, subTotal, invoiceNumber, discountApplied, taxAmount, totalAmount, paymentNotes)
+                            transaction.Commit()
+                            Debug.WriteLine("Transaction committed.")
+                        Catch ex As Exception
+                            transaction.Rollback()
+                            Debug.WriteLine("Transaction rolled back due to an error.")
+                            Throw ' Re-throw to be caught by the outer catch
+                        End Try
+                    End Using
                 End Using
-            End Using
+            End If
+
+            ' This logic runs after the database operations are successfully queued or committed.
+            ' Retrieve member name
+            Dim memberName As String = GetMemberName(memberID)
+
+            ' Notify user of successful save
+            MessageBox.Show("Payment completed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+            ' Show the receipt form
+            Dim receiptForm As New PaymentReceipt(paymentMethod, paymentDate, subTotal, invoiceNumber, txtReceiptNumber.Text, discountApplied, taxAmount, totalAmount, paymentNotes, memberID, memberName)
+            receiptForm.ShowDialog()
+
+            OnPaymentCompleted()
         Catch ex As Exception
             MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+
         End Try
     End Sub
 
+    Private Sub ExecutePaymentLogic(conn As MySqlConnection, transaction As MySqlTransaction, paymentMethod As String, paymentDate As DateTime, subTotal As Decimal, invoiceNumber As String, discountApplied As Decimal, taxAmount As Decimal, totalAmount As Decimal, paymentNotes As String)
+        ' Generate the receipt number just before saving
+        Dim receiptNumber As String = GenerateReceiptNumber()
+        txtReceiptNumber.Text = receiptNumber
 
+        If _reservationDetails.HasValue Then
+            ' --- LOGIC FOR NEW RESERVATION ---
+            Dim details = _reservationDetails.Value
+
+            ' 1. Insert into reservation table and get the new ID
+            Dim reservationQuery As String = "INSERT INTO reservation (MemberID, EquipmentID, StaffID, ReservationDate, StartTime, EndTime, ReservationFee, ReservationNotes, ReservationStatus, Cancellation, Reschedule, PaymentStatus, Feedback, Purpose) " &
+                                             "VALUES (@MemberID, @EquipmentID, @StaffID, @ReservationDate, @StartTime, @EndTime, @ReservationFee, @ReservationNotes, 'Confirmed', False, False, 'Paid', '', @Purpose); " &
+                                             "SELECT LAST_INSERT_ID();"
+            Dim newReservationID As Integer
+            Using cmdReservation As New MySqlCommand(reservationQuery, conn, transaction)
+                cmdReservation.Parameters.AddWithValue("@MemberID", details.MemberID)
+                cmdReservation.Parameters.AddWithValue("@EquipmentID", details.EquipmentID)
+                cmdReservation.Parameters.AddWithValue("@StaffID", details.StaffID)
+                cmdReservation.Parameters.AddWithValue("@ReservationDate", details.ReservationDate.Date)
+                cmdReservation.Parameters.AddWithValue("@StartTime", details.StartTime.ToString("HH:mm:ss"))
+                cmdReservation.Parameters.AddWithValue("@EndTime", details.EndTime.ToString("HH:mm:ss"))
+                cmdReservation.Parameters.AddWithValue("@ReservationFee", details.ReservationFee)
+                cmdReservation.Parameters.AddWithValue("@ReservationNotes", details.ReservationNotes)
+                cmdReservation.Parameters.AddWithValue("@Purpose", details.Purpose)
+                newReservationID = Convert.ToInt32(cmdReservation.ExecuteScalar())
+            End Using
+
+            ' 2. Fetch the latest MembershipID for the member to satisfy the foreign key constraint
+            Dim latestMembershipID As Integer = 0
+            Dim fetchMembershipIDQuery As String = "SELECT MembershipID FROM membership WHERE MemberID = @MemberID ORDER BY MembershipID DESC LIMIT 1"
+            Using cmdFetch As New MySqlCommand(fetchMembershipIDQuery, conn, transaction)
+                cmdFetch.Parameters.AddWithValue("@MemberID", details.MemberID)
+                Dim result = cmdFetch.ExecuteScalar()
+                If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                    latestMembershipID = Convert.ToInt32(result)
+                Else
+                    ' This case should ideally not be reached if a member is making a reservation, but as a safeguard:
+                    Throw New Exception("Cannot create a reservation payment for a member with no active membership record.")
+                End If
+            End Using
+
+            ' 3. Insert into payment table for the new reservation
+            Dim paymentQuery As String = "INSERT INTO payment (MemberID, MembershipID, ReservationFee, PaymentMethod, PaymentDate, Amount, InvoiceNumber, ReceiptNumber, DiscountApplied, TaxAmount, TotalAmount, PaymentNotes, PaymentStatus) " &
+                                         "VALUES (@MemberID, @MembershipID, @ReservationFee, @PaymentMethod, @PaymentDate, @Amount, @InvoiceNumber, @ReceiptNumber, @DiscountApplied, @TaxAmount, @TotalAmount, @PaymentNotes, 'Paid'); " &
+                                         "SELECT LAST_INSERT_ID();"
+            Using cmdPayment As New MySqlCommand(paymentQuery, conn, transaction)
+                cmdPayment.Parameters.AddWithValue("@MemberID", details.MemberID)
+                cmdPayment.Parameters.AddWithValue("@MembershipID", latestMembershipID)
+                cmdPayment.Parameters.AddWithValue("@ReservationFee", details.ReservationFee) ' Correctly use the base reservation fee
+                cmdPayment.Parameters.AddWithValue("@PaymentMethod", paymentMethod)
+                cmdPayment.Parameters.AddWithValue("@PaymentDate", paymentDate)
+                cmdPayment.Parameters.AddWithValue("@Amount", subTotal)
+                cmdPayment.Parameters.AddWithValue("@InvoiceNumber", invoiceNumber)
+                cmdPayment.Parameters.AddWithValue("@ReceiptNumber", receiptNumber)
+                cmdPayment.Parameters.AddWithValue("@DiscountApplied", discountApplied)
+                cmdPayment.Parameters.AddWithValue("@TaxAmount", taxAmount)
+                cmdPayment.Parameters.AddWithValue("@TotalAmount", totalAmount)
+                cmdPayment.Parameters.AddWithValue("@PaymentNotes", paymentNotes)
+                Me.paymentID = Convert.ToInt32(cmdPayment.ExecuteScalar()) ' Update the paymentID for the receipt
+            End Using
+        Else
+            ' --- LOGIC FOR EXISTING PAYMENT (MEMBERSHIP OR EXISTING RESERVATION) ---
+            ' Update payment table using parameterized queries
+            Dim queryPayment As String = "UPDATE payment SET PaymentMethod = @PaymentMethod, PaymentDate = @PaymentDate, Amount = @Amount, InvoiceNumber = @InvoiceNumber, ReceiptNumber = @ReceiptNumber, DiscountApplied = @DiscountApplied, TaxAmount = @TaxAmount, TotalAmount = @TotalAmount, PaymentNotes = @PaymentNotes, PaymentStatus = 'Paid' WHERE PaymentID = @PaymentID"
+            Using cmdPayment As New MySqlCommand(queryPayment, conn, transaction)
+                cmdPayment.Parameters.AddWithValue("@PaymentMethod", paymentMethod)
+                cmdPayment.Parameters.AddWithValue("@PaymentDate", paymentDate)
+                cmdPayment.Parameters.AddWithValue("@Amount", subTotal)
+                cmdPayment.Parameters.AddWithValue("@InvoiceNumber", invoiceNumber)
+                cmdPayment.Parameters.AddWithValue("@ReceiptNumber", receiptNumber)
+                cmdPayment.Parameters.AddWithValue("@DiscountApplied", discountApplied)
+                cmdPayment.Parameters.AddWithValue("@TaxAmount", taxAmount)
+                cmdPayment.Parameters.AddWithValue("@TotalAmount", totalAmount)
+                cmdPayment.Parameters.AddWithValue("@PaymentNotes", paymentNotes)
+                cmdPayment.Parameters.AddWithValue("@PaymentID", paymentID)
+                cmdPayment.ExecuteNonQuery()
+            End Using
+
+            If isMembership Then
+                ' Update the status in the members table
+                Dim queryMembers As String = "UPDATE members SET Status = 'Active' WHERE MemberID = @MemberID"
+                Using cmdMembers As New MySqlCommand(queryMembers, conn, transaction)
+                    cmdMembers.Parameters.AddWithValue("@MemberID", memberID)
+                    cmdMembers.ExecuteNonQuery()
+                End Using
+
+                ' Update membership status
+                Dim queryMembership As String = "UPDATE membership SET Status = 'Active' WHERE MemberID = @MemberID"
+                Using cmdMembership As New MySqlCommand(queryMembership, conn, transaction)
+                    cmdMembership.Parameters.AddWithValue("@MemberID", memberID)
+                    cmdMembership.ExecuteNonQuery()
+                End Using
+
+                ' Fetch the latest MembershipID
+                Dim latestMembershipID As Integer = 0
+                Dim queryFetchLatestMembershipID As String = "SELECT MembershipID FROM membership WHERE MemberID = @MemberID ORDER BY MembershipID DESC LIMIT 1"
+                Using cmdFetchLatestMembershipID As New MySqlCommand(queryFetchLatestMembershipID, conn, transaction)
+                    cmdFetchLatestMembershipID.Parameters.AddWithValue("@MemberID", memberID)
+                    Dim result = cmdFetchLatestMembershipID.ExecuteScalar()
+                    If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                        latestMembershipID = Convert.ToInt32(result)
+                    End If
+                End Using
+
+                ' Update the MembershipCost in the payment table
+                Dim queryUpdateMembershipCost As String = "UPDATE payment SET MembershipCost = @MembershipCost, MembershipID = @MembershipID WHERE PaymentID = @PaymentID"
+                Using cmdUpdateMembershipCost As New MySqlCommand(queryUpdateMembershipCost, conn, transaction)
+                    cmdUpdateMembershipCost.Parameters.AddWithValue("@MembershipCost", subTotal)
+                    cmdUpdateMembershipCost.Parameters.AddWithValue("@MembershipID", latestMembershipID)
+                    cmdUpdateMembershipCost.Parameters.AddWithValue("@PaymentID", paymentID)
+                    cmdUpdateMembershipCost.ExecuteNonQuery()
+                End Using
+            Else
+                ' Update the payment status in the reservation table
+                Dim reservationIdQuery As String = "SELECT ReservationID FROM payment WHERE PaymentID = @PaymentID"
+                Dim reservationId As Object = Nothing
+                Using cmd As New MySqlCommand(reservationIdQuery, conn, transaction)
+                    cmd.Parameters.AddWithValue("@PaymentID", paymentID)
+                    reservationId = cmd.ExecuteScalar()
+                End Using
+
+                If reservationId IsNot Nothing AndAlso Not IsDBNull(reservationId) Then
+                    Dim queryReservation As String = "UPDATE reservation SET PaymentStatus = 'Paid', ReservationStatus = 'Confirmed' WHERE ReservationID = @ReservationID"
+                    Using cmdReservation As New MySqlCommand(queryReservation, conn, transaction)
+                        cmdReservation.Parameters.AddWithValue("@ReservationID", Convert.ToInt32(reservationId))
+                        cmdReservation.ExecuteNonQuery()
+                    End Using
+                End If
+            End If
+        End If
+    End Sub
 
     Private Function GetMemberName(memberID As Integer) As String
         Dim memberName As String = String.Empty
@@ -252,6 +368,8 @@ Public Class BillingPaymentForm
         End Using
         Return memberName
     End Function
+
+
 
 
     Private Function GenerateInvoiceNumber() As String
@@ -272,8 +390,10 @@ Public Class BillingPaymentForm
                 Return
             End If
         End If
-        Me.Hide()
+        Me.FindForm()?.Close()
     End Sub
+
+
 
 
     Public Event PaymentCompleted As EventHandler

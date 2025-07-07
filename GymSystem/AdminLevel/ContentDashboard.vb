@@ -330,7 +330,14 @@ Public Class ContentDashboard
 
         ' Dynamically adjust Y-axis to prevent labels from being cut off
         Dim maxValue As Double = If(yValues.Count > 0, yValues.Max(), 0)
-        chartArea.AxisY.Maximum = If(maxValue > 0, maxValue * 1.2, 40) ' Add 20% padding, default to 40 if no data
+        Dim axisMax As Double = If(maxValue > 0, maxValue * 1.2, 40)
+
+        ' Prevent overflow exceptions by checking for huge values
+        If Double.IsInfinity(axisMax) OrElse axisMax > 1.0E+20 Then
+            chartArea.AxisY.Maximum = Double.NaN ' Let the chart auto-scale
+        Else
+            chartArea.AxisY.Maximum = axisMax
+        End If
 
         ' Refresh the chart to ensure it's updated
         servicesreportChart.Invalidate()
@@ -358,13 +365,15 @@ Public Class ContentDashboard
             ' Dynamically set the Y-axis scale to prevent crashes with zero or small values
             Dim chartArea As ChartArea = chartEarnings.ChartAreas(0)
             Dim maxValue = Math.Max(totalEarnings, totalExpenses)
+            Dim axisMax As Double = If(maxValue > 0, maxValue * 1.2, 100)
 
-            If maxValue > 10000 Then
+            ' Use logarithmic scale for very large values to prevent overflow
+            If Double.IsInfinity(axisMax) OrElse axisMax > 10000 Then
                 chartArea.AxisY.IsLogarithmic = True
                 chartArea.AxisY.Maximum = Double.NaN ' Let the chart auto-scale in log mode
             Else
                 chartArea.AxisY.IsLogarithmic = False
-                chartArea.AxisY.Maximum = If(maxValue > 0, maxValue * 1.2, 100) ' Dynamic max for linear scale
+                chartArea.AxisY.Maximum = axisMax ' Dynamic max for linear scale
             End If
 
             ' Configure and add Earnings series
@@ -633,6 +642,17 @@ Public Class ContentDashboard
             dgvStaffReservations.Columns.Add(memberNameColumn)
         End If
 
+        ' StaffName
+        If dgvStaffReservations.Columns("StaffName") Is Nothing Then
+            Dim staffNameColumn As New DataGridViewTextBoxColumn()
+            staffNameColumn.Name = "StaffName"
+            staffNameColumn.DataPropertyName = "StaffName"
+            staffNameColumn.HeaderText = "Staff"
+            staffNameColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            staffNameColumn.FillWeight = 25
+            dgvStaffReservations.Columns.Add(staffNameColumn)
+        End If
+
         ' ReservationDate
         If dgvStaffReservations.Columns("ReservationDate") Is Nothing Then
             Dim dateColumn As New DataGridViewTextBoxColumn()
@@ -697,11 +717,25 @@ Public Class ContentDashboard
             UpdateConnectionString()
             Using tempConn As New MySqlConnection(strConnection)
                 tempConn.Open()
-                ' Fetch all reservations for the currently logged-in staff member, including status
-                Dim query As String = "SELECT r.ReservationID, CONCAT(mem.FirstName, ' ', mem.LastName) AS MemberName, r.ReservationDate, r.StartTime, r.EndTime, r.Purpose, r.ReservationStatus FROM reservation r JOIN members mem ON r.MemberID = mem.MemberID WHERE r.StaffID = @StaffID ORDER BY r.ReservationDate DESC, r.StartTime DESC"
+
+                Dim query As String
+                Dim isAdmin As Boolean = (CurrentLoggedUser.position = "Super Admin" OrElse CurrentLoggedUser.position = "Admin")
+
+                If isAdmin Then
+                    gbStaffReservations.Text = "All Reservations"
+                    dgvStaffReservations.Columns("StaffName").Visible = True
+                    query = "SELECT r.ReservationID, CONCAT(mem.FirstName, ' ', mem.LastName) AS MemberName, CONCAT(st.FirstName, ' ', st.LastName) AS StaffName, r.ReservationDate, r.StartTime, r.EndTime, r.Purpose, r.ReservationStatus FROM reservation r JOIN members mem ON r.MemberID = mem.MemberID LEFT JOIN staff st ON r.StaffID = st.StaffID ORDER BY r.ReservationDate DESC, r.StartTime DESC"
+                Else
+                    gbStaffReservations.Text = "My Reservations"
+                    dgvStaffReservations.Columns("StaffName").Visible = False
+                    query = "SELECT r.ReservationID, CONCAT(mem.FirstName, ' ', mem.LastName) AS MemberName, r.ReservationDate, r.StartTime, r.EndTime, r.Purpose, r.ReservationStatus FROM reservation r JOIN members mem ON r.MemberID = mem.MemberID WHERE r.StaffID = @StaffID ORDER BY r.ReservationDate DESC, r.StartTime DESC"
+                End If
+
                 Dim dt As New DataTable()
                 Using cmd As New MySqlCommand(query, tempConn)
-                    cmd.Parameters.AddWithValue("@StaffID", CurrentLoggedUser.id)
+                    If Not isAdmin Then
+                        cmd.Parameters.AddWithValue("@StaffID", CurrentLoggedUser.id)
+                    End If
                     Using adapter As New MySqlDataAdapter(cmd)
                         adapter.Fill(dt)
                     End Using
@@ -709,7 +743,7 @@ Public Class ContentDashboard
                 dgvStaffReservations.DataSource = dt
             End Using
         Catch ex As Exception
-            MessageBox.Show($"Error loading your reservations: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show($"Error loading reservations: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 

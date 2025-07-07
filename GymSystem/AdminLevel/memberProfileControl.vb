@@ -558,68 +558,53 @@ Public Class memberProfileControl
         addReservationControl.BringToFront()
     End Sub
     Private Sub OnReservationAdded(memberID As Integer, equipmentID As Integer, staffID As Integer, reservationDate As DateTime, startTime As DateTime, endTime As DateTime, reservationFee As Decimal, reservationNotes As String, purpose As String)
-        Try
-            ' Insert the new reservation into the reservations table
-            Dim query As String = $"INSERT INTO reservation (MemberID, EquipmentID, StaffID, ReservationDate, StartTime, EndTime, ReservationFee, ReservationNotes, ReservationStatus, Cancellation, Reschedule, PaymentStatus, Feedback, Purpose) " &
-                              $"VALUES ({memberID}, {equipmentID}, {staffID}, '{reservationDate:yyyy-MM-dd}', '{startTime:HH:mm:ss}', '{endTime:HH:mm:ss}', {reservationFee}, '{reservationNotes}', 'Pending', False, False, 'Unpaid', '', '{purpose}')"
-            ExecuteQuery(query)
+        UpdateConnectionString()
+        Using conn As New MySqlConnection(strConnection)
+            conn.Open()
+            Using transaction As MySqlTransaction = conn.BeginTransaction()
+                Try
+                    ' 1. Package reservation details
+                    Dim details As New ReservationDetails With {
+                        .MemberID = memberID,
+                        .EquipmentID = equipmentID,
+                        .StaffID = staffID,
+                        .ReservationDate = reservationDate,
+                        .StartTime = startTime,
+                        .EndTime = endTime,
+                        .ReservationFee = reservationFee,
+                        .ReservationNotes = reservationNotes,
+                        .Purpose = purpose
+                    }
 
-            ' Refresh the DataGridView
-            LoadReservationsForMember(memberID)
+                    ' 2. Create and show the transactional payment form using the host
+                    Using paymentHostForm As New BillingPaymentHostForm(conn, transaction, details)
+                        Dim result As DialogResult = paymentHostForm.ShowDialog()
 
-            ' Ask if the user wants to make the payment now or later
-            Dim result As DialogResult = MessageBox.Show("Do you want to make the payment now?", "Payment", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-            If result = DialogResult.Yes Then
-                ' Open the BillingPaymentForm
-                Dim paymentControl As New BillingPaymentForm(reservationFee, False, memberID, memberID)
+                        If result = DialogResult.OK Then
+                            ' The payment form's logic has already run inside the transaction.
+                            ' Now we commit the transaction.
+                            transaction.Commit()
+                            MessageBox.Show("Reservation and payment completed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Else
+                            ' The user cancelled or an error occurred in the payment form.
+                            ' The transaction will be rolled back.
+                            transaction.Rollback()
+                            MessageBox.Show("Payment was cancelled. The reservation has not been saved.", "Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                        End If
+                    End Using
 
-                ' Calculate the center point
-                Dim centerX As Integer = (ClientSize.Width - paymentControl.Width) / 2
-                Dim centerY As Integer = (ClientSize.Height - paymentControl.Height) / 2
+                    ' Refresh the reservations DataGridView regardless to show new state
+                    LoadReservationsForMember(memberID)
 
-                ' Set the location of the BillingPaymentForm to the center
-                paymentControl.Location = New Point(centerX, centerY)
-
-                ' Add the BillingPaymentForm to the form
-                Controls.Add(paymentControl)
-                paymentControl.BringToFront()
-
-                AddHandler paymentControl.btnSave.Click, Sub(sender As Object, e As EventArgs)
-                                                             ' Insert payment data into the payment table
-                                                             Dim paymentMethod As String = paymentControl.cmbPaymentMethod.SelectedItem.ToString()
-                                                             Dim paymentDate As DateTime = paymentControl.dtpPaymentDate.Value
-                                                             Dim subTotal As Decimal = Convert.ToDecimal(paymentControl.txtSubTotal.Text)
-                                                             Dim invoiceNumber As String = paymentControl.txtInvoiceNumber.Text
-                                                             Dim receiptNumber As String = paymentControl.txtReceiptNumber.Text
-                                                             Dim discountApplied As Decimal = If(String.IsNullOrEmpty(paymentControl.txtDiscountAmount.Text), 0, Convert.ToDecimal(paymentControl.txtDiscountAmount.Text))
-                                                             Dim taxAmount As Decimal = Convert.ToDecimal(paymentControl.txtTaxAmount.Text)
-                                                             Dim totalAmount As Decimal = Convert.ToDecimal(paymentControl.txtTotalAmount.Text)
-                                                             Dim paymentNotes As String = paymentControl.txtPaymentNotes.Text
-
-                                                             Dim queryPayment As String = $"INSERT INTO payment (MemberID, ReservationFee, PaymentMethod, PaymentDate, Amount, InvoiceNumber, ReceiptNumber, DiscountApplied, TaxAmount, TotalAmount, PaymentNotes, PaymentStatus, MembershipID) " &
-                                                                                      $"VALUES ({memberID}, {reservationFee}, '{paymentMethod}', '{paymentDate:yyyy-MM-dd}', {subTotal}, '{invoiceNumber}', '{receiptNumber}', {discountApplied}, {taxAmount}, {totalAmount}, '{paymentNotes}', 'Paid', '{selectedMember.MemberID}')"
-                                                             readQuery(queryPayment)
-
-                                                             ' Update status in the relevant table
-                                                             Dim queryReservation As String = $"UPDATE reservation SET PaymentStatus = 'Paid' WHERE MemberID = {memberID}"
-                                                             readQuery(queryReservation)
-
-                                                             ' Notify user of successful save
-                                                             MessageBox.Show("Payment saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                                                             paymentControl.Hide()
-                                                         End Sub
-
-                MessageBox.Show("Debug: Payment data inserted successfully.")
-            Else
-                ' Set payment status to Unpaid and set default values for other fields
-                Dim defaultPaymentDate As DateTime = DateTime.MinValue
-                Dim queryPayment As String = $"INSERT INTO payment (MemberID, ReservationFee, PaymentStatus, PaymentDate, Amount, PaymentMethod, InvoiceNumber, DiscountApplied, TaxAmount, TotalAmount, ReceiptNumber, PaymentNotes, MembershipID) " &
-                                         $"VALUES ({memberID}, {reservationFee}, 'Unpaid', '{defaultPaymentDate:yyyy-MM-dd}', 0, 'N/A', 'N/A', 0, 0, 0, 'N/A', 'N/A', '{selectedMember.MemberID}')"
-                ExecuteQuery(queryPayment)
-            End If
-        Catch ex As Exception
-            MessageBox.Show("An error occurred while adding the reservation: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
+                Catch ex As Exception
+                    ' If anything goes wrong, roll back
+                    transaction.Rollback()
+                    MessageBox.Show("An error occurred during the reservation process: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Finally
+                    ' The connection and transaction are handled by the Using blocks
+                End Try
+            End Using
+        End Using
     End Sub
 
     Private Sub ExecuteQuery(query As String)
@@ -951,92 +936,7 @@ Public Class memberProfileControl
         End Using
     End Sub
 
-    Private Sub btnForPayment_Click(sender As Object, e As EventArgs) Handles btnForPayment.Click
-        UpdateConnectionString()
-        ' Fetch data from the membership table in the database
-        Using conn As New MySqlConnection(strConnection)
-            conn.Open()
-            Dim memberIds As Integer = If(selectedMember IsNot Nothing, selectedMember.MemberID, CurrentLoggedUser.id)
-            Dim query As String = $"SELECT m.MemberID, p.PaymentID, p.PaymentStatus, m.Cost " &
-                      $"FROM membership m " &
-                      $"LEFT JOIN payment p ON m.MembershipID = p.MembershipID " &
-                      $"WHERE m.MemberID = {memberIds} " &
-                      $"ORDER BY p.PaymentID DESC, m.MembershipID DESC LIMIT 1"
 
-            Using cmd As New MySqlCommand(query, conn)
-                Using reader As MySqlDataReader = cmd.ExecuteReader()
-                    If reader.Read() Then
-                        Dim memberID As Integer = Convert.ToInt32(reader("MemberID"))
-                        Dim paymentID As Integer = Convert.ToInt32(reader("PaymentID"))
-                        Dim paymentStatus As String = reader("PaymentStatus").ToString()
-
-                        ' Check if Cost is 0 or null
-                        Dim isMembership As Boolean = False
-                        Dim fee As Decimal = 0
-                        If Not IsDBNull(reader("Cost")) Then
-                            fee = Convert.ToDecimal(reader("Cost"))
-                            isMembership = True
-                        End If
-                        Debug.WriteLine("asdassasd: " & fee & memberID & paymentID)
-                        ' Check if the fee is greater than 0 and payment status is "Unpaid" before opening the BillingPaymentForm
-                        If fee >= 0 AndAlso paymentStatus = "Unpaid" Then
-                            Debug.WriteLine("asdassasd: " & fee)
-                            ' Use the existing PaymentID
-                            Dim existingPaymentID As Integer = paymentID
-
-                            ' Create a new instance of the BillingPaymentForm with the necessary data
-                            Dim paymentForm As New BillingPaymentForm(fee, isMembership, existingPaymentID, memberID)
-
-                            ' Calculate the center point
-                            Dim centerX As Integer = (ClientSize.Width - paymentForm.Width) / 2
-                            Dim centerY As Integer = (ClientSize.Height - paymentForm.Height) / 2
-
-                            ' Set the location of the BillingPaymentForm to the center
-                            paymentForm.Location = New Point(centerX, centerY)
-
-                            ' Add the BillingPaymentForm to the form
-                            Controls.Add(paymentForm)
-                            paymentForm.BringToFront()
-                            Debug.WriteLine("Debug: BillingPaymentForm user control added.")
-                            Debug.WriteLine($"Debug: Form Amount = {paymentForm.txtAmount.Text}, SubTotal = {paymentForm.txtSubTotal.Text}")
-                        Else
-                            Debug.WriteLine("Debug: Fee is not greater than zero or PaymentStatus is not Unpaid, BillingPaymentForm not added.")
-                            MessageBox.Show("This payment cannot be made.", "Payment Disabled", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End If
-                    End If
-                End Using
-            End Using
-        End Using
-    End Sub
-
-
-    Private Function CreateNewPayment(memberID As Integer) As Integer
-        Dim newPaymentID As Integer = 0
-        Dim fee As Decimal = 0
-
-        Using conn As New MySqlConnection(strConnection)
-            conn.Open()
-            ' Fetch the Cost from the membership table
-            Dim query As String = $"SELECT Cost FROM membership WHERE MemberID = {memberID}"
-            Using cmd As New MySqlCommand(query, conn)
-                Dim reader As MySqlDataReader = cmd.ExecuteReader()
-                If reader.Read() Then
-                    fee = Convert.ToDecimal(reader("Cost"))
-                    Debug.WriteLine("Cost: " & fee)
-                End If
-                reader.Close()
-            End Using
-
-            ' Insert a new payment record
-            Dim insertQuery As String = $"INSERT INTO payment (MemberID, Amount, PaymentStatus, PaymentMethod, PaymentDate, InvoiceNumber, ReceiptNumber, DiscountApplied, TaxAmount, TotalAmount, PaymentNotes, MembershipID) " &
-                                        $"VALUES ({memberID}, {fee}, 'Unpaid', 'N/A', '{DateTime.MinValue:yyyy-MM-dd}', 'N/A', 'N/A', 0, 0, 0, 'N/A', {memberID}); SELECT LAST_INSERT_ID();"
-            Using cmd As New MySqlCommand(insertQuery, conn)
-                newPaymentID = Convert.ToInt32(cmd.ExecuteScalar())
-            End Using
-        End Using
-
-        Return newPaymentID
-    End Function
 End Class
 
 Public Class MemberData

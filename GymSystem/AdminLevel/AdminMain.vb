@@ -73,6 +73,9 @@ Public Class Staffmain
         Else
             Label1.Text = "Welcome Staff"
         End If
+
+        ' Automatically load the dashboard view by default
+        DashboardBtn.PerformClick()
     End Sub
 
     Private Sub CheckNotifications(sender As Object, e As EventArgs)

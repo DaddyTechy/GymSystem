@@ -116,7 +116,7 @@ Public Class PaymentReceipt
                                    LeftAlign(receiptStr) & Environment.NewLine &
                                    Environment.NewLine &
                                    LeftAlign(memberIDStr) & Environment.NewLine &
-                                   LeftAlign(memberNameStr) & Environment.NewLine &
+                                   LeftAlign(memberNameStr) &
                                    Environment.NewLine &
                                    LeftAlign(paymentMethodStr) & Environment.NewLine &
                                    LeftAlign(subTotalStr) & Environment.NewLine &

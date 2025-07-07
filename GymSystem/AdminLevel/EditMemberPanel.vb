@@ -50,7 +50,7 @@ Public Class EditMemberPanel
 
         ' --- Fields ---
         Dim yPos As Integer = 50
-        Dim spacing As Integer = 30
+        Dim spacing As Integer = 35
 
         ' First Name
         CreateRow("First Name:", yPos, lblCurrentFirstName, txtFirstName)
@@ -104,11 +104,11 @@ Public Class EditMemberPanel
         Me.Controls.Add(fieldLabel)
 
         ' Current Value Label
-        currentLabel = New Label() With {.Text = "", .ForeColor = Color.LightGray, .Location = New Point(220, yPos), .Size = New Size(200, 20), .BorderStyle = BorderStyle.FixedSingle, .Padding = New Padding(2)}
+        currentLabel = New Label() With {.Text = "", .ForeColor = Color.LightGray, .Location = New Point(220, yPos), .Size = New Size(200, 28), .BorderStyle = BorderStyle.FixedSingle, .Padding = New Padding(2)}
         Me.Controls.Add(currentLabel)
 
         ' New Value TextBox
-        newTextBox = New TextBox() With {.Location = New Point(470, yPos), .Size = New Size(200, 20)}
+        newTextBox = New TextBox() With {.Location = New Point(470, yPos), .Size = New Size(200, 28)}
         Me.Controls.Add(newTextBox)
     End Sub
 

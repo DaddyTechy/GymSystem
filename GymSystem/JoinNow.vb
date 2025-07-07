@@ -8,7 +8,7 @@ Public Class JoinNow
     Inherits Form
     Public IsAdminContext As Boolean = False
     Private caretHandler As New CaretHandler()
-    Private WithEvents BenefitsLabel As New Label()
+
 
     Private data As New Dictionary(Of String, Dictionary(Of String, Dictionary(Of String, String))) From {
         {"Camarines Norte", New Dictionary(Of String, Dictionary(Of String, String)) From {
@@ -162,18 +162,10 @@ Public Class JoinNow
         PlansCB.Items.Add("Diamond (12 months)")
 
         BLoginBtn.Visible = True
-        ServiceCB.Visible = False
-        Label1.Visible = False ' Hide the service label
 
-        ' Initialize and add the new BenefitsLabel to display plan benefits
-        With BenefitsLabel
-            .Text = "Benefits:"
-            .Location = New Point(PlansCB.Right + 20, PlansCB.Top) ' Position it to the right of the plans dropdown
-            .AutoSize = True
-            .ForeColor = Color.White
-            .Font = New Font("Segoe UI", 10, FontStyle.Bold)
-        End With
-        Me.Controls.Add(BenefitsLabel)
+
+
+
     End Sub
 
     ' Handle province selection change (ComboBox1)
@@ -311,22 +303,32 @@ Public Class JoinNow
     End Sub
 
     Private Sub PlansCB_SelectedIndexChanged(sender As Object, e As EventArgs) Handles PlansCB.SelectedIndexChanged
-        ' Get the selected plan
-        Dim selectedPlan As String = PlansCB.SelectedItem.ToString()
+        Dim selectedPlan As String = ""
+        If PlansCB.SelectedItem IsNot Nothing Then
+            selectedPlan = PlansCB.SelectedItem.ToString()
+        Else
+            servicesLBL.Text = "Please select a plan to see the benefits."
+            Return
+        End If
 
-        ' Based on the selected plan, update the BenefitsLabel to display the included services
+        Dim cost As Decimal = GetPlanCost(selectedPlan)
+        Dim benefits As String = ""
+
+        ' Based on the selected plan, update the servicesLBL
         Select Case selectedPlan
             Case "Bronze (3 months)"
-                BenefitsLabel.Text = "Included: Fitness & Cardio"
+                benefits = "Included: Fitness & Cardio"
             Case "Silver (6 months)"
-                BenefitsLabel.Text = "Included: Fitness, Cardio & Sauna"
+                benefits = "Included: Fitness, Cardio & Sauna"
             Case "Gold (9 months)"
-                BenefitsLabel.Text = "Included: Fitness, Cardio, Sauna & Personal Training"
+                benefits = "Included: Fitness, Cardio, Sauna & Personal Training"
             Case "Diamond (12 months)"
-                BenefitsLabel.Text = "Included: All Services"
+                benefits = "Included: All Services (Fitness, Cardio, Sauna, Personal Training, Group Classes, Pool Access)"
             Case Else
-                BenefitsLabel.Text = "Please select a plan to see the benefits."
+                benefits = ""
         End Select
+
+        servicesLBL.Text = $"Price: {cost:C2}" & vbCrLf & benefits
     End Sub
 
     Private Sub HeightTxt_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles HeightTxt.Validating
@@ -381,6 +383,12 @@ Public Class JoinNow
     End Sub
 
     Private Sub SubmitBtn_Click(sender As Object, e As EventArgs) Handles SubmitBtn.Click
+        ' Ask for confirmation before proceeding
+        Dim confirmResult = MessageBox.Show("Are you sure you want to submit your details?", "Confirm Submission", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If confirmResult = DialogResult.No Then
+            Return ' Exit if user clicks No
+        End If
+
         UpdateConnectionString()
         ' Call the validation function before proceeding
 
@@ -606,8 +614,8 @@ Public Class JoinNow
 
                         ' Determine membership details based on membership name
                         Dim membershipName As String = PlansCB.SelectedItem.ToString()
+                        Dim cost As Decimal = GetPlanCost(membershipName)
                         Dim duration As String
-                        Dim cost As Double
                         Dim benefits As String
                         Dim startDate As DateTime = DateTime.Now
                         Dim endDate As DateTime
@@ -621,7 +629,6 @@ Public Class JoinNow
                         Select Case membershipName
                             Case "Diamond (12 months)"
                                 duration = "1 yr"
-                                cost = 1000.0
                                 benefits = "Full benefits"
                                 endDate = startDate.AddYears(1)
                                 discountAvailable = "Yes"
@@ -632,7 +639,6 @@ Public Class JoinNow
                                 membershipType = "All"
                             Case "Gold (9 months)"
                                 duration = "9 months"
-                                cost = 600.0
                                 benefits = "Standard benefits"
                                 endDate = startDate.AddMonths(9)
                                 discountAvailable = "Yes"
@@ -643,7 +649,6 @@ Public Class JoinNow
                                 membershipType = "Sauna, Training"
                             Case "Silver (6 months)"
                                 duration = "6 months"
-                                cost = 300.0
                                 benefits = "Limited benefits"
                                 endDate = startDate.AddMonths(6)
                                 discountAvailable = "No"
@@ -654,7 +659,6 @@ Public Class JoinNow
                                 membershipType = "Sauna"
                             Case Else ' Bronze
                                 duration = "3 month"
-                                cost = 100.0
                                 benefits = "Basic benefits"
                                 endDate = startDate.AddMonths(3)
                                 discountAvailable = "No"
@@ -687,23 +691,45 @@ Public Class JoinNow
                             insertMembershipCommand.ExecuteNonQuery()
                         End Using
 
-                        ' Commit the transaction
-                        transaction.Commit()
+                        ' With the records inserted but not committed, proceed to payment.
+                        ' Pass the open connection and transaction to the payment form.
+                        Dim paymentHost As New PaymentFormHost(conn, transaction, cost, True, 0, memberId)
 
-                        ' Show the new registration success form and hide the current one
-                        Dim successForm As New RegistrationSuccessForm(memberId, cost)
-                        successForm.Show()
+                        ' The PaymentCompleted event is now only for showing the final success form.
+                        AddHandler paymentHost.PaymentCompleted, Sub(s, args)
+                                                                    Dim finalSuccessForm As New RegistrationSuccessForm(memberId)
+                                                                    finalSuccessForm.ShowDialog()
+                                                                End Sub
+
                         Me.Hide()
+                        Dim paymentResult As DialogResult = paymentHost.ShowDialog(Me)
+
+                        ' After payment, decide whether to commit or rollback.
+                        If paymentResult = DialogResult.OK Then
+                            ' Payment was successful. Commit the transaction to make the new account permanent.
+                            transaction.Commit()
+                            ' Navigate to the login form.
+                            Dim loginForm As New Member()
+                            loginForm.Show()
+                            Me.Close() ' Close registration form on success
+                        Else
+                            ' Payment was cancelled. Rollback the transaction to delete the pending account.
+                            transaction.Rollback()
+                            MessageBox.Show("Payment was not completed and your registration has been cancelled. Please try again.", "Registration Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                            Me.Show() ' Show the registration form again
+                        End If
+
+                        ' Close the registration form.
                     Catch ex As Exception
                         ' Rollback the transaction in case of an error
                         transaction.Rollback()
-                        MessageBox.Show("An error occurred: " & ex.Message)
+                        MessageBox.Show("An error occurred during registration: " & ex.Message)
                         Debug.WriteLine($"Transaction rolled back due to error: {ex.Message}")
                     End Try
                 End Using
             End Using
         Catch ex As Exception
-            MessageBox.Show("An error occurred: " & ex.Message)
+            MessageBox.Show("A database connection error occurred: " & ex.Message)
             Debug.WriteLine($"Connection error: {ex.Message}")
         End Try
     End Sub
@@ -786,6 +812,22 @@ Public Class JoinNow
             MessageBox.Show("Only one decimal point is allowed.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End If
     End Sub
+
+
+    Private Function GetPlanCost(planName As String) As Decimal
+        Select Case planName
+            Case "Bronze (3 months)"
+                Return 100D
+            Case "Silver (6 months)"
+                Return 300D
+            Case "Gold (9 months)"
+                Return 600D
+            Case "Diamond (12 months)"
+                Return 1000D
+            Case Else
+                Return 0D
+        End Select
+    End Function
 
 
 End Class
