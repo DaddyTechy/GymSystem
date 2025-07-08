@@ -19,6 +19,7 @@ Public Structure ReservationDetails
 End Structure
 
 Public Class BillingPaymentForm
+    Public Event PaymentAttemptCompleted As Action(Of DialogResult)
     Public Property isMembership As Boolean
     Public Property paymentID As Integer
     Public Property memberID As Integer
@@ -162,14 +163,16 @@ Public Class BillingPaymentForm
             Dim totalAmount As Decimal = Convert.ToDecimal(txtTotalAmount.Text)
             Dim paymentNotes As String = txtPaymentNotes.Text
 
-            ' Handle payment through PayMongo
-            If paymentMethod = "E-Wallet" OrElse paymentMethod = "Credit Card" Then
+            Dim isPayMongoPayment As Boolean = (paymentMethod = "E-Wallet" OrElse paymentMethod = "Credit Card")
+            Dim paymentSuccessful As Boolean = True ' Default to true for non-PayMongo payments
+
+            If isPayMongoPayment Then
                 Dim description As String = $"Payment for {invoiceNumber}"
                 Dim payMongoMethod As String = If(paymentMethod = "E-Wallet", "gcash", "card")
                 Dim paymentIntentId As String = Await InitiatePayment(totalAmount, "PHP", description, payMongoMethod)
 
                 ' Retrieve member details for billing
-                Dim billingDetails As Dictionary(Of String, String) = GetMemberDetails(memberID)
+                Dim billingDetails As Dictionary(Of String, Object) = GetMemberDetails(memberID)
 
                 ' Create payment method
                 Dim paymentMethodId As String = Await CreatePaymentMethod(payMongoMethod, billingDetails)
@@ -179,6 +182,15 @@ Public Class BillingPaymentForm
 
                 ' Open the URL in the default web browser
                 Process.Start(New ProcessStartInfo(checkoutUrl) With {.UseShellExecute = True})
+
+                ' Wait for payment confirmation
+                paymentSuccessful = Await CheckPaymentStatus(paymentIntentId)
+            End If
+
+            If Not paymentSuccessful Then
+                MessageBox.Show("Payment was not completed successfully. The transaction will be rolled back.", "Payment Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                RaiseEvent PaymentAttemptCompleted(DialogResult.Cancel)
+                Return
             End If
 
             If _transaction IsNot Nothing Then
@@ -214,6 +226,7 @@ Public Class BillingPaymentForm
             Dim receiptForm As New PaymentReceipt(paymentMethod, paymentDate, subTotal, invoiceNumber, txtReceiptNumber.Text, discountApplied, taxAmount, totalAmount, paymentNotes, memberID, memberName)
             receiptForm.ShowDialog()
 
+            RaiseEvent PaymentAttemptCompleted(DialogResult.OK)
             OnPaymentCompleted()
         Catch ex As Exception
             MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -440,7 +453,7 @@ Public Class BillingPaymentForm
         End Using
     End Function
 
-    Public Async Function CreatePaymentMethod(paymentMethodType As String, billingDetails As Dictionary(Of String, String)) As Task(Of String)
+    Public Async Function CreatePaymentMethod(paymentMethodType As String, billingDetails As Dictionary(Of String, Object)) As Task(Of String)
         Dim apiKey As String = "sk_test_orK6MTNaBig29mb3WoQh2TQU" ' Replace with your actual secret key
         Dim url As String = "https://api.paymongo.com/v1/payment_methods"
         Dim postData As New Dictionary(Of String, Object) From {
@@ -514,9 +527,9 @@ Public Class BillingPaymentForm
     End Function
 
 
-    Public Function GetMemberDetails(memberID As Integer) As Dictionary(Of String, String)
-        Dim query As String = $"SELECT `FirstName`, `LastName`, `Email`, `PhoneNumber` FROM `members` WHERE `MemberID` = {memberID}"
-        Dim memberDetails As New Dictionary(Of String, String)
+    Public Function GetMemberDetails(memberID As Integer) As Dictionary(Of String, Object)
+        Dim query As String = $"SELECT `FirstName`, `LastName`, `Email`, `PhoneNumber`, `Street`, `City`, `Province`, `ZipCode` FROM `members` WHERE `MemberID` = {memberID}"
+        Dim memberDetails As New Dictionary(Of String, Object)
 
         Using conn As New MySqlConnection(strConnection)
             Using cmd As New MySqlCommand(query, conn)
@@ -526,6 +539,17 @@ Public Class BillingPaymentForm
                         memberDetails("name") = $"{reader("FirstName")} {reader("LastName")}"
                         memberDetails("email") = reader("Email").ToString()
                         memberDetails("phone") = reader("PhoneNumber").ToString()
+
+                        ' Create a nested dictionary for the address
+                        Dim addressDetails As New Dictionary(Of String, String) From {
+                            {"line1", reader("Street").ToString()},
+                            {"city", reader("City").ToString()},
+                            {"state", reader("Province").ToString()},
+                            {"postal_code", reader("ZipCode").ToString()},
+                            {"country", "PH"} ' Hardcode country to PH
+                        }
+
+                        memberDetails("address") = addressDetails
                     End If
                 End Using
             End Using
@@ -534,4 +558,64 @@ Public Class BillingPaymentForm
         Return memberDetails
     End Function
 
+    Public Async Function GetPaymentIntentStatus(paymentIntentId As String) As Task(Of String)
+        Dim apiKey As String = "sk_test_orK6MTNaBig29mb3WoQh2TQU" ' Replace with your actual secret key
+        Dim url As String = $"https://api.paymongo.com/v1/payment_intents/{paymentIntentId}"
+
+        Using client As New HttpClient()
+            client.DefaultRequestHeaders.Authorization = New System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(apiKey & ":")))
+
+            Dim response As HttpResponseMessage = Await client.GetAsync(url)
+            Dim responseFromServer As String = Await response.Content.ReadAsStringAsync()
+
+            ' Debug: Log the response
+            Debug.WriteLine("Response from PayMongo (Get Payment Intent): " & responseFromServer)
+
+            ' Parse the response to get the status
+            Dim responseData As JObject = JObject.Parse(responseFromServer)
+            Dim status As String = responseData("data")("attributes")("status").ToString()
+            Return status
+        End Using
+    End Function
+
+    Private Async Function CheckPaymentStatus(paymentIntentId As String) As Task(Of Boolean)
+        ' Show a waiting message to the user
+        Dim waitingForm As New Form() With {
+            .Text = "Awaiting Payment",
+            .FormBorderStyle = FormBorderStyle.FixedDialog,
+            .ControlBox = False,
+            .Size = New System.Drawing.Size(300, 100)
+        }
+        Dim waitingLabel As New Label() With {
+            .Text = "Awaiting payment confirmation...",
+            .Dock = DockStyle.Fill,
+            .TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        }
+        waitingForm.Controls.Add(waitingLabel)
+        waitingForm.Show(Me)
+
+        Try
+            Dim timeout As Integer = 300 ' 5 minutes timeout (300 seconds)
+            Dim startTime As DateTime = DateTime.Now
+
+            While (DateTime.Now - startTime).TotalSeconds < timeout
+                Dim status As String = Await GetPaymentIntentStatus(paymentIntentId)
+
+                If status = "succeeded" Then
+                    Return True ' Payment is successful
+                ElseIf status = "failed" OrElse status = "canceled" Then
+                    Return False ' Payment failed or was canceled
+                End If
+
+                ' Wait for 5 seconds before checking again
+                Await Task.Delay(5000)
+            End While
+
+            ' If loop finishes, it's a timeout
+            MessageBox.Show("Payment confirmation timed out.", "Timeout", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        Finally
+            waitingForm.Close()
+        End Try
+    End Function
 End Class

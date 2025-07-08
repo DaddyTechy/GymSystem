@@ -13,88 +13,310 @@ Public Class JoinNow
     Private data As New Dictionary(Of String, Dictionary(Of String, Dictionary(Of String, String))) From {
         {"Camarines Norte", New Dictionary(Of String, Dictionary(Of String, String)) From {
             {"Basud", New Dictionary(Of String, String) From {
-                {"San Felipe", "4608"},
                 {"Angas", "4608"},
                 {"Bactas", "4608"},
                 {"Binatagan", "4608"},
-                {"Caayunan", "4608"}
+                {"Caayunan", "4608"},
+                {"Guinatungan", "4608"},
+                {"Hinampacan", "4608"},
+                {"Langa", "4608"},
+                {"Laniton", "4608"},
+                {"Lidong", "4608"},
+                {"Mampili", "4608"},
+                {"Mandazo", "4608"},
+                {"Mangcamagong", "4608"},
+                {"Manmuntay", "4608"},
+                {"Mantugawe", "4608"},
+                {"Matnog", "4608"},
+                {"Mocong", "4608"},
+                {"Oliva", "4608"},
+                {"Pagsangahan", "4608"},
+                {"Pinagwarasan", "4608"},
+                {"Plaridel", "4608"},
+                {"Poblacion 1", "4608"},
+                {"Poblacion 2", "4608"},
+                {"San Felipe", "4608"},
+                {"San Jose", "4608"},
+                {"San Pascual", "4608"},
+                {"Taba-taba", "4608"},
+                {"Tacad", "4608"},
+                {"Taisan", "4608"},
+                {"Tuaca", "4608"}
             }},
             {"Capalonga", New Dictionary(Of String, String) From {
-                {"Villa Belen", "4607"},
                 {"Alayao", "4607"},
                 {"Binawangan", "4607"},
                 {"Calabaca", "4607"},
-                {"Camagsaan", "4607"}
+                {"Camagsaan", "4607"},
+                {"Catabaguangan", "4607"},
+                {"Catioan", "4607"},
+                {"Del Pilar", "4607"},
+                {"Itok", "4607"},
+                {"Lucbanan", "4607"},
+                {"Mabini", "4607"},
+                {"Mactang", "4607"},
+                {"Magsaysay", "4607"},
+                {"Mataque", "4607"},
+                {"Old Camp", "4607"},
+                {"Poblacion", "4607"},
+                {"San Antonio", "4607"},
+                {"San Isidro", "4607"},
+                {"San Roque", "4607"},
+                {"Tanawan", "4607"},
+                {"Ubang", "4607"},
+                {"Villa Aurora", "4607"},
+                {"Villa Belen", "4607"}
             }},
             {"Daet", New Dictionary(Of String, String) From {
-                {"Barangay I", "4600"},
                 {"Alawihao", "4600"},
                 {"Awitan", "4600"},
                 {"Bagasbas", "4600"},
-                {"Barangay II", "4600"}
+                {"Barangay I", "4600"},
+                {"Barangay II", "4600"},
+                {"Barangay III", "4600"},
+                {"Barangay IV", "4600"},
+                {"Barangay V", "4600"},
+                {"Barangay VI", "4600"},
+                {"Barangay VII", "4600"},
+                {"Barangay VIII", "4600"},
+                {"Bibirao", "4600"},
+                {"Borabod", "4600"},
+                {"Calasgasan", "4600"},
+                {"Camambugan", "4600"},
+                {"Cobangbang", "4600"},
+                {"Dogongan", "4600"},
+                {"Gahonon", "4600"},
+                {"Gubat", "4600"},
+                {"Lag-on", "4600"},
+                {"Magang", "4600"},
+                {"Mambalite", "4600"},
+                {"Mancruz", "4600"},
+                {"Pamorangon", "4600"},
+                {"San Isidro", "4600"}
             }},
             {"Jose Panganiban", New Dictionary(Of String, String) From {
-                {"Santa Rosa Norte", "4606"},
                 {"Bagong Bayan", "4606"},
                 {"Calero", "4606"},
                 {"Dahican", "4606"},
-                {"Dayhagan", "4606"}
+                {"Dayhagan", "4606"},
+                {"Larap", "4606"},
+                {"Luklukan Norte", "4606"},
+                {"Luklukan Sur", "4606"},
+                {"Motherlode", "4606"},
+                {"Nakalaya", "4606"},
+                {"North Poblacion", "4606"},
+                {"Osmeña", "4606"},
+                {"Pag-asa", "4606"},
+                {"Parang", "4606"},
+                {"Plaridel", "4606"},
+                {"Salvacion", "4606"},
+                {"San Isidro", "4606"},
+                {"San Jose", "4606"},
+                {"San Martin", "4606"},
+                {"San Pedro", "4606"},
+                {"San Rafael", "4606"},
+                {"Santa Cruz", "4606"},
+                {"Santa Elena", "4606"},
+                {"Santa Milagrosa", "4606"},
+                {"Santa Rosa Norte", "4606"},
+                {"Santa Rosa Sur", "4606"},
+                {"South Poblacion", "4606"},
+                {"Tamisan", "4606"}
             }},
             {"Labo", New Dictionary(Of String, String) From {
-                {"Bagong Silang I", "4604"},
                 {"Anahaw", "4604"},
                 {"Anameam", "4604"},
                 {"Awitan", "4604"},
-                {"Baay", "4604"}
+                {"Baay", "4604"},
+                {"Bagacay", "4604"},
+                {"Bagong Silang I", "4604"},
+                {"Bagong Silang II", "4604"},
+                {"Bagong Silang III", "4604"},
+                {"Bakiad", "4604"},
+                {"Bautista", "4604"},
+                {"Bayabas", "4604"},
+                {"Bayan-bayan", "4604"},
+                {"Benit", "4604"},
+                {"Bulhao", "4604"},
+                {"Cabatuhan", "4604"},
+                {"Cabusay", "4604"},
+                {"Calabasa", "4604"},
+                {"Canapawan", "4604"},
+                {"Daguit", "4604"},
+                {"Dalas", "4604"},
+                {"Dumagmang", "4604"},
+                {"Exciban", "4604"},
+                {"Fundado", "4604"},
+                {"Guinacutan", "4604"},
+                {"Guisican", "4604"},
+                {"Gumamela", "4604"},
+                {"Iberica", "4604"},
+                {"Kalamunding", "4604"},
+                {"Lugui", "4604"},
+                {"Mabilo I", "4604"},
+                {"Mabilo II", "4604"},
+                {"Macogon", "4604"},
+                {"Mahawan-hawan", "4604"},
+                {"Malangcao-Basud", "4604"},
+                {"Malasugui", "4604"},
+                {"Malatap", "4604"},
+                {"Malaya", "4604"},
+                {"Malibago", "4604"},
+                {"Maot", "4604"},
+                {"Masalong", "4604"},
+                {"Matanlang", "4604"},
+                {"Napaod", "4604"},
+                {"Pag-asa", "4604"},
+                {"Pangpang", "4604"},
+                {"Pinya", "4604"},
+                {"San Antonio", "4604"},
+                {"San Francisco", "4604"},
+                {"Santa Cruz", "4604"},
+                {"Submakin", "4604"},
+                {"Talobatib", "4604"},
+                {"Tigbinan", "4604"},
+                {"Tulay na Lupa", "4604"}
             }},
             {"Mercedes", New Dictionary(Of String, String) From {
-                {"Barangay I", "4601"},
                 {"Apuao", "4601"},
+                {"Barangay I", "4601"},
                 {"Barangay II", "4601"},
                 {"Barangay III", "4601"},
-                {"Barangay IV", "4601"}
+                {"Barangay IV", "4601"},
+                {"Barangay V", "4601"},
+                {"Barangay VI", "4601"},
+                {"Barangay VII", "4601"},
+                {"Caringo", "4601"},
+                {"Catandunganon", "4601"},
+                {"Cayucyucan", "4601"},
+                {"Colasi", "4601"},
+                {"Del Rosario", "4601"},
+                {"Gaboc", "4601"},
+                {"Hamoraon", "4601"},
+                {"Hinipaan", "4601"},
+                {"Lalawigan", "4601"},
+                {"Lanot", "4601"},
+                {"Mambungalon", "4601"},
+                {"Manguisoc", "4601"},
+                {"Masalongsalong", "4601"},
+                {"Matoogtoog", "4601"},
+                {"Pambuhan", "4601"},
+                {"Quinapaguian", "4601"},
+                {"San Roque", "4601"},
+                {"Tarum", "4601"}
             }},
             {"Paracale", New Dictionary(Of String, String) From {
-                {"Bagumbayan", "4605"},
                 {"Awitan", "4605"},
+                {"Bagumbayan", "4605"},
                 {"Bakal", "4605"},
                 {"Batobalani", "4605"},
-                {"Calaburnay", "4605"}
+                {"Calaburnay", "4605"},
+                {"Capacuan", "4605"},
+                {"Casalugan", "4605"},
+                {"Dagang", "4605"},
+                {"Dalnac", "4605"},
+                {"Dancalan", "4605"},
+                {"Gumaus", "4605"},
+                {"Labnig", "4605"},
+                {"Macolabo Island", "4605"},
+                {"Malacbang", "4605"},
+                {"Malaguit", "4605"},
+                {"Mampungo", "4605"},
+                {"Mangkasay", "4605"},
+                {"Maybato", "4605"},
+                {"Palanas", "4605"},
+                {"Pinagbirayan Malaki", "4605"},
+                {"Pinagbirayan Munti", "4605"},
+                {"Poblacion Norte", "4605"},
+                {"Poblacion Sur", "4605"},
+                {"Tabas", "4605"},
+                {"Talusan", "4605"},
+                {"Tawig", "4605"},
+                {"Tugos", "4605"}
             }},
             {"San Lorenzo Ruiz", New Dictionary(Of String, String) From {
-                {"San Isidro", "4610"},
                 {"Daculang Bolo", "4610"},
                 {"Dagotdotan", "4610"},
                 {"Langga", "4610"},
-                {"Laniton", "4610"}
+                {"Laniton", "4610"},
+                {"Maisog", "4610"},
+                {"Mampurog", "4610"},
+                {"Manlimonsito", "4610"},
+                {"Matacong", "4610"},
+                {"Salvacion", "4610"},
+                {"San Antonio", "4610"},
+                {"San Isidro", "4610"},
+                {"San Ramon", "4610"}
             }},
             {"San Vicente", New Dictionary(Of String, String) From {
-                {"Man-Ogob", "4609"},
                 {"Asdum", "4609"},
                 {"Cabanbanan", "4609"},
                 {"Calabagas", "4609"},
-                {"Fabrica", "4609"}
+                {"Fabrica", "4609"},
+                {"Iraya Sur", "4609"},
+                {"Man-ogob", "4609"},
+                {"Poblacion District I", "4609"},
+                {"Poblacion District II", "4609"},
+                {"San Jose", "4609"}
             }},
             {"Santa Elena", New Dictionary(Of String, String) From {
-                {"San Lorenzo", "4611"},
                 {"Basiad", "4611"},
                 {"Bulala", "4611"},
                 {"Don Tomas", "4611"},
-                {"Guitol", "4611"}
+                {"Guitol", "4611"},
+                {"Kabuluan", "4611"},
+                {"Kagtalaba", "4611"},
+                {"Maulawin", "4611"},
+                {"Patag Ibaba", "4611"},
+                {"Patag Iraya", "4611"},
+                {"Plaridel", "4611"},
+                {"Polungguitguit", "4611"},
+                {"Rizal", "4611"},
+                {"Salvacion", "4611"},
+                {"San Lorenzo", "4611"},
+                {"San Pedro", "4611"},
+                {"San Vicente", "4611"},
+                {"Santa Elena", "4611"},
+                {"Tabugon", "4611"},
+                {"Villa San Isidro", "4611"}
             }},
             {"Talisay", New Dictionary(Of String, String) From {
-                {"Del Carmen", "4602"},
                 {"Binanuaan", "4602"},
                 {"Caawigan", "4602"},
                 {"Cahabaan", "4602"},
-                {"Calintaan", "4602"}
+                {"Calintaan", "4602"},
+                {"Del Carmen", "4602"},
+                {"Gabon", "4602"},
+                {"Itomang", "4602"},
+                {"Poblacion", "4602"},
+                {"San Francisco", "4602"},
+                {"San Isidro", "4602"},
+                {"San Jose", "4602"},
+                {"San Nicolas", "4602"},
+                {"Santa Cruz", "4602"},
+                {"Santa Elena", "4602"},
+                {"Santo Niño", "4602"}
             }},
             {"Vinzons", New Dictionary(Of String, String) From {
-                {"Sabang", "4603"},
                 {"Aguit-it", "4603"},
                 {"Banocboc", "4603"},
                 {"Barangay I", "4603"},
-                {"Barangay II", "4603"}
+                {"Barangay II", "4603"},
+                {"Barangay III", "4603"},
+                {"Cagbalogo", "4603"},
+                {"Calangcawan Norte", "4603"},
+                {"Calangcawan Sur", "4603"},
+                {"Guinacutan", "4603"},
+                {"Mangcawayan", "4603"},
+                {"Mangcayo", "4603"},
+                {"Manlucugan", "4603"},
+                {"Matango", "4603"},
+                {"Napilihan", "4603"},
+                {"Pinagtigasan", "4603"},
+                {"Sabang", "4603"},
+                {"Santo Domingo", "4603"},
+                {"Singi", "4603"},
+                {"Sula", "4603"}
             }}
         }}
     }
@@ -163,8 +385,12 @@ Public Class JoinNow
 
         BLoginBtn.Visible = True
 
+        ' Set LinkLabel behavior to remove the underline
+        ShowLL.LinkBehavior = LinkBehavior.NeverUnderline
+        UpdateConnectionString()
 
-
+        ' Set focus to the First Name field for a better user experience
+        FirstTxt.Select()
 
     End Sub
 
@@ -376,12 +602,6 @@ Public Class JoinNow
     End Sub
 
 
-    Private Sub Form_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' Set LinkLabel behavior to remove the underline
-        ShowLL.LinkBehavior = LinkBehavior.NeverUnderline
-        UpdateConnectionString()
-    End Sub
-
     Private Sub SubmitBtn_Click(sender As Object, e As EventArgs) Handles SubmitBtn.Click
         ' Ask for confirmation before proceeding
         Dim confirmResult = MessageBox.Show("Are you sure you want to submit your details?", "Confirm Submission", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
@@ -453,45 +673,106 @@ Public Class JoinNow
                 End If
             End Using
         Catch ex As Exception
-            ErrorHandler.HandleError(ex)
+            MessageBox.Show("An error occurred while checking the email: " & ex.Message)
         End Try
         Return exists
     End Function
-    Private Sub txtbx_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ContactTxt.KeyPress, KgTxt.KeyPress
-        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
-            e.Handled = True
-        End If
-    End Sub
-
-
     Private Function ValidateInputs() As Boolean
-        ' Check if Contact number is numeric and 11 digits
-        If Not Regex.IsMatch(ContactTxt.Text, "^\d{11}$") Then
-            MessageBox.Show("Contact number must be 11 digits.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        ' Validate First Name
+        If String.IsNullOrWhiteSpace(FirstTxt.Text) Then
+            MessageBox.Show("First Name is required.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            FirstTxt.Focus()
+            Return False
+        End If
+        If Regex.IsMatch(FirstTxt.Text, "\d") Then
+            MessageBox.Show("First Name cannot contain numbers.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            FirstTxt.Focus()
             Return False
         End If
 
-        ' Check if Height is numeric and in the correct format (e.g., 5.9)
-        If Not Regex.IsMatch(HeightTxt.Text, "^\d+(\.\d+)?$") Then
-            MessageBox.Show("Height must be a valid number in feet (e.g., 5.9, 5.0).", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        ' Validate Last Name
+        If String.IsNullOrWhiteSpace(LastTxt.Text) Then
+            MessageBox.Show("Last Name is required.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            LastTxt.Focus()
+            Return False
+        End If
+        If Regex.IsMatch(LastTxt.Text, "\d") Then
+            MessageBox.Show("Last Name cannot contain numbers.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            LastTxt.Focus()
             Return False
         End If
 
-        ' Check if Weight is numeric
-        Dim weight As Decimal
-        If Not Decimal.TryParse(KgTxt.Text, weight) Then
-            MessageBox.Show("Weight must be a valid number.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return False
-        End If
-        ' Check email format
-        If Not Regex.IsMatch(EmailTxt.Text, "^[^@\s]+@[^@\s]+\.[a-zA-Z]{2,}$") Then
-            MessageBox.Show("Email must be in a valid format (e.g., user@example.com).", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        ' Validate Middle Name (optional, but no numbers if present)
+        If Not String.IsNullOrWhiteSpace(MiddleTxt.Text) AndAlso Regex.IsMatch(MiddleTxt.Text, "\d") Then
+            MessageBox.Show("Middle Name cannot contain numbers.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            MiddleTxt.Focus()
             Return False
         End If
 
-        ' Check password length
-        If PassTxt.Text.Length < 5 Then
-            MessageBox.Show("Password must be at least 5 characters long.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        ' Validate Phone Number
+        If Not Regex.IsMatch(ContactTxt.Text, "^09\d{9}$") Then
+            MessageBox.Show("Contact number must be 11 digits and start with 09.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            ContactTxt.Focus()
+            Return False
+        End If
+
+        ' Validate Email
+        If String.IsNullOrWhiteSpace(EmailTxt.Text) Then
+            MessageBox.Show("Email is required.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            EmailTxt.Focus()
+            Return False
+        End If
+        Try
+            Dim addr = New System.Net.Mail.MailAddress(EmailTxt.Text)
+            If addr.Address <> EmailTxt.Text Then
+                Throw New FormatException()
+            End If
+        Catch
+            MessageBox.Show("Please enter a valid email address.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            EmailTxt.Focus()
+            Return False
+        End Try
+
+        ' Check if email already exists
+        If CEmailExists(EmailTxt.Text) Then
+            MessageBox.Show("This email address is already registered.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            EmailTxt.Focus()
+            Return False
+        End If
+
+        ' Check if a province is selected
+        If CustomComboProvince.SelectedIndex = -1 Then
+            MessageBox.Show("Please select a province.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+
+        ' Check if a city/municipality is selected
+        If CustomComboCity.SelectedIndex = -1 Then
+            MessageBox.Show("Please select a city/municipality.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+
+        ' Check if a barangay is selected
+        If CustomComboStreet.SelectedIndex = -1 Then
+            MessageBox.Show("Please select a barangay.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+
+        ' Check if a plan is selected
+        If PlansCB.SelectedItem Is Nothing Then
+            MessageBox.Show("Please select a membership plan.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+
+        ' Check if password is not empty
+        If String.IsNullOrWhiteSpace(PassTxt.Text) Then
+            MessageBox.Show("Password is required.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+
+        ' Check if passwords match
+        If PassTxt.Text <> CPassTxt.Text Then
+            MessageBox.Show("Passwords do not match.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return False
         End If
 
@@ -691,35 +972,32 @@ Public Class JoinNow
                             insertMembershipCommand.ExecuteNonQuery()
                         End Using
 
-                        ' With the records inserted but not committed, proceed to payment.
-                        ' Pass the open connection and transaction to the payment form.
-                        Dim paymentHost As New PaymentFormHost(conn, transaction, cost, True, 0, memberId)
-
-                        ' The PaymentCompleted event is now only for showing the final success form.
-                        AddHandler paymentHost.PaymentCompleted, Sub(s, args)
-                                                                    Dim finalSuccessForm As New RegistrationSuccessForm(memberId)
-                                                                    finalSuccessForm.ShowDialog()
-                                                                End Sub
-
+                        ' After inserting records, proceed to payment by hosting the BillingPaymentForm in a dialog.
                         Me.Hide()
-                        Dim paymentResult As DialogResult = paymentHost.ShowDialog(Me)
 
-                        ' After payment, decide whether to commit or rollback.
-                        If paymentResult = DialogResult.OK Then
-                            ' Payment was successful. Commit the transaction to make the new account permanent.
-                            transaction.Commit()
-                            ' Navigate to the login form.
-                            Dim loginForm As New Member()
-                            loginForm.Show()
-                            Me.Close() ' Close registration form on success
-                        Else
-                            ' Payment was cancelled. Rollback the transaction to delete the pending account.
-                            transaction.Rollback()
-                            MessageBox.Show("Payment was not completed and your registration has been cancelled. Please try again.", "Registration Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                            Me.Show() ' Show the registration form again
-                        End If
+                        ' 1. Create the user control with the transaction and other details.
+                        Dim billingControl As New BillingPaymentForm(conn, transaction, cost, True, 0, memberId)
 
-                        ' Close the registration form.
+                        ' 2. Create the host form and pass the control to it.
+                        Using hostForm As New PaymentHostForm(billingControl)
+                            ' 3. Show the host form as a dialog.
+                            Dim paymentResult As DialogResult = hostForm.ShowDialog(Me)
+
+                            ' 4. Check the result after the dialog is closed.
+                            If paymentResult = DialogResult.OK Then
+                                ' The transaction was committed within the payment control's logic.
+                                Dim finalSuccessForm As New RegistrationSuccessForm(memberId)
+                                finalSuccessForm.ShowDialog()
+
+                                Dim loginForm As New Member()
+                                loginForm.Show()
+                                Me.Close()
+                            Else
+                                ' The transaction was rolled back. No need to do it again here.
+                                MessageBox.Show("Payment was not completed and your registration has been cancelled. Please try again.", "Registration Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                                Me.Show()
+                            End If
+                        End Using
                     Catch ex As Exception
                         ' Rollback the transaction in case of an error
                         transaction.Rollback()
@@ -737,28 +1015,16 @@ Public Class JoinNow
 
 
     Private Sub ContactTxt_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ContactTxt.KeyPress
-        ' Allow only digits, the '+' sign, and control keys like backspace
-        If Not Char.IsDigit(e.KeyChar) AndAlso e.KeyChar <> "+"c AndAlso Not Char.IsControl(e.KeyChar) Then
-            e.Handled = True ' Suppress the key press if it's not allowed
-            MessageBox.Show("Only numbers and '+' are allowed.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return
-        End If
-
-        ' Allow only one '+' at the beginning of the text
-        If e.KeyChar = "+"c AndAlso (ContactTxt.Text.Length > 0 OrElse ContactTxt.Text.Contains("+")) Then
-            e.Handled = True ' Suppress the key press if '+' is not at the start or already exists
-            MessageBox.Show("The '+' sign can only be at the beginning.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return
-        End If
-
-        ' Check for maximum length (11 digits + optional '+' at start)
-        Dim currentLength = ContactTxt.Text.Length
-        Dim hasPlus = ContactTxt.Text.StartsWith("+")
-        Dim maxDigits = If(hasPlus, 12, 11) ' Allow 12 chars if there's a '+', otherwise 11
-
-        If currentLength >= maxDigits AndAlso Not Char.IsControl(e.KeyChar) Then
+        ' Allow only numbers and the backspace key
+        If Not Char.IsDigit(e.KeyChar) AndAlso e.KeyChar <> ChrW(Keys.Back) Then
             e.Handled = True
-            MessageBox.Show("Phone number cannot exceed 11 digits.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End If
+    End Sub
+
+    Private Sub Name_KeyPress(sender As Object, e As KeyPressEventArgs) Handles FirstTxt.KeyPress, MiddleTxt.KeyPress, LastTxt.KeyPress
+        ' Allow only letters, backspace, and space. Prevents numbers.
+        If Not Char.IsLetter(e.KeyChar) AndAlso e.KeyChar <> ChrW(Keys.Back) AndAlso e.KeyChar <> ChrW(Keys.Space) Then
+            e.Handled = True
         End If
     End Sub
 

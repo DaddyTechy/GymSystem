@@ -16,6 +16,17 @@ Public Class EditReservationForm
         strConnection = connectionString
         _userRole = userRole
 
+        ' Populate training type dropdown
+        cmbPurpose.Items.AddRange(New String() {"Strength", "Endurance", "Flexibility"})
+
+        ' Populate status dropdown
+        cmbStatus.Items.Clear()
+        cmbStatus.Items.Add("Pending")
+        cmbStatus.Items.Add("Confirmed")
+        cmbStatus.Items.Add("Ongoing")
+        cmbStatus.Items.Add("Completed")
+        cmbStatus.Items.Add("Cancelled")
+
         If String.IsNullOrEmpty(strConnection) Then
             MessageBox.Show("Database connection string is not provided.", "Configuration Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             _shouldClose = True
@@ -48,8 +59,8 @@ Public Class EditReservationForm
             cmbStatus.Enabled = False
         End If
 
-        ' The purpose field should not be editable
-        txtPurpose.Enabled = False
+        ' The purpose field should be editable
+        cmbPurpose.Enabled = True
     End Sub
 
     Private Sub LoadFilteredEquipment(ByVal trainingType As String)
@@ -99,7 +110,7 @@ Public Class EditReservationForm
                         dtpStartTime.Value = DateTime.Today.Add(CType(reader("StartTime"), TimeSpan))
                         dtpEndTime.Value = DateTime.Today.Add(CType(reader("EndTime"), TimeSpan))
                         cmbStatus.SelectedItem = reader("ReservationStatus").ToString()
-                        txtPurpose.Text = _reservationPurpose
+                        cmbPurpose.SelectedItem = _reservationPurpose
                         txtNotes.Text = reader("ReservationNotes").ToString()
                     End If
                 End Using
@@ -120,7 +131,7 @@ Public Class EditReservationForm
                     cmd.Parameters.AddWithValue("@StartTime", dtpStartTime.Value.ToString("HH:mm:ss"))
                     cmd.Parameters.AddWithValue("@EndTime", dtpEndTime.Value.ToString("HH:mm:ss"))
                     cmd.Parameters.AddWithValue("@Status", cmbStatus.SelectedItem.ToString())
-                    cmd.Parameters.AddWithValue("@Purpose", txtPurpose.Text)
+                    cmd.Parameters.AddWithValue("@Purpose", cmbPurpose.SelectedItem.ToString())
                     cmd.Parameters.AddWithValue("@Notes", txtNotes.Text)
                     cmd.Parameters.AddWithValue("@ReservationID", _reservationID)
 
@@ -139,5 +150,12 @@ Public Class EditReservationForm
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
         Me.DialogResult = DialogResult.Cancel
         Me.Close()
+    End Sub
+
+    Private Sub cmbPurpose_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbPurpose.SelectedIndexChanged
+        If cmbPurpose.SelectedItem Is Nothing Then Return
+
+        Dim selectedTrainingType As String = cmbPurpose.SelectedItem.ToString()
+        LoadFilteredEquipment(selectedTrainingType)
     End Sub
 End Class

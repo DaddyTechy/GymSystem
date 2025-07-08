@@ -106,6 +106,7 @@ Public Class Equipmentlist
                 hostForm.Size = New Size(420, 520) ' Adjust size to fit control
 
                 Dim editControl As New Gym_Equipment(equipmentId)
+                AddHandler editControl.BackClicked, Sub(s, ev) hostForm.Close()
                 editControl.Dock = DockStyle.Fill
 
                 hostForm.Controls.Add(editControl)
@@ -172,6 +173,7 @@ Public Class Equipmentlist
 
         ' Initialize the Gym_Equipment control instead of AddAttendanceControl
         gymEquipmentControl = New Gym_Equipment()
+        AddHandler gymEquipmentControl.BackClicked, AddressOf GymEquipmentControl_BackClicked
 
         ' Add the Gym_Equipment control to the form
         Me.Controls.Add(gymEquipmentControl)
@@ -182,6 +184,10 @@ Public Class Equipmentlist
     End Sub
 
     ' Button click event to show the Gym_Equipment control
+
+    Private Sub GymEquipmentControl_BackClicked(sender As Object, e As EventArgs)
+        gymEquipmentControl.Visible = False
+    End Sub
 
     Private Sub AddEquipment_Click(sender As Object, e As EventArgs) Handles AddEquipment.Click
         gymEquipmentControl.Location = New Point(100, 200)

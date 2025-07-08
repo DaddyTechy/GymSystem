@@ -5,6 +5,8 @@ Imports ZstdSharp.Unsafe
 Imports System.Data.SqlClient
 
 Public Class Gym_Equipment
+
+    Public Event BackClicked As EventHandler
     Private isEditMode As Boolean = False
     Private currentEquipmentId As Integer = 0
 
@@ -99,9 +101,7 @@ Public Class Gym_Equipment
 
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        If Me.ParentForm IsNot Nothing Then
-            Me.ParentForm.Close()
-        End If
+        RaiseEvent BackClicked(Me, EventArgs.Empty)
     End Sub
 
 

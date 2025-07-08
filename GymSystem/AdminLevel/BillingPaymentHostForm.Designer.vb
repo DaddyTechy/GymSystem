@@ -22,16 +22,17 @@ Partial Class BillingPaymentHostForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.SuspendLayout()
-        '
-        'BillingPaymentHostForm
-        '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
-        Me.Name = "BillingPaymentHostForm"
-        Me.Text = "BillingPaymentHostForm"
-        Me.ResumeLayout(False)
+        SuspendLayout()
+        ' 
+        ' BillingPaymentHostForm
+        ' 
+        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleMode = AutoScaleMode.Font
+        ClientSize = New Size(933, 519)
+        Margin = New Padding(4, 3, 4, 3)
+        Name = "BillingPaymentHostForm"
+        Text = "BillingPaymentHostForm"
+        ResumeLayout(False)
 
     End Sub
 End Class

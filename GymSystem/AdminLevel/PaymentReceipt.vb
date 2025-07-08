@@ -39,99 +39,45 @@ Public Class PaymentReceipt
     End Sub
 
     Private Sub PaymentReceipt_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' Set up the form and panel
-        Me.Text = "Payment Receipt"
-        Me.Size = New Size(420, 700) ' Increased height to accommodate buttons
-
-        Dim receiptPanel As New Panel()
-        receiptPanel.Dock = DockStyle.Top
-        receiptPanel.BackColor = Color.White
-        receiptPanel.Height = 550 ' Set height to leave space for buttons
-        Me.Controls.Add(receiptPanel)
-
-        ' Add receipt details to the panel
-        Dim receiptDetails As String = GenerateReceiptDetails()
-        Dim receiptLabel As New Label()
-        receiptLabel.Text = receiptDetails
-        receiptLabel.Font = New Font("Consolas", 10) ' Use a fixed-width font for alignment
-        receiptLabel.AutoSize = True
-        receiptLabel.Location = New Point(10, 10) ' Position at the top
-        receiptPanel.Controls.Add(receiptLabel)
-
-        ' Add Print and Save buttons
-        Dim printButton As New Button()
-        printButton.Text = "Print"
-        printButton.Location = New Point(50, receiptPanel.Bottom + 10)
-        AddHandler printButton.Click, AddressOf PrintReceipt
-        Me.Controls.Add(printButton)
-
-        Dim saveButton As New Button()
-        saveButton.Text = "Save"
-        saveButton.Location = New Point(200, receiptPanel.Bottom + 10)
-        AddHandler saveButton.Click, AddressOf SaveReceipt
-        Me.Controls.Add(saveButton)
+        PopulateReceiptData()
     End Sub
 
+    Private Sub PopulateReceiptData()
+        ' Populate the new controls with data
+        lblDate.Text = paymentDate.ToString("yyyy-MM-dd")
+        lblReceiptNumber.Text = receiptNumber
 
-    Private Function GenerateReceiptDetails() As String
-        ' Generate the receipt details based on the payment information
-        Dim companyName As String = "JJ Fitness Gym"
-        Dim receiptTitle As String = "Payment Receipt "
-        Dim dateStr As String = "Date: " & paymentDate.ToString("yyyy-MM-dd")
-        Dim timeStr As String = "Time: " & paymentDate.ToString("HH:mm:ss")
-        Dim invoiceStr As String = "Invoice Number: " & invoiceNumber
-        Dim receiptStr As String = "Receipt Number: " & receiptNumber
-        Dim memberIDStr As String = "Member ID: " & memberID
-        Dim memberNameStr As String = "Member Name: " & memberName
-        Dim paymentMethodStr As String = "Payment Method: " & paymentMethod
-        Dim subTotalStr As String = "Subtotal: " & subTotal.ToString("C")
-        Dim discountStr As String = "Discount: " & discountApplied.ToString("C")
-        Dim taxStr As String = "Tax: " & taxAmount.ToString("C")
-        Dim totalAmountStr As String = "Total Amount: " & totalAmount.ToString("C")
-        Dim paymentNotesStr As String = "Payment Notes: " & paymentNotes
-        Dim thankYouStr As String = "Thank You for Your Payment! "
+        ' Customer details
+        lblCustomerName.Text = memberName
+        ' You may need to fetch and add other customer details like address, phone, etc.
+        ' For now, we'll leave them as placeholders.
+        lblCustomerCompany.Text = ""
+        lblCustomerAddress.Text = ""
+        lblCustomerCity.Text = ""
+        lblCustomerPhone.Text = ""
+        lblCustomerID.Text = memberID.ToString()
 
-        ' Define the width of the receipt
-        Dim receiptWidth As Integer = 50
+        ' Payment details
+        lblPaymentMethod.Text = paymentMethod
 
-        ' Function to center-align text
-        Dim CenterAlign As Func(Of String, String) = Function(text As String) As String
-                                                         Dim padding As Integer = (receiptWidth - text.Length) \ 2
-                                                         Return New String(" "c, padding) & text & New String(" "c, padding)
-                                                     End Function
+        ' Line items - you will need to fetch these from the database based on the payment/invoice
+        ' For this example, I will add a single line item representing the total payment.
+        tblLineItems.RowCount = 2 ' Header + 1 data row
+        tblLineItems.Controls.Add(New Label() With {.Text = "1", .Anchor = AnchorStyles.None, .TextAlign = ContentAlignment.MiddleCenter}, 0, 1)
+        tblLineItems.Controls.Add(New Label() With {.Text = "Membership/Reservation", .Anchor = AnchorStyles.None, .TextAlign = ContentAlignment.MiddleCenter}, 1, 1)
+        tblLineItems.Controls.Add(New Label() With {.Text = "Payment", .Anchor = AnchorStyles.None, .TextAlign = ContentAlignment.MiddleCenter}, 2, 1)
+        tblLineItems.Controls.Add(New Label() With {.Text = subTotal.ToString("N2"), .Anchor = AnchorStyles.None, .TextAlign = ContentAlignment.MiddleCenter}, 3, 1)
+        tblLineItems.Controls.Add(New Label() With {.Text = discountApplied.ToString("N2"), .Anchor = AnchorStyles.None, .TextAlign = ContentAlignment.MiddleCenter}, 4, 1)
+        tblLineItems.Controls.Add(New Label() With {.Text = totalAmount.ToString("N2"), .Anchor = AnchorStyles.None, .TextAlign = ContentAlignment.MiddleCenter}, 5, 1)
 
-        ' Function to left-align text with padding
-        Dim LeftAlign As Func(Of String, String) = Function(text As String) As String
-                                                       Return text & New String(" "c, receiptWidth - text.Length)
-                                                   End Function
+        ' Totals
+        lblSubtotal.Text = subTotal.ToString("N2")
+        lblSalesTax.Text = taxAmount.ToString("N2")
+        lblTotal.Text = totalAmount.ToString("N2")
 
-        ' Generate the receipt details
-        Dim receiptDetails As String = CenterAlign(companyName) & Environment.NewLine &
-                                   Environment.NewLine &
-                                   CenterAlign(receiptTitle) & Environment.NewLine &
-                                   Environment.NewLine &
-                                   LeftAlign(dateStr) & Environment.NewLine &
-                                   LeftAlign(timeStr) & Environment.NewLine &
-                                   LeftAlign(invoiceStr) & Environment.NewLine &
-                                   LeftAlign(receiptStr) & Environment.NewLine &
-                                   Environment.NewLine &
-                                   LeftAlign(memberIDStr) & Environment.NewLine &
-                                   LeftAlign(memberNameStr) &
-                                   Environment.NewLine &
-                                   LeftAlign(paymentMethodStr) & Environment.NewLine &
-                                   LeftAlign(subTotalStr) & Environment.NewLine &
-                                   LeftAlign(discountStr) & Environment.NewLine &
-                                   LeftAlign(taxStr) & Environment.NewLine &
-                                   LeftAlign(totalAmountStr) & Environment.NewLine &
-                                   Environment.NewLine &
-                                   LeftAlign(paymentNotesStr) & Environment.NewLine &
-                                   Environment.NewLine &
-                                   CenterAlign(thankYouStr)
+    End Sub
 
-        Return receiptDetails
-    End Function
-
-    Private Sub PrintReceipt(sender As Object, e As EventArgs)
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         ' Set the page settings
         Dim pageSettings As New PageSettings()
         pageSettings.Margins = New Margins(50, 50, 50, 50) ' Set margins (left, right, top, bottom)
@@ -150,17 +96,18 @@ Public Class PaymentReceipt
         Me.Hide()
     End Sub
 
-    Private Sub SaveReceipt(sender As Object, e As EventArgs)
+    Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         ' Show the SaveFileDialog
         Dim saveFileDialog As New SaveFileDialog()
-        saveFileDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*"
+        saveFileDialog.Filter = "PNG Files (*.png)|*.png|All Files (*.*)|*.*"
         saveFileDialog.Title = "Save Receipt As"
-        saveFileDialog.FileName = "Receipt.txt"
+        saveFileDialog.FileName = "Receipt.png"
 
         If saveFileDialog.ShowDialog() = DialogResult.OK Then
-            ' Save the receipt details to the selected file
-            Dim receiptDetails As String = GenerateReceiptDetails()
-            System.IO.File.WriteAllText(saveFileDialog.FileName, receiptDetails)
+            ' Save the receipt panel as an image
+            Dim bmp As New Bitmap(pnlReceipt.Width, pnlReceipt.Height)
+            pnlReceipt.DrawToBitmap(bmp, New Rectangle(0, 0, pnlReceipt.Width, pnlReceipt.Height))
+            bmp.Save(saveFileDialog.FileName, System.Drawing.Imaging.ImageFormat.Png)
             MessageBox.Show("Receipt saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
         Me.Hide()
@@ -169,9 +116,8 @@ Public Class PaymentReceipt
     ' PrintDocument1 PrintPage event handler
     Private Sub PrintDocument1_PrintPage(sender As Object, e As Printing.PrintPageEventArgs)
         ' Create a bitmap of the receipt panel
-        Dim receiptPanel As Panel = CType(Me.Controls(0), Panel) ' Assuming the receipt panel is the first control
-        Dim bmp As New Bitmap(receiptPanel.Width, receiptPanel.Height)
-        receiptPanel.DrawToBitmap(bmp, New Rectangle(0, 0, receiptPanel.Width, receiptPanel.Height))
+        Dim bmp As New Bitmap(pnlReceipt.Width, pnlReceipt.Height)
+        pnlReceipt.DrawToBitmap(bmp, New Rectangle(0, 0, pnlReceipt.Width, pnlReceipt.Height))
 
         ' Calculate the scaling factor to fit the panel within the printable area
         Dim scaleFactor As Single = Math.Min(e.MarginBounds.Width / bmp.Width, e.MarginBounds.Height / bmp.Height)

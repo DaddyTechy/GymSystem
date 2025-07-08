@@ -35,7 +35,7 @@ Partial Class EditReservationForm
         lblStatus = New Label()
         cmbStatus = New ComboBox()
         lblPurpose = New Label()
-        txtPurpose = New TextBox()
+        cmbPurpose = New ComboBox()
         lblNotes = New Label()
         txtNotes = New TextBox()
         btnSave = New Button()
@@ -175,13 +175,14 @@ Partial Class EditReservationForm
         lblPurpose.TabIndex = 12
         lblPurpose.Text = "Training Type:"
         ' 
-        ' txtPurpose
+        ' cmbPurpose
         ' 
-        txtPurpose.Location = New Point(144, 202)
-        txtPurpose.Margin = New Padding(4, 3, 4, 3)
-        txtPurpose.Name = "txtPurpose"
-        txtPurpose.Size = New Size(290, 23)
-        txtPurpose.TabIndex = 13
+        cmbPurpose.FormattingEnabled = True
+        cmbPurpose.Location = New Point(144, 202)
+        cmbPurpose.Margin = New Padding(4, 3, 4, 3)
+        cmbPurpose.Name = "cmbPurpose"
+        cmbPurpose.Size = New Size(290, 23)
+        cmbPurpose.TabIndex = 13
         ' 
         ' lblNotes
         ' 
@@ -239,7 +240,7 @@ Partial Class EditReservationForm
         Controls.Add(btnSave)
         Controls.Add(txtNotes)
         Controls.Add(lblNotes)
-        Controls.Add(txtPurpose)
+        Controls.Add(cmbPurpose)
         Controls.Add(lblPurpose)
         Controls.Add(cmbStatus)
         Controls.Add(lblStatus)
@@ -278,7 +279,7 @@ Partial Class EditReservationForm
     Friend WithEvents lblStatus As Label
     Friend WithEvents cmbStatus As ComboBox
     Friend WithEvents lblPurpose As Label
-    Friend WithEvents txtPurpose As TextBox
+    Friend WithEvents cmbPurpose As ComboBox
     Friend WithEvents lblNotes As Label
     Friend WithEvents txtNotes As TextBox
     Friend WithEvents btnSave As Button

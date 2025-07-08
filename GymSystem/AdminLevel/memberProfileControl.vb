@@ -840,8 +840,8 @@ Public Class memberProfileControl
             Dim reservationID As Integer = Convert.ToInt32(selectedRow.Cells("ReservationID").Value)
             Dim status As String = selectedRow.Cells("ReservationStatus").Value.ToString()
 
-            If (status = "Confirmed" OrElse status = "Ongoing" OrElse status = "Cancelled") AndAlso CurrentLoggedUser.position = "Member" Then
-                MessageBox.Show("Confirmed, Ongoing, or Cancelled reservations cannot be edited.", "Action Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            If (status = "Confirmed" OrElse status = "Ongoing" OrElse status = "Cancelled" OrElse status = "Completed") AndAlso CurrentLoggedUser.position = "Member" Then
+                MessageBox.Show("Confirmed, Ongoing, Cancelled, or Completed reservations cannot be edited.", "Action Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Return
             End If
 

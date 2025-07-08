@@ -123,14 +123,6 @@ Public Class addReservationControl
             End Using
 
             ' Create a new column for the full name and position
-            ' --- START DEBUGGING ---
-            Debug.WriteLine($"Found {dt.Rows.Count} trainers in the database.")
-            For Each row As DataRow In dt.Rows
-                Debug.WriteLine($"  - StaffID: {row("StaffID")}, Name: {row("FirstName")} {row("LastName")}, Position: {row("Position")}")
-            Next
-            ' --- END DEBUGGING ---
-
-            ' Create a new column for the full name and position
             dt.Columns.Add("FullNamePosition", GetType(String), "FirstName + ' ' + LastName")
 
             cmbTrainer.DataSource = Nothing ' Clear existing data source
@@ -142,6 +134,43 @@ Public Class addReservationControl
             MessageBox.Show($"Error loading trainers: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+    Private Sub InsertFreeReservation(memberID As Integer, equipmentID As Integer, staffID As Integer, reservationDate As DateTime, startTime As DateTime, endTime As DateTime, notes As String, purpose As String)
+        UpdateConnectionString()
+        Using conn As New MySqlConnection(strConnection)
+            conn.Open()
+            Using transaction As MySqlTransaction = conn.BeginTransaction()
+                Try
+                    Dim query As String = "INSERT INTO reservation (MemberID, EquipmentID, StaffID, ReservationDate, StartTime, EndTime, ReservationFee, ReservationNotes, ReservationStatus, Cancellation, Reschedule, PaymentStatus, Feedback, Purpose) " &
+                                          "VALUES (@MemberID, @EquipmentID, @StaffID, @ReservationDate, @StartTime, @EndTime, @ReservationFee, @ReservationNotes, @ReservationStatus, @Cancellation, @Reschedule, @PaymentStatus, @Feedback, @Purpose)"
+
+                    Using cmd As New MySqlCommand(query, conn, transaction)
+                        cmd.Parameters.AddWithValue("@MemberID", memberID)
+                        cmd.Parameters.AddWithValue("@EquipmentID", If(equipmentID > 0, CObj(equipmentID), DBNull.Value))
+                        cmd.Parameters.AddWithValue("@StaffID", If(staffID > 0, CObj(staffID), DBNull.Value))
+                        cmd.Parameters.AddWithValue("@ReservationDate", reservationDate.Date)
+                        cmd.Parameters.AddWithValue("@StartTime", startTime.ToString("HH:mm:ss"))
+                        cmd.Parameters.AddWithValue("@EndTime", endTime.ToString("HH:mm:ss"))
+                        cmd.Parameters.AddWithValue("@ReservationFee", 0)
+                        cmd.Parameters.AddWithValue("@ReservationNotes", notes)
+                        cmd.Parameters.AddWithValue("@ReservationStatus", "Pending") ' Set to Pending for consistency
+                        cmd.Parameters.AddWithValue("@Cancellation", False)
+                        cmd.Parameters.AddWithValue("@Reschedule", False)
+                        cmd.Parameters.AddWithValue("@PaymentStatus", "Paid") ' Paid since it's free
+                        cmd.Parameters.AddWithValue("@Feedback", "")
+                        cmd.Parameters.AddWithValue("@Purpose", purpose)
+                        cmd.ExecuteNonQuery()
+                    End Using
+                    transaction.Commit()
+                    MessageBox.Show("Free reservation for Diamond member successfully saved!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Catch ex As Exception
+                    transaction.Rollback()
+                    MessageBox.Show($"An error occurred while saving the free reservation: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            End Using
+        End Using
+    End Sub
+
     Private Sub btnSaveReservation_Click(sender As Object, e As EventArgs) Handles btnSaveReservation.Click
         Dim memberID As Integer = Me.MemberID
 
@@ -196,10 +225,16 @@ Public Class addReservationControl
         Dim totalFee As Decimal = CalculateTotalFee(memberID, startTime, endTime)
         lblTotalFee.Text = $"Php {totalFee:C}"
 
-
-        ' Raise the ReservationAdded event
-        RaiseEvent ReservationAdded(memberID, equipmentID, staffID, reservationDate, startTime, endTime, totalFee, reservationNotes, purpose)
-        Me.Hide()
+        ' If the fee is zero (e.g., for Diamond members), bypass payment and save directly.
+        ' Otherwise, proceed to the payment form.
+        If totalFee = 0 Then
+            InsertFreeReservation(memberID, equipmentID, staffID, reservationDate, startTime, endTime, reservationNotes, purpose)
+            Me.Hide()
+        Else
+            ' Raise the ReservationAdded event to trigger the payment form
+            RaiseEvent ReservationAdded(memberID, equipmentID, staffID, reservationDate, startTime, endTime, totalFee, reservationNotes, purpose)
+            Me.Hide()
+        End If
     End Sub
 
 

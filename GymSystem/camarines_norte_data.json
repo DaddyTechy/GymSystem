@@ -1,0 +1,80 @@
+[
+    {
+        "province_name": "CAMARINES NORTE",
+        "province_code": "0516",
+        "municipalities": [
+            {
+                "city_name": "BASUD",
+                "city_code": "051601",
+                "zip_code": "4608",
+                "barangays": []
+            },
+            {
+                "city_name": "CAPALONGA",
+                "city_code": "051602",
+                "zip_code": "4607",
+                "barangays": []
+            },
+            {
+                "city_name": "DAET (Capital)",
+                "city_code": "051603",
+                "zip_code": "4600",
+                "barangays": []
+            },
+            {
+                "city_name": "SAN LORENZO RUIZ (IMELDA)",
+                "city_code": "051604",
+                "zip_code": "4610",
+                "barangays": []
+            },
+            {
+                "city_name": "JOSE PANGANIBAN",
+                "city_code": "051605",
+                "zip_code": "4606",
+                "barangays": []
+            },
+            {
+                "city_name": "LABO",
+                "city_code": "051606",
+                "zip_code": "4604",
+                "barangays": []
+            },
+            {
+                "city_name": "MERCEDES",
+                "city_code": "051607",
+                "zip_code": "4601",
+                "barangays": []
+            },
+            {
+                "city_name": "PARACALE",
+                "city_code": "051608",
+                "zip_code": "4605",
+                "barangays": []
+            },
+            {
+                "city_name": "SAN VICENTE",
+                "city_code": "051609",
+                "zip_code": "4609",
+                "barangays": []
+            },
+            {
+                "city_name": "SANTA ELENA",
+                "city_code": "051610",
+                "zip_code": "4611",
+                "barangays": []
+            },
+            {
+                "city_name": "TALISAY",
+                "city_code": "051611",
+                "zip_code": "4602",
+                "barangays": []
+            },
+            {
+                "city_name": "VINZONS",
+                "city_code": "051612",
+                "zip_code": "4603",
+                "barangays": []
+            }
+        ]
+    }
+]

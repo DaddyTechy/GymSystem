@@ -90,7 +90,10 @@ Partial Class JoinNow
         ' PlansCB
         ' 
         PlansCB.Anchor = AnchorStyles.None
+        PlansCB.BackColor = Color.Gray
         PlansCB.DropDownStyle = ComboBoxStyle.DropDownList
+        PlansCB.FlatStyle = FlatStyle.Flat
+        PlansCB.ForeColor = Color.White
         PlansCB.FormattingEnabled = True
         PlansCB.Location = New Point(202, 408)
         PlansCB.Margin = New Padding(3, 2, 3, 2)
@@ -449,7 +452,7 @@ Partial Class JoinNow
         CustomComboProvince.BackColor = Color.Gray
         CustomComboProvince.BgColor = Color.Gray
         CustomComboProvince.BorderColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
-        CustomComboProvince.CustomForeColor = Color.Black
+        CustomComboProvince.CustomForeColor = Color.White
         CustomComboProvince.DrawMode = DrawMode.OwnerDrawFixed
         CustomComboProvince.DropDownStyle = ComboBoxStyle.DropDownList
         CustomComboProvince.FlatStyle = FlatStyle.Flat
@@ -467,7 +470,7 @@ Partial Class JoinNow
         CustomComboCity.BackColor = Color.Gray
         CustomComboCity.BgColor = Color.Gray
         CustomComboCity.BorderColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
-        CustomComboCity.CustomForeColor = Color.Black
+        CustomComboCity.CustomForeColor = Color.White
         CustomComboCity.DrawMode = DrawMode.OwnerDrawFixed
         CustomComboCity.DropDownStyle = ComboBoxStyle.DropDownList
         CustomComboCity.FlatStyle = FlatStyle.Flat
@@ -485,7 +488,7 @@ Partial Class JoinNow
         CustomComboStreet.BackColor = Color.Gray
         CustomComboStreet.BgColor = Color.Gray
         CustomComboStreet.BorderColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
-        CustomComboStreet.CustomForeColor = Color.Black
+        CustomComboStreet.CustomForeColor = Color.White
         CustomComboStreet.DrawMode = DrawMode.OwnerDrawFixed
         CustomComboStreet.DropDownStyle = ComboBoxStyle.DropDownList
         CustomComboStreet.FlatStyle = FlatStyle.Flat
@@ -503,7 +506,7 @@ Partial Class JoinNow
         CustomComboZip.BackColor = Color.Gray
         CustomComboZip.BgColor = Color.Gray
         CustomComboZip.BorderColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
-        CustomComboZip.CustomForeColor = Color.Black
+        CustomComboZip.CustomForeColor = Color.White
         CustomComboZip.DrawMode = DrawMode.OwnerDrawFixed
         CustomComboZip.DropDownStyle = ComboBoxStyle.DropDownList
         CustomComboZip.FlatStyle = FlatStyle.Flat
@@ -535,16 +538,15 @@ Partial Class JoinNow
         SexTxt.BackColor = Color.Gray
         SexTxt.BgColor = Color.Gray
         SexTxt.BorderColor = Color.FromArgb(CByte(245), CByte(203), CByte(92))
-        SexTxt.CustomForeColor = Color.Black
+        SexTxt.CustomForeColor = Color.White
         SexTxt.DrawMode = DrawMode.OwnerDrawFixed
         SexTxt.DropDownStyle = ComboBoxStyle.DropDownList
         SexTxt.FlatStyle = FlatStyle.Flat
         SexTxt.ForeColor = Color.White
         SexTxt.FormattingEnabled = True
-        SexTxt.Location = New Point(571, 253)
-        SexTxt.Margin = New Padding(3, 2, 3, 2)
+        SexTxt.Location = New Point(571, 251)
         SexTxt.Name = "SexTxt"
-        SexTxt.Size = New Size(99, 24)
+        SexTxt.Size = New Size(219, 23)
         SexTxt.TabIndex = 50
         ' 
         ' JoinNow

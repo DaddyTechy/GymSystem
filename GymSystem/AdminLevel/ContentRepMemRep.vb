@@ -52,7 +52,7 @@ Public Class ContentRepMemRep
         ' Execute the query
         readQuery(query)
         ' Display in grid first; PDF export can be triggered separately
-        lastReportPath = "..\\..\\..\\AdminLevel\\Reports\\RevenueReport.rdlc"
+        lastReportPath = Path.Combine(Application.StartupPath, "Reports", "RevenueReport.rdlc")
         BindReport(lastReportPath, False, False)
     End Sub
 
@@ -218,7 +218,7 @@ Public Class ContentRepMemRep
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         lastClickedButton = Button1
-        ReloadData($"SELECT AttendanceID, StaffID, MemberID, Date, CheckInTime, CheckOutTime, SessionType FROM attendance LIMIT {batchSize} OFFSET 0", "..\..\..\AdminLevel\Reports\Report2.rdlc")
+        ReloadData($"SELECT AttendanceID, StaffID, MemberID, Date, CheckInTime, CheckOutTime, SessionType FROM attendance LIMIT {batchSize} OFFSET 0", Path.Combine(Application.StartupPath, "Reports", "Report2.rdlc"))
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click

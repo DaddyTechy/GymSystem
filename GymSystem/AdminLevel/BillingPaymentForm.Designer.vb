@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class BillingPaymentForm
     Inherits System.Windows.Forms.UserControl
 
@@ -340,7 +340,7 @@ Partial Class BillingPaymentForm
         ' Label4
         ' 
         Label4.AutoSize = True
-        Label4.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label4.Font = New Font("Segoe UI Semibold", 10.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label4.ForeColor = Color.Snow
         Label4.Location = New Point(28, 253)
         Label4.Name = "Label4"
@@ -351,7 +351,7 @@ Partial Class BillingPaymentForm
         ' Label3
         ' 
         Label3.AutoSize = True
-        Label3.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label3.Font = New Font("Segoe UI Semibold", 10.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label3.ForeColor = Color.Snow
         Label3.Location = New Point(28, 225)
         Label3.Name = "Label3"
@@ -362,7 +362,7 @@ Partial Class BillingPaymentForm
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Font = New Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label2.Font = New Font("Segoe UI Semibold", 10.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.Snow
         Label2.Location = New Point(28, 197)
         Label2.Name = "Label2"
@@ -384,7 +384,7 @@ Partial Class BillingPaymentForm
         ' 
         ' txtTotalAmount
         ' 
-        txtTotalAmount.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        txtTotalAmount.Font = New Font("Segoe UI", 9.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         txtTotalAmount.ForeColor = Color.Gold
         txtTotalAmount.Location = New Point(494, 13)
         txtTotalAmount.Name = "txtTotalAmount"
@@ -395,7 +395,7 @@ Partial Class BillingPaymentForm
         ' Label16
         ' 
         Label16.AutoSize = True
-        Label16.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label16.Font = New Font("Segoe UI", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label16.ForeColor = Color.White
         Label16.Location = New Point(433, 11)
         Label16.Name = "Label16"
@@ -433,7 +433,7 @@ Partial Class BillingPaymentForm
         ' 
         btnbck.BackColor = Color.DimGray
         btnbck.FlatStyle = FlatStyle.Popup
-        btnbck.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnbck.Font = New Font("Segoe UI", 9.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnbck.ForeColor = Color.White
         btnbck.Location = New Point(38, 14)
         btnbck.Name = "btnbck"
@@ -446,7 +446,7 @@ Partial Class BillingPaymentForm
         ' 
         Label1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         Label1.AutoSize = True
-        Label1.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label1.Font = New Font("Segoe UI Semibold", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.Snow
         Label1.Image = Vector_4
         Label1.ImageAlign = ContentAlignment.MiddleRight
@@ -460,7 +460,7 @@ Partial Class BillingPaymentForm
         ' 
         ' BillingPaymentForm
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(20), CByte(20), CByte(20))
         Controls.Add(Panel1)

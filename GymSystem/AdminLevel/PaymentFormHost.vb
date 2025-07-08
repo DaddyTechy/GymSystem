@@ -60,16 +60,20 @@ Public Class PaymentFormHost
 #Region "Windows Form Designer generated code"
 
     Private Sub InitializeComponent()
-        Me.SuspendLayout()
-        '
-        'PaymentFormHost
-        '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(844, 561)
-        Me.Name = "PaymentFormHost"
-        Me.Text = "PaymentFormHost"
-        Me.ResumeLayout(False)
+        SuspendLayout()
+        ' 
+        ' PaymentFormHost
+        ' 
+        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleMode = AutoScaleMode.Font
+        ClientSize = New Size(738, 526)
+        Name = "PaymentFormHost"
+        Text = "PaymentFormHost"
+        ResumeLayout(False)
+
+    End Sub
+
+    Private Sub PaymentFormHost_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
     End Sub
 
