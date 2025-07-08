@@ -1,4 +1,4 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports MySql.Data.MySqlClient
 
 
@@ -24,8 +24,8 @@ Public Class addReservationControl
         Debug.WriteLine("cmbTrainingType initialized with items.")
 
         ' Load initial data
-        LoadEquipmentByTrainingType(cmbTrainingType.SelectedItem.ToString())
         LoadCertifiedTrainers()
+        LoadEquipmentByTrainingType(cmbTrainingType.SelectedItem.ToString())
     End Sub
 
 
@@ -75,25 +75,34 @@ Public Class addReservationControl
 
     Private Sub cmbTrainingType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbTrainingType.SelectedIndexChanged
         Debug.WriteLine("cmbTrainingType_SelectedIndexChanged triggered.")
+        If cmbTrainingType.SelectedItem Is Nothing Then Return
+
         Dim selectedTrainingType As String = cmbTrainingType.SelectedItem.ToString()
         Debug.WriteLine($"Selected Training Type: {selectedTrainingType}")
         LoadEquipmentByTrainingType(selectedTrainingType)
+        LoadCertifiedTrainers()
     End Sub
 
     Private Sub LoadEquipmentByTrainingType(trainingType As String)
         UpdateConnectionString()
         Debug.WriteLine($"Loading equipment for training type: {trainingType}")
-        ' Implement logic to load equipment based on the selected training type
-        Dim query As String = $"SELECT EquipmentID, Name FROM equipment WHERE Type = '{trainingType}' AND Status = 'Operational'"
-        ' Execute the query and populate cmbEquipmentType with the results
-        Dim adapter As New MySqlDataAdapter(query, conn)
         Dim dt As New DataTable()
-        adapter.Fill(dt)
-        cmbEquipmentType.DataSource = dt
-        cmbEquipmentType.DisplayMember = "Name"
-        cmbEquipmentType.ValueMember = "EquipmentID"
-        Debug.WriteLine($"Loaded {dt.Rows.Count} equipment items.")
-        LoadCertifiedTrainers()
+        Try
+            Using tempConn As New MySqlConnection(strConnection)
+                tempConn.Open()
+                Dim query As String = "SELECT EquipmentID, Name FROM equipment WHERE Type = @TrainingType AND Status = 'Operational'"
+                Using adapter As New MySqlDataAdapter(query, tempConn)
+                    adapter.SelectCommand.Parameters.AddWithValue("@TrainingType", trainingType)
+                    adapter.Fill(dt)
+                End Using
+            End Using
+            cmbEquipmentType.DataSource = dt
+            cmbEquipmentType.DisplayMember = "Name"
+            cmbEquipmentType.ValueMember = "EquipmentID"
+            Debug.WriteLine($"Loaded {dt.Rows.Count} equipment items.")
+        Catch ex As Exception
+            MessageBox.Show($"Error loading equipment: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub cmbTrainer_SelectedIndexChanged_1(sender As Object, e As EventArgs) Handles cmbTrainer.SelectedIndexChanged
@@ -103,21 +112,35 @@ Public Class addReservationControl
     Private Sub LoadCertifiedTrainers()
         UpdateConnectionString()
         Debug.WriteLine("Loading certified trainers...")
-        ' Implement logic to load trainers with the "Certified Trainer" certification
-        Dim query As String = "SELECT StaffID, FirstName, LastName, Position FROM staff WHERE Position IN ('Trainer')"
-        ' Execute the query and populate cmbTrainer with the results
-        Dim adapter As New MySqlDataAdapter(query, conn)
         Dim dt As New DataTable()
-        adapter.Fill(dt)
+        Try
+            Using tempConn As New MySqlConnection(strConnection)
+                tempConn.Open()
+                Dim query As String = "SELECT StaffID, FirstName, LastName, Position FROM staff WHERE Position IN ('Trainer', 'Certified Trainer')"
+                Using adapter As New MySqlDataAdapter(query, tempConn)
+                    adapter.Fill(dt)
+                End Using
+            End Using
 
-        ' Create a new column for the full name and position
-        dt.Columns.Add("FullNamePosition", GetType(String), "FirstName + ' ' + LastName")
+            ' Create a new column for the full name and position
+            ' --- START DEBUGGING ---
+            Debug.WriteLine($"Found {dt.Rows.Count} trainers in the database.")
+            For Each row As DataRow In dt.Rows
+                Debug.WriteLine($"  - StaffID: {row("StaffID")}, Name: {row("FirstName")} {row("LastName")}, Position: {row("Position")}")
+            Next
+            ' --- END DEBUGGING ---
 
-        cmbTrainer.DataSource = Nothing ' Clear existing data source
-        cmbTrainer.DataSource = dt
-        cmbTrainer.DisplayMember = "FullNamePosition"
-        cmbTrainer.ValueMember = "StaffID"
-        Debug.WriteLine($"Loaded {dt.Rows.Count} certified trainers.")
+            ' Create a new column for the full name and position
+            dt.Columns.Add("FullNamePosition", GetType(String), "FirstName + ' ' + LastName")
+
+            cmbTrainer.DataSource = Nothing ' Clear existing data source
+            cmbTrainer.DataSource = dt
+            cmbTrainer.DisplayMember = "FullNamePosition"
+            cmbTrainer.ValueMember = "StaffID"
+            Debug.WriteLine($"Loaded {dt.Rows.Count} certified trainers into the ComboBox.")
+        Catch ex As Exception
+            MessageBox.Show($"Error loading trainers: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
     Private Sub btnSaveReservation_Click(sender As Object, e As EventArgs) Handles btnSaveReservation.Click
         Dim memberID As Integer = Me.MemberID
@@ -182,13 +205,22 @@ Public Class addReservationControl
 
     Private Function IsDiamondMember(memberID As Integer) As Boolean
         UpdateConnectionString()
-        Dim query As String = $"SELECT MemberShipName FROM membership WHERE MemberID = {memberID}"
-        Dim adapter As New MySqlDataAdapter(query, conn)
-        Dim dt As New DataTable()
-        adapter.Fill(dt)
-        If dt.Rows.Count > 0 AndAlso dt.Rows(0)("MemberShipName").ToString() = "Diamond" Then
-            Return True
-        End If
+        Try
+            Using tempConn As New MySqlConnection(strConnection)
+                tempConn.Open()
+                Dim query As String = "SELECT MemberShipName FROM membership WHERE MemberID = @MemberID"
+                Using cmd As New MySqlCommand(query, tempConn)
+                    cmd.Parameters.AddWithValue("@MemberID", memberID)
+                    Using reader As MySqlDataReader = cmd.ExecuteReader()
+                        If reader.Read() Then
+                            Return reader("MemberShipName").ToString() = "Diamond"
+                        End If
+                    End Using
+                End Using
+            End Using
+        Catch ex As Exception
+            MessageBox.Show($"Error checking member status: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
         Return False
     End Function
 

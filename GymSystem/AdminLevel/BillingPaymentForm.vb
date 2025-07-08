@@ -232,7 +232,7 @@ Public Class BillingPaymentForm
 
             ' 1. Insert into reservation table and get the new ID
             Dim reservationQuery As String = "INSERT INTO reservation (MemberID, EquipmentID, StaffID, ReservationDate, StartTime, EndTime, ReservationFee, ReservationNotes, ReservationStatus, Cancellation, Reschedule, PaymentStatus, Feedback, Purpose) " &
-                                             "VALUES (@MemberID, @EquipmentID, @StaffID, @ReservationDate, @StartTime, @EndTime, @ReservationFee, @ReservationNotes, 'Confirmed', False, False, 'Paid', '', @Purpose); " &
+                                             "VALUES (@MemberID, @EquipmentID, @StaffID, @ReservationDate, @StartTime, @EndTime, @ReservationFee, @ReservationNotes, 'Pending', False, False, 'Paid', '', @Purpose); " &
                                              "SELECT LAST_INSERT_ID();"
             Dim newReservationID As Integer
             Using cmdReservation As New MySqlCommand(reservationQuery, conn, transaction)
@@ -343,7 +343,7 @@ Public Class BillingPaymentForm
                 End Using
 
                 If reservationId IsNot Nothing AndAlso Not IsDBNull(reservationId) Then
-                    Dim queryReservation As String = "UPDATE reservation SET PaymentStatus = 'Paid', ReservationStatus = 'Confirmed' WHERE ReservationID = @ReservationID"
+                    Dim queryReservation As String = "UPDATE reservation SET PaymentStatus = 'Paid' WHERE ReservationID = @ReservationID"
                     Using cmdReservation As New MySqlCommand(queryReservation, conn, transaction)
                         cmdReservation.Parameters.AddWithValue("@ReservationID", Convert.ToInt32(reservationId))
                         cmdReservation.ExecuteNonQuery()

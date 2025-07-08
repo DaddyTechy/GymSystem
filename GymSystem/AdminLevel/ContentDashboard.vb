@@ -814,11 +814,23 @@ Public Class ContentDashboard
         End Select
 
         If Not String.IsNullOrEmpty(newStatus) Then
-            UpdateReservationStatus(reservationID, newStatus)
+            Dim confirmationMessage As String = $"Are you sure you want to update the status to '{newStatus}'?"
+            Dim result = MessageBox.Show(confirmationMessage, "Confirm Status Change", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+            If result = DialogResult.Yes Then
+                UpdateReservationStatus(reservationID, newStatus)
+            End If
         End If
     End Sub
 
     Private Sub UpdateReservationStatus(reservationID As Integer, newStatus As String)
+        Dim confirmationMessage As String = $"Are you sure you want to update the status to '{newStatus}'?"
+        Dim result = MessageBox.Show(confirmationMessage, "Confirm Status Change", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+        If result = DialogResult.No Then
+            Return ' User cancelled the operation
+        End If
+
         Dim success As Boolean = False
         Try
             UpdateConnectionString()
@@ -843,7 +855,12 @@ Public Class ContentDashboard
     End Sub
 
     Private Sub ConfirmReservation(reservationID As Integer)
-        UpdateReservationStatus(reservationID, "Ongoing")
+        Dim confirmationMessage As String = "Are you sure you want to confirm this reservation and set its status to 'Ongoing'?"
+        Dim result = MessageBox.Show(confirmationMessage, "Confirm Reservation", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+        If result = DialogResult.Yes Then
+            UpdateReservationStatus(reservationID, "Ongoing")
+        End If
     End Sub
 
     Private Function FormatNumber(number As Double) As String
