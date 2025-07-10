@@ -57,6 +57,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="AdminLevel\Reports\Report1.rdlc">
+      <Link>Reports\Report1.rdlc</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="AdminLevel\Reports\Report2.rdlc">

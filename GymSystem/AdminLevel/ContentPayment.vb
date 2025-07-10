@@ -66,7 +66,16 @@ Public Class ContentPayment
         
 
                 ' Show the receipt form
-                Dim receiptForm As New PaymentReceipt(paymentMethod, paymentDate, subTotal, invoiceNumber, receiptNumber, discountApplied, taxAmount, totalAmount, paymentNotes, memberID, memberName)
+                Dim membershipCost As Decimal = If(Not IsDBNull(selectedRow.Cells("MembershipCost").Value), Convert.ToDecimal(selectedRow.Cells("MembershipCost").Value), 0D)
+
+                Dim itemType As String
+                If membershipCost > 0 Then
+                    itemType = "Membership"
+                Else
+                    itemType = "Reservation"
+                End If
+
+                Dim receiptForm As New PaymentReceipt(paymentMethod, paymentDate, subTotal, invoiceNumber, receiptNumber, discountApplied, taxAmount, totalAmount, paymentNotes, memberID, memberName, itemType)
                 receiptForm.ShowDialog()
             Else
                 MessageBox.Show("Receipt is only available for completed payments.", "Receipt Unavailable", MessageBoxButtons.OK, MessageBoxIcon.Information)

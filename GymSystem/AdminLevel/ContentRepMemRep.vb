@@ -223,17 +223,17 @@ Public Class ContentRepMemRep
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         lastClickedButton = Button2
-        ReloadData($"SELECT MemberID, FirstName, MiddleName, LastName, Sex, PhoneNumber, Province, City, Street, ZipCode FROM members LIMIT {batchSize} OFFSET 0", "..\..\..\AdminLevel\Reports\Report1.rdlc")
+        ReloadData($"SELECT MemberID, FirstName, MiddleName, LastName, Sex, PhoneNumber, Province, City, Street, ZipCode FROM members LIMIT {batchSize} OFFSET 0", Path.Combine(Application.StartupPath, "Reports", "Report1.rdlc"))
     End Sub
 
     Private Sub btnEquipment_Click(sender As Object, e As EventArgs) Handles btnEquipment.Click
         lastClickedButton = btnEquipment
-        ReloadData($"SELECT EquipmentID, Name, Type, Brand, PurchaseDate, Status, PurchasePlace, MaintenanceCost FROM equipment LIMIT {batchSize} OFFSET 0", "..\..\..\AdminLevel\Reports\Report3.rdlc")
+        ReloadData($"SELECT EquipmentID, Name, Type, Brand, PurchaseDate, Status, PurchasePlace, MaintenanceCost FROM equipment LIMIT {batchSize} OFFSET 0", Path.Combine(Application.StartupPath, "Reports", "Report3.rdlc"))
     End Sub
 
     Private Sub btnMembership_Click(sender As Object, e As EventArgs) Handles btnMembership.Click
         lastClickedButton = btnMembership
-        ReloadData($"SELECT MembershipID, MemberID, MemberShipName, Duration, Cost, Benefits, StartDate, EndDate, DiscountAvailable, CancelationPolicy, RenewalPolicy, TrainingSession, LockerAccess, MembershipType FROM membership LIMIT {batchSize} OFFSET 0", "..\..\..\AdminLevel\Reports\Report4.rdlc")
+        ReloadData($"SELECT MembershipID, MemberID, MemberShipName, Duration, Cost, Benefits, StartDate, EndDate, DiscountAvailable, CancelationPolicy, RenewalPolicy, TrainingSession, LockerAccess, MembershipType FROM membership LIMIT {batchSize} OFFSET 0", Path.Combine(Application.StartupPath, "Reports", "Report4.rdlc"))
     End Sub
 
     Private Sub FormatDataGridView()

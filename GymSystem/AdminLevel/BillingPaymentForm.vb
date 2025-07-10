@@ -223,7 +223,8 @@ Public Class BillingPaymentForm
             MessageBox.Show("Payment completed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
             ' Show the receipt form
-            Dim receiptForm As New PaymentReceipt(paymentMethod, paymentDate, subTotal, invoiceNumber, txtReceiptNumber.Text, discountApplied, taxAmount, totalAmount, paymentNotes, memberID, memberName)
+            Dim itemType As String = If(isMembership, "Membership", "Reservation")
+            Dim receiptForm As New PaymentReceipt(paymentMethod, paymentDate, subTotal, invoiceNumber, txtReceiptNumber.Text, discountApplied, taxAmount, totalAmount, paymentNotes, memberID, memberName, itemType)
             receiptForm.ShowDialog()
 
             RaiseEvent PaymentAttemptCompleted(DialogResult.OK)
@@ -367,23 +368,42 @@ Public Class BillingPaymentForm
     End Sub
 
     Private Function GetMemberName(memberID As Integer) As String
-        Dim memberName As String = String.Empty
-        Dim query As String = $"SELECT CONCAT(FirstName, ' ', LastName) AS MemberName FROM members WHERE MemberID = {memberID}"
-        Using conn As New MySqlConnection(strConnection)
-            conn.Open()
-            Using cmd As New MySqlCommand(query, conn)
-                Using reader As MySqlDataReader = cmd.ExecuteReader()
-                    If reader.Read() Then
-                        memberName = reader("MemberName").ToString()
-                    End If
-                End Using
+        Dim memberName As String = ""
+        Dim query As String = "SELECT CONCAT(FirstName, ' ', LastName) FROM members WHERE MemberID = @MemberID"
+
+        ' Use the existing connection and transaction if they are part of a larger operation (like JoinNow),
+        ' otherwise, create a new connection.
+        Dim connToUse As MySqlConnection = If(_conn IsNot Nothing, _conn, New MySqlConnection(modDB.strConnection))
+        Dim closeConnectionAfter As Boolean = (_conn Is Nothing) ' Only close the connection if we created it here.
+
+        Try
+            If closeConnectionAfter Then
+                connToUse.Open()
+            End If
+
+            Using cmd As New MySqlCommand(query, connToUse)
+                cmd.Parameters.AddWithValue("@MemberID", memberID)
+
+                ' If a transaction is active, use it.
+                If _transaction IsNot Nothing Then
+                    cmd.Transaction = _transaction
+                End If
+
+                Dim result = cmd.ExecuteScalar()
+                If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                    memberName = result.ToString()
+                End If
             End Using
-        End Using
+        Catch ex As Exception
+            MessageBox.Show("Failed to retrieve member name: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            If closeConnectionAfter AndAlso connToUse.State = ConnectionState.Open Then
+                connToUse.Close()
+            End If
+        End Try
+
         Return memberName
     End Function
-
-
-
 
     Private Function GenerateInvoiceNumber() As String
         ' Logic to generate a new InvoiceNumber

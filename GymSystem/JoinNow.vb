@@ -2,10 +2,24 @@ Imports System.Data.SqlClient
 Imports System.Text.RegularExpressions
 Imports System.Transactions
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports System.IO
 Imports MySql.Data.MySqlClient
 
 Public Class JoinNow
+
     Inherits Form
+
+    Private Sub LogError(ByVal message As String)
+        Dim logFilePath As String = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "registration_log.txt")
+        Try
+            Using writer As New StreamWriter(logFilePath, True)
+                writer.WriteLine(Date.Now.ToString("yyyy-MM-dd HH:mm:ss") & " - " & message)
+            End Using
+        Catch ex As Exception
+            ' If logging fails, write to debug output so we don't crash the app
+            Debug.WriteLine("Failed to write to log file: " & ex.ToString())
+        End Try
+    End Sub
     Public IsAdminContext As Boolean = False
     Private caretHandler As New CaretHandler()
 
@@ -851,6 +865,7 @@ Public Class JoinNow
                 conn.Open()
                 Debug.WriteLine("Connection opened successfully.")
 
+                LogError("Starting registration transaction.")
                 Using transaction As MySqlTransaction = conn.BeginTransaction()
                     Try
                         ' Update the members insert query to use the selected Sex value
@@ -972,34 +987,67 @@ Public Class JoinNow
                             insertMembershipCommand.ExecuteNonQuery()
                         End Using
 
+                        ' Create a pending payment record to be updated by the payment form
+                        Dim insertPaymentQuery As String = "INSERT INTO `payment` (`MemberID`, `MembershipID`, `MembershipCost`, `PaymentStatus`, `PaymentDate`) VALUES (@MemberID, @MembershipID, @Cost, 'Pending', @PaymentDate); SELECT LAST_INSERT_ID();"
+                        Dim membershipId As Integer = Convert.ToInt32(New MySqlCommand("SELECT LAST_INSERT_ID()", conn, transaction).ExecuteScalar())
+
+                        Dim paymentId As Integer
+                        Using insertPaymentCommand As New MySqlCommand(insertPaymentQuery, conn, transaction)
+                            insertPaymentCommand.Parameters.AddWithValue("@MemberID", memberId)
+                            insertPaymentCommand.Parameters.AddWithValue("@MembershipID", membershipId)
+                            insertPaymentCommand.Parameters.AddWithValue("@Cost", cost)
+                            insertPaymentCommand.Parameters.AddWithValue("@PaymentDate", DateTime.Now)
+                            paymentId = Convert.ToInt32(insertPaymentCommand.ExecuteScalar())
+                        End Using
+
                         ' After inserting records, proceed to payment by hosting the BillingPaymentForm in a dialog.
                         Me.Hide()
 
-                        ' 1. Create the user control with the transaction and other details.
-                        Dim billingControl As New BillingPaymentForm(conn, transaction, cost, True, 0, memberId)
+                        Dim paymentCompleted As Boolean = False
+                        Try
+                            ' 1. Create the user control with the transaction and other details.
+                            Dim billingControl As New BillingPaymentForm(conn, transaction, cost, True, paymentId, memberId)
 
-                        ' 2. Create the host form and pass the control to it.
-                        Using hostForm As New PaymentHostForm(billingControl)
-                            ' 3. Show the host form as a dialog.
-                            Dim paymentResult As DialogResult = hostForm.ShowDialog(Me)
+                            ' 2. Create the host form and pass the control to it.
+                            Using hostForm As New PaymentHostForm(billingControl)
+                                ' 3. Show the host form as a dialog.
+                                Dim paymentResult As DialogResult = hostForm.ShowDialog(Me)
 
-                            ' 4. Check the result after the dialog is closed.
-                            If paymentResult = DialogResult.OK Then
-                                ' The transaction was committed within the payment control's logic.
-                                Dim finalSuccessForm As New RegistrationSuccessForm(memberId)
-                                finalSuccessForm.ShowDialog()
+                                ' 4. Check the result after the dialog is closed.
+                                If paymentResult = DialogResult.OK Then
+                                    paymentCompleted = True
+                                End If
+                            End Using
+                        Catch paymentEx As Exception
+                            ' Catch exceptions during payment form processing
+                            LogError("Error during payment form: " & paymentEx.ToString())
+                            MessageBox.Show("An error occurred during the payment process: " & paymentEx.Message, "Payment Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            ' paymentCompleted remains false, so transaction will be rolled back
+                        End Try
 
-                                Dim loginForm As New Member()
-                                loginForm.Show()
-                                Me.Close()
-                            Else
-                                ' The transaction was rolled back. No need to do it again here.
-                                MessageBox.Show("Payment was not completed and your registration has been cancelled. Please try again.", "Registration Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                                Me.Show()
-                            End If
-                        End Using
+                        If paymentCompleted Then
+                            ' Commit the transaction only if payment was successful
+                            LogError("Attempting to commit transaction.")
+                            transaction.Commit()
+                            LogError("Transaction committed successfully.")
+
+                            Dim finalSuccessForm As New RegistrationSuccessForm(memberId)
+                            finalSuccessForm.ShowDialog()
+
+                            Dim loginForm As New Member()
+                            loginForm.Show()
+                            Me.Close()
+                        Else
+                            ' Rollback the transaction if payment was not completed
+                            LogError("Payment not completed. Rolling back transaction.")
+                            transaction.Rollback()
+                            MessageBox.Show("Payment was not completed and your registration has been cancelled. Please try again.", "Registration Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                            Me.Show()
+                        End If
+
                     Catch ex As Exception
-                        ' Rollback the transaction in case of an error
+                        ' Rollback the transaction in case of an error during the main registration part
+                        LogError("Transaction failed. Rolling back. Error: " & ex.ToString())
                         transaction.Rollback()
                         MessageBox.Show("An error occurred during registration: " & ex.Message)
                         Debug.WriteLine($"Transaction rolled back due to error: {ex.Message}")

@@ -176,8 +176,8 @@ Partial Class PaymentReceipt
         tblLineItems.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single
         tblLineItems.ColumnCount = 6
         tblLineItems.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 10F))
-        tblLineItems.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 22.6683941F))
-        tblLineItems.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 26.81347F))
+        tblLineItems.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 29.7927456F))
+        tblLineItems.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 19.68912F))
         tblLineItems.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 13F))
         tblLineItems.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 12F))
         tblLineItems.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 15F))
@@ -239,9 +239,9 @@ Partial Class PaymentReceipt
         Label19.Dock = DockStyle.Fill
         Label19.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         Label19.ForeColor = Color.Black
-        Label19.Location = New Point(256, 1)
+        Label19.Location = New Point(311, 1)
         Label19.Name = "Label19"
-        Label19.Size = New Size(200, 498)
+        Label19.Size = New Size(145, 498)
         Label19.TabIndex = 2
         Label19.Text = "Description"
         Label19.TextAlign = ContentAlignment.MiddleCenter
@@ -254,7 +254,7 @@ Partial Class PaymentReceipt
         Label18.ForeColor = Color.Black
         Label18.Location = New Point(81, 1)
         Label18.Name = "Label18"
-        Label18.Size = New Size(168, 498)
+        Label18.Size = New Size(223, 498)
         Label18.TabIndex = 1
         Label18.Text = "Item"
         Label18.TextAlign = ContentAlignment.MiddleCenter
@@ -307,7 +307,7 @@ Partial Class PaymentReceipt
         ' lblCustomerID
         ' 
         lblCustomerID.AutoSize = True
-        lblCustomerID.Location = New Point(115, 215)
+        lblCustomerID.Location = New Point(115, 155)
         lblCustomerID.Name = "lblCustomerID"
         lblCustomerID.Size = New Size(95, 15)
         lblCustomerID.TabIndex = 15
@@ -343,7 +343,7 @@ Partial Class PaymentReceipt
         ' lblCustomerCompany
         ' 
         lblCustomerCompany.AutoSize = True
-        lblCustomerCompany.Location = New Point(115, 155)
+        lblCustomerCompany.Location = New Point(115, 215)
         lblCustomerCompany.Name = "lblCustomerCompany"
         lblCustomerCompany.Size = New Size(94, 15)
         lblCustomerCompany.TabIndex = 11
@@ -409,7 +409,7 @@ Partial Class PaymentReceipt
         lblTitle.AutoSize = True
         lblTitle.Font = New Font("Segoe UI", 27.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblTitle.ForeColor = Color.FromArgb(CByte(79), CByte(112), CByte(145))
-        lblTitle.Location = New Point(400, 20)
+        lblTitle.Location = New Point(271, 17)
         lblTitle.Name = "lblTitle"
         lblTitle.Size = New Size(249, 50)
         lblTitle.TabIndex = 4

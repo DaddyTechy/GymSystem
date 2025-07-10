@@ -12,12 +12,13 @@ Public Class PaymentReceipt
     Private paymentNotes As String
     Private memberID As Integer
     Private memberName As String
+    Private itemType As String
 
     Private PrintDialog1 As New PrintDialog()
     Private PrintPreviewDialog1 As New PrintPreviewDialog()
     Private PrintDocument1 As New Printing.PrintDocument()
 
-    Public Sub New(paymentMethod As String, paymentDate As DateTime, subTotal As Decimal, invoiceNumber As String, receiptNumber As String, discountApplied As Decimal, taxAmount As Decimal, totalAmount As Decimal, paymentNotes As String, memberID As Integer, memberName As String)
+    Public Sub New(paymentMethod As String, paymentDate As DateTime, subTotal As Decimal, invoiceNumber As String, receiptNumber As String, discountApplied As Decimal, taxAmount As Decimal, totalAmount As Decimal, paymentNotes As String, memberID As Integer, memberName As String, itemType As String)
         ' This call is required by the designer.
         InitializeComponent()
 
@@ -33,6 +34,7 @@ Public Class PaymentReceipt
         Me.paymentNotes = paymentNotes
         Me.memberID = memberID
         Me.memberName = memberName
+        Me.itemType = itemType
 
         ' Add PrintPage event handler
         AddHandler PrintDocument1.PrintPage, AddressOf PrintDocument1_PrintPage
@@ -64,7 +66,7 @@ Public Class PaymentReceipt
         ' For this example, I will add a single line item representing the total payment.
         tblLineItems.RowCount = 2 ' Header + 1 data row
         tblLineItems.Controls.Add(New Label() With {.Text = "1", .Anchor = AnchorStyles.None, .TextAlign = ContentAlignment.MiddleCenter}, 0, 1)
-        tblLineItems.Controls.Add(New Label() With {.Text = "Membership/Reservation", .Anchor = AnchorStyles.None, .TextAlign = ContentAlignment.MiddleCenter}, 1, 1)
+        tblLineItems.Controls.Add(New Label() With {.Text = Me.itemType, .Anchor = AnchorStyles.None, .TextAlign = ContentAlignment.MiddleCenter}, 1, 1)
         tblLineItems.Controls.Add(New Label() With {.Text = "Payment", .Anchor = AnchorStyles.None, .TextAlign = ContentAlignment.MiddleCenter}, 2, 1)
         tblLineItems.Controls.Add(New Label() With {.Text = subTotal.ToString("N2"), .Anchor = AnchorStyles.None, .TextAlign = ContentAlignment.MiddleCenter}, 3, 1)
         tblLineItems.Controls.Add(New Label() With {.Text = discountApplied.ToString("N2"), .Anchor = AnchorStyles.None, .TextAlign = ContentAlignment.MiddleCenter}, 4, 1)

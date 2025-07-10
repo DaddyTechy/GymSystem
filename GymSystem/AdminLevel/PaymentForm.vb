@@ -1,4 +1,4 @@
-﻿' In PaymentForm.vb
+' In PaymentForm.vb
 Public Class PaymentForm
     Public Sub New(newEvent As CalendarEvent)
         InitializeComponent()

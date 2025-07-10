@@ -153,7 +153,7 @@ Partial Class ContentMemberManagement1
         MembersTable.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single
         DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        DataGridViewCellStyle1.Font = New Font("Segoe UI", 10.0F)
+        DataGridViewCellStyle1.Font = New Font("Segoe UI", 10F)
         DataGridViewCellStyle1.ForeColor = Color.White
         DataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
         DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
@@ -162,7 +162,7 @@ Partial Class ContentMemberManagement1
         MembersTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle2.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9.0F)
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
         DataGridViewCellStyle2.ForeColor = Color.White
         DataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight
         DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
@@ -188,12 +188,12 @@ Partial Class ContentMemberManagement1
         MembersTable.RowHeadersVisible = False
         MembersTable.RowHeadersWidth = 51
         DataGridViewCellStyle4.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        DataGridViewCellStyle4.Font = New Font("Segoe UI", 9.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        DataGridViewCellStyle4.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         DataGridViewCellStyle4.ForeColor = Color.White
         MembersTable.RowsDefaultCellStyle = DataGridViewCellStyle4
         MembersTable.RowTemplate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
         MembersTable.RowTemplate.DefaultCellStyle.BackColor = Color.FromArgb(CByte(40), CByte(40), CByte(40))
-        MembersTable.RowTemplate.DefaultCellStyle.Font = New Font("Microsoft Sans Serif", 9.0F)
+        MembersTable.RowTemplate.DefaultCellStyle.Font = New Font("Microsoft Sans Serif", 9F)
         MembersTable.RowTemplate.DefaultCellStyle.ForeColor = Color.White
         MembersTable.RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
         MembersTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect
@@ -206,7 +206,7 @@ Partial Class ContentMemberManagement1
         ' 
         Label2.AutoSize = True
         Label2.Dock = DockStyle.Top
-        Label2.Font = New Font("Segoe UI", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label2.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.White
         Label2.Location = New Point(20, 0)
         Label2.Margin = New Padding(3, 0, 3, 10)
@@ -232,7 +232,7 @@ Partial Class ContentMemberManagement1
         ' 
         ' ContentMemberManagement1
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         AutoScroll = True
         AutoScrollMinSize = New Size(600, 0)

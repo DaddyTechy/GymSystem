@@ -22,11 +22,15 @@ Partial Class ContentAnnouncement
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
+        components = New ComponentModel.Container()
         Label1 = New Label()
         notesDGV = New DataGridView()
         btnAddNotes = New Label()
+        editToolStripMenuItem = New ToolStripMenuItem()
+        deleteToolStripMenuItem = New ToolStripMenuItem()
+        rowContextMenuStrip = New ContextMenuStrip(components)
         CType(notesDGV, ComponentModel.ISupportInitialize).BeginInit()
+        rowContextMenuStrip.SuspendLayout()
         SuspendLayout()
         ' 
         ' Label1
@@ -58,7 +62,8 @@ Partial Class ContentAnnouncement
         btnAddNotes.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnAddNotes.AutoSize = True
         btnAddNotes.BackColor = Color.Black
-        btnAddNotes.FlatStyle = FlatStyle.Popup
+        btnAddNotes.BorderStyle = BorderStyle.Fixed3D
+        btnAddNotes.FlatStyle = FlatStyle.Flat
         btnAddNotes.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnAddNotes.ForeColor = Color.Gold
         btnAddNotes.ImageAlign = ContentAlignment.MiddleLeft
@@ -66,32 +71,29 @@ Partial Class ContentAnnouncement
         btnAddNotes.Margin = New Padding(3, 0, 0, 0)
         btnAddNotes.Name = "btnAddNotes"
         btnAddNotes.Padding = New Padding(1)
-        btnAddNotes.Size = New Size(152, 22)
+        btnAddNotes.Size = New Size(154, 24)
         btnAddNotes.TabIndex = 10
         btnAddNotes.Text = "Add Announcement"
         btnAddNotes.TextAlign = ContentAlignment.MiddleCenter
-        '
-        'editToolStripMenuItem
-        '
-        Me.editToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.editToolStripMenuItem.Name = "editToolStripMenuItem"
-        Me.editToolStripMenuItem.Size = New System.Drawing.Size(120, 26)
-        Me.editToolStripMenuItem.Text = "Edit"
-        '
-        'deleteToolStripMenuItem
-        '
-        Me.deleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem"
-        Me.deleteToolStripMenuItem.Size = New System.Drawing.Size(120, 26)
-        Me.deleteToolStripMenuItem.Text = "Delete"
-        '
-        'rowContextMenuStrip
-        '
-        Me.rowContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.rowContextMenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.rowContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.editToolStripMenuItem, Me.deleteToolStripMenuItem})
-        Me.rowContextMenuStrip.Name = "rowContextMenuStrip"
-        Me.rowContextMenuStrip.Size = New System.Drawing.Size(121, 56)
+        ' 
+        ' editToolStripMenuItem
+        ' 
+        editToolStripMenuItem.Name = "editToolStripMenuItem"
+        editToolStripMenuItem.Size = New Size(107, 22)
+        editToolStripMenuItem.Text = "Edit"
+        ' 
+        ' deleteToolStripMenuItem
+        ' 
+        deleteToolStripMenuItem.Name = "deleteToolStripMenuItem"
+        deleteToolStripMenuItem.Size = New Size(107, 22)
+        deleteToolStripMenuItem.Text = "Delete"
+        ' 
+        ' rowContextMenuStrip
+        ' 
+        rowContextMenuStrip.ImageScalingSize = New Size(20, 20)
+        rowContextMenuStrip.Items.AddRange(New ToolStripItem() {editToolStripMenuItem, deleteToolStripMenuItem})
+        rowContextMenuStrip.Name = "rowContextMenuStrip"
+        rowContextMenuStrip.Size = New Size(108, 48)
         ' 
         ' ContentAnnouncement
         ' 
@@ -105,6 +107,7 @@ Partial Class ContentAnnouncement
         Padding = New Padding(20)
         Size = New Size(828, 544)
         CType(notesDGV, ComponentModel.ISupportInitialize).EndInit()
+        rowContextMenuStrip.ResumeLayout(False)
         ResumeLayout(False)
         PerformLayout()
     End Sub

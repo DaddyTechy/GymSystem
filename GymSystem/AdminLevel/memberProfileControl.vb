@@ -18,6 +18,14 @@ Public Class memberProfileControl
     Private deleteNoteItem As ToolStripMenuItem
     Private addNotesControl As AddNotesControl
 
+    Public Property IsAdmin As Boolean
+        Get
+            Return btnDeleteUser.Visible
+        End Get
+        Set(value As Boolean)
+            btnDeleteUser.Visible = value
+        End Set
+    End Property
     Public Sub New()
         ' This call is required by the designer.
         InitializeComponent()
@@ -28,6 +36,13 @@ Public Class memberProfileControl
 
     Private Sub memberProfileControl_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.SuspendLayout()
+        ' Show delete button only if the logged-in user is an Admin
+        If CurrentLoggedUser.position = "Admin" Then
+            btnDeleteUser.Visible = True
+        Else
+            btnDeleteUser.Visible = False
+        End If
+
         ' Enable AutoScroll for the control
         Me.AutoScroll = True
 
@@ -79,6 +94,66 @@ Public Class memberProfileControl
         Else
             MessageBox.Show("No member selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End If
+    End Sub
+
+    Private Sub btnDeleteUser_Click(sender As Object, e As EventArgs) Handles btnDeleteUser.Click
+        If selectedMember IsNot Nothing Then
+            Dim result As DialogResult = MessageBox.Show($"Are you sure you want to permanently delete {selectedMember.FirstName} {selectedMember.LastName}? This action cannot be undone.", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+
+            If result = DialogResult.Yes Then
+                Try
+                    DeleteMember(selectedMember.MemberID)
+                    MessageBox.Show("Member deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    ' Optionally, raise an event to notify the parent container to close this control or refresh the list
+                    Me.Parent.Controls.Remove(Me)
+                Catch ex As Exception
+                    MessageBox.Show($"An error occurred while deleting the member: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            End If
+        Else
+            MessageBox.Show("No member selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End If
+    End Sub
+
+    Private Sub DeleteMember(memberId As Integer)
+        UpdateConnectionString()
+        Using conn As New MySqlConnection(strConnection)
+            conn.Open()
+            Using transaction As MySqlTransaction = conn.BeginTransaction()
+                Try
+                    ' List of tables with foreign key to members.MemberID
+                    Dim tablesToDeleteFrom As New List(Of String) From {
+                        "notes",
+                        "attendance",
+                        "payment",
+                        "membership",
+                        "memberlogin",
+                        "reservation"
+                    }
+
+                    ' Delete records from child tables
+                    For Each tableName In tablesToDeleteFrom
+                        Dim deleteQuery As String = $"DELETE FROM `{tableName}` WHERE `MemberID` = @MemberID"
+                        Using cmd As New MySqlCommand(deleteQuery, conn, transaction)
+                            cmd.Parameters.AddWithValue("@MemberID", memberId)
+                            cmd.ExecuteNonQuery()
+                        End Using
+                    Next
+
+                    ' Finally, delete the member from the parent table
+                    Dim deleteMemberQuery As String = "DELETE FROM `members` WHERE `MemberID` = @MemberID"
+                    Using cmd As New MySqlCommand(deleteMemberQuery, conn, transaction)
+                        cmd.Parameters.AddWithValue("@MemberID", memberId)
+                        cmd.ExecuteNonQuery()
+                    End Using
+
+                    transaction.Commit()
+                Catch ex As Exception
+                    transaction.Rollback()
+                    Throw ' Re-throw the exception to be caught by the calling method
+                End Try
+            End Using
+        End Using
     End Sub
 
     Private Sub ReloadMemberData()
@@ -389,6 +464,7 @@ Public Class memberProfileControl
     ' Define the LoadMemberData method
     Public Sub LoadMemberData(memberData As MemberData)
         ' Use the memberData object to populate the controls in the user control
+        selectedMember = memberData
         lblMemberName.Text = memberData.FirstName & " " & memberData.LastName
         lblContactNo.Text = memberData.PhoneNumber
         lbldob.Text = memberData.DOB & "  |  Age: " & CalculateAge(memberData.DOB)

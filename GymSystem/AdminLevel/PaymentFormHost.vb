@@ -64,9 +64,9 @@ Public Class PaymentFormHost
         ' 
         ' PaymentFormHost
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(738, 526)
+        ClientSize = New Size(828, 585)
         Name = "PaymentFormHost"
         Text = "PaymentFormHost"
         ResumeLayout(False)
