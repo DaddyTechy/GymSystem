@@ -31,15 +31,15 @@ Public Class ContentMemberManagement1
         memberContextMenu = New ContextMenuStrip()
         Dim viewItem As New ToolStripMenuItem("View Profile")
         Dim editItem As New ToolStripMenuItem("Edit Member")
-        Dim deleteItem As New ToolStripMenuItem("Delete Member")
+        '  Dim deleteItem As New ToolStripMenuItem("Delete Member")
 
         memberContextMenu.Items.Add(viewItem)
         memberContextMenu.Items.Add(editItem)
-        memberContextMenu.Items.Add(deleteItem)
+        '  memberContextMenu.Items.Add(deleteItem)
 
         AddHandler viewItem.Click, AddressOf ViewMenuItem_Click
         AddHandler editItem.Click, AddressOf EditMenuItem_Click
-        AddHandler deleteItem.Click, AddressOf DeleteMenuItem_Click
+        '  AddHandler deleteItem.Click, AddressOf DeleteMenuItem_Click
 
         MembersTable.ContextMenuStrip = memberContextMenu
     End Sub
